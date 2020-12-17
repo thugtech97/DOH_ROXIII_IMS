@@ -1,0 +1,29 @@
+.container-b {
+	 position: relative;
+	 width: 1200px;
+	 height: 300px;
+	 margin: 10px auto;
+}
+
+.container-b .box-b {
+	position: relative;
+	width: calc(400px - 30px);
+	height: calc(300px - 30px);
+	background: #ff0;
+	float: left;
+	margin: 10px;
+	box-sizing: border-box;
+	overflow: hidden;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.container-b .box-b .icon-b .fa {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	font-size: 140px;
+	transition: 0.5s;
+	color: #fff;
+}
