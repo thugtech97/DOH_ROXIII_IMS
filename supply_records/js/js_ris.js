@@ -453,3 +453,28 @@ function print_ris(ris_no){
         }
     });
 }
+
+function download_xls(ris_no){
+    $.ajax({
+        type: "POST",
+        data: {call_func: "print_ris", ris_no: ris_no},
+        dataType: "JSON",
+        url: "php/php_ris.php",
+        success: function(data){
+            $("#print_en").html(data["entity_name"]);
+            $("#print_fc").html(data["fund_cluster"]);
+            $("#print_div").html(data["division"]);
+            $("#print_rcc").html(data["rcc"]);
+            $("#print_off").html(data["office"]);
+            $("#print_risno").html(ris_no);
+            $("#ris_body").html(data["tbody"]);
+            $("#print_purp").html(data["purpose"]);
+            $("#print_rb").html(data["requested_by"].toUpperCase());
+            $("#print_ib").html(data["issued_by"].toUpperCase());
+            //$("#print_isb").html(data["issued_by_designation"].toUpperCase());
+            $(".print_date").html(data["date"]);
+
+            exportTableToExcel("report_ris", "RIS No. "+ris_no);
+        }
+    });
+}

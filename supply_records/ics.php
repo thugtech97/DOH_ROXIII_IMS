@@ -183,5 +183,6 @@ if(!isset($_SESSION["username"])){
         require "../assets/small_chat.php";
     ?>
     <script src="js/js_ics.js"></script>
+    <script src="js/js_general_functions.js"></script>
 </body>
 </html>

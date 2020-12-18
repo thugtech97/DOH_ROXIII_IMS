@@ -179,6 +179,7 @@ if(!isset($_SESSION["username"])){
     ?>
 
     <script src="js/js_iar.js"></script>
+    <script src="js/js_general_functions.js"></script>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 <div class="modal inmodal modal-child" id="fill_pax" tabindex="1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
     <div class="modal-dialog modal-sm">
-    <div class="modal-content animated fadeInDown">
+    <div class="modal-content animated slideInDown">
             <div class="modal-header">
                 <button type="button" class="close" onclick="$('#fill_pax').modal('hide'); $('body').addClass('modal-open');"><span aria-hidden="true">&times;</span></button>
                 <h2><b><i class="fa fa-pencil-square-o"></i> PAX Fill In</b></h2>

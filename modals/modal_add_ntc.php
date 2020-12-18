@@ -1,6 +1,6 @@
 <div class="modal inmodal" id="add_ntc" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
     <div class="modal-dialog modal-lg">
-    <div class="modal-content animated flipInY">
+    <div class="modal-content animated slideInDown">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                 <h5 class="modal-title"><i class="fa fa-plus"></i> New NTC Form</h5>

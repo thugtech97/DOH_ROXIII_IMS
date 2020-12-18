@@ -565,3 +565,24 @@ function print_par(par_no){
         }
     });
 }
+
+function download_xls(par_no){
+    $.ajax({
+        type: "POST",
+        data: {call_func: "get_par_details", par_no: par_no},
+        url: "php/php_par.php",
+        dataType: "JSON",
+        success: function(data){
+            $("#print_parno").html(par_no);
+            $("#par_tbody").html(data["par_tbody"]);
+            $("#total_cost").html(data["total_cost"]);
+            $("#print_received_from").html("<u>"+data["receivers"][0].toUpperCase()+"</u>");
+            $("#print_received_from_designation").html(data["receivers"][1]);
+            $("#print_received_by").html("<u>"+data["receivers"][2].toUpperCase()+"</u>");
+            $("#print_received_by_designation").html(data["receivers"][3]);
+            $(".date_r").html(data["receivers"][4]);
+
+            exportTableToExcel("report_par", "PAR No. "+par_no);
+        }
+    });
+}

@@ -191,5 +191,6 @@ if(!isset($_SESSION["username"])){
     <script src="../js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
 
     <script src="js/js_ptr.js"></script>
+    <script src="js/js_general_functions.js"></script>
 </body>
 </html>

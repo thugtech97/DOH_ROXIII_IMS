@@ -623,6 +623,40 @@ function print_ptr(ptr_no){
     });
 }
 
+function download_xls(ptr_no){
+    reset_paper();
+    $.ajax({
+        type: "POST",
+        data: {call_func: "get_ptr_details", ptr_no: ptr_no},
+        url: "php/php_ptr.php",
+        dataType: "JSON",
+        success: function(data){
+            $("#ptr_tbody").html(data["ptr_tbody"]);
+            $("#print_en").html(data["ptr_details"][0]);
+            $("#print_fc").html(data["ptr_details"][1]);
+            $("#print_from").html(data["ptr_details"][2]);
+            $("#print_ptrno").html(ptr_no);
+            $("#print_to").html(data["ptr_details"][3]);
+            $("#print_date").html(data["ptr_details"][4]);
+            $("#print_tc").html(data["ptr_details"][6]);
+            $("#print_reason").html(data["ptr_details"][7]);
+            $("#print_approved_by").html("<u>"+data["ptr_details"][8].toUpperCase()+"</u>");
+            $("#print_approved_by_designation").html(data["ptr_details"][9]);
+            $("#print_received_from").html("<u>"+data["ptr_details"][10].toUpperCase()+"</u>");
+            $("#print_received_from_designation").html(data["ptr_details"][11]);
+            $(".date_r").html(data["ptr_details"][4]);
+            if(data["ptr_details"][5] != "Donation" && data["ptr_details"][5] != "Relocate" && data["ptr_details"][5] != "Reassignment"){
+                $("input#Others").attr("checked", "checked");
+                $("#print_specify").html(data["ptr_details"][5]);
+            }else{
+                $("input#"+data["ptr_details"][5]).attr("checked", "checked");
+            }
+
+            exportTableToExcel("report_ptr", "PTR No. "+ptr_no);
+        }
+    });
+}
+
 function print_ptr_gen(ptr_no){
     reset_paper();
     $.ajax({
@@ -663,6 +697,41 @@ function print_ptr_gen(ptr_no){
             a.document.write('</center></body></html>'); 
             a.document.close(); 
             a.print();
+        }
+    });
+}
+
+function download_xls_gen(ptr_no){
+    reset_paper();
+    $.ajax({
+        type: "POST",
+        data: {call_func: "print_ptr_gen", ptr_no: ptr_no},
+        url: "php/php_ptr.php",
+        dataType: "JSON",
+        success: function(data){
+            $("#gen_tbody").html(data["ptr_tbody"]);
+            $("#gprint_en").html(data["ptr_details"][0]);
+            $("#gprint_fc").html(data["ptr_details"][1]);
+            $("#gprint_from").html(data["ptr_details"][2].toUpperCase());
+            $("#gprint_ptrno").html(ptr_no);
+            $("#gprint_to").html(data["ptr_details"][3].toUpperCase());
+            $("#gprint_date").html(data["ptr_details"][4]);
+            $("#gprint_ta").html(data["ptr_details"][6]);
+            $("#gprint_reason").html(data["ptr_details"][7]);
+            $("#gprint_ab").html("<u>"+data["ptr_details"][8].toUpperCase()+"</u>");
+            $("#gprint_abd").html(data["ptr_details"][9]);
+            $("#gprint_rb").html("<u>"+data["ptr_details"][10].toUpperCase()+"</u>");
+            $("#gprint_rbd").html(data["ptr_details"][11]);
+            $("#addr").html(data["ptr_details"][12]);
+            $(".gdate").html(data["ptr_details"][4]);
+            if(data["ptr_details"][5] != "Donation" && data["ptr_details"][5] != "Relocate" && data["ptr_details"][5] != "Reassignment"){
+                $("input#gOthers").attr("checked", "checked");
+                $("#gprint_specify").html(data["ptr_details"][5]);
+            }else{
+                $("input#g"+data["ptr_details"][5]).attr("checked", "checked");
+            }
+
+            exportTableToExcel("report_ptr_gen", "PTR No. "+ptr_no);
         }
     });
 }

@@ -1,6 +1,6 @@
 <div class="modal inmodal modal-child" id="add_user" tabindex="1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
     <div class="modal-dialog modal-sm">
-    <div class="modal-content animated flipInY">
+    <div class="modal-content animated slideInDown">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
                 <h2><b><i class="fa fa-user-plus"></i> Add User</b></h2>
