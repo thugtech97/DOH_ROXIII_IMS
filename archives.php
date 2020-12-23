@@ -11,19 +11,57 @@ if(!isset($_SESSION["username"])){
 <html>
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>INVENTORY MS | Archives</title>
     <link rel="shortcut icon" type="image/x-icon" href="imgsys/DOH-logo.png">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
-
 </head>
+<style>
+    div.gallery {
+      border: 1px solid #ccc;
+    }
+    div.gallery:hover {
+      border: 1px solid #777;
+    }
+    div.gallery img {
+      width: 100%;
+      height: auto;
+    }
+    div.desc {
+      padding: 15px;
+      text-align: center;
+      color: black;
+      border-top: 1px solid #ccc;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    .responsive {
+      padding: 0 6px;
+      float: left;
+      width: 24.99999%;
+    }
+    @media only screen and (max-width: 700px) {
+      .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+      }
+    }
+    @media only screen and (max-width: 500px) {
+      .responsive {
+        width: 100%;
+      }
+    }
+    .clearfix:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+</style>
 
 <body>
 
@@ -119,131 +157,29 @@ if(!isset($_SESSION["username"])){
             </nav>
         </div>
 <div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <h5>Archives</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content">
-                    <div class="panel-body">
-                        <div class="panel-group" id="accordion">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h5 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#po">Purchase Order</a>
-                                    </h5>
-                                </div>
-                                <div id="po" class="panel-collapse collapse in">
-                                    <div class="panel-body">
-                                        <div class="panel-group" id="accordions">
-                                            <div class="panel panel-default">
-                                                <div class="panel-heading">
-                                                    <h5 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordions" href="#2020">2020</a>
-                                                    </h5>
-                                                </div>
-                                                <div id="2020" class="panel-collapse collapse in">
-                                                    <div class="panel-body">
-                                                        
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Inspection and Acceptance Report</a>
-                                    </h4>
-                                </div>
-                                <div id="collapseTwo" class="panel-collapse collapse">
-                                    <div class="panel-body">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Inventory Custodian Slip</a>
-                                    </h4>
-                                </div>
-                                <div id="collapseThree" class="panel-collapse collapse">
-                                    <div class="panel-body">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Property Acknowledgement Receipt</a>
-                                    </h4>
-                                </div>
-                                <div id="collapseThree" class="panel-collapse collapse">
-                                    <div class="panel-body">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Property Transfer Report</a>
-                                    </h4>
-                                </div>
-                                <div id="collapseThree" class="panel-collapse collapse">
-                                    <div class="panel-body">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Requisition and Issue Slip</a>
-                                    </h4>
-                                </div>
-                                <div id="collapseThree" class="panel-collapse collapse">
-                                    <div class="panel-body">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-8">
-            <div class="ibox ">
-                <div class="ibox-title">
-                    <h5>Preview (PO-2020-01-0001.jpg)</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="ibox-content">
-                    <img src="imgsys/croppeds.jpg" height="830" width="100%">
-                </div>
-            </div>
-        </div>
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="imgsys/po_pdf.png">
+          <img src="imgsys/po_pdf.png" alt="Cinque Terre" width="600" height="400">
+        </a>
+        <div class="desc">Add a description of the image here</div>
+      </div>
+    </div>
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="imgsys/po_pdf.png">
+          <img src="imgsys/po_pdf.png" alt="Cinque Terre" width="600" height="400">
+        </a>
+        <div class="desc">Add a description of the image here</div>
+      </div>
+    </div>
+    <div class="responsive">
+      <div class="gallery">
+        <a target="_blank" href="imgsys/po_pdf.png">
+          <img src="imgsys/po_pdf.png" alt="Cinque Terre" width="600" height="400">
+        </a>
+        <div class="desc">Add a description of the image here</div>
+      </div>
     </div>
 </div>
 <div class="footer">
