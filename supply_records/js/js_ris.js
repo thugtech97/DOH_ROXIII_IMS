@@ -95,7 +95,7 @@ function ready_all(){
             success: function(data){
                 $("#issued_by").html("<option disabled selected></option>").append(data);
                 $('#issued_by option').each(function() {
-                    if($(this).text() == "Anthony D. Samson"){
+                    if($(this).text() == "Eleanor D. Lakag, MSBA"){
                         $(this).prop("selected", true).change();
                     }
                 });

@@ -49,12 +49,13 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <button type="button" class="btn btn-primary btn-lg" onclick="print_ppe();">Print</button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="print_ppe();"><i class="fa fa-print"></i> Print</button>
                     </div>
                 </div>
                 <hr>
                 <div class="ibox">
                     <div class="ibox-content" style="height: 400px; overflow: auto;">
+                        <input type="text" id="lookup" placeholder="Search...">
                         <center>
                             <div id="ppe_head">
                                 <p style="font-size: 12px;">DOH Regional Office XIII<br>
@@ -73,8 +74,8 @@
                                         <th style="padding: 5px;">Unit</th>
                                         <th style="padding: 5px;">Unit Cost</th>
                                         <th style="padding: 5px;">Total Cost</th>
-                                        <th style="padding: 5px;">PTR</th>
                                         <th style="padding: 5px;">Account Code</th>
+                                        <th style="padding: 5px;">PTR</th>
                                         <th style="padding: 5px;">PAR</th>
                                         <th style="padding: 5px;">ICS</th>
                                         <th style="padding: 5px;">Received by:</td>

@@ -33,9 +33,6 @@
     <!-- Sparkline demo data  -->
     <script src="../js/demo/sparkline-demo.js"></script>
 
-    <!-- ChartJS-->
-    <script src="../js/plugins/chartJs/Chart.min.js"></script>
-
     <!-- Toastr -->
     <script src="../js/plugins/toastr/toastr.min.js"></script>
 

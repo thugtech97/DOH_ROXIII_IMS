@@ -150,6 +150,18 @@ $("#searchkw").keyup(function(){
     $("#num_items").html(num_count);
 });
 
+$("#lookup").keyup(function () {
+    var value = this.value.toLowerCase().trim();
+    $("table#tbl_ppe tbody tr").each(function (index) {
+        $(this).find("td").each(function () {
+            var id = $(this).text().toLowerCase().trim();
+            var not_found = (id.indexOf(value) == -1);
+            $(this).closest('tr').toggle(!not_found);
+            return not_found;
+        });
+    });
+});
+
 $("#category").change(function(){
 	load_item($("#category option:selected").text(), $("#searchkw").val());
 });

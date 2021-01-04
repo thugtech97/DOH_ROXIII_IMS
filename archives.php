@@ -210,7 +210,6 @@ if(!isset($_SESSION["username"])){
         $('.scroll_content').slimscroll({
             height: '200px'
         })
-
     });
 
 </script>

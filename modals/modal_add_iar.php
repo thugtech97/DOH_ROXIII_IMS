@@ -152,7 +152,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-3 col-form-label">Property Custodian:</label>
-                                                    <input id="var_pc" type="text" class="col-lg-9 form-control" value="ANTHONY D. SAMSON" disabled="">
+                                                    <input id="var_pc" type="text" class="col-lg-9 form-control" value="Eleanor D. Lakag, MSBA" disabled="">
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6">
