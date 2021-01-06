@@ -64,7 +64,7 @@ if(!isset($_SESSION["username"])){
                                 <center><img alt="image" class="rounded-circle" src="imgsys/DOH-logo.png" height="50" width="50"/>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <span class="block m-t-xs font-bold"><?php echo $_SESSION["username"]; ?></span>
-                                    <span class="text-muted text-xs block">User <b class="caret"></b></span>
+                                    <span class="text-muted text-xs block"><?php echo $_SESSION["role"]; ?><b class="caret"></b></span>
                                 </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a class="dropdown-item" href="">Profile</a></li>
