@@ -140,7 +140,7 @@ if(!isset($_SESSION["username"])){
                                     <h5><i class="fa fa-list-alt"></i> Purchase Orders</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h1 class="no-margins" id="po_num"></h1>
+                                    <h1 class="no-margins" id="po_num"><i class="fa fa-spinner fa-spin"></i></h1>
                                     <small>Total Purchase Orders</small>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@ if(!isset($_SESSION["username"])){
                                     <h5><i class="fa fa-object-group"></i> Items</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h1 class="no-margins" id="it_num"></h1>
+                                    <h1 class="no-margins" id="it_num"><i class="fa fa-spinner fa-spin"></i></h1>
                                     <small>Total Number of Items Registered</small>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@ if(!isset($_SESSION["username"])){
                                     <h5><i class="fa fa-shopping-cart"></i> Issuances</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h1 class="no-margins" id="is_num"></h1>
+                                    <h1 class="no-margins" id="is_num"><i class="fa fa-spinner fa-spin"></i></h1>
                                     <small>Total Number of Issuances</small>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@ if(!isset($_SESSION["username"])){
                                     <h5><i class="fa fa-history"></i> User Logs</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h1 class="no-margins" id="ul_num"></h1>
+                                    <h1 class="no-margins" id="ul_num"><i class="fa fa-spinner fa-spin"></i></h1>
                                     <small>Total Number of User Logs</small>
                                 </div>
                             </div>

@@ -4,10 +4,11 @@ require "php_conn.php";
 
 if(isset($_GET['files'])) {
 	$po_number = mysqli_real_escape_string($conn, $_GET["po_no"]);
+	$eu = mysqli_real_escape_string($conn, $_GET["eu"]);
 	$error = false;
-	$uploaddir = "../../archives/po/".substr($po_number,0,4)."/";
+	$uploaddir = "../../archives/po/".substr($po_number,0,4)."/".$eu."/";
 	if(!is_dir($uploaddir)){
-		mkdir($uploaddir);
+		mkdir($uploaddir, 0777, true);
 	}
 
 	foreach($_FILES as $file){

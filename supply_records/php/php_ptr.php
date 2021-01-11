@@ -227,11 +227,12 @@ function get_ptr_details(){
 
 function get_ptr(){
 	global $conn;
-	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no, area, category, SUBSTRING(date_released, 1, 10) AS date_r, received_from, approved_by, SUBSTRING(date_supply_received,1,10) AS date_s, reason, remarks, issued, reference_no FROM tbl_ptr ORDER BY ptr_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no, area, category, SUBSTRING(date_released, 1, 10) AS date_r, received_from, approved_by, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.to, reason, remarks, issued, reference_no FROM tbl_ptr ORDER BY ptr_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$func_call = ($row["category"] == "Drugs and Medicines") ? "print_ptr(this.value);" : "print_ptr_gen(this.value)";
 			$dl_xls = ($row["category"] == "Drugs and Medicines") ? "download_xls(this.value);" : "download_xls_gen(this.value)";
+			$to = $row["to"];
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ptr_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
@@ -243,7 +244,7 @@ function get_ptr(){
 					<td>".utf8_encode($row["approved_by"])."</td>
 					<td>".$row["date_s"]."</td>
 					<td>".$row["reason"]."</td>
-					<td><center>".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" value=\"".$row["ptr_no"]."\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button value=\"".$row["ptr_no"]."\" onclick=\"".$func_call."\" class=\"btn btn-xs btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ptr_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ptr_no"]."\" onclick=\"".$dl_xls."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
+					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["ptr_no"]."\" onclick=\"view_iss(this.value,'tbl_ptr','view_ptr','PTR','ptr_no','".$to."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" value=\"".$row["ptr_no"]."\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button value=\"".$row["ptr_no"]."\" onclick=\"".$func_call."\" class=\"btn btn-xs btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ptr_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ptr_no"]."\" onclick=\"".$dl_xls."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
 		}
 	}
@@ -303,6 +304,10 @@ function insert_ptr(){
 				mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
 			}
 		}
+		if($property_no != ""){
+			$pn = end(explode(",", $property_no));
+			mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+		}
 	}
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." created a PTR No. ".$ptr_no;
@@ -310,16 +315,24 @@ function insert_ptr(){
 }
 
 function get_latest_ptr(){
-	global $conn;
+	global $conn; $latest_ptr = ""; $latest_pn = "";
 
 	$yy_mm = mysqli_real_escape_string($conn, $_POST["yy_mm"]);
 	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no FROM tbl_ptr WHERE ptr_no LIKE '%$yy_mm%' ORDER BY ptr_id DESC LIMIT 1");
 	if(mysqli_num_rows($sql) != 0){
 		$row = mysqli_fetch_assoc($sql);
-		echo str_pad(((int)explode("-", $row["ptr_no"])[2]) + 1, 4, '0', STR_PAD_LEFT);
+		$latest_ptr = str_pad(((int)explode("-", $row["ptr_no"])[2]) + 1, 4, '0', STR_PAD_LEFT);
 	}else{
-		echo "0001";
+		$latest_ptr = "0001";
 	}
+	$sql = mysqli_query($conn, "SELECT property_no FROM ref_lastpn WHERE id = 1 AND property_no LIKE '%$yy_mm%'");
+	if(mysqli_num_rows($sql) != 0){
+		$row = mysqli_fetch_assoc($sql);
+		$latest_pn = str_pad(((int)explode("-", $row["property_no"])[2]) + 1, 3, '0', STR_PAD_LEFT);
+	}else{
+		$latest_pn = "001";
+	}
+	echo json_encode(array("latest_ptr"=>$latest_ptr,"latest_pn"=>$latest_pn));
 }
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);

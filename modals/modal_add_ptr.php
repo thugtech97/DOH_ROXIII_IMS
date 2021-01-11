@@ -149,6 +149,7 @@
                                     <label class="col-lg-3 col-form-label">Property No.:</label>
                                     <div class="col-lg-9">
                                         <input id="property_no" type="text" class="form-control">
+                                        <label class="col-form-label">*** Property Number should start with <span id="lbl_pn" style="color: red; font-weight: bold;"></span> ***</label>
                                     </div>
                                 </div>
                             </div> 

@@ -69,13 +69,17 @@ function ready_all(){
     	var po_value = (new Date().toDateInputValue()).split("-");
         $.ajax({
             type: "POST",
+            dataType: "JSON",
             url: "php/php_ics.php",
             data: {call_func: "get_latest_ics", yy_mm: po_value[0]+"-"+po_value[1]},
             success: function(data){
-                $('#ics_no').val(po_value[0]+"-"+po_value[1]+"-"+data);
+                $('#ics_no').val(po_value[0]+"-"+po_value[1]+"-"+data["latest_ics"]);
+                $('#lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
             }
         });
     });
+
+
 
     $("#ics_area").ready(function(){
     	$.ajax({

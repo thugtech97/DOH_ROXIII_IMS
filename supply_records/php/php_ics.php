@@ -5,6 +5,20 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function get_pic(){
+	global $conn;
+
+	$table = mysqli_real_escape_string($conn, $_POST["table"]);
+	$field = mysqli_real_escape_string($conn, $_POST["field"]);
+	$iss_number = mysqli_real_escape_string($conn, $_POST["iss_number"]);
+	$iss_field = mysqli_real_escape_string($conn, $_POST["iss_field"]);
+	$sql = mysqli_query($conn, "SELECT ".$field." FROM ".$table." WHERE ".$iss_field." LIKE '".$iss_number."'");
+	if(mysqli_num_rows($sql) != 0){
+		$row = mysqli_fetch_assoc($sql);
+		echo $row[$field];
+	}
+}
+
 function update(){
 	global $conn;
 
@@ -281,6 +295,7 @@ function get_ics(){
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$icsn = $row["ics_no"];
+			$rb = $row["received_by"];
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ics_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
@@ -292,7 +307,7 @@ function get_ics(){
 					<td>".$row["received_by"]."</td>
 					<td>".$row["date_s"]."</td>
 					<td>".$row["remarks"]."</td>
-					<td><center>".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" value=\"".$row["ics_no"]."\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["ics_no"]."\" onclick=\"print_ics(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ics_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ics_no"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
+					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["ics_no"]."\" onclick=\"view_iss(this.value,'tbl_ics','view_ics','ICS','ics_no','".$rb."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" value=\"".$row["ics_no"]."\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["ics_no"]."\" onclick=\"print_ics(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ics_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ics_no"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
 		}
 	}
@@ -344,6 +359,8 @@ function insert_ics(){
 			$sn = $serials[$j];
 			mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
 		}
+		$pn = end(explode(",", $property_no));
+		mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
 	}
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." created an ICS No. ".$ics_no;
@@ -351,15 +368,24 @@ function insert_ics(){
 }
 
 function get_latest_ics(){
-	global $conn;
+	global $conn; $latest_ics = ""; $latest_pn = "";
 	$yy_mm = mysqli_real_escape_string($conn, $_POST["yy_mm"]);
 	$sql = mysqli_query($conn, "SELECT DISTINCT ics_no FROM tbl_ics WHERE ics_no LIKE '%$yy_mm%' ORDER BY ics_id DESC LIMIT 1");
 	if(mysqli_num_rows($sql) != 0){
 		$row = mysqli_fetch_assoc($sql);
-		echo str_pad(((int)explode("-", $row["ics_no"])[2]) + 1, 4, '0', STR_PAD_LEFT);
+		$latest_ics = str_pad(((int)explode("-", $row["ics_no"])[2]) + 1, 4, '0', STR_PAD_LEFT);
 	}else{
-		echo "0001";
+		$latest_ics = "0001";
 	}
+	$sql = mysqli_query($conn, "SELECT property_no FROM ref_lastpn WHERE id = 1 AND property_no LIKE '%$yy_mm%'");
+	if(mysqli_num_rows($sql) != 0){
+		$row = mysqli_fetch_assoc($sql);
+		$latest_pn = str_pad(((int)explode("-", $row["property_no"])[2]) + 1, 3, '0', STR_PAD_LEFT);
+	}else{
+		$latest_pn = "001";
+	}
+
+	echo json_encode(array("latest_ics"=>$latest_ics,"latest_pn"=>$latest_pn));
 }
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
@@ -391,6 +417,9 @@ switch($call_func){
 	case "get_latest_ics":
 		get_latest_ics();
 		break;
+	case "get_latest_pn":
+		get_latest_pn();
+		break;
 	case "to_issue":
 		to_issue();
 		break;
@@ -402,6 +431,9 @@ switch($call_func){
 		break;
 	case "update":
 		update();
+		break;
+	case "get_pic":
+		get_pic();
 		break;
 }
 

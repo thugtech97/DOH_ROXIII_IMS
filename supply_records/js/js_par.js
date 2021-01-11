@@ -69,10 +69,12 @@ function ready_all(){
         var po_value = (new Date().toDateInputValue()).split("-");
         $.ajax({
             type: "POST",
+            dataType: "JSON",
             url: "php/php_par.php",
             data: {call_func: "get_latest_par", yy_mm: po_value[0]+"-"+po_value[1]},
             success: function(data){
-                $('#par_no').val(po_value[0]+"-"+po_value[1]+"-"+data);
+                $('#par_no').val(po_value[0]+"-"+po_value[1]+"-"+data["latest_par"]);
+                $('#lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
             }
         });
     });

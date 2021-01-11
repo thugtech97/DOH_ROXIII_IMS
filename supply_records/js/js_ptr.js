@@ -304,10 +304,12 @@ function ready_all(){
         var po_value = (new Date().toDateInputValue()).split("-");
         $.ajax({
             type: "POST",
+            dataType: "JSON",
             url: "php/php_ptr.php",
             data: {call_func: "get_latest_ptr", yy_mm: po_value[0]+"-"+po_value[1]},
             success: function(data){
-                $('#ptr_no').val(po_value[0]+"-"+po_value[1]+"-"+data);
+                $('#ptr_no').val(po_value[0]+"-"+po_value[1]+"-"+data["latest_ptr"]);
+                $('#lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
             }
         });
     });
@@ -347,6 +349,11 @@ function ready_all(){
             data: {call_func: "get_employee"},
             success: function(data){
                 $("#approved_by").html("<option disabled selected></option>").append(data);
+                $('#approved_by option').each(function() {
+                    if($(this).text() == "Jose  R. Llacuna Jr., MD, MPH, CESO III"){
+                        $(this).prop("selected", true).change();
+                    }
+                });
             }
         });
     });

@@ -118,6 +118,7 @@ function get_par(){
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$parn = $row["par_no"];
+			$rb = $row["received_by"];
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["par_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
@@ -129,7 +130,7 @@ function get_par(){
 					<td>".utf8_encode($row["received_by"])."</td>
 					<td>".$row["date_s"]."</td>
 					<td>".$row["remarks"]."</td>
-					<td><center>".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"modify('".$parn."');\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["par_no"]."\" onclick=\"print_par(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\"><i class=\"fa fa-trash\" onclick=\"delete_control('".$parn."');\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" onclick=\"download_xls('".$parn."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
+					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["par_no"]."\" onclick=\"view_iss(this.value,'tbl_par','view_par','PAR','par_no','".$rb."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"modify('".$parn."');\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["par_no"]."\" onclick=\"print_par(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\"><i class=\"fa fa-trash\" onclick=\"delete_control('".$parn."');\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" onclick=\"download_xls('".$parn."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
 		}
 	}
@@ -181,6 +182,8 @@ function insert_par(){
 			$sn = $serials[$j];
 			mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
 		}
+		$pn = end(explode(",", $property_no));
+		mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
 	}
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." created a PAR No. ".$par_no;
@@ -188,16 +191,25 @@ function insert_par(){
 }
 
 function get_latest_par(){
-	global $conn;
+	global $conn; $latest_par = ""; $latest_pn = "";
 
 	$yy_mm = mysqli_real_escape_string($conn, $_POST["yy_mm"]);
 	$sql = mysqli_query($conn, "SELECT DISTINCT par_no FROM tbl_par WHERE par_no LIKE '%$yy_mm%' ORDER BY par_id DESC LIMIT 1");
 	if(mysqli_num_rows($sql) != 0){
 		$row = mysqli_fetch_assoc($sql);
-		echo str_pad(((int)explode("-", $row["par_no"])[2]) + 1, 4, '0', STR_PAD_LEFT);
+		$latest_par = str_pad(((int)explode("-", $row["par_no"])[2]) + 1, 4, '0', STR_PAD_LEFT);
 	}else{
-		echo "0001";
+		$latest_par = "0001";
 	}
+
+	$sql = mysqli_query($conn, "SELECT property_no FROM ref_lastpn WHERE id = 1 AND property_no LIKE '%$yy_mm%'");
+	if(mysqli_num_rows($sql) != 0){
+		$row = mysqli_fetch_assoc($sql);
+		$latest_pn = str_pad(((int)explode("-", $row["property_no"])[2]) + 1, 3, '0', STR_PAD_LEFT);
+	}else{
+		$latest_pn = "001";
+	}
+	echo json_encode(array("latest_par"=>$latest_par,"latest_pn"=>$latest_pn));
 }
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);

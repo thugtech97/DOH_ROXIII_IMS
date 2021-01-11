@@ -3,7 +3,7 @@ var items = [];
 var pax_selected = "";
 var snln = "";
 
-var ntc_balance = "", actual_balance = "" , quant = 0, pon="";
+var ntc_balance = "", actual_balance = "", quant = 0, pon="", eus = "";
 
 var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
 
@@ -273,9 +273,10 @@ function validate_po_various(){
 	}
 }
 
-function view_po(po_number){
+function view_po(po_number, eu){
 	$("#view_po").modal();
 	$("#po_num").html(po_number);
+	eus = eu;
 	$.ajax({
 		type: "POST",
 		data: {
@@ -284,7 +285,7 @@ function view_po(po_number){
 		},
 		url: "php/php_po.php",
 		success: function(data){
-			$("#img_po").attr("src", "../archives/po/"+po_number.substring(0,4)+"/"+data);
+			$("#img_po").attr("src", "../archives/po/"+po_number.substring(0,4)+"/"+eu+"/"+data);
 		}
 	});
 }
@@ -307,14 +308,14 @@ function uploadFiles(event) {
 	});
 	console.log(data);
 	$.ajax({
-		url: 'php/upload_image.php?files&po_no='+$("#po_num").html(),
+		url: 'php/upload_image.php?files&po_no='+$("#po_num").html()+'&eu='+eus,
 		type: 'POST',
 		data: data,
 		cache: false,
 		processData: false,
 		contentType: false,
 		success: function(data){
-			$("#img_po").attr("src", "../archives/po/"+$("#po_num").html().substring(0,4)+"/"+data);
+			$("#img_po").attr("src", "../archives/po/"+$("#po_num").html().substring(0,4)+"/"+eus+"/"+data);
   		}
 	});
 }
