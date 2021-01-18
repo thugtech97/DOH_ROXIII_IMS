@@ -269,6 +269,7 @@ function insert_ptr(){
 	$received_from = mysqli_real_escape_string($conn, $_POST["received_from"]);
 	$area = mysqli_real_escape_string($conn, $_POST["area"]);
 	$reason = mysqli_real_escape_string($conn, $_POST["reason"]);
+	$address = mysqli_real_escape_string($conn, $_POST["address"]);
 	$items = $_POST["items"];
 
 	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$approved_by_id'");
@@ -292,7 +293,7 @@ function insert_ptr(){
 		$total = $items[$i][10];
 		$conditions = $items[$i][11];
 		$remarks = $items[$i][12];
-		mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$reference_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area')");
+		mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$reference_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address')");
 		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND po_id = '$item_id'");
 		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 		$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];

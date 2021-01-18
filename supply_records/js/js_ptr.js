@@ -115,6 +115,7 @@ function validate(){
                                                                     received_from: $("#received_from option:selected").text(),
                                                                     area: $("#area option:selected").text(),
                                                                     reason: $("#reason").val(),
+                                                                    address: $("#address").val(),
                                                                     items: items
                                                                 },
                                                             url: "php/php_ptr.php",
