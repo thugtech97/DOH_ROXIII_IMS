@@ -262,7 +262,7 @@ function get_po(){
 					<td>".$row["end_user"]."</td>
 					<td>".$row["status"]."</td>
 					<td><center>".(($row["inspection_status"] == '0') ? "<button class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\" disabled>✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
-					<td><center><button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '".$eu."')\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "")."</center></td></tr>";
+					<td><center><button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '".$eu."')\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "")."</center></td></tr>";
 			}
 	}
 }
@@ -305,9 +305,9 @@ function edit_po_various(){
 		$tbody.="<tr>
 					<td>".$row["item"]."</td>
 					<td>".number_format((float)$row["unit_cost"], 2)."</td>
-					<td onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."');\"><a><u>".$row["quantity"]."</u></a></td>
+					<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 					<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 2)."</td>
-					<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id);\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
+					<td><center>".($_SESSION["role"] == "SUPPLY" ? (($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id);\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>") : "")."</center></td>
 				</tr>";
 				$tot_amt+=((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]);
 	}

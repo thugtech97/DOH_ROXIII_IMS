@@ -157,7 +157,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="update();">Save changes</button>
+                <?php if($_SESSION["role"] == "SUPPLY"){ ?>
+                    <button type="button" class="btn btn-primary" onclick="update();">Save changes</button>
+                <?php } ?>
             </div>
         </div>
     </div>

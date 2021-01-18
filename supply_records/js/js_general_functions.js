@@ -37,7 +37,11 @@ function view_iss(iss_number, table, field, iss, iss_field, rb){
         },
         url: "php/php_ics.php",
         success: function(data){
-            $("#img_iss").attr("src", "../../archives/"+iss+"/"+iss_number.substring(0,4)+"/"+rb+"/"+data);
+            if(iss != "IAR"){
+                $("#img_iss").attr("src", "../../archives/"+iss+"/"+iss_number.substring(0,4)+"/"+rb+"/"+data);
+            }else{
+                $("#img_iss").attr("src", "../../archives/"+iss+"/"+rb+"/"+data);
+            }
         }
     });
     
@@ -68,7 +72,11 @@ function uploadFiles(event) {
         processData: false,
         contentType: false,
         success: function(data){
-            $("#img_iss").attr("src", "../../archives/"+isss+"/"+iss_numbers.substring(0,4)+"/"+rbs+"/"+data);
+            if(isss != "IAR"){
+                $("#img_iss").attr("src", "../../archives/"+isss+"/"+iss_numbers.substring(0,4)+"/"+rbs+"/"+data);
+            }else{
+                $("#img_iss").attr("src", "../../archives/"+isss+"/"+rbs+"/"+data);
+            }
         }
     });
 }

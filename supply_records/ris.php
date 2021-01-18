@@ -118,13 +118,18 @@ if(!isset($_SESSION["username"])){
                     <div class="row wrapper border-bottom white-bg page-heading">
                         <div class="col-lg-10">
                             <h2>Requisition and Issue Slip</h2>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_ris">
-                                        <i class="fa fa-plus"></i> Add RIS
-                                    </button>
-                                </li>
-                            </ol>
+                            <?php
+                            if($_SESSION["role"] == "SUPPLY"){ ?>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_ris">
+                                            <i class="fa fa-plus"></i> Add RIS
+                                        </button>
+                                    </li>
+                                </ol>
+                            <?php
+                                }
+                            ?>
                         </div>
                         <div class="col-lg-2">
 
@@ -157,7 +162,9 @@ if(!isset($_SESSION["username"])){
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        
+                                        <tr>
+                                            <th colspan="10"><center><h1><i class="fa fa-spinner fa-spin"></i></h1></center></th>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

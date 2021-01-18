@@ -9,8 +9,14 @@ if(isset($_GET['files'])) {
 	$iss = mysqli_real_escape_string($conn, $_GET["iss"]);
 	$iss_field = mysqli_real_escape_string($conn, $_GET["iss_field"]);
 	$rb = mysqli_real_escape_string($conn, $_GET["rb"]);
+	$uploaddir = "";
 	$error = false;
-	$uploaddir = "../../archives/".$iss."/".substr($iss_number,0,4)."/".$rb."/";
+	if($iss != "IAR"){
+		$uploaddir = "../../archives/".$iss."/".substr($iss_number,0,4)."/".$rb."/";
+	}else{
+		$uploaddir = "../../archives/".$iss."/".$rb."/";
+	}
+	
 	if(!is_dir($uploaddir)){
 		mkdir($uploaddir, 0777, true);
 	}

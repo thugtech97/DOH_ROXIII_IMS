@@ -14,29 +14,33 @@ $(document).ready(function(){
 });
 
 function loadLocal() {
-	if(typeof(Storage) !== "undefined") {
-		$("#vdate_received").val(JSON.parse(localStorage.getItem("po_details"))[0]);
-		$("#vpo_number").val(JSON.parse(localStorage.getItem("po_details"))[1]);
-		$("#vpr_number").val(JSON.parse(localStorage.getItem("po_details"))[2]);
-		$("#po_enduser option").each(function() {
-		    if($(this).text() == JSON.parse(localStorage.getItem("po_details"))[3]) {
-		        $(this).prop("selected", true).change();
-		    }
-		});
-		$("#date_conformed").val(JSON.parse(localStorage.getItem("po_details"))[4]);
-		$("#vprocurement_mode").val(JSON.parse(localStorage.getItem("po_details"))[5]).change();
-		$("#po_deliveryterm").val(JSON.parse(localStorage.getItem("po_details"))[6]).change();
-		$("#po_paymentterm").val(JSON.parse(localStorage.getItem("po_details"))[7]).change();
-		$("#po_supplier option").each(function() {
-		    if($(this).text() == JSON.parse(localStorage.getItem("po_details"))[8]) {
-		        $(this).prop("selected", true).change();
-		    }
-		});
-		$("#date_delivered").val(JSON.parse(localStorage.getItem("po_details"))[9]);
-		$("#status").val(JSON.parse(localStorage.getItem("po_details"))[10]).change();
-		$("#item_various").html(JSON.parse(localStorage.getItem("po_details"))[11]);
-	}else{
-		console.log("Browser doesn't support local storage...");
+	try{
+		if(typeof(Storage) !== "undefined") {
+			$("#vdate_received").val(JSON.parse(localStorage.getItem("po_details"))[0]);
+			$("#vpo_number").val(JSON.parse(localStorage.getItem("po_details"))[1]);
+			$("#vpr_number").val(JSON.parse(localStorage.getItem("po_details"))[2]);
+			$("#po_enduser option").each(function() {
+			    if($(this).text() == JSON.parse(localStorage.getItem("po_details"))[3]) {
+			        $(this).prop("selected", true).change();
+			    }
+			});
+			$("#date_conformed").val(JSON.parse(localStorage.getItem("po_details"))[4]);
+			$("#vprocurement_mode").val(JSON.parse(localStorage.getItem("po_details"))[5]).change();
+			$("#po_deliveryterm").val(JSON.parse(localStorage.getItem("po_details"))[6]).change();
+			$("#po_paymentterm").val(JSON.parse(localStorage.getItem("po_details"))[7]).change();
+			$("#po_supplier option").each(function() {
+			    if($(this).text() == JSON.parse(localStorage.getItem("po_details"))[8]) {
+			        $(this).prop("selected", true).change();
+			    }
+			});
+			$("#date_delivered").val(JSON.parse(localStorage.getItem("po_details"))[9]);
+			$("#status").val(JSON.parse(localStorage.getItem("po_details"))[10]).change();
+			$("#item_various").html(JSON.parse(localStorage.getItem("po_details"))[11]);
+		}else{
+			console.log("Browser doesn't support local storage...");
+		}
+	}catch(e){
+		console.log("No data stored on local storage.");
 	}
 }
 

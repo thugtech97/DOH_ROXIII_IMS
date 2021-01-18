@@ -117,13 +117,18 @@ if(!isset($_SESSION["username"])){
                     <div class="row wrapper border-bottom white-bg page-heading">
                         <div class="col-lg-10">
                             <h2>Category</h2>
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_category">
-                                        <i class="fa fa-plus"></i> Add Category
-                                    </button>
-                                </li>
-                            </ol>
+                            <?php
+                            if($_SESSION["role"] == "SUPPLY"){ ?>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_category">
+                                            <i class="fa fa-plus"></i> Add Category
+                                        </button>
+                                    </li>
+                                </ol>
+                            <?php
+                                }
+                            ?>
                         </div>
                         <div class="col-lg-2">
 

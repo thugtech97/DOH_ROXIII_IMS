@@ -21,9 +21,8 @@
                             <div class="col-lg-8">
                                 <select id="emp_role" class="select2_demo_1 form-control">
                                     <option disabled selected></option>
-                                    <option>Administrator</option>
-                                    <option>Employeee</option>
-                                    <option>IT Support</option>
+                                    <option>FINANCE</option>
+                                    <option>SUPPLY</option>
                                 </select>
                             </div>
                         </div>
