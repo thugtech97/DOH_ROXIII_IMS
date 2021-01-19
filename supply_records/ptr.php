@@ -150,14 +150,13 @@ if(!isset($_SESSION["username"])){
                                     <thead>
                                     <tr>
                                         <th>Issued</th>
-                                        <th>Area</th>
                                         <th>PTR No</th>
                                         <th>PO No</th>
-                                        <th>Category</th>
+                                        <th>From</th>
+                                        <th>To</th>
                                         <th>Date Released</th>
-                                        <th>Received From</th>
-                                        <th>Approved By</th>
                                         <th>Supply Received Date</th>
+                                        <th>Transfer Type</th>
                                         <th>Reason</th>
                                         <th></th>
                                     </tr>

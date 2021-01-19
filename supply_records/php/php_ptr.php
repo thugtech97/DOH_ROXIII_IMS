@@ -21,8 +21,9 @@ function update(){
 	$received_from_designation = mysqli_real_escape_string($conn, $_POST["received_from_designation"]);
 	$area = mysqli_real_escape_string($conn, $_POST["area"]);
 	$reason = mysqli_real_escape_string($conn, $_POST["reason"]);
+	$address = mysqli_real_escape_string($conn, $_POST["address"]);
 
-	mysqli_query($conn, "UPDATE tbl_ptr SET tbl_ptr.from='$from',entity_name='$entity_name',approved_by='$approved_by',approved_by_designation='$approved_by_designation',date_released='$date_released',transfer_type='$ttype',tbl_ptr.to='$to',fund_cluster='$fund_cluster',received_from='$received_from',received_from_designation='$received_from_designation',area='$area',reason='$reason' WHERE ptr_no LIKE '$ptr_no'");
+	mysqli_query($conn, "UPDATE tbl_ptr SET tbl_ptr.from='$from',entity_name='$entity_name',approved_by='$approved_by',approved_by_designation='$approved_by_designation',date_released='$date_released',transfer_type='$ttype',tbl_ptr.to='$to',fund_cluster='$fund_cluster',received_from='$received_from',received_from_designation='$received_from_designation',area='$area',reason='$reason',address='$address' WHERE ptr_no LIKE '$ptr_no'");
 
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." edited the details of PTR No. ".$ptr_no;
@@ -33,12 +34,12 @@ function modify(){
 	global $conn;
 	
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
-	$reference_no = "";$from = "";$to = "";$entity_name = "";$fund_cluster = "";$approved_by = "";$approved_by_designation = "";$received_from = "";$received_from_designation = "";$date_released = "";$area = "";$transfer_type = "";$reason = ""; $table = "";
-	$sql = mysqli_query($conn, "SELECT reference_no, tbl_ptr.from, tbl_ptr.to, entity_name, fund_cluster, approved_by, approved_by_designation, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, area, transfer_type, reason, item, description, serial_no, exp_date, category, property_no, quantity, unit, cost, total, conditions, remarks FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
+	$reference_no = "";$from = "";$to = "";$entity_name = "";$fund_cluster = "";$approved_by = "";$approved_by_designation = "";$received_from = "";$received_from_designation = "";$date_released = "";$area = "";$transfer_type = "";$reason = ""; $table = ""; $address = "";
+	$sql = mysqli_query($conn, "SELECT reference_no, tbl_ptr.from, tbl_ptr.to, entity_name, fund_cluster, approved_by, approved_by_designation, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, area, transfer_type, reason, address, item, description, serial_no, exp_date, category, property_no, quantity, unit, cost, total, conditions, remarks FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$from = $row["from"];$to = $row["to"];$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$approved_by = $row["approved_by"];
 		$approved_by_designation = $row["approved_by_designation"];$received_from = $row["received_from"];$received_from_designation = $row["received_from_designation"];
-		$date_released = $row["date_r"];$area = $row["area"];$transfer_type = $row["transfer_type"];$reason = $row["reason"];$reference_no = $row["reference_no"];
+		$date_released = $row["date_r"];$area = $row["area"];$transfer_type = $row["transfer_type"];$reason = $row["reason"]; $address = $row["address"]; $reference_no = $row["reference_no"];
 		$table.="<tr>
 					<td>".$row["item"]."</td>
 					<td>".$row["description"]."</td>
@@ -69,6 +70,7 @@ function modify(){
 		"area"=>$area,
 		"transfer_type"=>$transfer_type,
 		"reason"=>$reason,
+		"address"=>$address,
 		"table"=>$table
 	));
 }
@@ -227,7 +229,7 @@ function get_ptr_details(){
 
 function get_ptr(){
 	global $conn;
-	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no, area, category, SUBSTRING(date_released, 1, 10) AS date_r, received_from, approved_by, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.to, reason, remarks, issued, reference_no FROM tbl_ptr ORDER BY ptr_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no, area, category, SUBSTRING(date_released, 1, 10) AS date_r, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, reference_no, transfer_type FROM tbl_ptr ORDER BY ptr_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$func_call = ($row["category"] == "Drugs and Medicines") ? "print_ptr(this.value);" : "print_ptr_gen(this.value)";
@@ -235,14 +237,13 @@ function get_ptr(){
 			$to = $row["to"];
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ptr_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
-					<td>".$row["area"]."</td>
 					<td>".$row["ptr_no"]."</td>
 					<td>".$row["reference_no"]."</td>
-					<td>".$row["category"]."</td>
+					<td>".$row["from"]."</td>
+					<td>".$row["to"]."</td>
 					<td>".$row["date_r"]."</td>
-					<td>".utf8_encode($row["received_from"])."</td>
-					<td>".utf8_encode($row["approved_by"])."</td>
 					<td>".$row["date_s"]."</td>
+					<td>".$row["transfer_type"]."</td>
 					<td>".$row["reason"]."</td>
 					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["ptr_no"]."\" onclick=\"view_iss(this.value,'tbl_ptr','view_ptr','PTR','ptr_no','".$to."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" value=\"".$row["ptr_no"]."\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button value=\"".$row["ptr_no"]."\" onclick=\"".$func_call."\" class=\"btn btn-xs btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ptr_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ptr_no"]."\" onclick=\"".$dl_xls."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";

@@ -515,6 +515,7 @@ function modify(ptr_no){
                 }
             });
             $("#ereason").val(data["reason"]);
+            $("#eaddress").val(data["address"]);
             $("table#eptr_items tbody").html(data["table"]);
         }
     });
@@ -538,7 +539,8 @@ function update(){
             received_from: $("#ereceived_from").val(),
             received_from_designation: $("#erfd").val(),
             area: $("#earea option:selected").text(),
-            reason: $("#ereason").val()
+            reason: $("#ereason").val(),
+            address: $("#eaddress").val()
         },
         url: "php/php_ptr.php",
         success: function(data){

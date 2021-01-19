@@ -207,7 +207,7 @@ if(!isset($_SESSION["username"])){
                         <div class="col-lg-12" id="IS" style="display: none;">
                             <div class="ibox">
                                 <div class="ibox-title">
-                                    <h5>Pie Chart (ICS, PAR, PTR, RIS)</h5>
+                                    <h5>Issuances</h5>
                                 </div>
                                 <div class="ibox-content">
                                     <div id="pie">

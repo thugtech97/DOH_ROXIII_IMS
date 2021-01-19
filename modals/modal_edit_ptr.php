@@ -109,6 +109,12 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-lg-1 col-form-label">Address:</label>
+                            <div class="col-lg-11">
+                                <input id="eaddress" type="text" class="form-control">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="panel panel-primary">
