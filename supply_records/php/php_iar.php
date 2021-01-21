@@ -21,8 +21,9 @@ function update(){
 	for($i = 0; $i < count($items); $i++){
 		$item_name = $items[$i][0];
 		$description = $items[$i][1];
-		$bool = $items[$i][2];
-		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool' WHERE item_name = '$item_name' AND description = '$description' AND po_number = '$po_number'");
+		$exp_date = $items[$i][2];
+		$bool = $items[$i][3];
+		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date' WHERE item_name = '$item_name' AND description = '$description' AND po_number = '$po_number'");
 	}
 	mysqli_query($conn,"UPDATE tbl_iar SET entity_name = '$entity_name', fund_cluster = '$fund_cluster', req_office = '$req_office', res_cc = '$res_cc', charge_invoice = '$charge_invoice', inspector = '$inspector', date_inspected = '$date_inspected', date_received = '$date_received' WHERE iar_number LIKE '$iar_number'");
 
@@ -37,7 +38,7 @@ function get_iar_details(){
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
 	$entity_name="";$fund_cluster="";$po_number="";$req_office="";$res_cc="";$charge_invoice="";$date_inspected="";$inspector="";$date_received="";$end_user="";$supplier="";
 	$table = "";
-	$sql = mysqli_query($conn, "SELECT i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, s.supplier FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
+	$sql = mysqli_query($conn, "SELECT i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, p.exp_date, s.supplier FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$po_number = $row["po_number"];$req_office = $row["req_office"];$res_cc = $row["res_cc"];
 		$charge_invoice = $row["charge_invoice"];$date_inspected = $row["date_inspected"];$inspector = $row["inspector"];$date_received = $row["date_received"];
@@ -46,6 +47,7 @@ function get_iar_details(){
 					<td>".$row["date_delivered"]."</td>
 					<td>".$row["item_name"]."</td>
 					<td>".$row["description"]."</td>
+					<td><input type=\"text\" value=\"".$row["exp_date"]."\" onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\"></td>
 					<td>".$row["quantity"]."</td>
 					<td>".$row["unit_cost"]."</td>
 					<td><center>".($row["inspection_status"] == "1" ? "<input type=\"checkbox\" checked>" : "<input type=\"checkbox\">")."</center></td>
@@ -279,7 +281,7 @@ function get_po(){
 
 	if($action == "get_details"){
 		$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-		$sql = mysqli_query($conn, "SELECT s.supplier, p.date_delivered, p.date_conformed, p.end_user, i.item, p.description, p.sn_ln, p.unit_cost, p.quantity, p.po_type FROM ref_supplier AS s, tbl_po AS p, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id AND p.inspection_status = '0'");
+		$sql = mysqli_query($conn, "SELECT s.supplier, p.date_delivered, p.date_conformed, p.end_user, i.item, p.description, p.exp_date, p.unit_cost, p.quantity, p.po_type FROM ref_supplier AS s, tbl_po AS p, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id AND p.inspection_status = '0'");
 		$supplier = "";
 		$date_delivered = "";
 		$date_conformed = "";
@@ -296,10 +298,10 @@ function get_po(){
 				$quantity = explode(" ", $row["quantity"]);
 				$po_type = $row["po_type"];
 				$tbody.="<tr>
-							<td></td>
+							<td>".$date_delivered."</td>
 							<td>".$row["item"]."</td>
 							<td>".$row["description"]."</td>
-							<td>".$row["sn_ln"]."</td>
+							<td><input type=\"text\" value=\"".$row["exp_date"]."\" onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\"></td>
 							<td>".$row["quantity"]."</td>
 							<td>".number_format((float)$quantity[0] * (float)$row["unit_cost"], 2)."</td>
 							<td><center><input type=\"checkbox\" checked></center></td>
@@ -376,9 +378,9 @@ function insert_various(){
 	for($i = 0; $i < count($items); $i++){
 		$item_name = $items[$i][0];
 		$description = $items[$i][1];
-		$sn = $items[$i][2];
+		$exp_date = $items[$i][2];
 		$bool = $items[$i][3];
-		mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number' WHERE item_name LIKE '$item_name' AND description LIKE '$description' AND po_number LIKE '$po_number'");
+		mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date' WHERE item_name LIKE '$item_name' AND description LIKE '$description' AND po_number LIKE '$po_number'");
 	}
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." created an IAR No. ".$iar_number." - PO#".$po_number;

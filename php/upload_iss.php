@@ -14,7 +14,7 @@ if(isset($_GET['files'])) {
 	if($iss != "IAR"){
 		$uploaddir = "../../archives/".$iss."/".substr($iss_number,0,4)."/".$rb."/";
 	}else{
-		$uploaddir = "../../archives/".$iss."/".$rb."/";
+		$uploaddir = "../../archives/".$iss."/".str_replace(' ', '', $rb)."/";
 	}
 	
 	if(!is_dir($uploaddir)){
@@ -22,14 +22,16 @@ if(isset($_GET['files'])) {
 	}
 
 	foreach($_FILES as $file){
-		$fileName = mysqli_real_escape_string($conn, $file['name']);
+		$fileName = mysqli_real_escape_string($conn, str_replace(' ', '', $file['name']));
 		if(move_uploaded_file($file['tmp_name'], $uploaddir .basename($file['name']))){
 			mysqli_query($conn, "UPDATE ".$table." SET ".$field." = '$fileName' WHERE ".$iss_field." LIKE '".$iss_number."'");
 			$error = false;
 		}else{
 		    $error = true;
 		}
-		echo $file['name'];
+		
+		rename($uploaddir."/".$file['name'], $uploaddir."/".str_replace(' ', '', $file['name']));
+		echo str_replace(' ', '', $file['name']);
 	}
 }
 

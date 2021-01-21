@@ -741,8 +741,20 @@ function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
-function ready_all(){
+function consolidate(_po){
+	$("#view_conso").modal();
+	$("#_pon_").html(_po);
+	$.ajax({
+		type: "POST",
+		data: {call_func: "consolidate_po", po_number: _po},
+		url: "php/php_po.php",
+		success: function(data){
+			$("#pdf_conso").attr("src", "../archives/consolidated_po/"+$("#_pon_").html().substring(0,4)+"/"+data);
+		}
+	});
+}
 
+function ready_all(){
 	$(".select2_demo_1").select2({
         theme: 'bootstrap4',
         width: '100%'

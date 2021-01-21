@@ -3,7 +3,7 @@
     <div class="modal-content animated slideInDown">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                <h5 class="modal-title"><i class="fa fa-list-alt"></i> PO No. <span id="po_num"></span></h5>
+                <h5 class="modal-title"><i class="fa fa-picture-o"></i> PO No. <span id="po_num"></span></h5>
             </div>
             <div class="modal-body">
                 <?php if($_SESSION["role"] == "SUPPLY") { ?><input type="file" name="file_upload" id="file_upload" accept="application/pdf" class="file pull-right" multiple> <?php } ?>

@@ -222,6 +222,7 @@ if(!isset($_SESSION["username"])){
                 require "modals/modal_fill_pax.php";
                 require "modals/modal_view_po.php";
                 require "modals/modal_add_bf.php";
+                require "modals/modal_view_conso.php";
             ?>
 
             <div class="footer">

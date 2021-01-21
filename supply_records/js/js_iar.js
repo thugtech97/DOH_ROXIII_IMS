@@ -213,8 +213,9 @@ function update(){
         var $tds = $(this).find('td');
         var item = $tds.eq(1).text();
         var description = $tds.eq(2).text();
-        var bool = ($tds.eq(5).find('input').is(":checked") ? 1 : 0);
-        items.push([item,description,bool]);
+        var exp_date = $tds.eq(3).find('input').val();
+        var bool = ($tds.eq(6).find('input').is(":checked") ? 1 : 0);
+        items.push([item,description,exp_date,bool]);
         rows++;
     });
     $.ajax({
@@ -287,9 +288,9 @@ function add_item(tbl_name){
         var $tds = $(this).find('td');
         var item = $tds.eq(1).text();
         var description = $tds.eq(2).text();
-        var sn = $tds.eq(3).text();
+        var exp_date = $tds.eq(3).find('input').val();
         var bool = ($tds.eq(6).find('input').is(":checked") ? 1 : 0);
-        items.push([item,description,sn,bool]);
+        items.push([item,description,exp_date,bool]);
         rows++;
     });
     return rows;

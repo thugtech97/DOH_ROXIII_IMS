@@ -12,15 +12,15 @@ if(isset($_GET['files'])) {
 	}
 
 	foreach($_FILES as $file){
-		$fileName = mysqli_real_escape_string($conn, $file['name']);
+		$fileName = mysqli_real_escape_string($conn, str_replace(' ', '', $file['name']));
 		if(move_uploaded_file($file['tmp_name'], $uploaddir .basename($file['name']))){
 			mysqli_query($conn, "UPDATE tbl_po SET view_po = '$fileName' WHERE po_number LIKE '$po_number'");
 			$error = false;
 		}else{
 		    $error = true;
 		}
-
-		echo $file['name'];
+		rename($uploaddir."/".$file['name'], $uploaddir."/".str_replace(' ', '', $file['name']));
+		echo str_replace(' ', '', $file['name']);
 	}
 }
 ?>

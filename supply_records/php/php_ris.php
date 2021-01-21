@@ -192,7 +192,7 @@ function get_item(){
 function get_po(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE inspection_status = '1' AND (category LIKE 'Office Supplies' OR category LIKE 'Other Supplies' OR category LIKE 'Various Supplies' OR category LIKE 'Drugs and Medicines' OR category LIKE 'ICT Supplies') ORDER BY po_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE inspection_status = '1' AND (category LIKE 'Office Supplies' OR category LIKE 'Other Supplies' OR category LIKE 'Various Supplies' OR category LIKE 'Drugs and Medicines' OR category LIKE 'ICT Supplies' OR po_number LIKE 'Bal-Fwd') ORDER BY po_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			echo "<option id=".$row["po_number"].">".$row["po_number"]."</option>";
@@ -206,7 +206,7 @@ function get_ris(){
 	$sql = mysqli_query($conn, "SELECT DISTINCT division,office,ris_no, SUBSTRING(tbl_ris.date,1,10) AS d,requested_by,issued_by,purpose, reference_no, issued FROM tbl_ris ORDER BY ris_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
-			$rb = $row["issued_by"];
+			$rb = str_replace(' ', '', $row["requested_by"]);
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ris_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["division"]."</td>

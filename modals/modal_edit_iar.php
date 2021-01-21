@@ -104,6 +104,7 @@
                                     <th>Date Delivered/Travel</th>
                                     <th>Item</th>
                                     <th>Description</th>
+                                    <th>Expiry Date</th>
                                     <th>Quantity</th>
                                     <th>Amount</th>
                                     <th></th>

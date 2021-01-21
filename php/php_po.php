@@ -4,6 +4,54 @@ require "php_conn.php";
 
 session_start();
 
+function consolidate_po(){
+	global $conn;
+
+	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+	$fileArray= array();
+	$row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT view_po, end_user FROM tbl_po WHERE po_number LIKE '$po_number'"));
+	array_push($fileArray, "../../archives/po/".substr($po_number,0,4)."/".str_replace(' ', '', $row["end_user"])."/".$row["view_po"]);
+	$row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT view_iar FROM tbl_iar WHERE po_number LIKE '$po_number'"));
+	array_push($fileArray, "../../archives/IAR/".substr($po_number,0,4)."/".$row["view_iar"]);
+	$sql = mysqli_query($conn, "SELECT DISTINCT ics_no, received_by, view_ics FROM tbl_ics WHERE reference_no LIKE '$po_number'");
+	if(mysqli_num_rows($sql)!=0){
+		while($row = mysqli_fetch_assoc($sql)) {
+			array_push($fileArray, "../../archives/ICS/".substr($row["ics_no"],0,4)."/".str_replace(' ', '', $row["received_by"])."/".$row["view_ics"]);
+		}
+	}
+	$sql = mysqli_query($conn, "SELECT DISTINCT par_no, received_by, view_par FROM tbl_par WHERE reference_no LIKE '$po_number'");
+	if(mysqli_num_rows($sql)!=0){
+		while($row = mysqli_fetch_assoc($sql)){
+			array_push($fileArray, "../../archives/PAR/".substr($row["par_no"],0,4)."/".str_replace(' ', '', $row["received_by"])."/".$row["view_par"]);
+		}
+	}
+	$sql = mysqli_query($conn, "SELECT DISTINCT ris_no, requested_by, view_ris FROM tbl_ris WHERE reference_no LIKE '$po_number'");
+	if(mysqli_num_rows($sql)!=0){
+		while($row = mysqli_fetch_assoc($sql)){
+			array_push($fileArray, "../../archives/RIS/".substr($row["ris_no"],0,4)."/".str_replace(' ', '', $row["requested_by"])."/".$row["view_ris"]);
+		}
+	}
+	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no, tbl_ptr.to, view_ptr FROM tbl_ptr WHERE reference_no LIKE '$po_number'");
+	if(mysqli_num_rows($sql)!=0){
+		while($row = mysqli_fetch_assoc($sql)){
+			array_push($fileArray, "../../archives/PTR/".substr($row["ptr_no"],0,4)."/".str_replace(' ', '', $row["to"])."/".$row["view_ptr"]);
+		}
+	}/**/
+	
+	$filepath = '../../archives/consolidated_po/'.substr($po_number,0,4).'/';
+	if(!is_dir($filepath)){
+		mkdir($filepath, 0777, true);
+	}
+	$filepath .= 'Consolidated-PONo.'.$po_number.'.pdf';
+	$cmd = '"C:\Program Files\gs\gs9.53.3\bin\gswin64c.exe" -dNOPAUSE -sDEVICE=pdfwrite -sOUTPUTFILE='.$filepath.' -dBATCH ';
+	foreach($fileArray as $file) {
+	    $cmd .= $file.' ';
+	}
+	shell_exec($cmd);
+	
+	echo 'Consolidated-PONo.'.$po_number.'.pdf';
+}
+
 function update_quantity(){
 	global $conn;
 
@@ -251,7 +299,7 @@ function get_po(){
 	$sql = mysqli_query($conn, "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, p.procurement_mode,s.supplier, SUBSTRING(p.date_received, 1, 10) AS date_r, p.date_conformed, p.date_delivered, p.activity_date, p.end_user FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id ORDER BY po_id ASC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
-			$eu = $row["end_user"];
+			$eu = str_replace(' ', '', $row["end_user"]);
 			echo "<tr>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["po_number"]."</td>
@@ -262,7 +310,7 @@ function get_po(){
 					<td>".$row["end_user"]."</td>
 					<td>".$row["status"]."</td>
 					<td><center>".(($row["inspection_status"] == '0') ? "<button class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\" disabled>✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
-					<td><center><button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '".$eu."')\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "")."</center></td></tr>";
+					<td><center><button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '".$eu."')\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Consolidate\" onclick=\"consolidate(this.id)\"><i class=\"fa fa-stack-overflow\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "")."</center></td></tr>";
 			}
 	}
 }
@@ -460,6 +508,9 @@ switch($call_func){
 		break;
 	case "update_quantity":
 		update_quantity();
+		break;
+	case "consolidate_po":
+		consolidate_po();
 		break;
 }
 
