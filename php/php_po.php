@@ -9,10 +9,17 @@ function consolidate_po(){
 
 	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
 	$fileArray= array();
-	$row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT view_po, end_user FROM tbl_po WHERE po_number LIKE '$po_number'"));
-	array_push($fileArray, "../../archives/po/".substr($po_number,0,4)."/".str_replace(' ', '', $row["end_user"])."/".$row["view_po"]);
-	$row = mysqli_fetch_assoc(mysqli_query($conn, "SELECT view_iar FROM tbl_iar WHERE po_number LIKE '$po_number'"));
-	array_push($fileArray, "../../archives/IAR/".substr($po_number,0,4)."/".$row["view_iar"]);
+	
+	$sql = mysqli_query($conn, "SELECT DISTINCT po_number, view_po, end_user FROM tbl_po WHERE po_number LIKE '$po_number'");
+	if(mysqli_num_rows($sql)!=0){
+		$row = mysqli_fetch_assoc($sql);
+		array_push($fileArray, "../../archives/po/".substr($po_number,0,4)."/".str_replace(' ', '', $row["end_user"])."/".$row["view_po"]);	
+	}
+	$sql = mysqli_query($conn, "SELECT view_iar FROM tbl_iar WHERE po_number LIKE '$po_number'");
+	if(mysqli_num_rows($sql)){
+		$row = mysqli_fetch_assoc($sql);
+		array_push($fileArray, "../../archives/IAR/".substr($po_number,0,4)."/".$row["view_iar"]);
+	}	
 	$sql = mysqli_query($conn, "SELECT DISTINCT ics_no, received_by, view_ics FROM tbl_ics WHERE reference_no LIKE '$po_number'");
 	if(mysqli_num_rows($sql)!=0){
 		while($row = mysqli_fetch_assoc($sql)) {
