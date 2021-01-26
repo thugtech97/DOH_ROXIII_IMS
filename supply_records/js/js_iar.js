@@ -70,7 +70,7 @@ function ready_all(){
         theme: 'bootstrap4',
         width: '100%'
     });
-    $("#var_dr").val(new Date().toDateInputValue());
+    //$("#var_dr").val(new Date().toDateInputValue());
     $("#var_po").ready(function(){
         $.ajax({
             type: "POST",
@@ -214,8 +214,9 @@ function update(){
         var item = $tds.eq(1).text();
         var description = $tds.eq(2).text();
         var exp_date = $tds.eq(3).find('input').val();
-        var bool = ($tds.eq(6).find('input').is(":checked") ? 1 : 0);
-        items.push([item,description,exp_date,bool]);
+        var manufactured_by = $tds.eq(4).find('input').val();
+        var bool = ($tds.eq(7).find('input').is(":checked") ? 1 : 0);
+        items.push([item,description,exp_date,manufactured_by,bool]);
         rows++;
     });
     $.ajax({
@@ -289,8 +290,9 @@ function add_item(tbl_name){
         var item = $tds.eq(1).text();
         var description = $tds.eq(2).text();
         var exp_date = $tds.eq(3).find('input').val();
-        var bool = ($tds.eq(6).find('input').is(":checked") ? 1 : 0);
-        items.push([item,description,exp_date,bool]);
+        var manufactured_by = $tds.eq(4).find('input').val();
+        var bool = ($tds.eq(7).find('input').is(":checked") ? 1 : 0);
+        items.push([item,description,exp_date,manufactured_by,bool]);
         rows++;
     });
     return rows;
@@ -301,55 +303,47 @@ function validate_various(){
     if($("#var_po").val() != null){
         if($("#var_rod").val() != null){
             if($("#var_iar").val() != ""){
-                if($("#var_inspected").val() != ""){
-                    if($("#var_inspector").val() != null){
-                        if($("#var_pc").val() != ""){
-                            if($("#var_as").val() != null){
-                                if(add_item("var_items")!=0){
-                                    $("#save_changes").attr("disabled", true);
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "php/php_iar.php",
-                                        data: { 
-                                            entity_name: $("#var_en").val(),
-                                            call_func: "insert_various",
-                                            fund_cluster: $("#var_fc").val(),
-                                            po_number: $("#var_po option:selected").text(),
-                                            iar_number: $("#var_iar").val(),
-                                            iar_type: po_type,
-                                            req_office: $("#var_rod option:selected").text(),
-                                            res_cc: $("#var_rcc").val(),
-                                            charge_invoice: $("#var_ci").val(),
-                                            date_inspected: $("#var_inspected").val(),
-                                            date_received: $("#var_dr").val(),
-                                            inspector: $("#var_inspector option:selected").text(),
-                                            inspected: ($('#var_chk').is(':checked')) ? 1 : 0,
-                                            property_custodian: $("#var_pc").val(),
-                                            status: $("#var_as option:selected").text(),
-                                            partial_specify: partial_specify,
-                                            items: items
-                                             },
-                                        success: function(data){
-                                            swal("Inserted!", "Saved successfully to the database.", "success");
-                                            setTimeout(function () {
-                                                location.reload();
-                                              }, 1500);
-                                        }
-                                    });
-                                }else{
-                                    swal("Items not found!", "No item to be inspected!", "warning");
+                if($("#var_inspector").val() != null){
+                    if($("#var_pc").val() != ""){
+                        if(add_item("var_items")!=0){
+                            $("#save_changes").attr("disabled", true);
+                            $.ajax({
+                                type: "POST",
+                                url: "php/php_iar.php",
+                                data: { 
+                                    entity_name: $("#var_en").val(),
+                                    call_func: "insert_various",
+                                    fund_cluster: $("#var_fc").val(),
+                                    po_number: $("#var_po option:selected").text(),
+                                    iar_number: $("#var_iar").val(),
+                                    iar_type: po_type,
+                                    req_office: $("#var_rod option:selected").text(),
+                                    res_cc: $("#var_rcc").val(),
+                                    charge_invoice: $("#var_ci").val(),
+                                    date_inspected: $("#var_inspected").val(),
+                                    date_received: $("#var_dr").val(),
+                                    inspector: $("#var_inspector option:selected").text(),
+                                    inspected: ($('#var_chk').is(':checked')) ? 1 : 0,
+                                    property_custodian: $("#var_pc").val(),
+                                    status: $("#var_as option:selected").text(),
+                                    partial_specify: partial_specify,
+                                    items: items
+                                     },
+                                success: function(data){
+                                    swal("Inserted!", "Saved successfully to the database.", "success");
+                                    setTimeout(function () {
+                                        location.reload();
+                                      }, 1500);
                                 }
-                            }else{
-                                swal("Please fill in!", "Status", "warning");
-                            }
+                            });
                         }else{
-                            swal("Please fill in!", "Property Custodian", "warning");
+                            swal("Items not found!", "No item to be inspected!", "warning");
                         }
                     }else{
-                        swal("Please fill in!", "Inspector", "warning");
+                        swal("Please fill in!", "Property Custodian", "warning");
                     }
                 }else{
-                    swal("Please fill in!", "Date Inspected", "warning");
+                    swal("Please fill in!", "Inspector", "warning");
                 }
             }else{
                 swal("Please fill in!", "IAR Number", "warning");
@@ -390,7 +384,7 @@ function print_iar(iar_number){
             $("#gprint_eu").html("<u>"+data["end_user"].toUpperCase()+"</u>");
             $("#gprint_insp").html("<u>"+data["inspector"].toUpperCase()+"</u>");
             $("#gprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
-
+            /*
             if(data["inspected"] == 1){
                 $("input#inspected").attr("checked", "checked");
             }
@@ -400,7 +394,7 @@ function print_iar(iar_number){
                 $("input#Partial").attr("checked", "checked");
                 $("#gprint_psq").html(data["partial_specify"]);
             }
-
+            */
             var divContents = $("#report_iar_gen").html(); 
             var a = window.open('', '_blank', 'height=1500, width=800'); 
             a.document.write('<html>'); 
@@ -440,6 +434,7 @@ function download_xls(iar_number){
             $("#gprint_insp").html("<u>"+data["inspector"].toUpperCase()+"</u>");
             $("#gprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
 
+            /*
             if(data["inspected"] == 1){
                 $("input#inspected").attr("checked", "checked");
             }
@@ -449,6 +444,7 @@ function download_xls(iar_number){
                 $("input#Partial").attr("checked", "checked");
                 $("#gprint_psq").html(data["partial_specify"]);
             }
+            */
             exportTableToExcel("report_iar_gen", "IAR No. "+iar_number);
         }
     });
@@ -480,6 +476,7 @@ function print_iar_dm(iar_number){
             $("#dprint_insp").html("<u>"+data["inspector"].toUpperCase()+"</u>");
             $("#dprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
 
+            /*
             if(data["inspected"] == 1){
                 $("input#dinspected").attr("checked", "checked");
             }
@@ -489,6 +486,7 @@ function print_iar_dm(iar_number){
                 $("input#dPartial").attr("checked", "checked");
                 $("#gprint_psq").html(data["partial_specify"]);
             }
+            */
 
             var divContents = $("#report_iar_dm").html(); 
             var a = window.open('', '_blank', 'height=1500, width=800'); 
@@ -530,6 +528,7 @@ function download_xls_dm(iar_number){
             $("#dprint_insp").html("<u>"+data["inspector"].toUpperCase()+"</u>");
             $("#dprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
 
+            /*
             if(data["inspected"] == 1){
                 $("input#dinspected").attr("checked", "checked");
             }
@@ -539,6 +538,7 @@ function download_xls_dm(iar_number){
                 $("input#dPartial").attr("checked", "checked");
                 $("#gprint_psq").html(data["partial_specify"]);
             }
+            */
             exportTableToExcel("report_iar_dm", "IAR No. "+iar_number);
         }
     });

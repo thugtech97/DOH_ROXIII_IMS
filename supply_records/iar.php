@@ -149,10 +149,8 @@ if(!isset($_SESSION["username"])){
                                     <tr>
                                         <th>PO No.</th>
                                         <th>IAR No.</th>
-                                        <th>Inspection Status</th>
-                                        <th>Date Inspected</th>
-                                        <th>Date Received</th>
-                                        <th>Acceptance Status</th>
+                                        <th>Requisitioning Office</th>
+                                        <th>Responsibility Center Code</th>
                                         <th></th>
                                     </tr>
                                     </thead>

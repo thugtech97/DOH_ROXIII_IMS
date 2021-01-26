@@ -22,8 +22,9 @@ function update(){
 		$item_name = $items[$i][0];
 		$description = $items[$i][1];
 		$exp_date = $items[$i][2];
-		$bool = $items[$i][3];
-		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date' WHERE item_name = '$item_name' AND description = '$description' AND po_number = '$po_number'");
+		$manufactured_by = $items[$i][3];
+		$bool = $items[$i][4];
+		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name = '$item_name' AND description = '$description' AND po_number = '$po_number'");
 	}
 	mysqli_query($conn,"UPDATE tbl_iar SET entity_name = '$entity_name', fund_cluster = '$fund_cluster', req_office = '$req_office', res_cc = '$res_cc', charge_invoice = '$charge_invoice', inspector = '$inspector', date_inspected = '$date_inspected', date_received = '$date_received' WHERE iar_number LIKE '$iar_number'");
 
@@ -38,7 +39,7 @@ function get_iar_details(){
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
 	$entity_name="";$fund_cluster="";$po_number="";$req_office="";$res_cc="";$charge_invoice="";$date_inspected="";$inspector="";$date_received="";$end_user="";$supplier="";
 	$table = "";
-	$sql = mysqli_query($conn, "SELECT i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, p.exp_date, s.supplier FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
+	$sql = mysqli_query($conn, "SELECT i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, p.exp_date, s.supplier, p.activity_title FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$po_number = $row["po_number"];$req_office = $row["req_office"];$res_cc = $row["res_cc"];
 		$charge_invoice = $row["charge_invoice"];$date_inspected = $row["date_inspected"];$inspector = $row["inspector"];$date_received = $row["date_received"];
@@ -48,6 +49,7 @@ function get_iar_details(){
 					<td>".$row["item_name"]."</td>
 					<td>".$row["description"]."</td>
 					<td><input type=\"text\" value=\"".$row["exp_date"]."\" onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\"></td>
+					<td><input type=\"text\" value=\"".$row["activity_title"]."\"></td>
 					<td>".$row["quantity"]."</td>
 					<td>".$row["unit_cost"]."</td>
 					<td><center>".($row["inspection_status"] == "1" ? "<input type=\"checkbox\" checked>" : "<input type=\"checkbox\">")."</center></td>
@@ -76,13 +78,13 @@ function print_iar_dm(){
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
 	$entity_name = "";$fund_cluster = "";$po_number = "";$req_office = "";$res_cc = "";$invoice = "";$date_inspected = "";$inspector = "";$inspected = "";
 	$date_received = "";$property_custodian = "";$status = "";$partial_specify = "";$supplier = "";$date_conformed = "";$date_delivered = "";$end_user = "";
-	$tbody = "";$total_amount = 0.00;
-	$sql = mysqli_query($conn, "SELECT po_number, entity_name, fund_cluster, req_office, res_cc, charge_invoice, date_inspected, inspector, inspected, date_received, property_custodian, status, partial_specify FROM tbl_iar WHERE iar_number LIKE '$iar_number'");
+	$tbody = "";$total_amount = 0.00;$manufactured_by="";
+	$sql = mysqli_query($conn, "SELECT po_number, entity_name, fund_cluster, req_office, res_cc, charge_invoice, inspector, inspected, property_custodian, partial_specify FROM tbl_iar WHERE iar_number LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$po_number = $row["po_number"];$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$req_office = $row["req_office"];
-		$res_cc = $row["res_cc"];$invoice = $row["charge_invoice"];$date_inspected = $row["date_inspected"];$inspector = $row["inspector"];
-		$inspected = $row["inspected"];$date_received = $row["date_received"];$property_custodian = $row["property_custodian"];$status = $row["status"];
-		$partial_specify = $row["partial_specify"];
+		$res_cc = $row["res_cc"];$invoice = $row["charge_invoice"];$date_inspected = "";$inspector = $row["inspector"];
+		$inspected = $row["inspected"];$date_received = "";$property_custodian = $row["property_custodian"];$status = "";
+		$partial_specify = "";
 	}
 
 	$sql2 = mysqli_query($conn, "SELECT DISTINCT p.item_name, p.po_id, s.supplier, p.description, p.unit_cost, p.date_conformed, p.date_delivered, p.end_user FROM ref_supplier AS s, tbl_po AS p WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1' AND s.supplier_id = p.supplier_id AND p.iar_no LIKE '$iar_number'");
@@ -90,27 +92,28 @@ function print_iar_dm(){
 		$item_name = $row["item_name"]; $poid = $row["po_id"];
 		$supplier = $row["supplier"]; $date_conformed = $row["date_conformed"];$date_delivered = $row["date_delivered"];$end_user = $row["end_user"];
 		$quan_unit = "";
-		$getQuan = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE item_name LIKE '$item_name' AND iar_no LIKE '$iar_number'");
+		$getQuan = mysqli_query($conn, "SELECT quantity, main_stocks, activity_title FROM tbl_po WHERE item_name LIKE '$item_name' AND iar_no LIKE '$iar_number'");
 		$total_quan = 0.00;
 		while($rowt = mysqli_fetch_assoc($getQuan)){
 			$quan_unit = explode(" ", $rowt["quantity"]);
-			$total_quan+=(float)$quan_unit[0];
+			$total_quan+=(float)$rowt["main_stocks"];
+			$manufactured_by = $rowt["activity_title"];
 		}
 		$tbody.="<tr>
 	          <td style=\"width: 73.2px; height: 15px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
-	          <td colspan=\"2\" style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["description"]."</td>
+	          <td colspan=\"2\" style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"><b>".$row["item_name"]."</b><br>".$row["description"]."</td>
 	          <td style=\"width: 72.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
-	          <td style=\"width: 63px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$quan_unit[1]."</td>
-	          <td colspan=\"2\" style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width:2px;border-right-style:solid;\">".number_format((float)$total_quan, 0)."</td>
-	        </tr>";
+	          <td style=\"width: 63px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$quan_unit[1]."</td>
+	          <td colspan=\"2\" style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width:2px;border-right-style:solid;\">".number_format((float)$total_quan, 0)."</td>
+	        </tr>";$rows_occupied++;
 	        
-	        $sql3 = mysqli_query($conn, "SELECT p.quantity, s.serial_no, p.exp_date FROM tbl_po AS p, tbl_serial AS s WHERE p.item_name LIKE '$item_name' AND iar_no LIKE '$iar_number' AND s.inventory_id = p.po_id");
+	        $sql3 = mysqli_query($conn, "SELECT p.main_stocks, p.quantity, s.serial_no, p.exp_date FROM tbl_po AS p, tbl_serial AS s WHERE p.item_name LIKE '$item_name' AND iar_no LIKE '$iar_number' AND s.inventory_id = p.po_id");
 	        while($rows = mysqli_fetch_assoc($sql3)){
 	        	$tbody.="<tr>
 		          <td style=\"width: 73.2px; height: 15px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
 		          <td style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">Lot#: ".$rows["serial_no"]."</td>
 		          <td style=\"width: 144px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">Exp. Date: ".$rows["exp_date"]."</td>
-		          <td style=\"width: 72.6px; height: 15px; text-align: right; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$rows["quantity"]."&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		          <td style=\"width: 72.6px; height: 15px; text-align: right; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$rows["main_stocks"]." ".$quan_unit[1]."&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		          <td style=\"width: 63px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 		          <td style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
 		          <td style=\"width: 28.8px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
@@ -120,7 +123,7 @@ function print_iar_dm(){
 
 	        $tbody.="<tr>
 	          <td style=\"width: 73.2px; height: 15px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
-	          <td colspan=\"3\" style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\">Manufactured by: Serum Institute of India</td>
+	          <td colspan=\"3\" style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\">Manufactured by: ".$manufactured_by."</td>
 	          <td style=\"width: 63px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	          <td style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
 	          <td style=\"width: 28.8px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
@@ -164,10 +167,10 @@ function print_iar_dm(){
 		"res_cc"=>$res_cc,
 		"invoice_number"=>$invoice,
 		"tbody"=>$tbody,
-		"date_inspected"=>_m_d_yyyy_($date_inspected),
+		"date_inspected"=>$date_inspected,
 		"inspector"=>$inspector,
 		"inspected"=>$inspected,
-		"date_received"=>_m_d_yyyy_($date_received),
+		"date_received"=>$date_received,
 		"property_custodian"=>$property_custodian,
 		"status"=>$status,
 		"partial_specify"=>$partial_specify,
@@ -188,14 +191,14 @@ function print_iar_gen(){
 	$entity_name = "";$fund_cluster = "";$po_number = "";$req_office = "";$res_cc = "";$invoice = "";$date_inspected = "";$inspector = "";$inspected = "";
 	$date_received = "";$property_custodian = "";$status = "";$partial_specify = "";$supplier = "";$date_conformed = "";$date_delivered = "";$end_user = "";
 	$tbody = "";$total_amount = 0.00;
-	$sql = mysqli_query($conn, "SELECT po_number, entity_name, fund_cluster, req_office, res_cc, charge_invoice, date_inspected, inspector, inspected, date_received, property_custodian, status, partial_specify FROM tbl_iar WHERE iar_number LIKE '$iar_number'");
+	$sql = mysqli_query($conn, "SELECT po_number, entity_name, fund_cluster, req_office, res_cc, charge_invoice, inspector, inspected, property_custodian, partial_specify FROM tbl_iar WHERE iar_number LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$po_number = $row["po_number"];$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$req_office = $row["req_office"];
-		$res_cc = $row["res_cc"];$invoice = $row["charge_invoice"];$date_inspected = $row["date_inspected"];$inspector = $row["inspector"];
-		$inspected = $row["inspected"];$date_received = $row["date_received"];$property_custodian = $row["property_custodian"];$status = $row["status"];
+		$res_cc = $row["res_cc"];$invoice = $row["charge_invoice"];$date_inspected = "";$inspector = $row["inspector"];
+		$inspected = $row["inspected"];$date_received = "";$property_custodian = $row["property_custodian"];$status = "";
 		$partial_specify = $row["partial_specify"];
 	}
-	$sql2 = mysqli_query($conn, "SELECT p.item_name, s.supplier, p.description, p.quantity, p.unit_cost, p.date_conformed, p.date_delivered, p.end_user FROM ref_supplier AS s, tbl_po AS p WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1' AND s.supplier_id = p.supplier_id AND p.iar_no LIKE '$iar_number'");
+	$sql2 = mysqli_query($conn, "SELECT p.item_name, s.supplier, p.description, p.quantity, p.main_stocks, p.unit_cost, p.date_conformed, p.date_delivered, p.end_user FROM ref_supplier AS s, tbl_po AS p WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1' AND s.supplier_id = p.supplier_id AND p.iar_no LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql2)){
 		$supplier = $row["supplier"]; $date_conformed = $row["date_conformed"];$date_delivered = $row["date_delivered"];$end_user = $row["end_user"];
 		$quan_unit = explode(" ",$row["quantity"]);
@@ -203,10 +206,10 @@ function print_iar_gen(){
 			      <td style=\"width: 84.6px; height: 15px; font-size: 10px; text-align: center; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\">".$date_delivered."</td>
 			      <td colspan=\"3\" style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\">".$row["item_name"]."</td>
 			      <td style=\"width: 82.2px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$quan_unit[1]."</td>
-			      <td colspan=\"2\" style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\">".$quan_unit[0]."</td>
+			      <td colspan=\"2\" style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\">".$row["main_stocks"]."</td>
 			    </tr>";
 			    $rows_occupied++;
-			    $total_amount+=((float)$row["unit_cost"] * (float)$quan_unit[0]);
+			    $total_amount+=((float)$row["unit_cost"] * (float)$row["main_stocks"]);
 		$arr = array($row["description"], "");
 		for($j = 0; $j < count($arr); $j++){
 			$tbody.="<tr>
@@ -235,10 +238,10 @@ function print_iar_gen(){
 		"res_cc"=>$res_cc,
 		"charge_invoice"=>$invoice,
 		"tbody"=>$tbody,
-		"date_inspected"=>_m_d_yyyy_($date_inspected),
+		"date_inspected"=>$date_inspected,
 		"inspector"=>$inspector,
 		"inspected"=>$inspected,
-		"date_received"=>_m_d_yyyy_($date_received),
+		"date_received"=>$date_received,
 		"property_custodian"=>$property_custodian,
 		"status"=>$status,
 		"partial_specify"=>$partial_specify,
@@ -281,7 +284,7 @@ function get_po(){
 
 	if($action == "get_details"){
 		$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-		$sql = mysqli_query($conn, "SELECT s.supplier, p.date_delivered, p.date_conformed, p.end_user, i.item, p.description, p.exp_date, p.unit_cost, p.quantity, p.po_type FROM ref_supplier AS s, tbl_po AS p, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id AND p.inspection_status = '0'");
+		$sql = mysqli_query($conn, "SELECT s.supplier, p.date_delivered, p.date_conformed, p.end_user, i.item, p.description, p.exp_date, p.unit_cost, p.quantity, p.po_type, p.activity_title FROM ref_supplier AS s, tbl_po AS p, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id AND p.inspection_status = '0'");
 		$supplier = "";
 		$date_delivered = "";
 		$date_conformed = "";
@@ -302,6 +305,7 @@ function get_po(){
 							<td>".$row["item"]."</td>
 							<td>".$row["description"]."</td>
 							<td><input type=\"text\" value=\"".$row["exp_date"]."\" onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\"></td>
+							<td><input type=\"text\" value=\"".$row["activity_title"]."\"></td>
 							<td>".$row["quantity"]."</td>
 							<td>".number_format((float)$quantity[0] * (float)$row["unit_cost"], 2)."</td>
 							<td><center><input type=\"checkbox\" checked></center></td>
@@ -323,25 +327,24 @@ function get_po(){
 function get_iar(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT iar_number, iar_type, po_number, inspected, date_inspected, date_received, status FROM tbl_iar ORDER BY iar_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT iar_number, iar_type, po_number, req_office, res_cc FROM tbl_iar ORDER BY iar_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$pn = $row["po_number"];
-			if($row["iar_type"] != "Drugs and Medicines"){
+			if($row["iar_type"] != "Drugs and Medicines" && $row["iar_type"] != "Medical Supplies"){
 				echo "<tr>
-				<td>".$row["po_number"]."</td><td>".$row["iar_number"]."</td>
-				<td>".(($row["inspected"]) == 1 ? "Inspected" : "Not Inspected")."</td>
-				<td>".$row["date_inspected"]."</td><td>".$row["date_received"]."</td>
-				<td>".$row["status"]."</td>
+				<td>".$row["po_number"]."</td>
+				<td>".$row["iar_number"]."</td>
+				<td>".$row["req_office"]."</td>
+				<td>".$row["res_cc"]."</td>
 				<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["iar_number"]."\" onclick=\"view_iss(this.value,'tbl_iar','view_iar','IAR','iar_number','".substr($pn,0,4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"".$row["iar_number"]."\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success ladda-button\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"".$row["iar_number"]."\" onclick=\"print_iar(this.value);\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["iar_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["iar_number"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
 			}else{
 				echo "<tr>
 				<td>".$row["po_number"]."</td>
 				<td>".$row["iar_number"]."</td>
-				<td>".(($row["inspected"]) == 1 ? "Inspected" : "Not Inspected")."</td>
-				<td>".$row["date_inspected"]."</td><td>".$row["date_received"]."</td>
-				<td>".$row["status"]."</td>
+				<td>".$row["req_office"]."</td>
+				<td>".$row["res_cc"]."</td>
 				<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["iar_number"]."\" onclick=\"view_iss(this.value,'tbl_iar','view_iar','IAR','iar_number','".substr($pn,0,4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"".$row["iar_number"]."\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success ladda-button\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"".$row["iar_number"]."\" onclick=\"print_iar_dm(this.value);\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["iar_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["iar_number"]."\" onclick=\"download_xls_dm(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
 			}
@@ -379,8 +382,9 @@ function insert_various(){
 		$item_name = $items[$i][0];
 		$description = $items[$i][1];
 		$exp_date = $items[$i][2];
-		$bool = $items[$i][3];
-		mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date' WHERE item_name LIKE '$item_name' AND description LIKE '$description' AND po_number LIKE '$po_number'");
+		$manufactured_by = $items[$i][3];
+		$bool = $items[$i][4];
+		mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name LIKE '$item_name' AND description LIKE '$description' AND po_number LIKE '$po_number'");
 	}
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." created an IAR No. ".$iar_number." - PO#".$po_number;

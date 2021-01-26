@@ -18,7 +18,7 @@ function bready_all(){
 
 	$("#bitem_name").change(function(){
 		$("#bcategory").val($("#bitem_name option:selected").data("cat"));
-		if($("#bcategory").val()=="Drugs and Medicines"){
+		if($("#bcategory").val()=="Drugs and Medicines" || $("#bcategory").val()=="Medical Supplies"){
 			$('#bexp_date').prop('disabled',false);	
 		}else{
 			$('#bexp_date').prop('disabled',true);
@@ -118,7 +118,7 @@ function badd_item(){
 }
 
 function bvalidate_with_snln(){
-	if($("#bcategory").val() != "Drugs and Medicines"){
+	if($("#bcategory").val() != "Drugs and Medicines" && $("#bcategory").val() != "Medical Supplies"){
 		if(bget_snln_rows()[0] == parseInt($("#bquantity").val())){
 			$("table#bitem_various tbody").append("<tr>"+
 											"<td>"+($("#bitem_name").val().split("┼"))[0]+"</td>"+

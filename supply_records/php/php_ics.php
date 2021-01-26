@@ -194,9 +194,9 @@ function get_ics_details(){
   $total_cost = 0.00; $reference_no = ""; $supplier = ""; $date_released = "";
   $received_from = ""; $received_by = "";
   $received_from_designation = ""; $received_by_designation = "";
-  $rows_limit = 40; $rows_occupied = 0;
+  $rows_limit = 43; $rows_occupied = 0;
   $ics_no = mysqli_real_escape_string($conn, $_POST["ics_no"]);
-  $sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, quantity, unit, cost, total, description, property_no, serial_no, reference_no, supplier, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_from_designation, received_by, received_by_designation FROM tbl_ics WHERE ics_no LIKE '$ics_no'");
+  $sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, quantity, unit, cost, total, item, description, property_no, serial_no, reference_no, supplier, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_from_designation, received_by, received_by_designation FROM tbl_ics WHERE ics_no LIKE '$ics_no'");
   if(mysqli_num_rows($sql) != 0){
     while($row = mysqli_fetch_assoc($sql)) {
       $entity_name = $row["entity_name"];
@@ -211,10 +211,10 @@ function get_ics_details(){
                   <td style=\"width: 70.8px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
                   <td style=\"width: 61.8px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["cost"], 2)."</td>
                   <td style=\"width: 62.4px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)($row["cost"] * $row["quantity"]), 2)."</td>
-                  <td colspan=\"2\" style=\"width: 48px; height: 14.5px; text-align: left; font-size: 10px; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\">".$row["description"]."</td>
+                  <td colspan=\"2\" style=\"width: 48px; height: 14.5px; text-align: left; font-size: 10px; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\"><b>".$row["item"]."</b><br>".$row["description"]."</td>
                   <td style=\"width: 86.4px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".((count($pn) >= 1 && $row["serial_no"] == null) ? $pn[0] : "")."</td>
                   <td style=\"width: 89.4px; height: 14.5px; font-size: 11px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
-               </tr>";
+               </tr>";$rows_occupied++;
                $rows_occupied+=round((float)strlen($row["description"]) / 60.00);
                if($row["serial_no"] == null && count($pn) > 1){
                 for($j = 1; $j < count($pn); $j++){

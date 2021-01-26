@@ -29,7 +29,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label">P.O Number:</label>
+                                                    <label class="col-lg-3 col-form-label"><span id="title-type">P.O</span> Number:</label>
                                                     <div class="col-lg-9">
                                                         <input id="vpo_number" type="text" class="form-control" maxlength="12">
                                                     </div>
@@ -64,7 +64,7 @@
                                                             <option value="Bidding">Bidding</option>
                                                             <option value="Shopping">Shopping</option>
                                                             <option value="SVP">SVP</option>
-                                                            <option value="PTR">PTR</option>
+                                                            <option value="Central-Office">Central-Office</option>
                                                             <option value="PS-DBM">PS-DBM</option>
                                                         </select>
                                                     </div>

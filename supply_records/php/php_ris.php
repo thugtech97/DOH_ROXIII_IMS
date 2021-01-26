@@ -192,7 +192,7 @@ function get_item(){
 function get_po(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE inspection_status = '1' AND (category LIKE 'Office Supplies' OR category LIKE 'Other Supplies' OR category LIKE 'Various Supplies' OR category LIKE 'Drugs and Medicines' OR category LIKE 'ICT Supplies' OR po_number LIKE 'Bal-Fwd') ORDER BY po_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE inspection_status = '1' AND (category LIKE 'Office Supplies' OR category LIKE 'Other Supplies' OR category LIKE 'Various Supplies' OR category LIKE 'Drugs and Medicines' OR category LIKE 'ICT Supplies' OR category LIKE 'Medical Supplies' OR po_number LIKE 'Bal-Fwd') ORDER BY po_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			echo "<option id=".$row["po_number"].">".$row["po_number"]."</option>";
@@ -271,7 +271,7 @@ function insert_ris(){
 		$total = $items[$i][8];
 		$stock = $items[$i][9];
 		$remarks = $items[$i][10];
-		mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,tbl_ris.date) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$quantity','$cost','$total','1','$stock','$remarks','$reference_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$date')");
+		mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,tbl_ris.date) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$category','$quantity','$cost','$total','1','$stock','$remarks','$reference_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$date')");
 		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$po_id' AND item_name LIKE '$item'");
 		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 		$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
