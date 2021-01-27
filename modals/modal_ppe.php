@@ -3,7 +3,7 @@
     <div class="modal-content animated slideInDown">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                <h5 class="modal-title"><i class="fa fa-print"></i> Generate PPE</h5>
+                <h5 class="modal-title"><i class="fa fa-print"></i> Generate ISSUANCES PPE AND OTHER SUPPLIES</h5>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -66,10 +66,10 @@
                         <div id="ppe_report">
                             <table id='tbl_ppe' width='100%' border='1' cellspacing='0' cellpadding='0' style='border-collapse:collapse; text-align: center;'>
                                 <thead>
-                                    <tr style="background-color: #F0F0F0; font-size: 10px;">
+                                    <tr style="background-color: #F0F0F0; font-size: 12px;">
                                         <th style="padding: 5px;">Date</th>
                                         <th style="padding: 5px;">Particular</th>
-                                        <th style="padding: 5px;">PAR/PTR Reference</th>
+                                        <th style="padding: 5px;">PAR/PTR/ICS Reference</th>
                                         <th style="padding: 5px;">QTY</th>
                                         <th style="padding: 5px;">Unit</th>
                                         <th style="padding: 5px;">Unit Cost</th>
@@ -83,11 +83,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr style="font-size: 12px;">
                                         <td colspan="13" style="text-align: center;">No records found.</td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <br><br>
+                            <div class="container" style="display: flex; float: left;">
+                                <div>
+                                    <p style="font-size: 12px;">Prepared by:</p><p style="font-size: 12px;"><b>EDEN T. SAGUNDAY</b><span><br>Administrative Officer I</span></p>
+                                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <div>
+                                    <p style="font-size: 12px;">Noted by:</p><p style="font-size: 12px;"><b>ELEANOR D. LAKAG, MSBA</b><span><br>Administrative Officer V</span></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

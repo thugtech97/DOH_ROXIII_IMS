@@ -231,26 +231,31 @@ function bget_item_rows(){
 
 function save_balfwd(){
 	bitems = [];
-	if(bget_item_rows() != 0){
-		$("#bsave_changes").attr("disabled", true);
-		$.ajax({
-			type: "POST",
-			data: {
-				call_func: "save_bf",
-				po_number: ($("#bf_pon").val()!="") ? $("#bf_pon").val() : "Bal-Fwd",
-				supplier_id: ($("#bf_sup").val().split("┼"))[0],
-				items: bitems
-			},
-			url: "php/php_bf.php",
-			success: function(data){
-				swal("Inserted!", "Saved successfully to the database.", "success");
-		        setTimeout(function () {
-			        location.reload();
-			      }, 1500);
-			}
-		});
+	if($("#bdfwd").val() != ""){
+		if(bget_item_rows() != 0){
+			$("#bsave_changes").attr("disabled", true);
+			$.ajax({
+				type: "POST",
+				data: {
+					call_func: "save_bf",
+					po_number: ($("#bf_pon").val()!="") ? $("#bf_pon").val() : "Bal-Fwd",
+					date_fwd: $("#bdfwd").val(),
+					supplier_id: ($("#bf_sup").val().split("┼"))[0],
+					items: bitems
+				},
+				url: "php/php_bf.php",
+				success: function(data){
+					swal("Inserted!", "Saved successfully to the database.", "success");
+			        setTimeout(function () {
+				        location.reload();
+				      }, 1500);
+				}
+			});
+		}else{
+			swal("No items!", "Please add an item", "warning");
+		}
 	}else{
-		swal("No items!", "Please add an item", "warning");
+		swal("Please fill in!", "Date Forwarded", "warning");
 	}
 }
 

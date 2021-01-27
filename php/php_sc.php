@@ -35,8 +35,8 @@ function get_ppe_details(){
 		$remarks = $row["remarks"];
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','par','$received_by','$remarks')");
 	}
-
-	$sql = mysqli_query($conn, "SELECT tbl_ris.date,item,reference_no,quantity,unit,unit_cost,total,issued_by,remarks FROM tbl_ris WHERE tbl_ris.date LIKE '%$year_month%'");
+	/*
+	$sql = mysqli_query($conn, "SELECT tbl_ris.date,item,reference_no,quantity,unit,unit_cost,total,requested_by,remarks FROM tbl_ris WHERE tbl_ris.date LIKE '%$year_month%' AND (category != 'Drugs and Medicines' AND category != 'Medical Supplies')");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date"];
 		$item = $row["item"];
@@ -45,12 +45,12 @@ function get_ppe_details(){
 		$unit = $row["unit"];
 		$cost = $row["unit_cost"];
 		$total = $row["total"];
-		$received_by = $row["issued_by"];
+		$received_by = $row["requested_by"];
 		$remarks = $row["remarks"];
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ris','$received_by','$remarks')");
 	}
-
-	$sql = mysqli_query($conn, "SELECT date_released,item,reference_no,quantity,unit,cost,total,tbl_ptr.to,remarks FROM tbl_ptr WHERE date_released LIKE '%$year_month%'");
+	*/
+	$sql = mysqli_query($conn, "SELECT date_released,item,reference_no,quantity,unit,cost,total,tbl_ptr.to,remarks FROM tbl_ptr WHERE date_released LIKE '%$year_month%' /*AND (category != 'Drugs and Medicines' AND category != 'Medical Supplies')*/");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$item = $row["item"];
@@ -64,8 +64,12 @@ function get_ppe_details(){
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ptr','$to','$remarks')");
 	}
 	$sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_ppe.date, 1, 10) AS date_r, particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks FROM tbl_ppe ORDER BY tbl_ppe.date ASC");
+	$ics_total = 0.00;
+	$par_total = 0.00;
+	$ptr_total = 0.00;
+	$overall = 0.00;
 	while($row = mysqli_fetch_assoc($sql)){
-	 	$tbody.="<tr style=\"font-size: 8px;\">
+	 	$tbody.="<tr style=\"font-size: 10px;\">
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["date_r"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["particular"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["par_ptr_reference"]."</td>
@@ -80,7 +84,42 @@ function get_ppe_details(){
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["received_by"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["remarks"]."</td>
                 </tr>";
+                $overall+=(float)$row["total_cost"];
+                $ics_total+=(($row["type"] == "ics") ? (float)$row["total_cost"] : 0.00);
+                $par_total+=(($row["type"] == "par") ? (float)$row["total_cost"] : 0.00);
+                $ptr_total+=(($row["type"] == "ptr") ? (float)$row["total_cost"] : 0.00);
 	}
+	$tbody.="<tr style=\"font-size: 10px;\">
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\">-</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\">-</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\">-</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\">-</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+            </tr>
+			<tr style=\"font-size: 10px;\">
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$overall, 2)."</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$ptr_total, 2)."</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$par_total, 2)."</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$ics_total, 2)."</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+            </tr>";
+
 	echo $tbody;
 }
 

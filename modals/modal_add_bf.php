@@ -118,6 +118,12 @@
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Date Fwd:</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="bdfwd"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-lg-3 col-form-label"><input type="checkbox" class="i-checks bcheck" style="height: 20px; width: 20px;"> SN/LN:</label>
                                     <div class="input-group m-b col-lg-9">
                                         <input id="bsn_ln" type="text" class="form-control" disabled="">
