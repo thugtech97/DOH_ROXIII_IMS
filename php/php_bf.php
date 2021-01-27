@@ -6,7 +6,8 @@ session_start();
 
 function save_bf(){
 	global $conn;
-
+	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+	$supplier_id = mysqli_real_escape_string($conn, $_POST["supplier_id"]);
 	$items = $_POST["items"];
 	for($i = 0; $i < count($items); $i++){
 		$item_id = $items[$i][0];
@@ -18,7 +19,7 @@ function save_bf(){
 		$unit_cost = $items[$i][6];
 		$quantity = $items[$i][7];
 		$main_stocks = explode(" ", $quantity)[0];
-		if(mysqli_query($conn, "INSERT INTO tbl_po(po_number,inspection_status,supplier_id,item_id,item_name,description,category,sn_ln,exp_date,unit_cost,main_stocks,quantity,po_type) VALUES('Bal-Fwd','1','0','$item_id','$item_name','$description','$category','$sn_ln','$exp_date','$unit_cost','$main_stocks','$quantity','$category')")){
+		if(mysqli_query($conn, "INSERT INTO tbl_po(po_number,inspection_status,supplier_id,item_id,item_name,description,category,sn_ln,exp_date,unit_cost,main_stocks,quantity,po_type) VALUES('$po_number','1','$supplier_id','$item_id','$item_name','$description','$category','$sn_ln','$exp_date','$unit_cost','$main_stocks','$quantity','$category')")){
 			if($sn_ln != ""){
 				$last_id = (int)mysqli_insert_id($conn);
 				$serials_lots = explode("|", $sn_ln);

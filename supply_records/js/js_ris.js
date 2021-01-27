@@ -1,6 +1,7 @@
 var items = [];
 var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
 var po_details = {};
+var lot_no = "", exp_date = "";
 
 $(document).ready(function(){
     get_ris();
@@ -95,7 +96,7 @@ function ready_all(){
             success: function(data){
                 $("#issued_by").html("<option disabled selected></option>").append(data);
                 $('#issued_by option').each(function() {
-                    if($(this).text() == "Eleanor D. Lakag, MSBA"){
+                    if($(this).text() == "Eden T. Sagunday"){
                         $(this).prop("selected", true).change();
                     }
                 });
@@ -156,6 +157,8 @@ function ready_all(){
                     po_details[$("#po_no option:selected").text()][$("#item_name").val()][1] = data["quantity"];
                     po_details[$("#po_no option:selected").text()][$("#item_name").val()][2] = true;
                 }
+                lot_no = data["lot_no"];
+                exp_date = data["exp_date"];
                 $("#description").val(data["description"]);
                 $("#stock").val(po_details[$("#po_no option:selected").text()][$("#item_name").val()][1]);
                 $("#unit_value").val(formatNumber(data["unit_cost"]));
@@ -271,6 +274,8 @@ function add_item(){
                         "<td>"+$("#item_name option:selected").text()+"</td>"+
                         "<td>"+$("#description").val()+"</td>"+
                         "<td>"+$("#category").val()+"</td>"+
+                        "<td>"+lot_no+"</td>"+
+                        "<td>"+exp_date+"</td>"+
                         "<td>"+$("#quantity").val()+"</td>"+
                         "<td>"+$("#unit").val()+"</td>"+
                         "<td>"+$("#unit_value").val()+"</td>"+
@@ -290,6 +295,8 @@ function add_item(){
                     $("#remarks").val("");
                     $("#stock").val("");
                     $("#category").val("");
+                    lot_no = "";
+                    exp_date = "";
                 }else{
                     swal("Invalid input!", "Quantity cannot be zero", "warning");    
                 }
@@ -310,7 +317,7 @@ function get_rows(){
     var rows = 0;
     table.find('tr').each(function (i) {
         var $tds = $(this).find('td');
-        items.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).text(),$tds.eq(5).text(),$tds.eq(6).text(),origNumber($tds.eq(7).text()),origNumber($tds.eq(8).text()),$tds.eq(9).text(),$tds.eq(10).text()]);
+        items.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).text(),$tds.eq(5).text(),$tds.eq(6).text(),$tds.eq(7).text(),origNumber($tds.eq(8).text()),origNumber($tds.eq(9).text()),$tds.eq(10).text(),$tds.eq(11).text(),$tds.eq(12).text()]);
         rows++;
     });
     return rows;
@@ -438,6 +445,7 @@ function print_ris(ris_no){
             $("#print_rb").html(data["requested_by"].toUpperCase());
             $("#print_ib").html(data["issued_by"].toUpperCase());
             //$("#print_isb").html(data["issued_by_designation"].toUpperCase());
+            $("#print_tc").html(data["total_cost"]);
             $(".print_date").html(data["date"]);
 
             var divContents = $("#report_ris").html(); 
@@ -477,4 +485,44 @@ function download_xls(ris_no){
             exportTableToExcel("report_ris", "RIS No. "+ris_no);
         }
     });
+}
+
+function print_ris_dm(ris_no){
+    $.ajax({
+        type: "POST",
+        data: {call_func: "print_ris_dm", ris_no: ris_no},
+        dataType: "JSON",
+        url: "php/php_ris.php",
+        success: function(data){
+            $("#dprint_en").html(data["entity_name"]);
+            $("#dprint_fc").html(data["fund_cluster"]);
+            $("#dprint_div").html(data["division"]);
+            $("#dprint_rcc").html(data["rcc"]);
+            $("#dprint_off").html(data["office"]);
+            $("#dprint_risno").html(ris_no);
+            $("#dris_body").html(data["tbody"]);
+            $("#dprint_purp").html(data["purpose"]);
+            $("#dprint_rb").html(data["requested_by"].toUpperCase());
+            $("#dprint_rbd").html(data["requested_by_designation"].toUpperCase());
+            $("#dprint_ib").html(data["issued_by"].toUpperCase());
+            //$("#print_isb").html(data["issued_by_designation"].toUpperCase());
+            $("#dprint_tc").html(data["total_cost"]);
+            $(".dprint_date").html(data["date"]);
+
+            var divContents = $("#report_ris_dm").html(); 
+            var a = window.open('', '_blank', 'height=1500, width=800'); 
+            a.document.write('<html>');
+            a.document.write('<body><center>');
+            a.document.write('<table><tr>');
+            a.document.write('<td>'+divContents+'</td>'); 
+            a.document.write('</tr></table>');
+            a.document.write('</center></body></html>'); 
+            a.document.close(); 
+            a.print();
+        }
+    });
+}
+
+function download_xls_dm(ris_no){
+    alert("Downloading RIS-"+ris_no+"....");
 }

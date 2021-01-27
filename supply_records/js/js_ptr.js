@@ -222,7 +222,7 @@ function add_item(){
 }
 
 function validate_with_snln(){
-    if($("#category").val() != "Drugs and Medicines"){
+    if($("#category").val() != "Drugs and Medicines" && $("#category").val() != "Medical Supplies"){
         if(parseInt($("#quantity").val()) == $('#serial_no').select2("val").length){
             $("table#ptr_items tbody").append("<tr>"+
                                 "<td>"+$("#item_name").val()+"</td>"+
@@ -609,8 +609,8 @@ function print_ptr(ptr_no){
             $("#print_reason").html(data["ptr_details"][7]);
             $("#print_approved_by").html("<u>"+data["ptr_details"][8].toUpperCase()+"</u>");
             $("#print_approved_by_designation").html(data["ptr_details"][9]);
-            $("#print_received_from").html("<u>"+data["ptr_details"][10].toUpperCase()+"</u>");
-            $("#print_received_from_designation").html(data["ptr_details"][11]);
+            //$("#print_received_from").html("<u>"+data["ptr_details"][10].toUpperCase()+"</u>");
+            //$("#print_received_from_designation").html(data["ptr_details"][11]);
             $(".date_r").html(data["ptr_details"][4]);
             if(data["ptr_details"][5] != "Donation" && data["ptr_details"][5] != "Relocate" && data["ptr_details"][5] != "Reassignment"){
                 $("input#Others").attr("checked", "checked");

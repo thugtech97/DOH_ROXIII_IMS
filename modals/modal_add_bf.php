@@ -16,6 +16,26 @@
                                 <div class="row">
                                     <div class="col-lg-7">
                                         <div class="form-group row">
+                                            <label class="col-lg-2 col-form-label">PO#:</label>
+                                            <div class="col-lg-10">
+                                                <input id="bf_pon" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label">Supplier:</label>
+                                            <div class="col-lg-9">
+                                                <select id="bf_sup" class="select2_demo_1 form-control">
+                                                    <option value="" disabled selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-7">
+                                        <div class="form-group row">
                                             <label class="col-lg-2 col-form-label">Item:</label>
                                             <div class="col-lg-10">
                                                 <select id="bitem_name" class="select2_demo_1 form-control">

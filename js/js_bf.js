@@ -35,6 +35,21 @@ function bready_all(){
 			}
 		});
 	});
+	$("#bf_sup").ready(function(){
+		$.ajax({
+			type: "POST",
+			data: {call_func: "get_supplier"},
+			url: "php/php_po.php",
+			success: function(data){
+				$("#bf_sup").html("<option disabled selected></option>").append(data);
+				$('#bf_sup option').each(function() {
+			    if($(this).text() == "Bal-Fwd") {
+			        $(this).prop("selected", true).change();
+			    }
+			});
+			}
+		});
+	});
 }
 
 function bget_snln_rows(){
@@ -220,8 +235,11 @@ function save_balfwd(){
 		$("#bsave_changes").attr("disabled", true);
 		$.ajax({
 			type: "POST",
-			data: {call_func: "save_bf",
-					items: bitems
+			data: {
+				call_func: "save_bf",
+				po_number: ($("#bf_pon").val()!="") ? $("#bf_pon").val() : "Bal-Fwd",
+				supplier_id: ($("#bf_sup").val().split("┼"))[0],
+				items: bitems
 			},
 			url: "php/php_bf.php",
 			success: function(data){

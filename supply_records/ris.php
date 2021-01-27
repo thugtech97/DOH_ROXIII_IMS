@@ -156,7 +156,7 @@ if(!isset($_SESSION["username"])){
                                         <th>PO No</th>
                                         <th>Date Released</th>
                                         <th>Requested By</th>
-                                        <th>Issued By By</th>
+                                        <th>Issued By</th>
                                         <th>Purpose</th>
                                         <th></th>
                                     </tr>
@@ -171,6 +171,7 @@ if(!isset($_SESSION["username"])){
                         </div>
                     </div>
                     <?php require "reports/report_ris.php"; ?>
+                    <?php require "reports/report_ris_dm.php"; ?>
                 </div>
             </div>
             <div class="footer">

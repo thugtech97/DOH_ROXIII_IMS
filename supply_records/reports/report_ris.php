@@ -2,15 +2,19 @@
 <table style="border-collapse: collapse;" cellspacing="0">
   <tbody>
     <tr>
-      <td style="width: 64.8px; height: 18.75px; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 35.4px; height: 18.75px; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 165.8px; height: 18.75px; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 48.6px; height: 18.75px; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 46.8px; height: 18.75px; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 63px; height: 18.75px; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 63px; height: 18.75px; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 70.2px; height: 18.75px; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 120.6px; height: 18.75px; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
+      <td style="width: 64px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td style="width: 50px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td style="width: 300px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td style="width: 80px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td style="width: 60px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td style="width: 60px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td style="width: 80px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td style="width: 75px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td style="width: 75px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
+    </tr>
+    <tr>
+      <td colspan="7" style="width: 64.8px; height: 18.75px; font-size: 10px; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
+      <td colspan="2" style="width: 35.4px; height: 18.75px; font-size: 10px; font-style: italic; text-align: right; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">Appendix 63</td>
     </tr>
     <tr>
       <td colspan="9" style="width: 64.8px; height: 13.75px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">REQUISITION AND ISSUE SLIP</td>
@@ -46,33 +50,34 @@
       <td style="width: 108.6px; height: 9px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="6" style="width: 64.8px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-style: solid; border-right-color:black;border-right-width: 2px;">Division: <span id="print_div"></span></td>
-      <td colspan="3" style="width: 40.2px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Responsibility Center Code: <span id="print_rcc"></span></td>
+      <td colspan="4" style="width: 64.8px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-style: solid; border-right-color:black;border-right-width: 2px;">Division: <span id="print_div"></span></td>
+      <td colspan="5" style="width: 40.2px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Responsibility Center Code: <span id="print_rcc"></span></td>
     </tr>
     <tr>
-      <td colspan="6" style="width: 64.8px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;border-right-style: solid; border-right-color:black;border-right-width: 2px;">Office: <span id="print_off"></span></td>
-      <td colspan="3" style="width: 40.2px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">RIS No.: <span id="print_risno"></span></td>
+      <td colspan="4" style="width: 64.8px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;border-right-style: solid; border-right-color:black;border-right-width: 2px;">Office: <span id="print_off"></span></td>
+      <td colspan="3" style="width: 40.2px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">RIS No.: <span id="print_risno"></span></td>
+      <td colspan="2" style="width: 40.2px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date: <span class="print_date"></span></td>
     </tr>
     <tr>
       <td style="width: 64.8px; height: 15px; text-align: center; font-size: 10px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;"></td>
       <td style="width: 35.4px; height: 15px; text-align: center; font-size: 10px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 115.8px; height: 15px; text-align: center; font-size: 10px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 48.6px; height: 15px; text-align: center; font-size: 10px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 46.8px; height: 15px; text-align: center; font-size: 10px; font-style: italic; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;"></td>
+      <td style="width: 48.6px; height: 15px; text-align: center; font-size: 10px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid; border-right-width: 2px;border-right-style: solid;border-right-color: rgb(0, 0, 0);"></td>
       <td colspan="2" style="width: 41.4px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Stock Available?</td>
+      <td style="width: 46.8px; height: 15px; text-align: center; font-size: 10px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0);border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 61.2px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 108.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;"></td>
     </tr>
     <tr>
       <td style="width: 64.8px; height: 15px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;">Stock No.</td>
       <td style="width: 35.4px; height: 15px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">UNIT</td>
-      <td style="width: 115.8px; height: 15px; text-align: center; font-size: 10px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Description</td>
-      <td style="width: 48.6px; height: 15px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
+      <td style="width: 115.8px; height: 15px; text-align: center; font-size: 10px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;">Description</td>
       <td style="width: 46.8px; height: 15px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">QTY</td>
       <td style="width: 41.4px; height: 15px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">Yes</td>
       <td style="width: 40.2px; height: 15px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">No</td>
       <td style="width: 61.2px; height: 15px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">Quantity</td>
-      <td style="width: 108.6px; height: 15px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">Remarks</td>
+      <td style="width: 108.6px; height: 15px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">Unit Cost</td>
+      <td style="width: 48.6px; height: 15px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">Total Cost</td>
     </tr>
   </tbody>
   <tbody id="ris_body">
@@ -80,16 +85,26 @@
   </tbody>
   <tbody>
     <tr>
+        <td style="width: 64.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;"></td>
+        <td style="width: 35.4px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
+        <td style="width: 115.8px; height: 13.5px; text-align: left; font-size: 9px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
+        <td style="width: 46.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
+        <td style="width: 41.4px; height: 13.5px; text-align: center; font-size: 10px; font-style: italic; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
+        <td style="width: 40.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
+        <td style="width: 61.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
+        <td style="width: 108.6px; height: 13.5px; text-align: center; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">TOTAL</td>
+        <td style="width: 108.6px; height: 13.5px; text-align: center; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="print_tc"></span></td>
+      </tr>
+    <tr>
       <td style="width: 64.8px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;">Purpose:</td>
-      <td style="width: 35.4px; height: 13.75px; font-size: 10px; vertical-align: bottom;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"></td>
-      <td colspan="4" style="width: 115.8px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"><span id="print_purp"></span></td>
+      <td colspan="5" style="width: 115.8px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"><span id="print_purp"></span></td>
       <td style="width: 40.2px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"></td>
       <td style="width: 61.2px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"></td>
       <td style="width: 108.6px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"></td>
     </tr>
     <tr>
       <td style="width: 64.8px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
-      <td style="width: 35.4px; height: 13.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td style="width: 35.4px; height: 13.75px; font-size: 10px; vertical-align: bottom;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
       <td style="width: 115.8px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
       <td style="width: 48.6px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
       <td style="width: 46.8px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
@@ -132,7 +147,7 @@
       <td style="width: 64.8px; height: 17.25px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 1px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;">Printed Name</td>
       <td style="width: 35.4px; height: 17.25px; text-align: center; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
       <td style="width: 115.8px; height: 17.25px; text-align: center; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="print_rb"></span></td>
-      <td colspan="3" style="width: 48.6px; height: 17.25px; text-align: center; font-size: 9px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-style: solid; border-right-color:black;border-right-width: 1px;">AILEEN A. SACOL, CPA, MMPSM</td>
+      <td colspan="3" style="width: 48.6px; height: 17.25px; text-align: center; font-size: 9px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-style: solid; border-right-color:black;border-right-width: 1px;">ELEANOR D. LAKAG, MSBA</td>
       <td colspan="2" style="width: 40.2px; height: 17.25px; text-align: center; font-size: 9px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-style: solid; border-right-color:black;border-right-width: 1px;"><span id="print_ib"></span></td>
       <td style="width: 108.6px; height: 17.25px; text-align: center; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
     </tr>
@@ -140,8 +155,8 @@
       <td style="width: 64.8px; height: 16.5px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 1px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;">Designation</td>
       <td style="width: 35.4px; height: 16.5px; text-align: center; font-size: 8px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
       <td style="width: 115.8px; height: 16.5px; text-align: center; font-size: 8px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">END USER</td>
-      <td colspan="3" style="width: 48.6px; height: 16.5px; text-align: center; font-size: 8px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-style: solid; border-right-color:black;border-right-width: 1px;">OIC-CHIEF ADMINISTRATIVE OFFICER</td>
-      <td colspan="2" style="width: 40.2px; height: 16.5px; text-align: center; font-size: 8px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-style: solid; border-right-color:black;border-right-width: 1px;">ADMINISTRATIVE OFFICER V</td>
+      <td colspan="3" style="width: 48.6px; height: 16.5px; text-align: center; font-size: 8px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-style: solid; border-right-color:black;border-right-width: 1px;">ADMINISTRATIVE OFFICER V</td>
+      <td colspan="2" style="width: 40.2px; height: 16.5px; text-align: center; font-size: 8px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-style: solid; border-right-color:black;border-right-width: 1px;">ADMINISTRATIVE OFFICER I</td>
       <td style="width: 108.6px; height: 16.5px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
     </tr>
     <tr>

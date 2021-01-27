@@ -122,7 +122,7 @@
                                                 <div class="form-group row">
                                                     <label class="col-lg-4 col-form-label">Inspector's Name:</label>
                                                     <div class="col-lg-8">
-                                                        <select id="var_inspector" class="select2_demo_1 form-control">
+                                                        <select id="var_inspector" class="select2_demo_1 form-control" multiple="multiple">
                                                             
                                                         </select>
                                                     </div>

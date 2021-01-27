@@ -215,6 +215,8 @@
                                     <th>Item</th>
                                     <th>Description</th>
                                     <th>Category</th>
+                                    <th>Lot#</th>
+                                    <th>Exp. Date</th>
                                     <th>Quantity</th>
                                     <th>Unit</th>
                                     <th>Cost</th>

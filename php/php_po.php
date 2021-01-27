@@ -78,7 +78,7 @@ function update_quantity(){
 		$description = $_SESSION["username"]." modified the quantity of ".$item_name." from ".$rstocks[0]." ".$rstocks[1]." to ".$quantity." ".$rstocks[1]." - PO#".$po_number;
 		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 	}
-	$sql = mysqli_query($conn, "SELECT po_id, item_name, unit_cost, quantity, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
+	$sql = mysqli_query($conn, "SELECT po_id, item_name, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
 	$tbody = "";
 	$tot_amt = 0.00;
 	while($row = mysqli_fetch_assoc($sql)){
@@ -87,7 +87,7 @@ function update_quantity(){
 				<td>".number_format((float)$row["unit_cost"], 2)."</td>
 				<td onclick=\"add_quantity('".$row["po_id"]."','".$po_number."');\"><a><u>".$row["quantity"]."</u></a></td>
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 2)."</td>
-				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id);\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
+				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
 			</tr>";
 			$tot_amt+=((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]);
 	}
@@ -113,15 +113,14 @@ function add_serials(){
 		mysqli_query($conn, "INSERT INTO tbl_serial(inventory_id,serial_no,is_issued) VALUES('$po_id','$sl','N')");
 	}
 	
-
-	$sql = mysqli_query($conn, "SELECT po_id, item_name, unit_cost, quantity, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
+	$sql = mysqli_query($conn, "SELECT po_id, item_name, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
 	while($row = mysqli_fetch_assoc($sql)){
 		echo "<tr>
 				<td>".$row["item_name"]."</td>
 				<td>".number_format((float)$row["unit_cost"], 2)."</td>
 				<td onclick=\"add_quantity('".$row["po_id"]."');\">".$row["quantity"]."</td>
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 2)."</td>
-				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id);\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
+				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
 			</tr>";
 	}
 }
@@ -326,7 +325,7 @@ function edit_po_various(){
 	global $conn;
 	
 	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-	$sql = mysqli_query($conn, "SELECT p.po_id, SUBSTRING(p.date_received,1,10) AS dr, p.delivery_term, p.payment_term, p.pr_no, s.supplier, i.item, p.end_user, p.unit_cost, p.quantity, p.date_conformed, p.date_delivered, p.inspection_status, p.status, p.sn_ln, p.po_type, p.procurement_mode FROM tbl_po AS p, ref_supplier AS s, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id");
+	$sql = mysqli_query($conn, "SELECT p.po_id, SUBSTRING(p.date_received,1,10) AS dr, p.delivery_term, p.payment_term, p.pr_no, s.supplier, i.item, p.end_user, p.unit_cost, p.quantity, p.category, p.date_conformed, p.date_delivered, p.inspection_status, p.status, p.sn_ln, p.po_type, p.procurement_mode FROM tbl_po AS p, ref_supplier AS s, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id");
 
 	$tbody = "";
 	$date_received = "";
@@ -362,7 +361,7 @@ function edit_po_various(){
 					<td>".number_format((float)$row["unit_cost"], 2)."</td>
 					<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 					<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 2)."</td>
-					<td><center>".($_SESSION["role"] == "SUPPLY" ? (($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id);\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>") : "")."</center></td>
+					<td><center>".($_SESSION["role"] == "SUPPLY" ? (($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>") : "")."</center></td>
 				</tr>";
 				$tot_amt+=((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]);
 	}

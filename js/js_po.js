@@ -3,7 +3,7 @@ var items = [];
 var pax_selected = "";
 var snln = "";
 
-var ntc_balance = "", actual_balance = "", quant = 0, pon="", eus = "";
+var ntc_balance = "", actual_balance = "", quant = 0, pon="", eus = "", ctgr = "";
 
 var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
 
@@ -419,8 +419,8 @@ function update(){
 	});
 }
 
-function add_sl(po_id,quan){
-	quant = quan;
+function add_sl(po_id,quan, ctgry){
+	quant = quan; ctgr = ctgry;
 	$("#po_id").html(po_id);
 	$("#modal_snln").modal();
 }
@@ -434,7 +434,27 @@ function save_snln(){
 		snlns+=$tds.eq(0).text()+"|";
 		rows++;
 	});
-	if(rows == quant){
+	if(ctgr != "Drugs and Medicines" && ctgr != "Medical Supplies"){
+		if(rows == quant){
+			$.ajax({
+				type: "POST",
+				data: {
+					call_func: "add_serials",
+					po_number: pon,
+					po_id: $("#po_id").html(),
+					sn_ln: snlns
+				},
+				url: "php/php_po.php",
+				success: function(data){
+					$("#modal_snln .close").click();
+					$("table#eitem_various tbody").html(data);
+					table.html("");
+				}
+			});
+		}else{
+			swal("Quantity not matched!", "Number of serial numbers should correspond to the item quantity", "error");
+		}
+	}else{
 		$.ajax({
 			type: "POST",
 			data: {
@@ -450,8 +470,6 @@ function save_snln(){
 				table.html("");
 			}
 		});
-	}else{
-		swal("Quantity not matched!", "Number of serial numbers should correspond to the item quantity", "error");
 	}
 }
 

@@ -88,42 +88,125 @@ function delete_control(){
 	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
-function print_ris(){
+function print_ris_dm(){
 	global $conn;
 
-	$rows_limit = 50;
+	$rows_limit = 28;
 	$rows_allocate = 0;
-	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);
-	$entity_name = "";$fund_cluster = "";$division = "";$office = "";$rcc = "";
+	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);$reference_no = "";
+	$entity_name = "";$fund_cluster = "";$division = "";$office = "";$rcc = "";$supplier = "";$all_total = 0.00;
 	$purpose = "";$requested_by = "";$requested_by_designation = "";$issued_by = "";$issued_by_designation;$date = "";
 	$tbody = "";
-	$sql = mysqli_query($conn, "SELECT entity_name,fund_cluster,division,office,rcc,unit,description,quantity,unit_cost,total,available,quantity_stocks,remarks,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,SUBSTRING(tbl_ris.date,1,10) AS dr FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
+	$sql = mysqli_query($conn, "SELECT entity_name,reference_no,supplier,lot_no,exp_date,fund_cluster,division,office,rcc,unit,description,quantity,unit_cost,total,available,quantity_stocks,remarks,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,SUBSTRING(tbl_ris.date,1,10) AS dr FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
 	while($row = mysqli_fetch_assoc($sql)){
-		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$division = $row["division"];$office = $row["office"];$rcc = $row["rcc"];
+		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$division = $row["division"];$office = $row["office"];$rcc = $row["rcc"]; $reference_no = $row["reference_no"];$supplier = $row["supplier"];
 		$purpose = $row["purpose"];$requested_by = $row["requested_by"];$requested_by_designation = $row["requested_by_designation"];$issued_by = $row["issued_by"];$issued_by_designation = $row["issued_by_designation"];$date = $row["dr"];
+		$all_total += (float)($row["unit_cost"] * $row["quantity"]);
 		if($row["available"] == 1){
 			$tbody.="<tr>
-	        <td style=\"width: 64.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
-	        <td style=\"width: 35.4px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
-	        <td colspan=\"2\" style=\"width: 115.8px; height: 13.5px; text-align: left; font-size: 9px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\">".$row["description"]."</td>
-	        <td style=\"width: 46.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity"]."</td>
-	        <td style=\"width: 41.4px; height: 13.5px; text-align: center; font-size: 10px; font-style: italic; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>✓</b></td>
-	        <td style=\"width: 40.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
-	        <td style=\"width: 61.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity_stocks"]."</td>
-	        <td style=\"width: 108.6px; height: 13.5px; text-align: left; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["remarks"]."</td>
-	      </tr>";
+          <td style=\"width: 50.4px; height: 18px; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
+          <td style=\"width: 35.4px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
+          <td style=\"width: 153.6px; height: 18px; text-align: left; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["description"]."</td>
+          <td style=\"width: 54.6px; height: 18px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity"]."</td>
+          <td style=\"width: 37.2px; height: 18px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">✓</td>
+          <td style=\"width: 34.2px; height: 18px; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 37.8px; height: 18px; font-size: 9px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity_stocks"]."</td>
+          <td style=\"width: 45.6px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["lot_no"]."</td>
+          <td style=\"width: 52.2px; height: 18px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["exp_date"]."</td>
+          <td style=\"width: 78.6px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["supplier"]."</td>
+          <td style=\"width: 50.4px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 2)."</td>
+          <td style=\"width: 109.8px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * $row["unit_cost"], 2)."</td>
+        </tr>";
 	      $rows_allocate+=round((float)strlen($row["description"]) / 60.00);;
 		}
 	}
 	for($i = 0; $i < ($rows_limit - $rows_allocate); $i++){
 		$tbody.="<tr>
+          <td style=\"width: 50.4px; height: 18px; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
+          <td style=\"width: 35.4px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 153.6px; height: 18px; text-align: left; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 54.6px; height: 18px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 37.2px; height: 18px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 34.2px; height: 18px; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 37.8px; height: 18px; font-size: 9px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 45.6px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 52.2px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 78.6px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 50.4px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+          <td style=\"width: 109.8px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+        </tr>";
+	}
+
+	echo json_encode(array(
+		"entity_name"=>$entity_name,
+		"fund_cluster"=>$fund_cluster,
+		"division"=>$division,
+		"office"=>$office,
+		"rcc"=>$rcc,
+		"tbody"=>$tbody,
+		"purpose"=>$purpose,
+		"requested_by"=>$requested_by,
+		"requested_by_designation"=>$requested_by_designation,
+		"issued_by"=>$issued_by,
+		"issued_by_designation"=>$issued_by_designation,
+		"total_cost"=>number_format((float)$all_total, 2),
+		"date"=>_m_d_yyyy_($date)));
+}
+
+function print_ris(){
+	global $conn;
+
+	$rows_limit = 45;
+	$rows_allocate = 0;
+	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);$reference_no = "";
+	$entity_name = "";$fund_cluster = "";$division = "";$office = "";$rcc = "";$supplier = "";$all_total = 0.00;
+	$purpose = "";$requested_by = "";$requested_by_designation = "";$issued_by = "";$issued_by_designation;$date = "";
+	$tbody = "";
+	$sql = mysqli_query($conn, "SELECT entity_name,reference_no,supplier,fund_cluster,division,office,rcc,unit,description,quantity,unit_cost,total,available,quantity_stocks,remarks,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,SUBSTRING(tbl_ris.date,1,10) AS dr FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
+	while($row = mysqli_fetch_assoc($sql)){
+		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$division = $row["division"];$office = $row["office"];$rcc = $row["rcc"]; $reference_no = $row["reference_no"];$supplier = $row["supplier"];
+		$purpose = $row["purpose"];$requested_by = $row["requested_by"];$requested_by_designation = $row["requested_by_designation"];$issued_by = $row["issued_by"];$issued_by_designation = $row["issued_by_designation"];$date = $row["dr"];
+		$all_total += (float)($row["unit_cost"] * $row["quantity"]);
+		if($row["available"] == 1){
+			$tbody.="<tr>
+	        <td style=\"width: 64.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
+	        <td style=\"width: 35.4px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
+	        <td style=\"width: 115.8px; height: 13.5px; text-align: left; font-size: 9px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\">".$row["description"]."</td>
+	        <td style=\"width: 46.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity"]."</td>
+	        <td style=\"width: 41.4px; height: 13.5px; text-align: center; font-size: 10px; font-style: italic; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>✓</b></td>
+	        <td style=\"width: 40.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	        <td style=\"width: 61.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity_stocks"]."</td>
+	        <td style=\"width: 108.6px; height: 13.5px; font-size: 9px; text-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 2)."</td>
+	        <td style=\"width: 108.6px; height: 13.5px; font-size: 9px; text-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * $row["unit_cost"], 2)."</td>
+	      </tr>";
+	      $rows_allocate+=round((float)strlen($row["description"]) / 60.00);;
+		}
+	}
+	$the_rest = array("***Nothing Follows***","","","","","","PO #".$reference_no,$supplier);
+	for($j = 0; $j < count($the_rest); $j++){
+		$tbody.="<tr>
 	        <td style=\"width: 64.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
 	        <td style=\"width: 35.4px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
-	        <td colspan=\"2\" style=\"width: 115.8px; height: 13.5px; text-align: left; font-size: 9px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\"></td>
+	        <td style=\"width: 115.8px; height: 13.5px; text-align: left; font-size: 9px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\">".$the_rest[$j]."</td>
 	        <td style=\"width: 46.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	        <td style=\"width: 41.4px; height: 13.5px; text-align: center; font-size: 10px; font-style: italic; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	        <td style=\"width: 40.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	        <td style=\"width: 61.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	        <td style=\"width: 108.6px; height: 13.5px; text-align: left; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	        <td style=\"width: 108.6px; height: 13.5px; text-align: left; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	      </tr>";
+	      $rows_allocate++;
+	}
+	for($i = 0; $i < ($rows_limit - $rows_allocate); $i++){
+		$tbody.="<tr>
+	        <td style=\"width: 64.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
+	        <td style=\"width: 35.4px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	        <td style=\"width: 115.8px; height: 13.5px; text-align: left; font-size: 9px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\"></td>
+	        <td style=\"width: 46.8px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	        <td style=\"width: 41.4px; height: 13.5px; text-align: center; font-size: 10px; font-style: italic; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	        <td style=\"width: 40.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	        <td style=\"width: 61.2px; height: 13.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	        <td style=\"width: 108.6px; height: 13.5px; text-align: left; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	        <td style=\"width: 108.6px; height: 13.5px; text-align: left; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	      </tr>";
 	}
@@ -140,6 +223,7 @@ function print_ris(){
 		"requested_by_designation"=>$requested_by_designation,
 		"issued_by"=>$issued_by,
 		"issued_by_designation"=>$issued_by_designation,
+		"total_cost"=>number_format((float)$all_total, 2),
 		"date"=>_m_d_yyyy_($date)));
 }
 
@@ -169,10 +253,10 @@ function get_item_details(){
 
 	$item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
 	$po_id = mysqli_real_escape_string($conn, $_POST["po_id"]);
-	$sql = mysqli_query($conn, "SELECT category, description, unit_cost, quantity FROM tbl_po WHERE item_name LIKE '$item_name' AND po_id LIKE '$po_id'");
+	$sql = mysqli_query($conn, "SELECT category, description, unit_cost, quantity, sn_ln, exp_date FROM tbl_po WHERE item_name LIKE '$item_name' AND po_id LIKE '$po_id'");
 	$row = mysqli_fetch_assoc($sql);
 	$quan_unit = explode(" ", $row["quantity"]);
-	echo json_encode(array("description"=>$row["description"], "unit_cost"=>$row["unit_cost"], "quantity"=>$quan_unit[0], "unit"=>$quan_unit[1], "category"=>$row["category"]));
+	echo json_encode(array("description"=>$row["description"], "unit_cost"=>$row["unit_cost"], "quantity"=>$quan_unit[0], "unit"=>$quan_unit[1], "category"=>$row["category"], "lot_no"=>$row["sn_ln"], "exp_date"=>$row["exp_date"]));
 }
 
 function get_item(){
@@ -203,10 +287,12 @@ function get_po(){
 function get_ris(){
 	global $conn;
 	
-	$sql = mysqli_query($conn, "SELECT DISTINCT division,office,ris_no, SUBSTRING(tbl_ris.date,1,10) AS d,requested_by,issued_by,purpose, reference_no, issued FROM tbl_ris ORDER BY ris_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT division,office,category,ris_no, SUBSTRING(tbl_ris.date,1,10) AS d,requested_by,issued_by,purpose, reference_no, issued FROM tbl_ris ORDER BY ris_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$rb = str_replace(' ', '', $row["requested_by"]);
+			$call_print = ($row["category"] != "Drugs and Medicines" && $row["category"] != "Medical Supplies") ? "print_ris(this.value);" : "print_ris_dm(this.value);";
+			$call_excel = ($row["category"] != "Drugs and Medicines" && $row["category"] != "Medical Supplies") ? "download_xls(this.value);" : "download_xls_dm(this.value);";
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ris_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["division"]."</td>
@@ -217,7 +303,7 @@ function get_ris(){
 					<td>".utf8_encode($row["requested_by"])."</td>
 					<td>".utf8_encode($row["issued_by"])."</td>
 					<td>".$row["purpose"]."</td>
-					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["ris_no"]."\" onclick=\"view_iss(this.value,'tbl_ris','view_ris','RIS','ris_no','".$rb."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" value=\"".$row["ris_no"]."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["ris_no"]."\" onclick=\"print_ris(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ris_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ris_no"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
+					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["ris_no"]."\" onclick=\"view_iss(this.value,'tbl_ris','view_ris','RIS','ris_no','".$rb."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" value=\"".$row["ris_no"]."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["ris_no"]."\" onclick=\"".$call_print."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ris_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ris_no"]."\" onclick=\"".$call_excel."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
 		}
 	}
@@ -254,9 +340,13 @@ function insert_ris(){
 	$issued_by = mysqli_real_escape_string($conn, $_POST["issued_by"]);
 	$purpose = mysqli_real_escape_string($conn, $_POST["purpose"]);
 	$items = $_POST["items"];
-	
+	$reference_no = $items[0][1];
+
+	$query = mysqli_query($conn, "SELECT s.supplier, p.supplier_id FROM tbl_po AS p, ref_supplier AS s WHERE s.supplier_id = p.supplier_id AND p.po_number LIKE '$reference_no'");
 	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$requested_by_id'");
 	$quer2 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$issued_by_id'");
+
+	$supplier = mysqli_fetch_assoc($query)["supplier"];
 	$requested_by_designation = mysqli_fetch_assoc($quer1)["designation"];
 	$issued_by_designation = mysqli_fetch_assoc($quer2)["designation"];
 	for($i = 0; $i < count($items); $i++){
@@ -265,13 +355,15 @@ function insert_ris(){
 		$item = $items[$i][2];
 		$description = $items[$i][3];
 		$category = $items[$i][4];
-		$quantity = $items[$i][5];
-		$unit = $items[$i][6];
-		$cost = $items[$i][7];
-		$total = $items[$i][8];
-		$stock = $items[$i][9];
-		$remarks = $items[$i][10];
-		mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,tbl_ris.date) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$category','$quantity','$cost','$total','1','$stock','$remarks','$reference_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$date')");
+		$lot_no = $items[$i][5];
+		$exp_date = $items[$i][6];
+		$quantity = $items[$i][7];
+		$unit = $items[$i][8];
+		$cost = $items[$i][9];
+		$total = $items[$i][10];
+		$stock = $items[$i][11];
+		$remarks = $items[$i][12];
+		mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,tbl_ris.date,supplier,lot_no,exp_date) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$category','$quantity','$cost','$total','1','$stock','$remarks','$reference_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$date','$supplier','$lot_no','$exp_date')");
 		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$po_id' AND item_name LIKE '$item'");
 		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 		$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
@@ -307,6 +399,9 @@ switch($call_func){
 		break;
 	case "print_ris":
 		print_ris();
+		break;
+	case "print_ris_dm":
+		print_ris_dm();
 		break;
 	case "get_latest_ris":
 		get_latest_ris();

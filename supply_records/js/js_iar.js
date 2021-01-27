@@ -68,7 +68,8 @@ function ready_all(){
 
     $(".select2_demo_1").select2({
         theme: 'bootstrap4',
-        width: '100%'
+        width: '100%',
+        separator: "|"
     });
     //$("#var_dr").val(new Date().toDateInputValue());
     $("#var_po").ready(function(){
@@ -127,7 +128,7 @@ function ready_all(){
             url: "php/php_ics.php",
             data: {call_func: "get_employee"},
             success: function(data){
-                $("#var_inspector").html("<option disabled selected></option>").append(data);
+                $("#var_inspector").html("").append(data);
                 $("#evar_inspector").html("<option disabled selected></option>").append(data);
             }
         });
@@ -192,12 +193,13 @@ function modify(iar_number){
             });
             $("#evar_rcc").val(data["res_cc"]);
             $("#evar_ci").val(data["charge_invoice"]);
-            
+            /*
             $('#evar_inspector option').each(function() {
                 if($(this).text() == data["inspector"]) {
                     $(this).prop("selected", true).change();
                 }
             });
+            */
             $("#evar_inspected").val(data["date_inspected"]);
             $("#evar_dr").val(data["date_received"]);
             $("table#evar_items tbody").html(data["table"]);
@@ -303,7 +305,12 @@ function validate_various(){
     if($("#var_po").val() != null){
         if($("#var_rod").val() != null){
             if($("#var_iar").val() != ""){
-                if($("#var_inspector").val() != null){
+                if($("#var_inspector").select2("val").length != 0){
+                    var inspectors = "";
+                    var lngth = $("#var_inspector").select2("val").length;
+                    for(var k = 0; k < lngth; k++){
+                        inspectors+=((k == lngth-1) ? $("#var_inspector").select2("data")[k].text : $("#var_inspector").select2("data")[k].text+"|");
+                    }
                     if($("#var_pc").val() != ""){
                         if(add_item("var_items")!=0){
                             $("#save_changes").attr("disabled", true);
@@ -322,7 +329,7 @@ function validate_various(){
                                     charge_invoice: $("#var_ci").val(),
                                     date_inspected: $("#var_inspected").val(),
                                     date_received: $("#var_dr").val(),
-                                    inspector: $("#var_inspector option:selected").text(),
+                                    inspector: inspectors,
                                     inspected: ($('#var_chk').is(':checked')) ? 1 : 0,
                                     property_custodian: $("#var_pc").val(),
                                     status: $("#var_as option:selected").text(),
