@@ -150,9 +150,9 @@ if(!isset($_SESSION["username"])){
                                     <thead>
                                     <tr>
                                         <th></th>
+                                        <th>RIS No</th>
                                         <th>Division</th>
                                         <th>Office</th>
-                                        <th>RIS No</th>
                                         <th>PO No</th>
                                         <th>Date Released</th>
                                         <th>Requested By</th>

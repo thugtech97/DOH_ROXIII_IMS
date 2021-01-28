@@ -287,17 +287,19 @@ function get_po(){
 function get_ris(){
 	global $conn;
 	
-	$sql = mysqli_query($conn, "SELECT DISTINCT division,office,category,ris_no, SUBSTRING(tbl_ris.date,1,10) AS d,requested_by,issued_by,purpose, reference_no, issued FROM tbl_ris ORDER BY ris_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT ris_no,division,office,SUBSTRING(tbl_ris.date,1,10) AS d,requested_by,issued_by,purpose, reference_no, issued FROM tbl_ris ORDER BY ris_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$rb = str_replace(' ', '', $row["requested_by"]);
-			$call_print = ($row["category"] != "Drugs and Medicines" && $row["category"] != "Medical Supplies") ? "print_ris(this.value);" : "print_ris_dm(this.value);";
-			$call_excel = ($row["category"] != "Drugs and Medicines" && $row["category"] != "Medical Supplies") ? "download_xls(this.value);" : "download_xls_dm(this.value);";
+			$ris_no = $row["ris_no"];
+			$category = mysqli_fetch_assoc(mysqli_query($conn, "SELECT category FROM tbl_ris WHERE ris_no = '$ris_no'"))["category"];
+			$call_print = ($category != "Drugs and Medicines" && $category != "Medical Supplies") ? "print_ris(this.value);" : "print_ris_dm(this.value);";
+			$call_excel = ($category != "Drugs and Medicines" && $category != "Medical Supplies") ? "download_xls(this.value);" : "download_xls_dm(this.value);";
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ris_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
+					<td>".$row["ris_no"]."</td>
 					<td>".$row["division"]."</td>
 					<td>".$row["office"]."</td>
-					<td>".$row["ris_no"]."</td>
 					<td>".$row["reference_no"]."</td>
 					<td>".$row["d"]."</td>
 					<td>".utf8_encode($row["requested_by"])."</td>
