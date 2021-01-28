@@ -150,6 +150,7 @@ if(!isset($_SESSION["username"])){
                                     <tr>
                                         <th>Category</th>
                                         <th>Code</th>
+                                        <th>Account Code</th>
                                         <th>Status</th>
                                     </tr>
                                     </thead>
@@ -184,7 +185,7 @@ if(!isset($_SESSION["username"])){
     <script src="js/general_functions.js"></script>
     <script>
         $(document).ready(function(){
-            loadData("SELECT category, category_code, status FROM ref_category", ["category","category_code", "status"], "Category", "tbl_category");
+            loadData("SELECT category, category_code, account_code, status FROM ref_category", ["category","category_code", "account_code", "status"], "Category", "tbl_category");
         });
 
     </script>

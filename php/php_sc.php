@@ -2,13 +2,52 @@
 
 require "php_conn.php";
 
+function get_rsmi_details(){
+	global $conn;
+
+	$year_month = mysqli_real_escape_string($conn, $_POST["year_month"]);
+	mysqli_query($conn, "TRUNCATE tbl_rsmi");
+	$tbody = "";
+	$sql = mysqli_query($conn, "SELECT tbl_ris.date,ris_no,item,description,rcc,category,quantity,unit,unit_cost,requested_by,remarks FROM tbl_ris WHERE tbl_ris.date LIKE '%".$year_month."%'");
+	while($row = mysqli_fetch_assoc($sql)){
+		$date_released = $row["date"];
+		$ris_no = $row["ris_no"];
+		$description = $row["description"];
+		$rcc = $row["rcc"];
+		$unit = $row["unit"];
+		$quantity = $row["quantity"];
+		$category = $row["category"];
+		$account_code = mysqli_fetch_assoc(mysqli_query($conn, "SELECT account_code FROM ref_category WHERE category LIKE '$category'"))["account_code"];
+		$requested_by = $row["requested_by"];
+		$unit_cost = $row["unit_cost"];
+		mysqli_query($conn, "INSERT INTO tbl_rsmi(date_released,control_no,item,unit,quantity,recipients,unit_cost,account_code,rcc) VALUES('$date_released','$ris_no','$description','$unit','$quantity','$requested_by','$unit_cost','$account_code','$rcc')");
+	}
+	$sql = mysqli_query($conn, "SELECT SUBSTRING(date_released,1,10) AS date_r,control_no,rcc,account_code,item,unit,quantity,recipients,unit_cost FROM tbl_rsmi ORDER BY date_released ASC");
+	while($row = mysqli_fetch_assoc($sql)){
+		$tbody .= "<tr>
+		      <td style=\"width: 61.8px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\">".$row["date_r"]."</td>
+		      <td style=\"width: 63px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["control_no"]."</td>
+		      <td style=\"width: 49.8px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["rcc"]."</td>
+		      <td style=\"width: 48px; height: 18px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["account_code"]."</td>
+		      <td style=\"width: 190.2px; height: 16px; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["item"]."</td>
+		      <td style=\"width: 52.2px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
+		      <td style=\"width: 46.8px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity"]."</td>
+		      <td style=\"width: 118.8px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["recipients"]."</td>
+		      <td style=\"width: 103.2px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 2)."</td>
+		      <td style=\"width: 62.4px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["unit_cost"], 2)."</td>
+		    </tr>";
+	}
+
+	echo $tbody;
+}
+
 function get_ppe_details(){
 	global $conn;
 
 	mysqli_query($conn, "TRUNCATE tbl_ppe");
 	$year_month = mysqli_real_escape_string($conn, $_POST["year_month"]);
 	$tbody = "";
-	$sql = mysqli_query($conn, "SELECT date_released,item,reference_no,quantity,unit,cost,total,received_by,remarks FROM tbl_ics WHERE date_released LIKE '%$year_month%'");
+	$sql = mysqli_query($conn, "SELECT date_released,item,category,reference_no,quantity,unit,cost,total,received_by,remarks FROM tbl_ics WHERE date_released LIKE '%$year_month%'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$item = $row["item"];
@@ -17,12 +56,14 @@ function get_ppe_details(){
 		$unit = $row["unit"];
 		$cost = $row["cost"];
 		$total = $row["total"];
+		$category = $row["category"];
+		$account_code = mysqli_fetch_assoc(mysqli_query($conn, "SELECT account_code FROM ref_category WHERE category LIKE '$category'"))["account_code"];
 		$received_by = $row["received_by"];
 		$remarks = $row["remarks"];
-		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ics','$received_by','$remarks')");
+		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ics','$received_by','$remarks','$account_code')");
 	}
 	
-	$sql = mysqli_query($conn, "SELECT date_released,item,reference_no,quantity,unit,cost,total,received_by,remarks FROM tbl_par WHERE date_released LIKE '%$year_month%'");
+	$sql = mysqli_query($conn, "SELECT date_released,item,category,reference_no,quantity,unit,cost,total,received_by,remarks FROM tbl_par WHERE date_released LIKE '%$year_month%'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$item = $row["item"];
@@ -31,9 +72,11 @@ function get_ppe_details(){
 		$unit = $row["unit"];
 		$cost = $row["cost"];
 		$total = $row["total"];
+		$category = $row["category"];
+		$account_code = mysqli_fetch_assoc(mysqli_query($conn, "SELECT account_code FROM ref_category WHERE category LIKE '$category'"))["account_code"];
 		$received_by = $row["received_by"];
 		$remarks = $row["remarks"];
-		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','par','$received_by','$remarks')");
+		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','par','$received_by','$remarks','$account_code')");
 	}
 	/*
 	$sql = mysqli_query($conn, "SELECT tbl_ris.date,item,reference_no,quantity,unit,unit_cost,total,requested_by,remarks FROM tbl_ris WHERE tbl_ris.date LIKE '%$year_month%' AND (category != 'Drugs and Medicines' AND category != 'Medical Supplies')");
@@ -50,7 +93,7 @@ function get_ppe_details(){
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ris','$received_by','$remarks')");
 	}
 	*/
-	$sql = mysqli_query($conn, "SELECT date_released,item,reference_no,quantity,unit,cost,total,tbl_ptr.to,remarks FROM tbl_ptr WHERE date_released LIKE '%$year_month%' /*AND (category != 'Drugs and Medicines' AND category != 'Medical Supplies')*/");
+	$sql = mysqli_query($conn, "SELECT date_released,item,category,reference_no,quantity,unit,cost,total,tbl_ptr.to,remarks FROM tbl_ptr WHERE date_released LIKE '%$year_month%' /*AND (category != 'Drugs and Medicines' AND category != 'Medical Supplies')*/");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$item = $row["item"];
@@ -59,17 +102,19 @@ function get_ppe_details(){
 		$unit = $row["unit"];
 		$cost = $row["cost"];
 		$total = $row["total"];
+		$category = $row["category"];
+		$account_code = mysqli_fetch_assoc(mysqli_query($conn, "SELECT account_code FROM ref_category WHERE category LIKE '$category'"))["account_code"];
 		$to = $row["to"];
 		$remarks = $row["remarks"];
-		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ptr','$to','$remarks')");
+		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ptr','$to','$remarks','$account_code')");
 	}
-	$sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_ppe.date, 1, 10) AS date_r, particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks FROM tbl_ppe ORDER BY tbl_ppe.date ASC");
+	$sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_ppe.date, 1, 10) AS date_r, particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code FROM tbl_ppe ORDER BY tbl_ppe.date ASC");
 	$ics_total = 0.00;
 	$par_total = 0.00;
 	$ptr_total = 0.00;
 	$overall = 0.00;
 	while($row = mysqli_fetch_assoc($sql)){
-	 	$tbody.="<tr style=\"font-size: 10px;\">
+	 	$tbody.="<tr style=\"font-size: 9px;\">
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["date_r"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["particular"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["par_ptr_reference"]."</td>
@@ -77,7 +122,7 @@ function get_ppe_details(){
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["unit"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$row["unit_cost"], 2)."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$row["total_cost"], 2)."</td>
-                    <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
+                    <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["account_code"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".(($row["type"] == "ptr") ? number_format((float)$row["total_cost"], 2) : "")."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".(($row["type"] == "par") ? number_format((float)$row["total_cost"], 2) : "")."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".(($row["type"] == "ics") ? number_format((float)$row["total_cost"], 2) : "")."</td>
@@ -89,7 +134,7 @@ function get_ppe_details(){
                 $par_total+=(($row["type"] == "par") ? (float)$row["total_cost"] : 0.00);
                 $ptr_total+=(($row["type"] == "ptr") ? (float)$row["total_cost"] : 0.00);
 	}
-	$tbody.="<tr style=\"font-size: 10px;\">
+	$tbody.="<tr style=\"font-size: 9px;\">
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
@@ -104,18 +149,18 @@ function get_ppe_details(){
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
             </tr>
-			<tr style=\"font-size: 10px;\">
+			<tr style=\"font-size: 9px;\">
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
-                <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$overall, 2)."</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"><b>".number_format((float)$overall, 2)."</b></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
-                <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$ptr_total, 2)."</td>
-                <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$par_total, 2)."</td>
-                <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$ics_total, 2)."</td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"><b>".number_format((float)$ptr_total, 2)."</b></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"><b>".number_format((float)$par_total, 2)."</b></td>
+                <td style=\"padding-left: 10px; padding-right: 10px;\"><b>".number_format((float)$ics_total, 2)."</b></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
             </tr>";
@@ -152,9 +197,9 @@ function print_stock_card(){
 
 	mysqli_query($conn, "TRUNCATE tbl_stockcard");
 
-	$sql = mysqli_query($conn, "SELECT s.supplier, p.date_received, p.po_number, p.main_stocks FROM tbl_po AS p, ref_supplier AS s WHERE p.item_name LIKE '$item_name' AND p.description LIKE '$item_desc' AND p.supplier_id = s.supplier_id");
+	$sql = mysqli_query($conn, "SELECT s.supplier, p.date_received, p.date_delivered, p.po_number, p.main_stocks FROM tbl_po AS p, ref_supplier AS s WHERE p.item_name LIKE '$item_name' AND p.description LIKE '$item_desc' AND p.supplier_id = s.supplier_id");
 	while($row = mysqli_fetch_assoc($sql)){
-		$date_received = $row["date_received"];
+		$date_received = ($row["date_delivered"] != "0000-00-00") ? $row["date_delivered"] : $row["date_received"];
 		$reference_no = $row["po_number"];
 		$main_stocks = $row["main_stocks"];
 		$supplier = $row["supplier"];
@@ -251,6 +296,9 @@ switch($call_func){
 		break;
 	case "get_ppe_details":
 		get_ppe_details();	
+		break;
+	case "get_rsmi_details":
+		get_rsmi_details();
 		break;
 }
 

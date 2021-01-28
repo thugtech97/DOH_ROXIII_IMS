@@ -119,7 +119,7 @@ if(!isset($_SESSION["username"])){
                     <button class="btn btn-xs btn-primary" onclick="$('#print_ppe').modal();"><i class="fa fa-print"></i> PPE (ICT/Various Supplies)</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-danger" onclick="print_rsmi();"><i class="fa fa-print"></i> RSMI (Drugs and Medicines)</button>
+                    <button class="btn btn-xs btn-danger" onclick="$('#print_rsmi').modal();"><i class="fa fa-print"></i> RSMI (RIS-Consumables)</button>
                 </li>&nbsp;&nbsp;
                 <li>
                     <button class="btn btn-xs btn-warning" onclick="print_wi();"><i class="fa fa-print"></i> Warehouse Inventory</button>
@@ -185,9 +185,9 @@ if(!isset($_SESSION["username"])){
                 </div>
             </div>
             <?php require "modals/modal_ppe.php"; ?>
+            <?php require "modals/modal_rsmi.php"; ?>
         </div>
         <?php
-            require "reports/report_rsmi.php";
             require "reports/report_wi.php";
         ?>
         <br>

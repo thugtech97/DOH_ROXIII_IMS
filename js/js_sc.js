@@ -29,6 +29,19 @@ function get_ppe_details(month,year){
 	});
 }
 
+function get_rsmi_details(month,year){
+	var year_month = year+"-"+month;
+	$("#rmonth").html($("#rsmi_month option:selected").text());$("#ryear").html($("#rsmi_year option:selected").text());
+	$.ajax({
+		type: "POST",
+		data: {call_func: "get_rsmi_details", year_month: year_month},
+		url: "php/php_sc.php",
+		success: function(data){
+			$("#rsmi_tbody").html(data);
+		}
+	});
+}
+
 function print_ppe(){
 	var divContents = $("#ppe_report").html(); 
 	var a = window.open('', '', 'height=800, width=1500'); 
@@ -172,4 +185,12 @@ $("#ppe_month").change(function(){
 
 $("#ppe_year").change(function(){
 	get_ppe_details($("#ppe_month").val(),$("#ppe_year").val());
+});
+
+$("#rsmi_month").change(function(){
+	get_rsmi_details($("#rsmi_month").val(),$("#rsmi_year").val());
+});
+
+$("#rsmi_year").change(function(){
+	get_rsmi_details($("#rsmi_month").val(),$("#rsmi_year").val());
 });

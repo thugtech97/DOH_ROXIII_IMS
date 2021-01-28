@@ -3,7 +3,7 @@ var items = [];
 var pax_selected = "";
 var snln = "";
 
-var ntc_balance = "", actual_balance = "", quant = 0, pon="", eus = "", ctgr = "";
+var ntc_balance = "", actual_balance = "", quant = 0, pon="", eus = "", ctgr = "", account_code = "";
 
 var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
 
@@ -814,6 +814,7 @@ function ready_all(){
 
 	$("#item_name").on("change", function(e){
 		$("#category").val($("#item_name option:selected").data("cat"));
+		account_code = $("#item_name option:selected").data("ac");
 		if($("#category").val()=="Drugs and Medicines" || $("#category").val()=="Medical Supplies"){
 			$('#exp_date').prop('disabled',false);	
 		}else{

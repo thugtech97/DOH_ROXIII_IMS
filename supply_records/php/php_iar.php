@@ -199,6 +199,7 @@ function print_iar_gen(){
 		$inspected = $row["inspected"];$date_received = "";$property_custodian = $row["property_custodian"];$status = "";
 		$partial_specify = $row["partial_specify"];
 	}
+	$inspector = str_replace('|', '__', $inspector);
 	$sql2 = mysqli_query($conn, "SELECT p.item_name, s.supplier, p.description, p.quantity, p.main_stocks, p.unit_cost, p.date_conformed, p.date_delivered, p.end_user FROM ref_supplier AS s, tbl_po AS p WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1' AND s.supplier_id = p.supplier_id AND p.iar_no LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql2)){
 		$supplier = $row["supplier"]; $date_conformed = $row["date_conformed"];$date_delivered = $row["date_delivered"];$end_user = $row["end_user"];

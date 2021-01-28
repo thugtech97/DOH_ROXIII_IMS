@@ -257,10 +257,10 @@ function get_unit(){
 function get_item(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT i.item_id, i.item, c.category FROM ref_item AS i, ref_category AS c WHERE i.status = '0' AND c.category_id = i.category_id ORDER BY i.item ASC");
+	$sql = mysqli_query($conn, "SELECT i.item_id, i.item, c.category, c.account_code FROM ref_item AS i, ref_category AS c WHERE i.status = '0' AND c.category_id = i.category_id ORDER BY i.item ASC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
-			echo "<option data-cat=\"".$row["category"]."\" value=".$row["item_id"]."┼".$row["item"].">".$row["item"]."</option>";
+			echo "<option data-cat=\"".$row["category"]."\" data-ac=\"".$row["account_code"]."\" value=".$row["item_id"]."┼".$row["item"].">".$row["item"]."</option>";
 		}
 	}
 }
