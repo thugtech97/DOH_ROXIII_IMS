@@ -229,11 +229,13 @@ function get_ptr_details(){
 
 function get_ptr(){
 	global $conn;
-	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no, area, category, SUBSTRING(date_released, 1, 10) AS date_r, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, reference_no, transfer_type FROM tbl_ptr ORDER BY ptr_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, reference_no, transfer_type FROM tbl_ptr ORDER BY ptr_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
-			$func_call = ($row["category"] == "Drugs and Medicines" || $row["category"] == "Medical Supplies") ? "print_ptr(this.value);" : "print_ptr_gen(this.value)";
-			$dl_xls = ($row["category"] == "Drugs and Medicines" || $row["category"] == "Medical Supplies") ? "download_xls(this.value);" : "download_xls_gen(this.value)";
+			$ptr_no = $row["ptr_no"];
+			$category = mysqli_fetch_assoc(mysqli_query($conn, "SELECT category FROM tbl_ptr WHERE ptr_no = '$ptr_no'"))["category"];
+			$func_call = ($category == "Drugs and Medicines" || $category == "Medical Supplies") ? "print_ptr(this.value);" : "print_ptr_gen(this.value)";
+			$dl_xls = ($category == "Drugs and Medicines" || $category == "Medical Supplies") ? "download_xls(this.value);" : "download_xls_gen(this.value)";
 			$to = str_replace(' ', '', $row["to"]);
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ptr_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>

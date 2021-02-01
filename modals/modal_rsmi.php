@@ -54,7 +54,7 @@
                 </div>
                 <hr>
                 <div class="ibox">
-                    <div class="ibox-content" style="height: 400px; overflow: auto;">
+                    <div class="ibox-content" style="height: 400px; overflow: auto; color: black;">
                         <input type="text" id="rsmi_lookup" placeholder="Search...">
                         <center>
                             <?php
@@ -67,6 +67,68 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Print</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modal_wi" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
+    <div class="modal-dialog modal-sm">
+    <div class="modal-content animated slideInDown">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title"><i class="fa fa-print"></i> Generate WAREHOUSE INVENTORY</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Month:</label>
+                                    <div class="col-lg-9">
+                                        <select id="wi_month" class="select2_demo_1 form-control">
+                                            <option selected disabled></option>
+                                            <option>January</option>
+                                            <option>February</option>
+                                            <option>March</option>
+                                            <option>April</option>
+                                            <option>May</option>
+                                            <option>June</option>
+                                            <option>July</option>
+                                            <option>August</option>
+                                            <option>September</option>
+                                            <option>October</option>
+                                            <option>November</option>
+                                            <option>December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Year:</label>
+                                    <div class="col-lg-9">
+                                        <select id="wi_year" class="select2_demo_1 form-control">
+                                            <option selected disabled></option>
+                                            <script>
+                                                for(var i = 2021; i <= 2040; i++){
+                                                    document.write("<option value=\""+i+"\">"+i+"</option>");
+                                                }
+                                            </script>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="button" class="btn btn-primary btn-lg" onclick="generate_wi();"><i class="fa fa-print"></i> Print</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

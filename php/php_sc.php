@@ -2,6 +2,72 @@
 
 require "php_conn.php";
 
+function print_wi(){
+	global $conn;
+
+	$sql = mysqli_query($conn, "SELECT category, CASE WHEN category = 'Drugs and Medicines' THEN 1 WHEN category = 'Medical Supplies' THEN 2 ELSE 3 END AS category_order FROM ref_category ORDER BY category_order ASC");
+	$tbody = "";
+	$grand_total = 0.00;
+	while($row = mysqli_fetch_assoc($sql)){
+		$category = $row["category"];
+		$sub_total = 0.00;
+		$sql2 = mysqli_query($conn, "SELECT p.end_user, p.po_number, s.supplier, p.date_delivered, p.description, p.quantity, p.sn_ln, p.exp_date, p.unit_cost FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.category = '$category' AND p.procurement_mode <> 'Central-Office' AND p.procurement_mode <> 'Bidding' AND p.procurement_mode <> 'PTR'");
+		if(mysqli_num_rows($sql2) != 0){
+			while($row2 = mysqli_fetch_assoc($sql2)){
+				$quantity_unit = explode(" ", $row2["quantity"]);
+				$total_amount = (float)$quantity_unit[0] * (float)$row2["unit_cost"];
+				$sn_ln = ($category != "Drugs and Medicines" && $category != "Medical Supplies") ? "" : explode("|", $row2["sn_ln"])[0];
+				$exp_date = ($category != "Drugs and Medicines" && $category != "Medical Supplies") ? "" : $row2["exp_date"];
+				$sub_total+=$total_amount;
+				if($quantity_unit[0] != "0"){
+					$tbody.="<tr>
+		            <td style=\"width: 61.2px; height: 12px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\">".$row2["end_user"]."</td>
+		            <td style=\"width: 56.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row2["po_number"]."</td>
+		            <td style=\"width: 73.8px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row2["supplier"]."</td>
+		            <td style=\"width: 56.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row2["date_delivered"]."</td>
+		            <td style=\"width: 204.6px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row2["description"]."</td>
+		            <td style=\"width: 59.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$sn_ln."</td>
+		            <td style=\"width: 53.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$exp_date."</td>
+		            <td style=\"width: 54px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format($quantity_unit[0],0)."</td>
+		            <td style=\"width: 41.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$quantity_unit[1]."</td>
+		            <td style=\"width: 48.6px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row2["unit_cost"], 2)."</td>
+		            <td style=\"width: 73.8px; height: 12px; text-align: right; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format($total_amount, 2)."</td>
+		            <td style=\"width: 51.6px; height: 12px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+		          </tr>";
+				}
+			}
+		}else{
+			$tbody.="<tr>
+		            <td style=\"width: 61.2px; height: 12px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\">-</td>
+		            <td style=\"width: 56.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 73.8px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 56.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 204.6px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 59.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 53.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 54px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 41.4px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 48.6px; height: 12px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 73.8px; height: 12px; text-align: right; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		            <td style=\"width: 51.6px; height: 12px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+		          </tr>";
+		}
+		$tbody.="<tr>
+		      <td colspan=\"3\" style=\"width: 61.2px; height: 0px; text-align: left; font-size: 8px; font-weight: bold; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 1px; border-left-width: 1px; border-bottom-style: solid; border-left-style: solid; background-color: rgb(255, 255, 0);\">Category: ".$category."</td>
+		      <td style=\"width: 56.4px; height: 0px; text-align: center; font-size: 8px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		      <td style=\"width: 204.6px; height: 0px; text-align: center; font-size: 8px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		      <td style=\"width: 59.4px; height: 0px; text-align: center; font-size: 8px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		      <td style=\"width: 53.4px; height: 0px; text-align: center; font-size: 8px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		      <td style=\"width: 54px; height: 0px; text-align: center; font-size: 8px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		      <td colspan=\"2\" style=\"width: 41.4px; height: 0px; text-align: center; font-size: 9px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);\">SUB - TOTAL</td>
+		      <td style=\"width: 73.8px; height: 0px; text-align: right; font-size: 9px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);\">".number_format((float)$sub_total, 2)."</td>
+		      <td style=\"width: 51.6px; height: 0px; font-size: 8px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		    </tr>";
+		    $grand_total+=$sub_total;
+	}
+	echo json_encode(array("tbody"=>$tbody, "grand_total"=>number_format((float)$grand_total, 2)));
+}
+
 function get_rsmi_details(){
 	global $conn;
 
@@ -300,6 +366,10 @@ switch($call_func){
 	case "get_rsmi_details":
 		get_rsmi_details();
 		break;
+	case "print_wi":
+		print_wi();
+		break;
+
 }
 
 ?>

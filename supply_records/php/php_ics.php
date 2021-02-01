@@ -291,7 +291,7 @@ function get_ics_details(){
 function get_ics(){
 	global $conn;
 	
-	$sql = mysqli_query($conn, "SELECT DISTINCT ics_no, area, category, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no FROM tbl_ics ORDER BY ics_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT ics_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no FROM tbl_ics ORDER BY ics_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$icsn = $row["ics_no"];
@@ -301,7 +301,6 @@ function get_ics(){
 					<td>".$row["area"]."</td>
 					<td>".$row["ics_no"]."</td>
 					<td>".$row["reference_no"]."</td>
-					<td>".$row["category"]."</td>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["received_from"]."</td>
 					<td>".$row["received_by"]."</td>

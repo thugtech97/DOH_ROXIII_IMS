@@ -114,7 +114,7 @@ function get_par_details(){
 function get_par(){
 	global $conn;
 	
-	$sql = mysqli_query($conn, "SELECT DISTINCT par_no, area, category, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no FROM tbl_par ORDER BY par_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT par_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no FROM tbl_par ORDER BY par_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$parn = $row["par_no"];
@@ -124,7 +124,6 @@ function get_par(){
 					<td>".$row["area"]."</td>
 					<td>".$row["par_no"]."</td>
 					<td>".$row["reference_no"]."</td>
-					<td>".$row["category"]."</td>
 					<td>".$row["date_r"]."</td>
 					<td>".utf8_encode($row["received_from"])."</td>
 					<td>".utf8_encode($row["received_by"])."</td>

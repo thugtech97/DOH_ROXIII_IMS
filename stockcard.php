@@ -179,7 +179,7 @@ if(!isset($_SESSION["username"])){
                         <h5>Stockcard Preview&nbsp;&nbsp;&nbsp;<span id="loader" style="display: none;"><i class="fa fa-refresh fa-spin" style="color: black;"></i></span></h5>
                         <span class="pull-right"><a class="btn btn-default btn-xs" onclick="print_sc();"><i class="fa fa-print"></i> Print</a></span>
                     </div>
-                    <div class="ibox-content">
+                    <div class="ibox-content" style="color: black;">
                         <?php require "reports/report_sc.php"; ?>
                     </div>
                 </div>

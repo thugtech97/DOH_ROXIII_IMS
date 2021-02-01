@@ -151,7 +151,6 @@ if(!isset($_SESSION["username"])){
                                         <th>Area</th>
                                         <th>PAR No</th>
                                         <th>PO No</th>
-                                        <th>Category</th>
                                         <th>Date Released</th>
                                         <th>Received From</th>
                                         <th>Received By</th>

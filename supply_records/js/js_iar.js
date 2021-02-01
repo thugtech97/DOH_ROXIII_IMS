@@ -337,10 +337,15 @@ function validate_various(){
                                     items: items
                                      },
                                 success: function(data){
-                                    swal("Inserted!", "Saved successfully to the database.", "success");
-                                    setTimeout(function () {
-                                        location.reload();
-                                      }, 1500);
+                                    if(data == "0"){
+                                        swal("Inserted!", "Saved successfully to the database.", "success");
+                                        setTimeout(function () {
+                                            location.reload();
+                                          }, 1500);
+                                    }else{
+                                        $("#save_changes").attr("disabled", false);
+                                        swal("IAR Number already existed!", "Please enter another IAR number!", "warning");
+                                    }
                                 }
                             });
                         }else{

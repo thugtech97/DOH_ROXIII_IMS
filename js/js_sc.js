@@ -72,27 +72,48 @@ function print_sc(){
 function print_rsmi(){
 	var divContents = $("#report_rsmi").html(); 
 	var a = window.open('', '', 'height=1500, width=800'); 
-	a.document.write('<html>'); 
+	a.document.write('<html>');
   	a.document.write('<body><center>');
   	a.document.write('<table><tr>');
 	a.document.write('<td>'+divContents+'</td>'); 
 	a.document.write('</tr></table>');
-  	a.document.write('</center></body></html>'); 
-	a.document.close(); 
+  	a.document.write('</center></body></html>');
+	a.document.close();
 	a.print();
 }
 
 function print_wi(){
-	var divContents = $("#report_wi").html(); 
-	var a = window.open('', '', 'height=1500, width=800'); 
-	a.document.write('<html>'); 
-  	a.document.write('<body><center>');
-  	a.document.write('<table><tr>');
-	a.document.write('<td>'+divContents+'</td>'); 
-	a.document.write('</tr></table>');
-  	a.document.write('</center></body></html>'); 
-	a.document.close(); 
-	a.print();
+	$("#modal_wi").modal();
+
+}
+
+function generate_wi(){
+	if($("#wi_month option:selected").text() != "" && $("#wi_year option:selected").text() != ""){
+		$.ajax({
+			type: "POST",
+			data: {call_func: "print_wi"},
+			url: "php/php_sc.php",
+			dataType: "JSON",
+			success: function(data){
+				$("#mwi").html($("#wi_month option:selected").text());
+				$("#ywi").html($("#wi_year option:selected").text());
+				$("#tbody_wi").html(data["tbody"]);
+				$("#grand_total").html(data["grand_total"]);
+				var divContents = $("#report_wi").html(); 
+				var a = window.open('', '', 'height=1500, width=800');
+				a.document.write('<html>');
+			  	a.document.write('<body><center>');
+			  	a.document.write('<table><tr>');
+				a.document.write('<td>'+divContents+'</td>');
+				a.document.write('</tr></table>');
+			  	a.document.write('</center></body></html>');
+				a.document.close();
+				a.print();
+			}
+		});
+	}else{
+		swal("Please fill all required fields!","Month and Year","warning");
+	}
 }
 
 function load_item(c,s){

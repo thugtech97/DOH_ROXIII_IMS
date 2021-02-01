@@ -377,21 +377,24 @@ function insert_various(){
 	$status = mysqli_real_escape_string($conn, $_POST["status"]);
 	$partial_specify = mysqli_real_escape_string($conn, $_POST["partial_specify"]);
 	$items = $_POST["items"];
+	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT iar_number FROM tbl_iar WHERE iar_number = '$iar_number'"))==0){
+		mysqli_query($conn, "INSERT INTO tbl_iar(entity_name,fund_cluster,po_number,iar_number,iar_type,req_office,res_cc,charge_invoice,date_inspected,inspector,inspected,date_received,property_custodian,status,partial_specify) VALUES('$entity_name','$fund_cluster','$po_number','$iar_number','$iar_type','$req_office','$res_cc','$charge_invoice','$date_inspected','$inspector','$inspected','$date_received','$property_custodian','$status','$partial_specify')");
 
-	mysqli_query($conn, "INSERT INTO tbl_iar(entity_name,fund_cluster,po_number,iar_number,iar_type,req_office,res_cc,charge_invoice,date_inspected,inspector,inspected,date_received,property_custodian,status,partial_specify) VALUES('$entity_name','$fund_cluster','$po_number','$iar_number','$iar_type','$req_office','$res_cc','$charge_invoice','$date_inspected','$inspector','$inspected','$date_received','$property_custodian','$status','$partial_specify')");
-
-	for($i = 0; $i < count($items); $i++){
-		$item_name = $items[$i][0];
-		$description = $items[$i][1];
-		$exp_date = $items[$i][2];
-		$manufactured_by = $items[$i][3];
-		$bool = $items[$i][4];
-		mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name LIKE '$item_name' AND description LIKE '$description' AND po_number LIKE '$po_number'");
+		for($i = 0; $i < count($items); $i++){
+			$item_name = $items[$i][0];
+			$description = $items[$i][1];
+			$exp_date = $items[$i][2];
+			$manufactured_by = $items[$i][3];
+			$bool = $items[$i][4];
+			mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name LIKE '$item_name' AND description LIKE '$description' AND po_number LIKE '$po_number'");
+		}
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." created an IAR No. ".$iar_number." - PO#".$po_number;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+		echo "0";
+	}else{
+		echo "1";
 	}
-	$emp_id = $_SESSION["emp_id"];
-	$description = $_SESSION["username"]." created an IAR No. ".$iar_number." - PO#".$po_number;
-	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
-
 }
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
