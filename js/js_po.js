@@ -210,7 +210,7 @@ function validate_po_catering(){
 function validate_po_various(){
 	items = [];
 	if($("#vdate_received").val() != ""){
-		if($("#vpo_number").val().match($po_regex)){
+		if($("#vpo_number").val() != ""){
 			if($("#vprocurement_mode").val() != null){
 				if($("#po_supplier").val() != null){
 					if(get_item_rows() != 0){
