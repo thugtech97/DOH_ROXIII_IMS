@@ -39,7 +39,7 @@
                                             <option value="Bidding">Bidding</option>
                                             <option value="Shopping">Shopping</option>
                                             <option value="SVP">SVP</option>
-                                            <option value="PTR">PTR</option>
+                                            <option value="Central-Office">Central-Office</option>
                                             <option value="PS-DBM">PS-DBM</option>
                                         </select>
                                     </div>
