@@ -61,7 +61,7 @@
       <td colspan="2" style="width: 73.2px; height: 17.5px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"> PO No./Date: <span id="dprint_po"></span></td>
       <td style="width: 144px; height: 17.5px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 72.6px; height: 17.5px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-      <td colspan="3" style="width: 63px; height: 17.5px; text-align: left; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date: <span id="dprint_dc"></span></td>
+      <td colspan="3" style="width: 63px; height: 17.5px; text-align: left; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date: <span id="dprint_dd"></span></td>
     </tr>
     <tr>
       <td colspan="3" style="width: 73.2px; height: 17.5px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Requisitioning Office/Dept.: <span id="dprint_rod"></td>

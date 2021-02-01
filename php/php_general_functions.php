@@ -7,7 +7,7 @@ function _m_d_yyyy_($date){
 		$months = array("January","February","March","April","May","June","July","August","September","October","November","December");
 		$in_word = $months[(int)$d[1] - 1]." ".$d[2].", ".$d[0];
 	}else{
-		$in_word = $date;
+		$in_word = "";
 	}
 	return $in_word;
 }

@@ -163,7 +163,7 @@ function print_iar_dm(){
 	echo json_encode(array(
 		"entity_name"=>$entity_name,
 		"fund_cluster"=>$fund_cluster,
-		"po_number"=>$po_number,
+		"po_number"=>$po_number." / "._m_d_yyyy_($date_conformed),
 		"req_office"=>$req_office,
 		"res_cc"=>$res_cc,
 		"invoice_number"=>$invoice,
