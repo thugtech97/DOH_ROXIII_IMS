@@ -178,33 +178,33 @@ function get_ppe_details(){
 	mysqli_query($conn, "TRUNCATE tbl_ppe");
 	$year_month = mysqli_real_escape_string($conn, $_POST["year_month"]);
 	$tbody = "";
-	$sql = mysqli_query($conn, "SELECT date_released,item,category,reference_no,quantity,unit,cost,total,received_by,remarks FROM tbl_ics WHERE date_released LIKE '%$year_month%'");
+	$sql = mysqli_query($conn, "SELECT date_released,item,category,ics_no,quantity,unit,cost,total,received_by,remarks FROM tbl_ics WHERE date_released LIKE '%$year_month%'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$item = $row["item"];
-		$reference_no = $row["reference_no"];
+		$reference_no = $row["ics_no"];
 		$quantity = $row["quantity"];
 		$unit = $row["unit"];
 		$cost = $row["cost"];
 		$total = $row["total"];
 		$category = $row["category"];
-		$account_code = mysqli_fetch_assoc(mysqli_query($conn, "SELECT account_code FROM ref_category WHERE category LIKE '$category'"))["account_code"];
+		$account_code = "10402990";
 		$received_by = $row["received_by"];
 		$remarks = $row["remarks"];
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ics','$received_by','$remarks','$account_code')");
 	}
 	
-	$sql = mysqli_query($conn, "SELECT date_released,item,category,reference_no,quantity,unit,cost,total,received_by,remarks FROM tbl_par WHERE date_released LIKE '%$year_month%'");
+	$sql = mysqli_query($conn, "SELECT date_released,item,category,par_no,quantity,unit,cost,total,received_by,remarks FROM tbl_par WHERE date_released LIKE '%$year_month%'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$item = $row["item"];
-		$reference_no = $row["reference_no"];
+		$reference_no = $row["par_no"];
 		$quantity = $row["quantity"];
 		$unit = $row["unit"];
 		$cost = $row["cost"];
 		$total = $row["total"];
 		$category = $row["category"];
-		$account_code = mysqli_fetch_assoc(mysqli_query($conn, "SELECT account_code FROM ref_category WHERE category LIKE '$category'"))["account_code"];
+		$account_code = "10605030";
 		$received_by = $row["received_by"];
 		$remarks = $row["remarks"];
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','par','$received_by','$remarks','$account_code')");
@@ -224,17 +224,17 @@ function get_ppe_details(){
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ris','$received_by','$remarks')");
 	}
 	*/
-	$sql = mysqli_query($conn, "SELECT date_released,item,category,reference_no,quantity,unit,cost,total,tbl_ptr.to,remarks FROM tbl_ptr WHERE date_released LIKE '%$year_month%' /*AND (category != 'Drugs and Medicines' AND category != 'Medical Supplies')*/");
+	$sql = mysqli_query($conn, "SELECT date_released,item,category,ptr_no,quantity,unit,cost,total,tbl_ptr.to,remarks FROM tbl_ptr WHERE date_released LIKE '%$year_month%' /*AND (category != 'Drugs and Medicines' AND category != 'Medical Supplies')*/");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$item = $row["item"];
-		$reference_no = $row["reference_no"];
+		$reference_no = $row["ptr_no"];
 		$quantity = $row["quantity"];
 		$unit = $row["unit"];
 		$cost = $row["cost"];
 		$total = $row["total"];
 		$category = $row["category"];
-		$account_code = mysqli_fetch_assoc(mysqli_query($conn, "SELECT account_code FROM ref_category WHERE category LIKE '$category'"))["account_code"];
+		$account_code = ($unit_cost < 15000) ? "10402990" : "10605030";
 		$to = $row["to"];
 		$remarks = $row["remarks"];
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ptr','$to','$remarks','$account_code')");
@@ -253,7 +253,7 @@ function get_ppe_details(){
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["unit"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$row["unit_cost"], 2)."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$row["total_cost"], 2)."</td>
-                    <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["account_code"]."</td>
+                    <td style=\"padding-left: 10px; padding-right: 10px;\"><input type=\"text\" onchange=\"this.setAttribute('value', this.value)\" style=\"border: none transparent;outline: none; text-align: center;\" value=\"".$row["account_code"]."\"></td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".(($row["type"] == "ptr") ? number_format((float)$row["total_cost"], 2) : "")."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".(($row["type"] == "par") ? number_format((float)$row["total_cost"], 2) : "")."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".(($row["type"] == "ics") ? number_format((float)$row["total_cost"], 2) : "")."</td>
