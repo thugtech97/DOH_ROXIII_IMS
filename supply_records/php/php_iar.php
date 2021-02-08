@@ -274,7 +274,7 @@ function get_po(){
 	$add_query = (isset($_POST["add_query"])) ? "AND inspection_status <> '1' AND status LIKE 'Delivered'" : "";
 
 	if($action == "get_number"){
-		$operator = (mysqli_real_escape_string($conn, $_POST["po_type"]) == "ictvar") ? "po_type != 'Catering' AND po_type != 'Drugs and Medicines' AND po_type != 'Medical Supplies'" : "po_type != 'Catering'";
+		$operator = (mysqli_real_escape_string($conn, $_POST["po_type"]) == "ictvar") ? "po_type != 'Catering'" : "po_type != 'Catering'";
 		$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE ".$operator." ".$add_query." ORDER BY po_id DESC");
 		
 		if(mysqli_num_rows($sql) != 0){
