@@ -288,7 +288,7 @@ function get_item(){
 function get_po(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE inspection_status = '1' AND (category LIKE 'Office Supplies' OR category LIKE 'Other Supplies' OR category LIKE 'Various Supplies' OR category LIKE 'Drugs and Medicines' OR category LIKE 'ICT Supplies' OR category LIKE 'Medical Supplies' OR po_number LIKE 'Bal-Fwd') ORDER BY po_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE inspection_status = '1' ORDER BY po_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			echo "<option id=".$row["po_number"].">".$row["po_number"]."</option>";
