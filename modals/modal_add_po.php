@@ -9,7 +9,7 @@
                 <div class="tabs-container">
                     <ul class="nav nav-tabs" role="tablist">
                         <li><a class="nav-link active" data-toggle="tab" href="#tab-1" onclick="setActiveState(1);">General</a></li>
-                        <li><a class="nav-link" data-toggle="tab" href="#tab-2" onclick="setActiveState(2);">Catering</a></li>
+                        <?php //<li><a class="nav-link" data-toggle="tab" href="#tab-2" onclick="setActiveState(2);">Catering</a></li> ?>
                     </ul>
                     <div class="tab-content">
                         <!-- Starting with tab-1 !-->

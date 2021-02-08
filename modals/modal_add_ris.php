@@ -81,12 +81,26 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label">Issued by:</label>
-                                    <div class="col-lg-9">
-                                        <select id="issued_by" class="form-control select2_demo_1">
-                                            <option disabled selected></option>
-                                        </select>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label">Issued by:</label>
+                                            <div class="col-lg-8">
+                                                <select id="issued_by" class="form-control select2_demo_1">
+                                                    <option disabled selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group row">
+                                            <label class="col-lg-4 col-form-label">Approved by:</label>
+                                            <div class="col-lg-8">
+                                                <select id="approved_by" class="form-control select2_demo_1">
+                                                    <option disabled selected></option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">

@@ -96,10 +96,11 @@ function ready_all(){
             success: function(data){
                 $("#issued_by").html("<option disabled selected></option>").append(data);
                 $('#issued_by option').each(function() {
-                    if($(this).text() == "Eden T. Sagunday"){
+                    if($(this).text() == "Eleanor D. Lakag, MSBA"){
                         $(this).prop("selected", true).change();
                     }
                 });
+                $("#approved_by").html("<option disabled selected></option>").append(data);
             }
         });
     });
@@ -203,39 +204,45 @@ function validate(){
                 if($("#date").val() != ""){
                     if($("#requested_by").val() != null){
                         if($("#issued_by").val() != null){
-                            if($("#purpose").val() != ""){
-                                if(get_rows() != 0){
-                                    $("#save_changes").attr("disabled", true);
-                                    $.ajax({
-                                        type: "POST",
-                                        data: {call_func: "insert_ris",
-                                                ris_no: $("#ris_no").val(),
-                                                entity_name: $("#entity_name").val(),
-                                                fund_cluster: $("#fund_cluster").val(),
-                                                division: $("#division option:selected").text(),
-                                                office: $("#office option:selected").text(),
-                                                date: $("#date").val(),
-                                                rcc: $("#rcc").val(),
-                                                requested_by_id: $("#requested_by").val(),
-                                                requested_by: $("#requested_by option:selected").text(),
-                                                issued_by_id: $("#issued_by").val(),
-                                                issued_by: $("#issued_by option:selected").text(),
-                                                purpose: $("#purpose").val(),
-                                                items: items
-                                                },
-                                        url: "php/php_ris.php",
-                                        success: function(data){
-                                            swal("Inserted!", "Saved successfully to the database.", "success");
-                                            setTimeout(function () {
-                                                location.reload();
-                                              }, 1500);
-                                        }
-                                    });
+                            if($("#approved_by").val() != null){
+                                if($("#purpose").val() != ""){
+                                    if(get_rows() != 0){
+                                        $("#save_changes").attr("disabled", true);
+                                        $.ajax({
+                                            type: "POST",
+                                            data: {call_func: "insert_ris",
+                                                    ris_no: $("#ris_no").val(),
+                                                    entity_name: $("#entity_name").val(),
+                                                    fund_cluster: $("#fund_cluster").val(),
+                                                    division: $("#division option:selected").text(),
+                                                    office: $("#office option:selected").text(),
+                                                    date: $("#date").val(),
+                                                    rcc: $("#rcc").val(),
+                                                    requested_by_id: $("#requested_by").val(),
+                                                    requested_by: $("#requested_by option:selected").text(),
+                                                    issued_by_id: $("#issued_by").val(),
+                                                    issued_by: $("#issued_by option:selected").text(),
+                                                    approved_by_id: $("#approved_by").val(),
+                                                    approved_by: $("#approved_by option:selected").text(),
+                                                    purpose: $("#purpose").val(),
+                                                    items: items
+                                                    },
+                                            url: "php/php_ris.php",
+                                            success: function(data){
+                                                swal("Inserted!", "Saved successfully to the database.", "success");
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                  }, 1500);
+                                            }
+                                        });
+                                    }else{
+                                        swal("No items!", "Please add an item", "warning");
+                                    }
                                 }else{
-                                    swal("No items!", "Please add an item", "warning");
+                                    swal("Please fill in!", "Purpose", "warning");
                                 }
                             }else{
-                                swal("Please fill in!", "Purpose", "warning");
+                                swal("Please fill in!", "Approved by", "warning");
                             }
                         }else{
                             swal("Please fill in!", "Issued by", "warning");
@@ -366,7 +373,11 @@ function modify(ris_no){
             $("#efund_cluster").val(data["fund_cluster"]);
             $("#ercc").val(data["rcc"]);
             $("#erequested_by").val(data["requested_by"]);
+            $("#erequested_by_designation").val(data["requested_by_designation"]);
             $("#eissued_by").val(data["issued_by"]);
+            $("#eissued_by_designation").val(data["issued_by_designation"]);
+            $("#eapproved_by").val(data["approved_by"]);
+            $("#eapproved_by_designation").val(data["approved_by_designation"]);
             $("#epurpose").val(data["purpose"]);
             $("table#eris_items tbody").html(data["table"]);
         }
@@ -386,7 +397,11 @@ function update(){
             fund_cluster: $("#efund_cluster").val(),
             rcc: $("#ercc").val(),
             requested_by: $("#erequested_by").val(),
+            requested_by_designation: $("#erequested_by_designation").val(),
             issued_by: $("#eissued_by").val(),
+            issued_by_designation: $("#eissued_by_designation").val(),
+            approved_by: $("#eapproved_by").val(),
+            approved_by_designation: $("#eapproved_by_designation").val(),
             purpose: $("#epurpose").val()
         },
         url: "php/php_ris.php",
@@ -444,7 +459,9 @@ function print_ris(ris_no){
             $("#print_purp").html(data["purpose"]);
             $("#print_rb").html(data["requested_by"].toUpperCase());
             $("#print_ib").html(data["issued_by"].toUpperCase());
-            //$("#print_isb").html(data["issued_by_designation"].toUpperCase());
+            $("#print_ibd").html(data["issued_by_designation"].toUpperCase());
+            $("#print_ab").html(data["approved_by"].toUpperCase());
+            $("#print_abd").html(data["approved_by_designation"].toUpperCase());
             $("#print_tc").html(data["total_cost"]);
             $(".print_date").html(data["date"]);
 
@@ -469,7 +486,7 @@ function download_xls(ris_no){
         dataType: "JSON",
         url: "php/php_ris.php",
         success: function(data){
-            $("#print_en").html(data["entity_name"]);
+           $("#print_en").html(data["entity_name"]);
             $("#print_fc").html(data["fund_cluster"]);
             $("#print_div").html(data["division"]);
             $("#print_rcc").html(data["rcc"]);
@@ -479,7 +496,10 @@ function download_xls(ris_no){
             $("#print_purp").html(data["purpose"]);
             $("#print_rb").html(data["requested_by"].toUpperCase());
             $("#print_ib").html(data["issued_by"].toUpperCase());
-            //$("#print_isb").html(data["issued_by_designation"].toUpperCase());
+            $("#print_ibd").html(data["issued_by_designation"].toUpperCase());
+            $("#print_ab").html(data["approved_by"].toUpperCase());
+            $("#print_abd").html(data["approved_by_designation"].toUpperCase());
+            $("#print_tc").html(data["total_cost"]);
             $(".print_date").html(data["date"]);
 
             exportTableToExcel("report_ris", "RIS No. "+ris_no);
@@ -505,7 +525,9 @@ function print_ris_dm(ris_no){
             $("#dprint_rb").html(data["requested_by"].toUpperCase());
             $("#dprint_rbd").html(data["requested_by_designation"].toUpperCase());
             $("#dprint_ib").html(data["issued_by"].toUpperCase());
-            //$("#print_isb").html(data["issued_by_designation"].toUpperCase());
+            $("#dprint_ibd").html(data["issued_by_designation"].toUpperCase());
+            $("#dprint_ab").html(data["approved_by"].toUpperCase());
+            $("#dprint_abd").html(data["approved_by_designation"].toUpperCase());
             $("#dprint_tc").html(data["total_cost"]);
             $(".dprint_date").html(data["date"]);
 

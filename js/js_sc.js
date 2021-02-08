@@ -82,11 +82,6 @@ function print_rsmi(){
 	a.print();
 }
 
-function print_wi(){
-	$("#modal_wi").modal();
-
-}
-
 function generate_wi(){
 	if($("#wi_month option:selected").text() != "" && $("#wi_year option:selected").text() != ""){
 		$.ajax({
@@ -114,6 +109,33 @@ function generate_wi(){
 	}else{
 		swal("Please fill all required fields!","Month and Year","warning");
 	}
+}
+
+function get_rpci(){
+	$.ajax({
+		type: "POST",
+		data: {call_func: "get_rpci"},
+		url: "php/php_sc.php",
+		dataType: "JSON",
+		success: function(data){
+			$("#rpci_body").html(data["tbody"]);
+			$("#rpci_gt").html(data["grand_total"]);
+			$('#print_rpci').modal();
+		}
+	});
+}
+
+function print_rpci(){
+	var divContents = $("#report_rpci").html(); 
+	var a = window.open('', '', 'height=1500, width=800');
+	a.document.write('<html>');
+  	a.document.write('<body><center>');
+  	a.document.write('<table><tr>');
+	a.document.write('<td>'+divContents+'</td>');
+	a.document.write('</tr></table>');
+  	a.document.write('</center></body></html>');
+	a.document.close();
+	a.print();
 }
 
 function load_item(c,s){
@@ -184,6 +206,13 @@ $("#searchkw").keyup(function(){
     $("#num_items").html(num_count);
 });
 
+function compute_shortage(q, uc, value, qi, vi){
+	var shortage_quantity = parseInt(q) - parseInt(value);
+	$("#"+qi).html(shortage_quantity.toString())
+	var shortage_value = parseFloat(uc * shortage_quantity);
+	$("#"+vi).html(shortage_value.toFixed(2));
+}
+
 $("#lookup").keyup(function () {
     var value = this.value.toLowerCase().trim();
     $("table#tbl_ppe tbody tr").each(function (index) {
@@ -194,6 +223,14 @@ $("#lookup").keyup(function () {
             return not_found;
         });
     });
+});
+
+$("#inv_rpci").keyup(function(){
+	$("#inv_rep").html($("#inv_rpci").val().toUpperCase());
+});
+
+$("#ao_rpci").keyup(function(){
+	$("#ao_rep").html($("#ao_rpci").val().toUpperCase());
 });
 
 $("#category").change(function(){

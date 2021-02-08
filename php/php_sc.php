@@ -2,6 +2,71 @@
 
 require "php_conn.php";
 
+function get_rpci(){
+	global $conn;
+
+	$sql = mysqli_query($conn, "SELECT category, CASE WHEN category = 'Drugs and Medicines' THEN 1 WHEN category = 'Medical Supplies' THEN 2 ELSE 3 END AS category_order FROM ref_category ORDER BY category_order ASC");
+	$tbody = "";
+	$grand_total = 0.00;
+	while($row = mysqli_fetch_assoc($sql)){
+		$category = $row["category"];
+		$tbody.="<tr>
+          <td colspan=\"11\" style=\"width: 54.6px; height: 19.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; background-color: rgb(255, 255, 0);\">".strtoupper($category)."</td>
+        </tr>";
+		$sub_total = 0.00;
+		$sql2 = mysqli_query($conn, "SELECT p.po_id, p.end_user, p.po_number, p.item_name, s.supplier, p.date_delivered, p.description, p.quantity, p.unit_cost FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.category = '$category' AND p.procurement_mode <> 'Central-Office' AND p.procurement_mode <> 'Bidding' AND p.procurement_mode <> 'PTR'");
+		if(mysqli_num_rows($sql2) != 0){
+			while($row2 = mysqli_fetch_assoc($sql2)){
+				$quantity_unit = explode(" ", $row2["quantity"]);
+				$total_amount = (float)$quantity_unit[0] * (float)$row2["unit_cost"];
+				$sub_total+=$total_amount;
+				if($quantity_unit[0] != "0"){
+					$qi = "q".$row2["po_id"];
+					$vi = "v".$row2["po_id"];
+					$tbody.="<tr>
+				          <td style=\"width: 54.6px; height: 15px; font-size: 11px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-left-width: 2px; border-right-style: solid; border-left-style: solid;border-bottom-width: 1px;border-bottom-color: rgb(0, 0, 0);border-bottom-style: solid;\"></td>
+				          <td style=\"width: 258.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>".$row2["item_name"]."</b> - ".$row2["description"]."</td>
+				          <td style=\"width: 56.4px; height: 15px; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+				          <td style=\"width: 64.2px; height: 15px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$quantity_unit[1]."</td>
+				          <td style=\"width: 64.2px; height: 15px; text-align: right; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row2["unit_cost"],2)."</td>
+				          <td style=\"width: 94.2px; height: 15px; text-align: right; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$total_amount,2)."</td>
+				          <td style=\"width: 62.4px; height: 15px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format($quantity_unit[0],0)."</td>
+				          <td style=\"width: 57.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><input type=\"number\" onchange=\"this.setAttribute('value', this.value)\" style=\"border: none transparent;outline: none; text-align: center;\" onblur=\"compute_shortage('".$quantity_unit[0]."','".$row2["unit_cost"]."',this.value,'".$qi."','".$vi."')\"></td>
+				          <td style=\"width: 44.4px; height: 15px; font-size: 9px; vertical-align: center; text-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><span id=\"".$qi."\"></span></td>
+				          <td style=\"width: 48px; height: 15px; font-size: 9px; vertical-align: center; text-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><span id=\"".$vi."\"></span></td>
+				          <td style=\"width: 84px; height: 15px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+				        </tr>";
+				}
+			}
+		}else{
+			$tbody.="<tr>
+				          <td style=\"width: 54.6px; height: 15px; font-size: 11px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-left-width: 2px; border-right-style: solid; border-left-style: solid;border-bottom-width: 1px;border-bottom-color: rgb(0, 0, 0);border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 258.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 56.4px; height: 15px; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 64.2px; height: 15px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 64.2px; height: 15px; text-align: right; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 94.2px; height: 15px; text-align: right; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 62.4px; height: 15px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 57.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 44.4px; height: 15px; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 48px; height: 15px; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				          <td style=\"width: 84px; height: 15px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">-</td>
+				        </tr>";
+		}
+		$tbody.="<tr>
+		          <td colspan=\"5\" style=\"width: 54.6px; height: 18.75px; text-align: right; font-size: 10px; font-weight: bold; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; background-color: rgb(255, 255, 0);\">Sub - Total</td>
+		          <td style=\"width: 94.2px; height: 18.75px; text-align: right; font-size: 9px; font-weight: bold; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\">".number_format((float)$sub_total, 2)."</td>
+		          <td style=\"width: 62.4px; height: 18.75px; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		          <td style=\"width: 57.6px; height: 18.75px; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		          <td style=\"width: 44.4px; height: 18.75px; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		          <td colspan=\"2\" style=\"width: 48px; height: 18.75px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+		        </tr>";
+		        $grand_total+=$sub_total;
+	}
+	echo json_encode(array("tbody"=>$tbody, "grand_total"=>number_format((float)$grand_total, 2))); 
+}
+
+
 function print_wi(){
 	global $conn;
 
@@ -368,6 +433,9 @@ switch($call_func){
 		break;
 	case "print_wi":
 		print_wi();
+		break;
+	case "get_rpci":
+		get_rpci();
 		break;
 
 }

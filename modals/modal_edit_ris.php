@@ -70,26 +70,41 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label">Requested by:</label>
-                                    <div class="col-lg-9">
+                                    <label class="col-lg-2 col-form-label">Requested:</label>
+                                    <div class="col-lg-5">
                                         <input id="erequested_by" type="text" class="form-control">
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label">Issued by:</label>
-                                    <div class="col-lg-9">
-                                        <input id="eissued_by" type="text" class="form-control">
+                                    <div class="col-lg-5">
+                                        <input id="erequested_by_designation" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label">Purpose:</label>
-                                    <div class="col-lg-9">
-                                        <input id="epurpose" type="text" class="form-control">
+                                    <label class="col-lg-2 col-form-label">Issued:</label>
+                                    <div class="col-lg-5">
+                                        <input id="eissued_by" type="text" class="form-control">
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input id="eissued_by_designation" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label">Approved:</label>
+                                    <div class="col-lg-5">
+                                        <input id="eapproved_by" type="text" class="form-control">
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <input id="eapproved_by_designation" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="form-group row">
+                            <label class="col-lg-1 col-form-label">Purpose:</label>
+                            <div class="col-lg-11">
+                                <input id="epurpose" type="text" class="form-control">
+                            </div>
+                        </div>
+                </div>
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">

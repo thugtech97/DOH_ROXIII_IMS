@@ -16,10 +16,14 @@ function update(){
 	$fund_cluster = mysqli_real_escape_string($conn, $_POST["fund_cluster"]);
 	$rcc = mysqli_real_escape_string($conn, $_POST["rcc"]);
 	$requested_by = mysqli_real_escape_string($conn, $_POST["requested_by"]);
+	$requested_by_designation = mysqli_real_escape_string($conn, $_POST["requested_by_designation"]);
 	$issued_by = mysqli_real_escape_string($conn, $_POST["issued_by"]);
+	$issued_by_designation = mysqli_real_escape_string($conn, $_POST["issued_by_designation"]);
+	$approved_by = mysqli_real_escape_string($conn, $_POST["approved_by"]);
+	$approved_by_designation = mysqli_real_escape_string($conn, $_POST["approved_by_designation"]);
 	$purpose = mysqli_real_escape_string($conn, $_POST["purpose"]);
 
-	mysqli_query($conn, "UPDATE tbl_ris SET entity_name='$entity_name',division='$division',office='$office',tbl_ris.date='$date',fund_cluster='$fund_cluster',rcc='$rcc',requested_by='$requested_by',issued_by='$issued_by',purpose='$purpose' WHERE ris_no LIKE '$ris_no'");
+	mysqli_query($conn, "UPDATE tbl_ris SET entity_name='$entity_name',division='$division',office='$office',tbl_ris.date='$date',fund_cluster='$fund_cluster',rcc='$rcc',requested_by='$requested_by',requested_by_designation='$requested_by_designation',issued_by='$issued_by',issued_by_designation='$issued_by_designation',approved_by='$approved_by',approved_by_designation='$approved_by_designation',purpose='$purpose' WHERE ris_no LIKE '$ris_no'");
 	
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." edited the details of RIS No. ".$ris_no;
@@ -30,11 +34,11 @@ function modify(){
 	global $conn;
 
 	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);
-	$entity_name = "";$division = "";$office = "";$date = "";$fund_cluster = "";$rcc = "";$requested_by = "";$issued_by = "";$purpose = "";$table = "";
-	$sql = mysqli_query($conn, "SELECT entity_name, division, office, SUBSTRING(tbl_ris.date,1,10) AS date_r, fund_cluster, rcc, requested_by, issued_by, purpose, reference_no, item, description, category, quantity, unit, unit_cost, total, quantity_stocks, remarks FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
+	$entity_name = "";$division = "";$office = "";$date = "";$fund_cluster = "";$rcc = "";$requested_by = "";$requested_by_designation="";$issued_by = "";$issued_by_designation="";$approved_by="";$approved_by_designation="";$purpose = "";$table = "";
+	$sql = mysqli_query($conn, "SELECT entity_name, division, office, SUBSTRING(tbl_ris.date,1,10) AS date_r, fund_cluster, rcc, requested_by, requested_by_designation, issued_by, issued_by_designation, approved_by, approved_by_designation, purpose, reference_no, item, description, category, quantity, unit, unit_cost, total, quantity_stocks, remarks FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name = $row["entity_name"];$division = $row["division"];$office = $row["office"];$date = $row["date_r"];$fund_cluster = $row["fund_cluster"];
-		$rcc = $row["rcc"];$requested_by = $row["requested_by"];$issued_by = $row["issued_by"];$purpose = $row["purpose"];
+		$rcc = $row["rcc"];$requested_by = $row["requested_by"];$requested_by_designation = $row["requested_by_designation"];$issued_by = $row["issued_by"];$issued_by_designation=$row["issued_by_designation"];$approved_by = $row["approved_by"];$approved_by_designation=$row["approved_by_designation"];$purpose = $row["purpose"];
 		$table.="<tr>
 					<td>".$row["reference_no"]."</td>
 					<td>".$row["item"]."</td>
@@ -56,7 +60,11 @@ function modify(){
 		"fund_cluster"=>$fund_cluster,
 		"rcc"=>$rcc,
 		"requested_by"=>$requested_by,
+		"requested_by_designation"=>$requested_by_designation,
 		"issued_by"=>$issued_by,
+		"issued_by_designation"=>$issued_by_designation,
+		"approved_by"=>$approved_by,
+		"approved_by_designation"=>$approved_by_designation,
 		"purpose"=>$purpose,
 		"table"=>$table
 	));
@@ -95,12 +103,12 @@ function print_ris_dm(){
 	$rows_allocate = 0;
 	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);$reference_no = "";
 	$entity_name = "";$fund_cluster = "";$division = "";$office = "";$rcc = "";$supplier = "";$all_total = 0.00;
-	$purpose = "";$requested_by = "";$requested_by_designation = "";$issued_by = "";$issued_by_designation;$date = "";
+	$purpose = "";$requested_by = "";$requested_by_designation = "";$issued_by = "";$issued_by_designation="";$approved_by="";$approved_by_designation=""; $date = "";
 	$tbody = "";
-	$sql = mysqli_query($conn, "SELECT entity_name,reference_no,supplier,lot_no,exp_date,fund_cluster,division,office,rcc,unit,description,quantity,unit_cost,total,available,quantity_stocks,remarks,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,SUBSTRING(tbl_ris.date,1,10) AS dr FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
+	$sql = mysqli_query($conn, "SELECT entity_name,reference_no,supplier,lot_no,exp_date,fund_cluster,division,office,rcc,unit,description,quantity,unit_cost,total,available,quantity_stocks,remarks,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,approved_by,approved_by_designation,SUBSTRING(tbl_ris.date,1,10) AS dr FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$division = $row["division"];$office = $row["office"];$rcc = $row["rcc"]; $reference_no = $row["reference_no"];$supplier = $row["supplier"];
-		$purpose = $row["purpose"];$requested_by = $row["requested_by"];$requested_by_designation = $row["requested_by_designation"];$issued_by = $row["issued_by"];$issued_by_designation = $row["issued_by_designation"];$date = $row["dr"];
+		$purpose = $row["purpose"];$requested_by = $row["requested_by"];$requested_by_designation = $row["requested_by_designation"];$issued_by = $row["issued_by"];$issued_by_designation = $row["issued_by_designation"];$date = $row["dr"];$approved_by = $row["approved_by"];$approved_by_designation = $row["approved_by_designation"];
 		$all_total += (float)($row["unit_cost"] * $row["quantity"]);
 		if($row["available"] == 1){
 			$tbody.="<tr>
@@ -149,6 +157,8 @@ function print_ris_dm(){
 		"requested_by_designation"=>$requested_by_designation,
 		"issued_by"=>$issued_by,
 		"issued_by_designation"=>$issued_by_designation,
+		"approved_by"=>$approved_by,
+		"approved_by_designation"=>$approved_by_designation,
 		"total_cost"=>number_format((float)$all_total, 2),
 		"date"=>_m_d_yyyy_($date)));
 }
@@ -160,12 +170,12 @@ function print_ris(){
 	$rows_allocate = 0;
 	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);$reference_no = "";
 	$entity_name = "";$fund_cluster = "";$division = "";$office = "";$rcc = "";$supplier = "";$all_total = 0.00;
-	$purpose = "";$requested_by = "";$requested_by_designation = "";$issued_by = "";$issued_by_designation;$date = "";
+	$purpose = "";$requested_by = "";$requested_by_designation = "";$issued_by = "";$issued_by_designation;$date = "";$approved_by = "";$approved_by_designation = "";
 	$tbody = "";
-	$sql = mysqli_query($conn, "SELECT entity_name,reference_no,supplier,fund_cluster,division,office,rcc,unit,description,quantity,unit_cost,total,available,quantity_stocks,remarks,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,SUBSTRING(tbl_ris.date,1,10) AS dr FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
+	$sql = mysqli_query($conn, "SELECT entity_name,reference_no,supplier,fund_cluster,division,office,rcc,unit,description,quantity,unit_cost,total,available,quantity_stocks,remarks,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,approved_by,approved_by_designation,SUBSTRING(tbl_ris.date,1,10) AS dr FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$division = $row["division"];$office = $row["office"];$rcc = $row["rcc"]; $reference_no = $row["reference_no"];$supplier = $row["supplier"];
-		$purpose = $row["purpose"];$requested_by = $row["requested_by"];$requested_by_designation = $row["requested_by_designation"];$issued_by = $row["issued_by"];$issued_by_designation = $row["issued_by_designation"];$date = $row["dr"];
+		$purpose = $row["purpose"];$requested_by = $row["requested_by"];$requested_by_designation = $row["requested_by_designation"];$issued_by = $row["issued_by"];$issued_by_designation = $row["issued_by_designation"];$approved_by=$row["approved_by"];$approved_by_designation=$row["approved_by_designation"];$date = $row["dr"];
 		$all_total += (float)($row["unit_cost"] * $row["quantity"]);
 		if($row["available"] == 1){
 			$tbody.="<tr>
@@ -223,6 +233,8 @@ function print_ris(){
 		"requested_by_designation"=>$requested_by_designation,
 		"issued_by"=>$issued_by,
 		"issued_by_designation"=>$issued_by_designation,
+		"approved_by"=>$approved_by,
+		"approved_by_designation"=>$approved_by_designation,
 		"total_cost"=>number_format((float)$all_total, 2),
 		"date"=>_m_d_yyyy_($date)));
 }
@@ -340,6 +352,8 @@ function insert_ris(){
 	$requested_by = mysqli_real_escape_string($conn, $_POST["requested_by"]);
 	$issued_by_id = mysqli_real_escape_string($conn, $_POST["issued_by_id"]);
 	$issued_by = mysqli_real_escape_string($conn, $_POST["issued_by"]);
+	$approved_by_id = mysqli_real_escape_string($conn, $_POST["approved_by_id"]);
+	$approved_by = mysqli_real_escape_string($conn, $_POST["approved_by"]);
 	$purpose = mysqli_real_escape_string($conn, $_POST["purpose"]);
 	$items = $_POST["items"];
 	$reference_no = $items[0][1];
@@ -347,10 +361,12 @@ function insert_ris(){
 	$query = mysqli_query($conn, "SELECT s.supplier, p.supplier_id FROM tbl_po AS p, ref_supplier AS s WHERE s.supplier_id = p.supplier_id AND p.po_number LIKE '$reference_no'");
 	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$requested_by_id'");
 	$quer2 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$issued_by_id'");
+	$quer3 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$approved_by_id'");
 
 	$supplier = mysqli_fetch_assoc($query)["supplier"];
 	$requested_by_designation = mysqli_fetch_assoc($quer1)["designation"];
 	$issued_by_designation = mysqli_fetch_assoc($quer2)["designation"];
+	$approved_by_designation = mysqli_fetch_assoc($quer3)["designation"];
 	for($i = 0; $i < count($items); $i++){
 		$po_id = $items[$i][0];
 		$reference_no = $items[$i][1];
@@ -365,7 +381,7 @@ function insert_ris(){
 		$total = $items[$i][10];
 		$stock = $items[$i][11];
 		$remarks = $items[$i][12];
-		mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,tbl_ris.date,supplier,lot_no,exp_date) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$category','$quantity','$cost','$total','1','$stock','$remarks','$reference_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$date','$supplier','$lot_no','$exp_date')");
+		mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,approved_by,approved_by_designation,tbl_ris.date,supplier,lot_no,exp_date) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$category','$quantity','$cost','$total','1','$stock','$remarks','$reference_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$approved_by','$approved_by_designation','$date','$supplier','$lot_no','$exp_date')");
 		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$po_id' AND item_name LIKE '$item'");
 		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 		$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];

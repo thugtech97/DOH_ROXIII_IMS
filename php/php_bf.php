@@ -29,12 +29,12 @@ function save_bf(){
 					mysqli_query($conn, "INSERT INTO tbl_serial(inventory_id,serial_no,is_issued) VALUES('$last_id','$sl','N')");
 				}
 			}
-			$emp_id = $_SESSION["emp_id"];
-			$description = $_SESSION["username"]." forwarded the remaining stocks of items";
-			mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 
 		}
 	}
+	$emp_id = $_SESSION["emp_id"];
+	$description = $_SESSION["username"]." forwarded the remaining stocks of items";
+	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
