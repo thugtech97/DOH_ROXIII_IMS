@@ -284,8 +284,8 @@ function insert_ptr(){
 	$supplier = mysqli_fetch_assoc($query)["supplier"];
 	for($i = 0; $i < count($items); $i++){
 		$item_id = $items[$i][0];
-		$item = $items[$i][1];
-		$description = $items[$i][2];
+		$item = mysqli_real_escape_string($conn, $items[$i][1]);
+		$description = mysqli_real_escape_string($conn, $items[$i][2]);
 		$serial_no = $items[$i][3];
 		$exp_date = $items[$i][4];
 		$category = $items[$i][5];

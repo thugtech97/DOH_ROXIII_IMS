@@ -1,6 +1,7 @@
 <?php
 
 require "php_conn.php";
+require "php_general_functions.php";
 
 function get_rpci(){
 	global $conn;
@@ -148,7 +149,7 @@ function get_rsmi_details(){
 		$unit = $row["unit"];
 		$quantity = $row["quantity"];
 		$category = $row["category"];
-		$account_code = mysqli_fetch_assoc(mysqli_query($conn, "SELECT account_code FROM ref_category WHERE category LIKE '$category'"))["account_code"];
+		$account_code = get_account_code($category, 0);
 		$requested_by = $row["requested_by"];
 		$unit_cost = $row["unit_cost"];
 		mysqli_query($conn, "INSERT INTO tbl_rsmi(date_released,control_no,item,unit,quantity,recipients,unit_cost,account_code,rcc) VALUES('$date_released','$ris_no','$description','$unit','$quantity','$requested_by','$unit_cost','$account_code','$rcc')");
@@ -188,7 +189,7 @@ function get_ppe_details(){
 		$cost = $row["cost"];
 		$total = $row["total"];
 		$category = $row["category"];
-		$account_code = "10402990";
+		$account_code = ($cost < 15000) ? get_account_code($category, 0) : get_account_code($category, 1);
 		$received_by = $row["received_by"];
 		$remarks = $row["remarks"];
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ics','$received_by','$remarks','$account_code')");
@@ -204,7 +205,7 @@ function get_ppe_details(){
 		$cost = $row["cost"];
 		$total = $row["total"];
 		$category = $row["category"];
-		$account_code = "10605030";
+		$account_code = ($cost < 15000) ? get_account_code($category, 0) : get_account_code($category, 1);
 		$received_by = $row["received_by"];
 		$remarks = $row["remarks"];
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','par','$received_by','$remarks','$account_code')");
@@ -234,7 +235,7 @@ function get_ppe_details(){
 		$cost = $row["cost"];
 		$total = $row["total"];
 		$category = $row["category"];
-		$account_code = ($unit_cost < 15000) ? "10402990" : "10605030";
+		$account_code = ($cost < 15000) ? get_account_code($category, 0) : get_account_code($category, 1);
 		$to = $row["to"];
 		$remarks = $row["remarks"];
 		mysqli_query($conn, "INSERT INTO tbl_ppe(tbl_ppe.date,particular,par_ptr_reference,qty,unit,unit_cost,total_cost,type,received_by,remarks,account_code) VALUES('$date_released','$item','$reference_no','$quantity','$unit','$cost','$total','ptr','$to','$remarks','$account_code')");

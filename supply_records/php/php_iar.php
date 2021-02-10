@@ -381,8 +381,8 @@ function insert_various(){
 		mysqli_query($conn, "INSERT INTO tbl_iar(entity_name,fund_cluster,po_number,iar_number,iar_type,req_office,res_cc,charge_invoice,date_inspected,inspector,inspected,date_received,property_custodian,status,partial_specify) VALUES('$entity_name','$fund_cluster','$po_number','$iar_number','$iar_type','$req_office','$res_cc','$charge_invoice','$date_inspected','$inspector','$inspected','$date_received','$property_custodian','$status','$partial_specify')");
 
 		for($i = 0; $i < count($items); $i++){
-			$item_name = $items[$i][0];
-			$description = $items[$i][1];
+			$item_name = mysqli_real_escape_string($conn, $items[$i][0]);
+			$description = mysqli_real_escape_string($conn, $items[$i][1]);
 			$exp_date = $items[$i][2];
 			$manufactured_by = $items[$i][3];
 			$bool = $items[$i][4];

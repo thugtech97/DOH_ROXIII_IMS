@@ -132,7 +132,7 @@ function get_item_details(){
 		$sl_options = "";
 		if(mysqli_num_rows($sql2) != 0){
 			while($rows = mysqli_fetch_assoc($sql2)){
-				$sl_options.="<option value=\"".$rows["serial_no"]."\">".$rows["serial_no"]."</option>";
+				$sl_options.="<option value=\"".$rows["serial_no"]."\"><p style=\"font-color: black;\">".$rows["serial_no"]."</p></option>";
 			}	
 		}
 		echo json_encode(array("stocks"=>$q_u[0],"unit"=>$q_u[1],"description"=>$row["description"],"unit_cost"=>$row["unit_cost"],"exp_date"=>$row["exp_date"],"category"=>$row["category"],"sn_ln"=>$sl_options));
@@ -338,8 +338,8 @@ function insert_ics(){
 	$supplier = mysqli_fetch_assoc($query)["supplier"];
 	for($i = 0; $i < count($items); $i++){
 		$item_id = $items[$i][0];
-		$item = $items[$i][1];
-		$description = $items[$i][2];
+		$item = mysqli_real_escape_string($conn, $items[$i][1]);
+		$description = mysqli_real_escape_string($conn, $items[$i][2]);
 		$serial_no = $items[$i][3];
 		$category = $items[$i][4];
 		$property_no = $items[$i][5];

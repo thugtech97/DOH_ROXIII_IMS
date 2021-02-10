@@ -370,8 +370,8 @@ function insert_ris(){
 	for($i = 0; $i < count($items); $i++){
 		$po_id = $items[$i][0];
 		$reference_no = $items[$i][1];
-		$item = $items[$i][2];
-		$description = $items[$i][3];
+		$item = mysqli_real_escape_string($conn, $items[$i][2]);
+		$description = mysqli_real_escape_string($conn, $items[$i][3]);
 		$category = $items[$i][4];
 		$lot_no = $items[$i][5];
 		$exp_date = $items[$i][6];

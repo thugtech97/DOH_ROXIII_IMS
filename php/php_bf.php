@@ -12,8 +12,8 @@ function save_bf(){
 	$items = $_POST["items"];
 	for($i = 0; $i < count($items); $i++){
 		$item_id = $items[$i][0];
-		$item_name = $items[$i][1];
-		$description = $items[$i][2];
+		$item_name = mysqli_real_escape_string($conn, $items[$i][1]);
+		$description = mysqli_real_escape_string($conn, $items[$i][2]);
 		$category = $items[$i][3];
 		$sn_ln = $items[$i][4];
 		$exp_date = $items[$i][5];
