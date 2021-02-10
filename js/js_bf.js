@@ -245,6 +245,7 @@ function save_balfwd(){
 					po_number: ($("#bf_pon").val()!="") ? $("#bf_pon").val() : "Bal-Fwd",
 					date_fwd: $("#bdfwd").val(),
 					supplier_id: ($("#bf_sup").val().split("┼"))[0],
+					program_eu: $("#bprogrameu").val(),
 					items: bitems
 				},
 				url: "php/php_bf.php",

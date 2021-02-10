@@ -12,27 +12,46 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-lg-8">
-                                <div class="row">
-                                    <div class="col-lg-7">
-                                        <div class="form-group row">
-                                            <label class="col-lg-2 col-form-label">PO#:</label>
-                                            <div class="col-lg-10">
-                                                <input id="bf_pon" type="text" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label">Supplier:</label>
-                                            <div class="col-lg-9">
-                                                <select id="bf_sup" class="select2_demo_1 form-control">
-                                                    <option value="" disabled selected></option>
-                                                </select>
-                                            </div>
-                                        </div>
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label">PO Number:</label>
+                                    <div class="col-lg-10">
+                                        <input id="bf_pon" type="text" class="form-control">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label">Supplier:</label>
+                                    <div class="col-lg-10">
+                                        <select id="bf_sup" class="select2_demo_1 form-control">
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label">Date Fwd:</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="bdfwd"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label">Program/EU:</label>
+                                    <div class="col-lg-10">
+                                        <input class="form-control" type="text" id="bprogrameu"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-lg-8">
                                 <div class="row">
                                     <div class="col-lg-7">
                                         <div class="form-group row">
@@ -117,12 +136,6 @@
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label">Date Fwd:</label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="bdfwd"/>
-                                    </div>
-                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label"><input type="checkbox" class="i-checks bcheck" style="height: 20px; width: 20px;"> SN/LN:</label>
                                     <div class="input-group m-b col-lg-9">

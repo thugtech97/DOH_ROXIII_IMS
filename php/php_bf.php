@@ -9,6 +9,7 @@ function save_bf(){
 	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
 	$supplier_id = mysqli_real_escape_string($conn, $_POST["supplier_id"]);
 	$bdfwd = mysqli_real_escape_string($conn, $_POST["date_fwd"]);
+	$end_user = mysqli_real_escape_string($conn, $_POST["program_eu"]);
 	$items = $_POST["items"];
 	for($i = 0; $i < count($items); $i++){
 		$item_id = $items[$i][0];
@@ -20,7 +21,7 @@ function save_bf(){
 		$unit_cost = $items[$i][6];
 		$quantity = $items[$i][7];
 		$main_stocks = explode(" ", $quantity)[0];
-		if(mysqli_query($conn, "INSERT INTO tbl_po(date_received,po_number,inspection_status,supplier_id,item_id,item_name,description,category,sn_ln,exp_date,unit_cost,main_stocks,quantity,po_type) VALUES('$bdfwd','$po_number','1','$supplier_id','$item_id','$item_name','$description','$category','$sn_ln','$exp_date','$unit_cost','$main_stocks','$quantity','$category')")){
+		if(mysqli_query($conn, "INSERT INTO tbl_po(date_received,po_number,inspection_status,supplier_id,item_id,item_name,description,category,sn_ln,exp_date,unit_cost,main_stocks,quantity,end_user,po_type) VALUES('$bdfwd','$po_number','1','$supplier_id','$item_id','$item_name','$description','$category','$sn_ln','$exp_date','$unit_cost','$main_stocks','$quantity','$end_user','$category')")){
 			if($sn_ln != ""){
 				$last_id = (int)mysqli_insert_id($conn);
 				$serials_lots = explode("|", $sn_ln);

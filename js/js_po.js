@@ -345,12 +345,12 @@ function edit_po_various(po_number){
 			        $(this).prop("selected", true).change();
 			    }
 			});
-			//$("#epo_enduser").val(data["end_user"]);
-			$('#epo_enduser option').each(function() {
+			$("#epo_enduser").val(data["end_user"]);
+			/*$('#epo_enduser option').each(function() {
 			    if($(this).text() == data["end_user"]) {
 			        $(this).prop("selected", true).change();
 			    }
-			});
+			});*/
 			var bool = (data["inspection_status"] == "1" ? true : false);
 			$("#ins_chk").attr("checked", bool);
 			$("#edate_conformed").val(data["date_conformed"]);
@@ -404,7 +404,7 @@ function update(){
 			edelivery_term: $("#edelivery_term option:selected").text(),
 			epayment_term: $("#epayment_term option:selected").text(),
 			esupplier: ($("#esupplier").val().split("┼"))[0],
-			epo_enduser: $("#epo_enduser option:selected").text(),
+			epo_enduser: $("#epo_enduser").val(),
 			edate_conformed: $("#edate_conformed").val(),
 			edate_delivered: $("#edate_delivered").val(),
 			estatus: $("#estatus option:selected").text(),
@@ -798,7 +798,7 @@ function ready_all(){
 			url: "php/php_po.php",
 			success: function(data){
 				$("#po_enduser").html("<option disabled selected></option>").append(data);
-				$("#epo_enduser").html("<option disabled selected></option>").append(data);
+				//$("#epo_enduser").html("<option disabled selected></option>").append(data);
 				loadLocal();
 			}
 		});

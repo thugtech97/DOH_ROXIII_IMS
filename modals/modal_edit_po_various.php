@@ -88,9 +88,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">End User:</label>
                                     <div class="col-lg-9">
-                                        <select id="epo_enduser" class="form-control select2_demo_1">
-                                            
-                                        </select>
+                                        <input type="text" id="epo_enduser" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">
