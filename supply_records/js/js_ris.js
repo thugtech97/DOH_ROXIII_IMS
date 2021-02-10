@@ -274,7 +274,7 @@ function add_item(){
     if($("#item_name").val() != null){
         if($("#quantity").val() != ""){
             if(parseInt($("#quantity").val()) <= po_details[$("#po_no option:selected").text()][$("#item_name").val()][1]){
-                if(parseInt($("#quantity").val()) != 0){
+                if(parseInt($("#quantity").val()) > 0){
                     $("table#ris_items tbody").append("<tr>"+
                         "<td>"+$("#item_name").val()+"</td>"+
                         "<td>"+$("#po_no").val()+"</td>"+
@@ -305,10 +305,10 @@ function add_item(){
                     lot_no = "";
                     exp_date = "";
                 }else{
-                    swal("Invalid input!", "Quantity cannot be zero", "warning");    
+                    swal("Invalid input!", "Quantity cannot be zero or negative", "warning");    
                 }
             }else{
-                swal("Invalid input!", "Quantity is greater than reamining stocks", "warning"); 
+                swal("Invalid input!", "Quantity is greater than remaining stocks", "warning"); 
             }
         }else{
             swal("Please fill in!", "Quantity", "warning"); 

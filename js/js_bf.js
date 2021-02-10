@@ -80,40 +80,44 @@ function badd_item(){
 			if($("#bcategory").val() != ""){
 				if($("#bunit_cost").val() != ""){
 					if($("#bquantity").val() != ""){
-						if($("#bunit").val() != null){
-							if($("#btotal_amount").val() != ""){
-								if(bget_snln_rows()[0] == 0){
-									$("table#bitem_various tbody").append("<tr>"+
-																		"<td>"+($("#bitem_name").val().split("┼"))[0]+"</td>"+
-																		"<td>"+$("#bitem_name option:selected").text()+"</td>"+
-																		"<td>"+$("#bdescription").val()+"</td>"+
-																		"<td>"+$("#bcategory").val()+"</td>"+
-																		"<td></td>"+
-																		"<td>"+$("#bexp_date").val()+"</td>"+
-																		"<td>"+$("#bunit_cost").val()+"</td>"+
-																		"<td>"+$("#bquantity").val()+" "+$( "#bunit option:selected" ).text()+"</td>"+
-																		"<td>"+$("#btotal_amount").val()+"</td>"+
-																		"<td><center><button class=\"btn btn-danger btn-xs\"><i class=\"fa fa-trash\"></i></button></center></td>"+
-																		"</tr>");
-										$("#bitem_name").val(null).change();
-										$("#bdescription").val("");
-										$("#bcategory").val("");
-										$("#bsn_ln").val("");
-										$("#bexp_date").val("");
-										$("#bunit_cost").val("");
-										$("#bquantity").val("");
-										$("#bunit").val(null).change();
-										$("#btotal_amount").val("");
-										$('#bexp_date').prop('disabled',true);
-										bget_total_row_amount();
+						if(parseInt($("#bquantity").val()) > 0){
+							if($("#bunit").val() != null){
+								if($("#btotal_amount").val() != ""){
+									if(bget_snln_rows()[0] == 0){
+										$("table#bitem_various tbody").append("<tr>"+
+																			"<td>"+($("#bitem_name").val().split("┼"))[0]+"</td>"+
+																			"<td>"+$("#bitem_name option:selected").text()+"</td>"+
+																			"<td>"+$("#bdescription").val()+"</td>"+
+																			"<td>"+$("#bcategory").val()+"</td>"+
+																			"<td></td>"+
+																			"<td>"+$("#bexp_date").val()+"</td>"+
+																			"<td>"+$("#bunit_cost").val()+"</td>"+
+																			"<td>"+$("#bquantity").val()+" "+$( "#bunit option:selected" ).text()+"</td>"+
+																			"<td>"+$("#btotal_amount").val()+"</td>"+
+																			"<td><center><button class=\"btn btn-danger btn-xs\"><i class=\"fa fa-trash\"></i></button></center></td>"+
+																			"</tr>");
+											$("#bitem_name").val(null).change();
+											$("#bdescription").val("");
+											$("#bcategory").val("");
+											$("#bsn_ln").val("");
+											$("#bexp_date").val("");
+											$("#bunit_cost").val("");
+											$("#bquantity").val("");
+											$("#bunit").val(null).change();
+											$("#btotal_amount").val("");
+											$('#bexp_date').prop('disabled',true);
+											bget_total_row_amount();
+									}else{
+										bvalidate_with_snln();
+									}
 								}else{
-									bvalidate_with_snln();
+									swal("Please fill in!", "Total amount", "warning");
 								}
 							}else{
-								swal("Please fill in!", "Total amount", "warning");
+								swal("Please fill in!", "Unit", "warning");
 							}
 						}else{
-							swal("Please fill in!", "Unit", "warning");
+							swal("Quantity can't be negative or zero","","warning");	
 						}
 					}else{
 						swal("Please fill in!", "Quantity", "warning");

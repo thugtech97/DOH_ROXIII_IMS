@@ -511,40 +511,44 @@ function add_item(){
 			if($("#category").val() != ""){
 				if($("#unit_cost").val() != ""){
 					if($("#quantity").val() != ""){
-						if($("#unit").val() != null){
-							if($("#total_amount").val() != ""){
-								if(get_snln_rows()[0] == 0){
-									$("table#item_various tbody").append("<tr>"+
-																		"<td>"+($("#item_name").val().split("┼"))[0]+"</td>"+
-																		"<td>"+$("#item_name option:selected").text()+"</td>"+
-																		"<td>"+$("#description").val()+"</td>"+
-																		"<td>"+$("#category").val()+"</td>"+
-																		"<td></td>"+
-																		"<td>"+$("#exp_date").val()+"</td>"+
-																		"<td>"+$("#unit_cost").val()+"</td>"+
-																		"<td>"+$("#quantity").val()+" "+$( "#unit option:selected" ).text()+"</td>"+
-																		"<td>"+$("#total_amount").val()+"</td>"+
-																		"<td><center><button class=\"btn btn-danger btn-xs\"><i class=\"fa fa-trash\"></i></button></center></td>"+
-																		"</tr>");
-										$("#item_name").val(null).change();
-										$("#description").val("");
-										$("#category").val("");
-										$("#sn_ln").val("");
-										$("#exp_date").val("");
-										$("#unit_cost").val("");
-										$("#quantity").val("");
-										$("#unit").val(null).change();
-										$("#total_amount").val("");
-										$('#exp_date').prop('disabled',true);
-										get_total_row_amount();
+						if(parseInt($("#quantity").val()) > 0){
+							if($("#unit").val() != null){
+								if($("#total_amount").val() != ""){
+									if(get_snln_rows()[0] == 0){
+										$("table#item_various tbody").append("<tr>"+
+																			"<td>"+($("#item_name").val().split("┼"))[0]+"</td>"+
+																			"<td>"+$("#item_name option:selected").text()+"</td>"+
+																			"<td>"+$("#description").val()+"</td>"+
+																			"<td>"+$("#category").val()+"</td>"+
+																			"<td></td>"+
+																			"<td>"+$("#exp_date").val()+"</td>"+
+																			"<td>"+$("#unit_cost").val()+"</td>"+
+																			"<td>"+$("#quantity").val()+" "+$( "#unit option:selected" ).text()+"</td>"+
+																			"<td>"+$("#total_amount").val()+"</td>"+
+																			"<td><center><button class=\"btn btn-danger btn-xs\"><i class=\"fa fa-trash\"></i></button></center></td>"+
+																			"</tr>");
+											$("#item_name").val(null).change();
+											$("#description").val("");
+											$("#category").val("");
+											$("#sn_ln").val("");
+											$("#exp_date").val("");
+											$("#unit_cost").val("");
+											$("#quantity").val("");
+											$("#unit").val(null).change();
+											$("#total_amount").val("");
+											$('#exp_date').prop('disabled',true);
+											get_total_row_amount();
+									}else{
+										validate_with_snln();
+									}
 								}else{
-									validate_with_snln();
+									swal("Please fill in!", "Total amount", "warning");
 								}
 							}else{
-								swal("Please fill in!", "Total amount", "warning");
+								swal("Please fill in!", "Unit", "warning");
 							}
 						}else{
-							swal("Please fill in!", "Unit", "warning");
+							swal("Quantity can't be negative or zero","","warning");
 						}
 					}else{
 						swal("Please fill in!", "Quantity", "warning");

@@ -282,7 +282,7 @@ function add_item(){
             if($("#property_no").val() != ""){
                 if($("#quantity").val() != ""){
                     if(parseInt($("#quantity").val()) <= po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1]) {
-                        if(parseInt($("#quantity").val()) != 0){
+                        if(parseInt($("#quantity").val()) > 0){
                             if($("#serial_no").val() == ""){
                                 $("table#par_items tbody").append("<tr>"+
                                     "<td>"+$("#item_name").val()+"</td>"+
@@ -316,7 +316,7 @@ function add_item(){
                                 validate_with_snln();
                             }
                         }else{
-                            swal("Invalid input!", "Quantity can't be zero", "warning");    
+                            swal("Invalid input!", "Quantity can't be zero or negative", "warning");    
                         }
                     }else{
                         swal("Invalid input!", "Quantity is greater than remaining stocks", "warning"); 
