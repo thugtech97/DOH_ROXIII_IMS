@@ -122,7 +122,7 @@ if(!isset($_SESSION["username"])){
                     <button class="btn btn-xs btn-danger" onclick="$('#print_rsmi').modal();"><i class="fa fa-print"></i> RSMI (RIS-Consumables)</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-warning" onclick="$('#modal_wi').modal();"><i class="fa fa-print"></i> Warehouse Inventory</button>
+                    <button class="btn btn-xs btn-warning" onclick="generate_wi();"><i class="fa fa-print"></i> Warehouse Inventory</button>
                 </li>&nbsp;&nbsp;
                 <li>
                     <button class="btn btn-xs btn-info" onclick="get_rpci();"><i class="fa fa-print"></i> RPCI (All Categories)</button>
@@ -191,9 +191,6 @@ if(!isset($_SESSION["username"])){
             <?php require "modals/modal_rsmi.php"; ?>
             <?php require "modals/modal_rpci.php"; ?>
         </div>
-        <?php
-            require "reports/report_wi.php";
-        ?>
         <br>
         <br>
             <div class="footer">

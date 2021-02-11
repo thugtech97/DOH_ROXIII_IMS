@@ -49,7 +49,8 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <button type="button" class="btn btn-primary btn-lg" onclick="print_ppe();"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-success btn-lg" onclick="print_ppe();"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="excel_ppe();"><i class="fa fa-file-excel-o"></i> Save As Excel</button>
                     </div>
                 </div>
                 <hr>
@@ -58,9 +59,18 @@
                         <input type="text" id="lookup" placeholder="Search...">
                         <center>
                             <div id="ppe_head">
-                                <p style="font-size: 12px;">DOH Regional Office XIII<br>
-                                <b>ISSUANCES PPE AND OTHER SUPPLIES</b>
-                                <br>As of <span id="lbl_month">MONTH</span>&nbsp;<span id="lbl_year">YEAR</span></p>
+                                <table>
+                                    <tr>
+                                        <td colspan="13" style="text-align: center;font-size: 12px;">DOH Regional Office XIII</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="13" style="text-align: center;font-size: 12px;"><b>ISSUANCES PPE AND OTHER SUPPLIES</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="13" style="text-align: center;font-size: 12px;">As of <span id="lbl_month">MONTH</span>&nbsp;<span id="lbl_year">YEAR</span></td>
+                                    </tr>
+                                </table>
+                                <br>
                             </div>
                         </center>
                         <div id="ppe_report">
@@ -103,7 +113,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="print_ppe();">Print</button>
             </div>
         </div>
     </div>

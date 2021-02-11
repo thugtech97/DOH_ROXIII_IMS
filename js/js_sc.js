@@ -42,6 +42,14 @@ function get_rsmi_details(month,year){
 	});
 }
 
+function excel_ppe(){
+	let file = new Blob([$('#ppe_head').html() + $('#ppe_report').html()], {type:"application/vnd.ms-excel"});
+	let url = URL.createObjectURL(file);
+	let a = $("<a />", {
+	  href: url,
+	  download: "PPE"+$("#lbl_month").html()+$("#lbl_year").html()+".xls"}).appendTo("body").get(0).click();
+}
+
 function print_ppe(){
 	var divContents = $("#ppe_report").html(); 
 	var a = window.open('', '', 'height=800, width=1500'); 
@@ -69,6 +77,14 @@ function print_sc(){
 	a.print();
 }
 
+function excel_rsmi(){
+	let file = new Blob([$('#report_rsmi').html()], {type:"application/vnd.ms-excel"});
+	let url = URL.createObjectURL(file);
+	let a = $("<a />", {
+	  href: url,
+	  download: "RSMI"+$("#rmonth").html()+$("#ryear").html()+".xls"}).appendTo("body").get(0).click();
+}
+
 function print_rsmi(){
 	var divContents = $("#report_rsmi").html(); 
 	var a = window.open('', '', 'height=1500, width=800'); 
@@ -83,32 +99,40 @@ function print_rsmi(){
 }
 
 function generate_wi(){
-	if($("#wi_month option:selected").text() != "" && $("#wi_year option:selected").text() != ""){
-		$.ajax({
-			type: "POST",
-			data: {call_func: "print_wi"},
-			url: "php/php_sc.php",
-			dataType: "JSON",
-			success: function(data){
-				$("#mwi").html($("#wi_month option:selected").text());
-				$("#ywi").html($("#wi_year option:selected").text());
-				$("#tbody_wi").html(data["tbody"]);
-				$("#grand_total").html(data["grand_total"]);
-				var divContents = $("#report_wi").html(); 
-				var a = window.open('', '', 'height=1500, width=800');
-				a.document.write('<html>');
-			  	a.document.write('<body><center>');
-			  	a.document.write('<table><tr>');
-				a.document.write('<td>'+divContents+'</td>');
-				a.document.write('</tr></table>');
-			  	a.document.write('</center></body></html>');
-				a.document.close();
-				a.print();
-			}
-		});
-	}else{
-		swal("Please fill all required fields!","Month and Year","warning");
-	}
+	$.ajax({
+		type: "POST",
+		data: {call_func: "print_wi"},
+		url: "php/php_sc.php",
+		dataType: "JSON",
+		success: function(data){
+			$("#mwi").html($("#wi_month option:selected").text());
+			$("#ywi").html($("#wi_year option:selected").text());
+			$("#tbody_wi").html(data["tbody"]);
+			$("#grand_total").html(data["grand_total"]);
+			$("#modal_wi").modal();
+		}
+	});
+}
+
+function excel_wi(){
+	let file = new Blob([$('#report_wi').html()], {type:"application/vnd.ms-excel"});
+	let url = URL.createObjectURL(file);
+	let a = $("<a />", {
+	  href: url,
+	  download: "WAREHOUSE_INVENTORY_"+$("#mwi").html()+$("#ywi").html()+".xls"}).appendTo("body").get(0).click();
+}
+
+function print_wi(){
+	var divContents = $("#report_wi").html(); 
+	var a = window.open('', '', 'height=1500, width=800');
+	a.document.write('<html>');
+  	a.document.write('<body><center>');
+  	a.document.write('<table><tr>');
+	a.document.write('<td>'+divContents+'</td>');
+	a.document.write('</tr></table>');
+  	a.document.write('</center></body></html>');
+	a.document.close();
+	a.print();
 }
 
 function get_rpci(){
@@ -123,6 +147,14 @@ function get_rpci(){
 			$('#print_rpci').modal();
 		}
 	});
+}
+
+function excel_rpci(){
+	let file = new Blob([$('#report_rpci').html()], {type:"application/vnd.ms-excel"});
+	let url = URL.createObjectURL(file);
+	let a = $("<a />", {
+	  href: url,
+	  download: "RPCI - "+$("#ao_rep").html()+".xls"}).appendTo("body").get(0).click();
 }
 
 function print_rpci(){
@@ -251,4 +283,14 @@ $("#rsmi_month").change(function(){
 
 $("#rsmi_year").change(function(){
 	get_rsmi_details($("#rsmi_month").val(),$("#rsmi_year").val());
+});
+
+$("#wi_month").change(function(){
+	$("#mwi").html($("#wi_month option:selected").text());
+	$("#ywi").html($("#wi_year option:selected").text());
+});
+
+$("#wi_year").change(function(){
+	$("#mwi").html($("#wi_month option:selected").text());
+	$("#ywi").html($("#wi_year option:selected").text());
 });

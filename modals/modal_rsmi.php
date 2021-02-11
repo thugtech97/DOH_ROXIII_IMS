@@ -49,7 +49,8 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <button type="button" class="btn btn-primary btn-lg" onclick="print_rsmi();"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-success btn-lg" onclick="print_rsmi();"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="excel_rsmi();"><i class="fa fa-file-excel-o"></i> Save as Excel</button>
                     </div>
                 </div>
                 <hr>
@@ -66,14 +67,13 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Print</button>
             </div>
         </div>
     </div>
 </div>
 
 <div class="modal inmodal" id="modal_wi" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-lg">
     <div class="modal-content animated slideInDown">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
@@ -123,7 +123,20 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <button type="button" class="btn btn-primary btn-lg" onclick="generate_wi();"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-success btn-lg" onclick="print_wi();"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="excel_wi();"><i class="fa fa-file-excel-o"></i> Save as Excel</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="ibox">
+                    <div class="ibox-content" style="height: 400px; overflow: auto; color: black;">
+                        <input type="text" id="wi_lookup" placeholder="Search...">
+                        <br><br>
+                        <center>
+                            <?php
+                                require "reports/report_wi.php";
+                            ?>
+                        </center>
                     </div>
                 </div>
             </div>

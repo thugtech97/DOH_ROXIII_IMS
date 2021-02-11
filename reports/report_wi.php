@@ -1,4 +1,4 @@
-<div id="report_wi" style="display: none;">
+<div id="report_wi">
 <table style="border-collapse: collapse;" cellspacing="0">
   <tbody>
     <tr>
