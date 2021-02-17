@@ -17,7 +17,7 @@
                     <li class="nav-header">
                         <div class="dropdown profile-element">
                                 <center><img alt="image" class="rounded-circle" src="../imgsys/DOH-logo.png" height="50" width="50"/>
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <a href="index.php">
                                     <span class="block m-t-xs font-bold">The Admin</span>
                                     <span class="text-muted text-xs block">User <b class="caret"></b></span>
                                 </a>
@@ -27,11 +27,10 @@
                             IMS+
                         </div>
                     </li>
-                    <li>
-                        <a href="../login.php"><i class="fa fa-sign-in"></i> <span class="nav-label">Login Page</span></a>
-                    </li>
+                    <li><a href="../login.php"><i class="fa fa-sign-in"></i> <span class="nav-label">Login Page</span></a></li>
+                    <li><a href="ics.php"><i class="fa fa-clipboard"></i> <span class="nav-label">ICS</span></a></li>
+                    <li><a href="par.php"><i class="fa fa-clipboard"></i> <span class="nav-label">PAR</span></a></li>
                 </ul>
-
             </div>
         </nav>
 

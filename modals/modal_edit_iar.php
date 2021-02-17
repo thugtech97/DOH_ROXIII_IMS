@@ -74,7 +74,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Inspector:</label>
                                     <div class="col-lg-8">
-                                        <select id="evar_inspector" class="select2_demo_1 form-control"></select>
+                                        <input id="evar_inspector" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">

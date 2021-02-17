@@ -6,7 +6,7 @@ function get_records(call_func, type){
     $.ajax({
         type: "POST",
         data: {call_func: call_func},
-        url: "testcode.php",
+        url: "php/testcode.php",
         success: function(data){
             $("table#test_table tbody").html(data);
             create_datatable(type);

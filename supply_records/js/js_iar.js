@@ -129,7 +129,7 @@ function ready_all(){
             data: {call_func: "get_employee"},
             success: function(data){
                 $("#var_inspector").html("").append(data);
-                $("#evar_inspector").html("<option disabled selected></option>").append(data);
+                //$("#evar_inspector").html("<option disabled selected></option>").append(data);
             }
         });
     });
@@ -193,13 +193,7 @@ function modify(iar_number){
             });
             $("#evar_rcc").val(data["res_cc"]);
             $("#evar_ci").val(data["charge_invoice"]);
-            /*
-            $('#evar_inspector option').each(function() {
-                if($(this).text() == data["inspector"]) {
-                    $(this).prop("selected", true).change();
-                }
-            });
-            */
+            $('#evar_inspector').val(data["inspector"]);
             $("#evar_inspected").val(data["date_inspected"]);
             $("#evar_dr").val(data["date_received"]);
             $("table#evar_items tbody").html(data["table"]);
@@ -233,7 +227,7 @@ function update(){
             req_office: $("#evar_rod option:selected").text(),
             res_cc: $("#evar_rcc").val(),
             charge_invoice: $("#evar_ci").val(),
-            inspector: $("#evar_inspector option:selected").text(),
+            inspector: $("#evar_inspector").val(),
             date_inspected: $("#evar_inspected").val(),
             date_received: $("#evar_dr").val(),
             items: items

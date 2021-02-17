@@ -1,6 +1,6 @@
 <?php
 
-require "../php/php_conn.php";
+require "../../php/php_conn.php";
 
 function get_records1(){
 	global $conn;
