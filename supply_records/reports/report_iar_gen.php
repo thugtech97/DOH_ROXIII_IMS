@@ -39,9 +39,7 @@
       <td style="width: 29.4px; height: 15px; text-align: center; font-size: 14px; font-weight: bold; vertical-align: bottom;"></td>
     </tr>
     <tr>
-      <td colspan="2" style="width: 84.6px; height: 16.5px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom;">Entity Name : <span id="gprint_en"></span></td>
-      <td style="width: 144px; height: 16.5px; text-align: left; font-size: 11px; vertical-align: bottom;"></td>
-      <td style="width: 61.8px; height: 16.5px; font-size: 11px; vertical-align: bottom;"></td>
+      <td colspan="4" style="width: 84.6px; height: 16.5px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom;">Entity Name : <span id="gprint_en"></span></td>
       <td colspan="3" style="width: 82.2px; height: 16.5px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom;">Fund Cluster : <span id="gprint_fc"></span></td>
     </tr>
     <tr>

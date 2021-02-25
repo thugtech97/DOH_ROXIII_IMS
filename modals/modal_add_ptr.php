@@ -16,7 +16,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">PTR Number:</label>
                                     <div class="col-lg-9">
-                                        <input id="ptr_no" type="text" class="form-control" placeholder="XXXX-XX-XXXX">
+                                        <input id="ptr_no" data-pc="<?php echo $_SESSION["property_custodian"]; ?>" data-ch="<?php echo $_SESSION["company_head"]; ?>" type="text" class="form-control" placeholder="XXXX-XX-XXXX">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -28,7 +28,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">Entity Name:</label>
                                     <div class="col-lg-9">
-                                        <input id="entity_name" type="text" class="form-control">
+                                        <input id="entity_name" type="text" class="form-control" value="<?php echo $_SESSION["entity_name"]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">

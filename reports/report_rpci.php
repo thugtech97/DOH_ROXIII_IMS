@@ -68,7 +68,7 @@
         <td style="width: 84px; height: 14.5px; font-size: 10px; vertical-align: bottom;"></td>
       </tr>
       <tr>
-        <td colspan="11" style="width: 54.6px; height: 14.5px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom;">For which   JOSE R. LLACUNA JR.,MD,MPH,CESO III, Director IV, _DOH Regional Office XIII is accountable, having assumed such accountability on ___(Date of Assumption)____.</td>
+        <td colspan="11" style="width: 54.6px; height: 14.5px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom;">For which <?php echo strtoupper($_SESSION["company_head"]); ?>, <?php echo $_SESSION["company_head_designation"]; ?>, <?php echo $_SESSION["entity_name"]; ?> is accountable, having assumed such accountability on ___(Date of Assumption)____.</td>
       </tr>
       <tr>
         <td style="width: 54.6px; height: 15px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
@@ -171,19 +171,19 @@
         <td style="width: 84px; height: 22.5px; font-size: 8px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
       </tr>
       <tr>
-        <td colspan="2" style="width: 54.6px; height: 14.5px; text-align: left; font-size: 8px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">GRETCHEN J. MAGALUNA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELEANOR D. LAKAG, MSBA</td>
-        <td colspan="3" style="width: 56.4px; height: 14.5px; text-align: left; font-size: 8px; font-weight: bold; vertical-align: bottom;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AILEEN A. SACOL,CPA,MMPSM</td>
-        <td colspan="3" style="width: 94.2px; height: 14.5px; text-align: left; font-size: 8px; font-weight: bold; vertical-align: bottom;">JOSE R. LLACUNA JR.,MD,MPH,CESOIII</td>
+        <td colspan="2" style="width: 54.6px; height: 14.5px; text-align: left; font-size: 8px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><?php echo strtoupper($_SESSION["rpci_prepared_by"]); ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo strtoupper($_SESSION["rpci_certified_correct"]); ?></td>
+        <td colspan="3" style="width: 56.4px; height: 14.5px; text-align: left; font-size: 8px; font-weight: bold; vertical-align: bottom;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo strtoupper($_SESSION["rpci_noted_by"]); ?></td>
+        <td colspan="3" style="width: 94.2px; height: 14.5px; text-align: left; font-size: 8px; font-weight: bold; vertical-align: bottom;"><?php echo strtoupper($_SESSION["rpci_approved_by"]); ?></td>
         <td style="width: 44.4px; height: 14.5px; font-size: 8px; vertical-align: bottom;"></td>
-        <td colspan="2" style="width: 48px; height: 14.5px; text-align: left; font-size: 8px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">JANAH P. TAPANGAN</td>
+        <td colspan="2" style="width: 48px; height: 14.5px; text-align: left; font-size: 8px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><?php echo strtoupper($_SESSION["rpci_coa"]); ?></td>
       </tr>
       <tr>
-        <td colspan="2" style="width: 54.6px; height: 22.5px; text-align: left; font-size: 8px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Admin Aide VI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Administrative Officer V</td>
-        <td colspan="3" style="width: 56.4px; height: 22.5px; text-align: left; font-size: 8px; vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OIC-Chief Administrative Officer</td>
-        <td colspan="2" style="width: 94.2px; height: 22.5px; text-align: left; font-size: 8px; vertical-align: top;">Director IV</td>
+        <td colspan="2" style="width: 54.6px; height: 22.5px; text-align: left; font-size: 8px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><?php echo $_SESSION["rpci_prepared_by_designation"]; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION["rpci_certified_correct_designation"]; ?></td>
+        <td colspan="3" style="width: 56.4px; height: 22.5px; text-align: left; font-size: 8px; vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_SESSION["rpci_noted_by_designation"]; ?></td>
+        <td colspan="2" style="width: 94.2px; height: 22.5px; text-align: left; font-size: 8px; vertical-align: top;"><?php echo $_SESSION["rpci_approved_by_designation"]; ?></td>
         <td style="width: 57.6px; height: 22.5px; text-align: left; font-size: 8px; vertical-align: top;"></td>
         <td style="width: 44.4px; height: 22.5px; font-size: 8px; vertical-align: bottom;"></td>
-        <td colspan="2" style="width: 48px; height: 22.5px; text-align: left; font-size: 8px; vertical-align: top;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">State Auditor IV</td>
+        <td colspan="2" style="width: 48px; height: 22.5px; text-align: left; font-size: 8px; vertical-align: top;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><?php echo $_SESSION["rpci_coa_designation"]; ?></td>
       </tr>
       <tr>
         <td style="width: 54.6px; height: 15px; font-size: 8px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;"></td>

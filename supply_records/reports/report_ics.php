@@ -37,10 +37,7 @@
     </tr>
     <tr>
       <td style="width: 75.6px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom;">Entity Name:</td>
-      <td colspan="2" style="width: 70.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom;"><span id="print_en"></span></td>
-      <td style="width: 62.4px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;"></td>
-      <td style="width: 48px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;"></td>
-      <td style="width: 85.2px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;"></td>
+      <td colspan="5" style="width: 70.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom;"><span id="print_en"></span></td>
       <td style="width: 86.4px; height: 15px; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 89.4px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;"></td>
     </tr>

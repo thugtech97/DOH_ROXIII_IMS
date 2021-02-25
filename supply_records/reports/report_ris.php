@@ -31,11 +31,7 @@
       <td style="width: 108.6px; height: 13.75px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 64.8px; height: 13.75px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Entity Name: <span id="print_en"></span></td>
-      <td style="width: 48.6px; height: 13.75px; font-size: 10px; vertical-align: bottom;"></td>
-      <td style="width: 46.8px; height: 13.75px; font-size: 10px; vertical-align: bottom;"></td>
-      <td style="width: 41.4px; height: 13.75px; font-size: 10px; vertical-align: bottom;"></td>
-      <td style="width: 40.2px; height: 13.75px; font-size: 10px; vertical-align: bottom;"></td>
+      <td colspan="7" style="width: 64.8px; height: 13.75px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Entity Name: <span id="print_en"></span></td>
       <td colspan="2" style="width: 61.2px; height: 13.75px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Fund Cluster: <span id="print_fc"></span></td>
     </tr>
     <tr>

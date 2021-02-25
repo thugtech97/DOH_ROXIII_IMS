@@ -32,9 +32,9 @@ if(isset($_SESSION["username"])){
 <body class="gray-bg">
     <div class="loginColumns animated fadeInDown">
         <div class="row">
-            <div class="col-md-6" style="background-color:  #7FFF00;">
+            <div class="col-md-6">
                 <center>
-                    <img src="imgsys/DOH-logo.png" height="330" width="340">
+                    <img id="login_logo" src="" height="340" width="340">
                 </center>
             </div>
             <div class="col-md-6" style="width: 100%;">
@@ -54,7 +54,7 @@ if(isset($_SESSION["username"])){
                     </form>
                     <button class="btn btn-sm btn-white btn-block">Create an account</button>
                     <p class="m-t">
-                        <small>DOH-CHD CARAGA &copy; <?php echo date("Y"); ?></small>
+                        <small><span id="company_title"></span> &copy; <?php echo date("Y"); ?></small>
                     </p>
                 </div>
             </div>
@@ -86,6 +86,14 @@ if(isset($_SESSION["username"])){
                 }
               });
               event.preventDefault();
+          });
+          $.ajax({
+            url: "php/php_load_config.php",
+            dataType: "JSON",
+            success: function(data){
+                $("#login_logo").attr("src", "../archives/img/"+data["company_logo"]);
+                $("#company_title").html(data["company_title"]);
+            }
           });
         });
     </script>

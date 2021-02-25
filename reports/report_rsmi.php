@@ -47,7 +47,7 @@
     </tr>
     <tr>
       <td style="width: 61.8px; height: 15.75px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom;">Entity Name:</td>
-      <td colspan="3" style="width: 63px; height: 15.75px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom;">DOH REGION OFFICE XIII</td>
+      <td colspan="3" style="width: 63px; height: 15.75px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom;"><?php echo $_SESSION["entity_name"]; ?></td>
       <td style="width: 190.2px; height: 15.75px; font-size: 9px; vertical-align: bottom;"></td>
       <td style="width: 52.2px; height: 15.75px; text-align: center; font-size: 10px; vertical-align: bottom;"></td>
       <td style="width: 46.8px; height: 15.75px; text-align: center; font-size: 10px; vertical-align: bottom;"></td>
@@ -286,7 +286,7 @@ Issued</td>
       <td style="width: 62.4px; height: 17.25px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="6" style="width: 61.8px; height: 13.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">ELEANOR D. LAKAG, MSBA</td>
+      <td colspan="6" style="width: 61.8px; height: 13.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><?php echo strtoupper($_SESSION["property_custodian"]); ?></td>
       <td colspan="2" style="width: 46.8px; height: 13.5px; text-align: center; font-size: 11px; vertical-align: bottom;">__________________________</td>
       <td colspan="2" style="width: 62.4px; height: 13.5px; text-align: center; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">_______________</td>
     </tr>

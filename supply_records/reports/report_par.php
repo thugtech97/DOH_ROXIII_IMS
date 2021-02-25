@@ -15,7 +15,7 @@
       <td colspan="7" style="font-size: 13px; text-align: center; vertical-align: bottom; font-weight:bold;">PROPERTY ACKNOWLEDGEMENT RECEIPT</td>
     </tr>
     <tr>
-      <td colspan="7" style="font-size: 11px; text-align: center; vertical-align: bottom;">DOH-Regional Office XIII</td>
+      <td colspan="7" style="font-size: 11px; text-align: center; vertical-align: bottom;"><?php echo $_SESSION["entity_name"]; ?></td>
     </tr>
     <tr>
       <td colspan="7" style="height: 15px; vertical-align: bottom;"></td>

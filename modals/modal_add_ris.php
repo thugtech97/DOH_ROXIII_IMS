@@ -16,13 +16,13 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">RIS Number:</label>
                                     <div class="col-lg-9">
-                                        <input type="text" id="ris_no" placeholder="XXXX-XX-XXXX" class="form-control">
+                                        <input type="text" data-pc="<?php echo $_SESSION["property_custodian"]; ?>" id="ris_no" placeholder="XXXX-XX-XXXX" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">Entity Name:</label>
                                     <div class="col-lg-9">
-                                        <input id="entity_name" type="text" class="form-control" disabled="" value="DOH-ROXIII">
+                                        <input id="entity_name" type="text" class="form-control" value="<?php echo $_SESSION["entity_name"]; ?>">
                                     </div>
                                 </div>
                                 <div class="row">

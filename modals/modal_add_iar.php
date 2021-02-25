@@ -25,7 +25,7 @@
                                                 <div class="form-group row">
                                                     <label class="col-lg-4 col-form-label">Entity Name:</label>
                                                     <div class="col-lg-8">
-                                                        <input id="var_en" type="text" class="form-control" value="DOH-ROXIII" disabled="">
+                                                        <input id="var_en" type="text" class="form-control" value="DOH-ROXIII">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -153,7 +153,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-3 col-form-label">Property Custodian:</label>
-                                                    <input id="var_pc" type="text" class="col-lg-9 form-control" value="Eleanor D. Lakag, MSBA" disabled="">
+                                                    <input id="var_pc" type="text" class="col-lg-9 form-control" value="<?php echo $_SESSION["property_custodian"]; ?>">
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6">

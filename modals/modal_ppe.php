@@ -61,7 +61,7 @@
                             <div id="ppe_head">
                                 <table>
                                     <tr>
-                                        <td colspan="13" style="text-align: center;font-size: 12px;">DOH Regional Office XIII</td>
+                                        <td colspan="13" style="text-align: center;font-size: 12px;"><?php echo $_SESSION["company_title"]; ?></td>
                                     </tr>
                                     <tr>
                                         <td colspan="13" style="text-align: center;font-size: 12px;"><b>ISSUANCES PPE AND OTHER SUPPLIES</b></td>
@@ -101,10 +101,10 @@
                             <br><br>
                             <div class="container" style="display: flex; float: left;">
                                 <div>
-                                    <p style="font-size: 12px;">Prepared by:</p><p style="font-size: 12px;"><b>EDEN T. SAGUNDAY</b><span><br>Administrative Officer I</span></p>
+                                    <p style="font-size: 12px;">Prepared by:</p><p style="font-size: 12px;"><b><?php echo strtoupper($_SESSION["ppe_prepared_by"]); ?></b><span><br><?php echo $_SESSION["ppe_prepared_by_designation"]; ?></span></p>
                                 </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <div>
-                                    <p style="font-size: 12px;">Noted by:</p><p style="font-size: 12px;"><b>ELEANOR D. LAKAG, MSBA</b><span><br>Administrative Officer V</span></p>
+                                    <p style="font-size: 12px;">Noted by:</p><p style="font-size: 12px;"><b><?php echo strtoupper($_SESSION["ppe_noted_by"]); ?></b><span><br><?php echo $_SESSION["ppe_noted_by_designation"]; ?></span></p>
                                 </div>
                             </div>
                         </div>

@@ -2,7 +2,7 @@
 <table style="border-collapse: collapse;" cellspacing="0">
   <tbody>
     <tr>
-      <td colspan="12" style="width: 61.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-top-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-top-width: 2px; border-left-width: 2px; border-top-style: solid; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;">Department of Health</td>
+      <td colspan="12" style="width: 61.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-top-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-top-width: 2px; border-left-width: 2px; border-top-style: solid; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;"><?php echo $_SESSION["company_title"]; ?></td>
     </tr>
     <tr>
       <td style="width: 155.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
@@ -19,7 +19,7 @@
       <td style="width: 51.6px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="12" style="width: 61.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;">Center for Health Development - Caraga</td>
+      <td colspan="12" style="width: 61.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;"><?php echo $_SESSION["supporting_title"]; ?></td>
     </tr>
     <tr>
       <td colspan="12" style="width: 61.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;">Warehouse Inventory as of <span id="mwi"></span> <span id="ywi"></span></td>
@@ -96,20 +96,19 @@
       <td style="width: 51.6px; height: 17.25px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 61.2px; height: 14.5px; text-align: left; font-size: 9px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;">GRETCHEN J. MAGALUNA</td>
-      <td colspan="2" style="width: 56.4px; height: 14.5px; text-align: left; font-size: 9px; font-weight: bold; vertical-align: bottom;">EDEN T. SAGUNDAY</td>
-      <td colspan="3" style="width: 59.4px; height: 14.5px; text-align: left; font-size: 9px; font-weight: bold; vertical-align: bottom;">ELEANOR D. LAKAG, MSBA</td>
+      <td colspan="3" style="width: 61.2px; height: 14.5px; text-align: left; font-size: 9px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;"><?php echo strtoupper($_SESSION["wi_prepared_by"]); ?></td>
+      <td colspan="2" style="width: 56.4px; height: 14.5px; text-align: left; font-size: 9px; font-weight: bold; vertical-align: bottom;"><?php echo strtoupper($_SESSION["wi_reviewed_by"]); ?></td>
+      <td colspan="3" style="width: 59.4px; height: 14.5px; text-align: left; font-size: 9px; font-weight: bold; vertical-align: bottom;"><?php echo strtoupper($_SESSION["wi_noted_by"]); ?></td>
       <td style="width: 41.4px; height: 14.5px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 48.6px; height: 14.5px; text-align: left; font-size: 9px; font-weight: bold; vertical-align: bottom;"></td>
       <td style="width: 73.8px; height: 14.5px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 51.6px; height: 14.5px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="2" style="width: 61.2px; height: 14.5px; text-align: left; font-size: 8px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;">Administrative Aide VI</td>
+      <td colspan="2" style="width: 61.2px; height: 14.5px; text-align: left; font-size: 8px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;"><?php echo $_SESSION["wi_prepared_by_designation"]; ?></td>
       <td style="width: 56.4px; height: 14.5px; text-align: left; font-size: 8px; vertical-align: bottom;"></td>
-      <td colspan="2" style="width: 56.4px; height: 14.5px; text-align: left; font-size: 8px; vertical-align: bottom;">Administrative Officer I</td>
-      <td colspan="2" style="width: 59.4px; height: 14.5px; text-align: left; font-size: 8px; vertical-align: bottom;">Administrative Officer V</td>
-      <td style="width: 54px; height: 14.5px; text-align: center; font-size: 11px; vertical-align: bottom;"></td>
+      <td colspan="2" style="width: 56.4px; height: 14.5px; text-align: left; font-size: 8px; vertical-align: bottom;"><?php echo $_SESSION["wi_reviewed_by_designation"]; ?></td>
+      <td colspan="3" style="width: 59.4px; height: 14.5px; text-align: left; font-size: 8px; vertical-align: bottom;"><?php echo$_SESSION["wi_noted_by_designation"]; ?></td>
       <td style="width: 41.4px; height: 14.5px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 48.6px; height: 14.5px; text-align: left; font-size: 8px; vertical-align: bottom;"></td>
       <td style="width: 73.8px; height: 14.5px; font-size: 11px; vertical-align: bottom;"></td>

@@ -56,9 +56,9 @@
       <td style="width: 72.6px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="5" style="width: 73.2px; height: 13.75px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Entity Name : <span id="gprint_en"></span></td>
+      <td colspan="5" style="width: 73.2px; height: 13.75px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Entity Name : <span id="gprint_en"></span></td>
       <td style="width: 135.6px; height: 13.75px; font-size: 11px; font-weight: bold; vertical-align: bottom;"></td>
-      <td colspan="5" style="width: 49.8px; height: 13.75px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Fund Cluster : <span id="gprint_fc"></span></td>
+      <td colspan="5" style="width: 49.8px; height: 13.75px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: center;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Fund Cluster : <span id="gprint_fc"></span></td>
     </tr>
     <tr>
       <td style="width: 73.2px; height: 6px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;"></td>
@@ -74,12 +74,11 @@
       <td style="width: 72.6px; height: 6px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="5" style="width: 73.2px; height: 24.75px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">From: <span id="gprint_from"></span></td>
-      <td style="width: 135.6px; height: 24.75px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+      <td colspan="6" style="width: 73.2px; height: 24.75px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">From: <span id="gprint_from"></span></td>
       <td colspan="5" style="width: 49.8px; height: 24.75px; text-align: left; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">PTR No.: <span id="gprint_ptrno"></span></td>
     </tr>
     <tr>
-      <td colspan="6" style="width: 73.2px; height: 17.5px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-style: solid; border-right-width: 2px;">To: <span id="gprint_to"></span></td>
+      <td colspan="6" style="width: 73.2px; height: 17.5px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-style: solid; border-right-width: 2px;">To: <span id="gprint_to"></span></td>
       <td colspan="5" style="width: 49.8px; height: 17.5px; text-align: left; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date: <span id="gprint_date"></span></td>
     </tr>
     <tr>

@@ -83,11 +83,11 @@
       <td colspan="6" style="width: 19.8px; height: 15px; text-align: left; font-weight: bold; font-size: 12px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Fund Cluster: <span id="print_fc"></span></td>
     </tr>
     <tr>
-      <td colspan="11" style="width: 24.6px; height: 15px; text-align: left; font-size: 12px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">From: <span id="print_from"></span></td>
+      <td colspan="11" style="width: 24.6px; height: 15px; text-align: left; font-size: 12px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">From: <span id="print_from"></span></td>
       <td colspan="6" style="width: 19.8px; height: 15px; text-align: left; font-size: 12px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">PTR No.: <span id="print_ptrno"></span></td>
     </tr>
     <tr>
-      <td colspan="11" style="width: 24.6px; height: 15px; text-align: left; font-size: 12px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">To: <span id="print_to"></span></td>
+      <td colspan="11" style="width: 24.6px; height: 15px; text-align: left; font-size: 12px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">To: <span id="print_to"></span></td>
       <td colspan="6" style="width: 19.8px; height: 15px; text-align: left; font-size: 12px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">Date: <span id="print_date"></span></td>
     </tr>
     <tr>

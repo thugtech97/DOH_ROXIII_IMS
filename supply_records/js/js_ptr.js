@@ -335,7 +335,7 @@ function ready_all(){
             success: function(data){
                 $("#received_from").html("<option disabled selected></option>").append(data);
                 $('#received_from option').each(function() {
-                    if($(this).text() == "Eleanor D. Lakag, MSBA"){
+                    if($(this).text() == $("#ptr_no").data("pc")){
                         $(this).prop("selected", true).change();
                     }
                 });
@@ -351,7 +351,7 @@ function ready_all(){
             success: function(data){
                 $("#approved_by").html("<option disabled selected></option>").append(data);
                 $('#approved_by option').each(function() {
-                    if($(this).text() == "Jose  R. Llacuna Jr., MD, MPH, CESO III"){
+                    if($(this).text() == $("#ptr_no").data("ch")){
                         $(this).prop("selected", true).change();
                     }
                 });

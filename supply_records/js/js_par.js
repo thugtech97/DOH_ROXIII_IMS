@@ -99,7 +99,7 @@ function ready_all(){
             success: function(data){
                 $("#received_from").html("<option disabled selected></option>").append(data);
                 $('#received_from option').each(function() {
-                    if($(this).text() == "Eleanor D. Lakag, MSBA"){
+                    if($(this).text() == $("#par_no").data("pc")){
                         $(this).prop("selected", true).change();
                     }
                 });

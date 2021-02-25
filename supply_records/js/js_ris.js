@@ -96,7 +96,7 @@ function ready_all(){
             success: function(data){
                 $("#issued_by").html("<option disabled selected></option>").append(data);
                 $('#issued_by option').each(function() {
-                    if($(this).text() == "Eleanor D. Lakag, MSBA"){
+                    if($(this).text() == $("#ris_no").data("pc")){
                         $(this).prop("selected", true).change();
                     }
                 });

@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
 
@@ -16,7 +19,7 @@
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                                <center><img alt="image" class="rounded-circle" src="../imgsys/DOH-logo.png" height="50" width="50"/>
+                                <center><img alt="image" class="rounded-circle" src="../../archives/img/<?php echo $_SESSION["company_logo"]; ?>" height="50" width="50"/>
                                 <a href="index.php">
                                     <span class="block m-t-xs font-bold">The Admin</span>
                                     <span class="text-muted text-xs block">User <b class="caret"></b></span>

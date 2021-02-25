@@ -19,10 +19,10 @@
       <td colspan="8" style="font-size: 9px; height: 9px; vertical-align: bottom; border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="8" style="font-size: 9px; height: 9px; vertical-align: bottom; border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;"><center>DEPARTMENT OF HEALTH</center></td>
+      <td colspan="8" style="font-size: 9px; height: 9px; vertical-align: bottom; border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;"><center><?php echo $_SESSION["company_title"]; ?></center></td>
     </tr>
     <tr>
-      <td colspan="8" style="font-size: 9px; height: 9px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;"><center>CENTER FOR HEALTH DEVELOPMENT, CARAGA</center></td>
+      <td colspan="8" style="font-size: 9px; height: 9px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;"><center><?php echo $_SESSION["supporting_title"]; ?></center></td>
     </tr>
     <tr>
       <td colspan="8" style="font-size: 9px; height: 9px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;"><center>Agency</center></td>

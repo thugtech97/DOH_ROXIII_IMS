@@ -47,11 +47,7 @@
         <td style="width: 109.8px; height: 14.25px; text-align: center; font-size: 14px; font-weight: bold; vertical-align: bottom;"></td>
       </tr>
       <tr>
-        <td colspan="5" style="width: 50.4px; height: 22.5px; text-align: left; font-size: 12px; font-weight: bold; vertical-align: bottom;">Entity Name: <span id="dprint_en"></span></td>
-        <td style="width: 34.2px; height: 22.5px; font-size: 14px; font-weight: bold; vertical-align: bottom;"></td>
-        <td style="width: 37.8px; height: 22.5px; font-size: 14px; font-weight: bold; vertical-align: bottom;"></td>
-        <td style="width: 45.6px; height: 22.5px; font-size: 14px; font-weight: bold; vertical-align: bottom;"></td>
-        <td style="width: 52.2px; height: 22.5px; font-size: 14px; font-weight: bold; vertical-align: bottom;"></td>
+        <td colspan="9" style="width: 50.4px; height: 22.5px; text-align: left; font-size: 12px; font-weight: bold; vertical-align: bottom;">Entity Name: <span id="dprint_en"></span></td>
         <td colspan="3" style="width: 78.6px; height: 22.5px; text-align: left; font-size: 12px; font-weight: bold; vertical-align: bottom;">Fund Cluster: <span id="dprint_fc"></span></td>
       </tr>
       <tr>
