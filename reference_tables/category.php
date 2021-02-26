@@ -27,7 +27,7 @@ if(!isset($_SESSION["username"])){
                 <ul class="nav metismenu" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element">
-                            <center><img alt="image" class="rounded-circle" src="../imgsys/DOH-logo.png" height="50" width="50"/>
+                            <center><img alt="image" class="rounded-circle" src="../../archives/img/<?php echo $_SESSION["company_logo"]; ?>" height="50" width="50"/>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <span class="block m-t-xs font-bold"><?php echo $_SESSION["username"]; ?></span>
                                     <span class="text-muted text-xs block"><?php echo $_SESSION["role"]; ?><b class="caret"></b></span>
