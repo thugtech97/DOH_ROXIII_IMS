@@ -363,7 +363,7 @@ if(!isset($_SESSION["username"])){
                     showMethod: 'slideDown',
                     timeOut: 4000
                 };
-                toastr.success('Inventory Management System', 'Welcome to DOH-ROXIII IMS');
+                toastr.success('Inventory Management System', 'Welcome to <?php echo $_SESSION["entity_name"]; ?>');
             }, 1300);
         });
 

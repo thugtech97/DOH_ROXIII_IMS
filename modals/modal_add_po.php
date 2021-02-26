@@ -31,7 +31,7 @@
                                                 <div class="form-group row">
                                                     <label class="col-lg-3 col-form-label"><span id="title-type">P.O</span> Number:</label>
                                                     <div class="col-lg-9">
-                                                        <input id="vpo_number" type="text" class="form-control" maxlength="12">
+                                                        <input id="vpo_number" type="text" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -66,6 +66,7 @@
                                                             <option value="SVP">SVP</option>
                                                             <option value="Central-Office">Central-Office</option>
                                                             <option value="PS-DBM">PS-DBM</option>
+                                                            <option value="Others">Others</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -78,6 +79,7 @@
                                                                     <option value="" disabled selected></option>
                                                                     <option value="15 days">15 days</option>
                                                                     <option value="30 days">30 days</option>
+                                                                    <option value="45 days">45 days</option>
                                                                     <option value="90 days">90 days</option>
                                                                     <option value="Progress Billing">Progress Billing</option>
                                                                 </select>

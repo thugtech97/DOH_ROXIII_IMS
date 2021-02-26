@@ -41,6 +41,7 @@
                                             <option value="SVP">SVP</option>
                                             <option value="Central-Office">Central-Office</option>
                                             <option value="PS-DBM">PS-DBM</option>
+                                            <option value="Others">Others</option>
                                         </select>
                                     </div>
                                 </div>
@@ -51,6 +52,7 @@
                                             <option value="" disabled selected></option>
                                             <option value="15 days">15 days</option>
                                             <option value="30 days">30 days</option>
+                                            <option value="45 days">45 days</option>
                                             <option value="90 days">90 days</option>
                                             <option value="Progress Billing">Progress Billing</option>
                                         </select>
