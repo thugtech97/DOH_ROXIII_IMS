@@ -25,7 +25,7 @@ if(!isset($_SESSION["username"])){
     <!-- Gritter -->
     <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 
-    <link rel="shortcut icon" type="image/x-icon" href="imgsys/DOH-logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../archives/img/<?php echo $_SESSION["company_logo"]; ?>">
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -227,7 +227,7 @@ if(!isset($_SESSION["username"])){
 
             <div class="footer">
                 <div>
-                    <strong>Copyright</strong> DOH-CHD-CARAGA &copy; <?php echo date("Y"); ?>
+                    <strong>Copyright</strong> <?php echo $_SESSION["company_title"]; ?> &copy; <?php echo date("Y"); ?>
                 </div>
             </div>
         </div>

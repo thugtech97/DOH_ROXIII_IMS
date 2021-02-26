@@ -21,7 +21,7 @@ if(isset($_SESSION["username"])){
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link rel="shortcut icon" type="image/x-icon" href="imgsys/DOH-logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../archives/img/<?php echo $_SESSION["company_logo"]; ?>">
     <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
 
     <link href="css/animate.css" rel="stylesheet">

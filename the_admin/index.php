@@ -100,7 +100,7 @@
             ?>
             <div class="footer">
                 <div>
-                    <strong>Copyright</strong> DOH-CHD-CARAGA &copy; <?php echo date("Y"); ?>
+                    <strong>Copyright</strong> <?php echo $_SESSION["company_title"]; ?> &copy; <?php echo date("Y"); ?>
                 </div>
             </div>
         </div>

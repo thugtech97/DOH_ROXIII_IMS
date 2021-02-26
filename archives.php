@@ -14,7 +14,7 @@ if(!isset($_SESSION["username"])){
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INVENTORY MS | Archives</title>
-    <link rel="shortcut icon" type="image/x-icon" href="imgsys/DOH-logo.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../archives/img/<?php echo $_SESSION["company_logo"]; ?>">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
@@ -184,7 +184,7 @@ if(!isset($_SESSION["username"])){
 </div>
 <div class="footer">
     <div>
-        <strong>Copyright</strong> DOH-CHD-CARAGA &copy; <?php echo date("Y"); ?>
+        <strong>Copyright</strong> <?php echo $_SESSION["company_title"]; ?> &copy; <?php echo date("Y"); ?>
     </div>
 </div>
 
