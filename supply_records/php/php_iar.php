@@ -18,10 +18,10 @@ function update(){
 	$date_received = mysqli_real_escape_string($conn, $_POST["date_received"]);
 	$items = $_POST["items"];
 	for($i = 0; $i < count($items); $i++){
-		$item_name = $items[$i][0];
-		$description = $items[$i][1];
+		$item_name = mysqli_real_escape_string($conn,$items[$i][0]);
+		$description = mysqli_real_escape_string($conn,$items[$i][1]);
 		$exp_date = $items[$i][2];
-		$manufactured_by = $items[$i][3];
+		$manufactured_by = mysqli_real_escape_string($conn,$items[$i][3]);
 		$bool = $items[$i][4];
 		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name = '$item_name' AND description = '$description' AND po_number = '$po_number'");
 	}
@@ -90,7 +90,7 @@ function print_iar_dm(){
 
 	$sql2 = mysqli_query($conn, "SELECT DISTINCT p.item_name, p.po_id, s.supplier, p.description, p.unit_cost, p.date_conformed, p.date_delivered, p.end_user FROM ref_supplier AS s, tbl_po AS p WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1' AND s.supplier_id = p.supplier_id AND p.iar_no LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql2)){
-		$item_name = $row["item_name"]; $poid = $row["po_id"];
+		$item_name = mysqli_real_escape_string($conn,$row["item_name"]); $poid = $row["po_id"];
 		$supplier = $row["supplier"]; $date_conformed = $row["date_conformed"];$date_delivered = $row["date_delivered"];$end_user = $row["end_user"];
 		$quan_unit = "";
 		$getQuan = mysqli_query($conn, "SELECT quantity, main_stocks, activity_title FROM tbl_po WHERE item_name LIKE '$item_name' AND iar_no LIKE '$iar_number'");

@@ -15,7 +15,7 @@ function get_rpci(){
           <td colspan=\"11\" style=\"width: 54.6px; height: 19.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; background-color: rgb(255, 255, 0);\">".strtoupper($category)."</td>
         </tr>";
 		$sub_total = 0.00;
-		$sql2 = mysqli_query($conn, "SELECT p.po_id, p.end_user, p.po_number, p.item_name, s.supplier, p.date_delivered, p.description, p.quantity, p.unit_cost FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.category = '$category' AND p.procurement_mode <> 'Bidding'");
+		$sql2 = mysqli_query($conn, "SELECT p.po_id, p.end_user, p.po_number, p.item_name, s.supplier, p.date_delivered, p.description, p.quantity, p.unit_cost FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.category = '$category' AND p.procurement_mode <> 'Bidding' AND (p.status = 'Delivered' OR p.status = '')");
 		if(mysqli_num_rows($sql2) != 0){
 			while($row2 = mysqli_fetch_assoc($sql2)){
 				$quantity_unit = explode(" ", $row2["quantity"]);
@@ -77,7 +77,7 @@ function print_wi(){
 	while($row = mysqli_fetch_assoc($sql)){
 		$category = $row["category"];
 		$sub_total = 0.00;
-		$sql2 = mysqli_query($conn, "SELECT p.end_user, p.po_number, p.item_name, s.supplier, p.date_delivered, p.description, p.quantity, p.sn_ln, p.exp_date, p.unit_cost FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.category = '$category' AND p.procurement_mode <> 'Bidding'");
+		$sql2 = mysqli_query($conn, "SELECT p.end_user, p.po_number, p.item_name, s.supplier, p.date_delivered, p.description, p.quantity, p.sn_ln, p.exp_date, p.unit_cost FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.category = '$category' AND p.procurement_mode <> 'Bidding' AND (p.status = 'Delivered' OR p.status = '')");
 		if(mysqli_num_rows($sql2) != 0){
 			while($row2 = mysqli_fetch_assoc($sql2)){
 				$quantity_unit = explode(" ", $row2["quantity"]);
