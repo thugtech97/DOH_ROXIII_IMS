@@ -149,7 +149,7 @@ if(!isset($_SESSION["username"])){
                                 <table id="ris_data" class="table table-bordered table-hover dataTables-example" >
                                     <thead>
                                     <tr>
-                                        <th></th>
+                                        <th class="first_col"></th>
                                         <th>RIS No</th>
                                         <th>Division</th>
                                         <th>Office</th>

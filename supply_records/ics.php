@@ -147,7 +147,7 @@ if(!isset($_SESSION["username"])){
                                 <table id="ics_data" class="table table-bordered table-hover dataTables-example" >
                                     <thead>
                                     <tr>
-                                        <th>Issued</th>
+                                        <th class="first_col">Issued</th>
                                         <th>Area</th>
                                         <th>ICS No</th>
                                         <th>PO No</th>

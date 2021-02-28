@@ -329,12 +329,13 @@ function get_po(){
 function get_iar(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT iar_number, iar_type, po_number, req_office, res_cc FROM tbl_iar ORDER BY iar_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT iar_id, iar_number, iar_type, po_number, req_office, res_cc FROM tbl_iar ORDER BY iar_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$pn = $row["po_number"];
 			if($row["iar_type"] != "Drugs and Medicines" && $row["iar_type"] != "Medical Supplies"){
 				echo "<tr>
+				<td>".$row["iar_id"]."</td>
 				<td>".$row["po_number"]."</td>
 				<td>".$row["iar_number"]."</td>
 				<td>".$row["req_office"]."</td>
@@ -343,6 +344,7 @@ function get_iar(){
 				</tr>";
 			}else{
 				echo "<tr>
+				<td>".$row["iar_id"]."</td>
 				<td>".$row["po_number"]."</td>
 				<td>".$row["iar_number"]."</td>
 				<td>".$row["req_office"]."</td>

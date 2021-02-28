@@ -147,6 +147,7 @@ if(!isset($_SESSION["username"])){
                                 <table id="tbl_iar" class="table table-bordered table-hover dataTables-example" >
                                     <thead>
                                     <tr>
+                                        <th class="first_col"></th>
                                         <th>PO No.</th>
                                         <th>IAR No.</th>
                                         <th>Requisitioning Office</th>
@@ -186,6 +187,5 @@ if(!isset($_SESSION["username"])){
 
     <script src="js/js_iar.js"></script>
     <script src="js/js_general_functions.js"></script>
-
 </body>
 </html>

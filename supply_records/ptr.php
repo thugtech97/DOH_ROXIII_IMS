@@ -149,7 +149,7 @@ if(!isset($_SESSION["username"])){
                                 <table id="ptr_data" class="table table-bordered table-hover dataTables-example" >
                                     <thead>
                                     <tr>
-                                        <th>Issued</th>
+                                        <th class="first_col">Issued</th>
                                         <th>PTR No</th>
                                         <th>PO No</th>
                                         <th>From</th>

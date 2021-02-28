@@ -47,6 +47,7 @@ function create_datatable(){
             }
         ]
     });
+    $(".first_col").click();
     ready_all();
 }
 
