@@ -296,26 +296,34 @@ function insert_ptr(){
 		$total = $items[$i][10];
 		$conditions = $items[$i][11];
 		$remarks = $items[$i][12];
-		mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$reference_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address')");
-		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND po_id = '$item_id'");
-		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
-		$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
-		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND po_id = '$item_id'");
-		if($exp_date == "0000-00-00"){
-			$serials = explode(",", $serial_no);
-			for($j = 0; $j < count($serials); $j++){
-				$sn = $serials[$j];
-				mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
+		if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT ptr_no FROM tbl_ptr WHERE ptr_no = '$ptr_no'"))==0){
+			mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$reference_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address')");
+			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND po_id = '$item_id'");
+			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
+			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
+			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND po_id = '$item_id'");
+			if($exp_date == "0000-00-00"){
+				$serials = explode(",", $serial_no);
+				for($j = 0; $j < count($serials); $j++){
+					$sn = $serials[$j];
+					mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
+				}
 			}
-		}
-		if($property_no != ""){
-			$pn = end(explode(",", $property_no));
-			mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+			if($property_no != ""){
+				if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
+					$pns = explode(",", $property_no);
+					$pn = end($pns);
+					mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+				}
+			}
+			$emp_id = $_SESSION["emp_id"];
+			$description = $_SESSION["username"]." created a PTR No. ".$ptr_no;
+			mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+			echo "0";
+		}else{
+			echo "1";
 		}
 	}
-	$emp_id = $_SESSION["emp_id"];
-	$description = $_SESSION["username"]." created a PTR No. ".$ptr_no;
-	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
 function get_latest_ptr(){

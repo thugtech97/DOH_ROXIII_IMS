@@ -171,22 +171,29 @@ function insert_par(){
 		$cost = $items[$i][8];
 		$total = $items[$i][9];
 		$remarks = $items[$i][10];
-		mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area) VALUES ('$par_no', '$entity_name', '$fund_cluster', '$reference_no', '$item', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$cost', '$total', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$area')");
-		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND po_id = '$item_id'");
-		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
-		$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
-		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND po_id = '$item_id'");
-		$serials = explode(",", $serial_no);
-		for($j = 0; $j < count($serials); $j++){
-			$sn = $serials[$j];
-			mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
+		if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT par_no FROM tbl_par WHERE par_no = '$par_no'"))==0){
+			mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area) VALUES ('$par_no', '$entity_name', '$fund_cluster', '$reference_no', '$item', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$cost', '$total', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$area')");
+			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND po_id = '$item_id'");
+			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
+			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
+			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND po_id = '$item_id'");
+			$serials = explode(",", $serial_no);
+			for($j = 0; $j < count($serials); $j++){
+				$sn = $serials[$j];
+				mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
+			}
+			$pns = explode(",", $property_no);
+			$pn = end($pns);
+			mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+
+			$emp_id = $_SESSION["emp_id"];
+			$description = $_SESSION["username"]." created a PAR No. ".$par_no;
+			mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+			echo "0";
+		}else{
+			echo "1";
 		}
-		$pn = end(explode(",", $property_no));
-		mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
 	}
-	$emp_id = $_SESSION["emp_id"];
-	$description = $_SESSION["username"]." created a PAR No. ".$par_no;
-	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
 function get_latest_par(){

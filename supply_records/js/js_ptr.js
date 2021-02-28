@@ -120,10 +120,15 @@ function validate(){
                                                                 },
                                                             url: "php/php_ptr.php",
                                                             success: function(data){
-                                                                swal("Inserted!", "Saved successfully to the database.", "success");
-                                                                setTimeout(function () {
-                                                                    location.reload();
-                                                                  }, 1500);
+                                                                if(data == "0"){
+                                                                    swal("Inserted!", "Saved successfully to the database.", "success");
+                                                                    setTimeout(function () {
+                                                                        location.reload();
+                                                                      }, 1500);
+                                                                }else{
+                                                                    $("#save_changes").attr("disabled", false);
+                                                                    swal("PTR Number already existed!", "Please enter another PTR number!", "warning");
+                                                                }
                                                             }
                                                         });
                                                     }else{

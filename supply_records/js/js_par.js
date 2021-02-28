@@ -244,10 +244,15 @@ function validate(){
                                         },
                                         url: "php/php_par.php",
                                         success: function(data){
-                                            swal("Inserted!", "Saved successfully to the database.", "success");
-                                            setTimeout(function () {
-                                                location.reload();
-                                              }, 1500);
+                                            if(data == "0"){
+                                                swal("Inserted!", "Saved successfully to the database.", "success");
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                  }, 1500);
+                                            }else{
+                                                $("#save_changes").attr("disabled", false);
+                                                swal("PAR Number already existed!", "Please enter another PAR number!", "warning");
+                                            }
                                         }
                                     });
                                 }else{
