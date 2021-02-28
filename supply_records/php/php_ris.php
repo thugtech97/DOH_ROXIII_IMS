@@ -84,7 +84,7 @@ function delete_control(){
 	$number=mysqli_real_escape_string($conn, $_POST["number"]);
 	$sql = mysqli_query($conn, "SELECT item, description, quantity, reference_no FROM ".$table." WHERE ".$field." LIKE '".$number."'");
 	while($row = mysqli_fetch_assoc($sql)){
-		$item = $row["item"]; $description = $row["description"]; $reference_no = $row["reference_no"]; $quantity = $row["quantity"];
+		$item = mysqli_real_escape_string($conn, $row["item"]); $description = mysqli_real_escape_string($conn, $row["description"]); $reference_no = mysqli_real_escape_string($conn, $row["reference_no"]); $quantity = $row["quantity"];
 		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description'");
 		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 		$newrstocks = ((int)$rstocks[0] + (int)$quantity)." ".$rstocks[1];

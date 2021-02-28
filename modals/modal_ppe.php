@@ -64,7 +64,7 @@
                                         <td colspan="13" style="text-align: center;font-size: 12px;"><?php echo $_SESSION["company_title"]; ?></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="13" style="text-align: center;font-size: 12px;"><b>ISSUANCES PPE AND OTHER SUPPLIES</b></td>
+                                        <td colspan="13" style="text-align: center;font-size: 12px;"><b>REPORT OF SUPPLIES AND MATERIALS ISSUED</b></td>
                                     </tr>
                                     <tr>
                                         <td colspan="13" style="text-align: center;font-size: 12px;">As of <span id="lbl_month">MONTH</span>&nbsp;<span id="lbl_year">YEAR</span></td>
@@ -88,7 +88,7 @@
                                         <th style="padding: 5px;">PTR</th>
                                         <th style="padding: 5px;">PAR</th>
                                         <th style="padding: 5px;">ICS</th>
-                                        <th style="padding: 5px;">Received by:</td>
+                                        <th style="padding: 5px;">Recipients</td>
                                         <th style="padding: 5px;">REMARKS</th>
                                     </tr>
                                 </thead>

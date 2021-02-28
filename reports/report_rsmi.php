@@ -28,7 +28,7 @@
       <td colspan="10" style="width: 61.8px; height: 15.5px; text-align: center; font-size: 12px; font-weight: bold; vertical-align: bottom;"> REPORT OF SUPPLIES AND MATERIALS ISSUED </td>
     </tr>
     <tr>
-      <td colspan="10" style="width: 61.8px; height: 15.5px; text-align: center; font-size: 10px; vertical-align: bottom;">DRUGS AND MEDICINES, MEDICAL SUPPLIES AND OTHER SUPPLIES</td>
+      <td colspan="10" style="width: 61.8px; height: 15.5px; text-align: center; font-size: 10px; vertical-align: bottom;">PPE, DRUGS AND MEDICINES, MEDICAL SUPPLIES AND OTHER SUPPLIES</td>
     </tr>
     <tr>
       <td colspan="10" style="width: 61.8px; height: 15.5px; text-align: center; font-size: 10px; vertical-align: bottom;">As of <span id="rmonth">MONTH</span> <span id="ryear">YEAR</span></td>
