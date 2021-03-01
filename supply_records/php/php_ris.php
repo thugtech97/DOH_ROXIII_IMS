@@ -367,34 +367,33 @@ function insert_ris(){
 	$requested_by_designation = mysqli_fetch_assoc($quer1)["designation"];
 	$issued_by_designation = mysqli_fetch_assoc($quer2)["designation"];
 	$approved_by_designation = mysqli_fetch_assoc($quer3)["designation"];
-	for($i = 0; $i < count($items); $i++){
-		$po_id = $items[$i][0];
-		$reference_no = $items[$i][1];
-		$item = mysqli_real_escape_string($conn, $items[$i][2]);
-		$description = mysqli_real_escape_string($conn, $items[$i][3]);
-		$category = $items[$i][4];
-		$lot_no = $items[$i][5];
-		$exp_date = $items[$i][6];
-		$quantity = $items[$i][7];
-		$unit = $items[$i][8];
-		$cost = $items[$i][9];
-		$total = $items[$i][10];
-		$stock = $items[$i][11];
-		$remarks = $items[$i][12];
-		if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT ris_no FROM tbl_ris WHERE ris_no = '$ris_no'"))==0){
+	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT ris_no FROM tbl_ris WHERE ris_no = '$ris_no'"))==0){
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." created an RIS No. ".$ris_no;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+		echo "0";
+		for($i = 0; $i < count($items); $i++){
+			$po_id = $items[$i][0];
+			$reference_no = $items[$i][1];
+			$item = mysqli_real_escape_string($conn, $items[$i][2]);
+			$description = mysqli_real_escape_string($conn, $items[$i][3]);
+			$category = $items[$i][4];
+			$lot_no = $items[$i][5];
+			$exp_date = $items[$i][6];
+			$quantity = $items[$i][7];
+			$unit = $items[$i][8];
+			$cost = $items[$i][9];
+			$total = $items[$i][10];
+			$stock = $items[$i][11];
+			$remarks = $items[$i][12];
 			mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,approved_by,approved_by_designation,tbl_ris.date,supplier,lot_no,exp_date) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$category','$quantity','$cost','$total','1','$stock','$remarks','$reference_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$approved_by','$approved_by_designation','$date','$supplier','$lot_no','$exp_date')");
 			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$po_id' AND item_name LIKE '$item'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
 			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$po_id' AND item_name LIKE '$item'");
-
-			$emp_id = $_SESSION["emp_id"];
-			$description = $_SESSION["username"]." created an RIS No. ".$ris_no;
-			mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
-			echo "0";
-		}else{
-			echo "1";
 		}
+	}else{
+		echo "1";
 	}
 }
 

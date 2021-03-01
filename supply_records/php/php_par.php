@@ -159,19 +159,23 @@ function insert_par(){
 	$received_by_designation = mysqli_fetch_assoc($quer2)["designation"];
 
 	$supplier = mysqli_fetch_assoc($query)["supplier"];
-	for($i = 0; $i < count($items); $i++){
-		$item_id = $items[$i][0];
-		$item = mysqli_real_escape_string($conn, $items[$i][1]);
-		$description = mysqli_real_escape_string($conn, $items[$i][2]);
-		$serial_no = $items[$i][3];
-		$category = $items[$i][4];
-		$property_no = $items[$i][5];
-		$quantity = $items[$i][6];
-		$unit = $items[$i][7];
-		$cost = $items[$i][8];
-		$total = $items[$i][9];
-		$remarks = $items[$i][10];
-		if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT par_no FROM tbl_par WHERE par_no = '$par_no'"))==0){
+	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT par_no FROM tbl_par WHERE par_no = '$par_no'"))==0){
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." created a PAR No. ".$par_no;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+		echo "0";
+		for($i = 0; $i < count($items); $i++){
+			$item_id = $items[$i][0];
+			$item = mysqli_real_escape_string($conn, $items[$i][1]);
+			$description = mysqli_real_escape_string($conn, $items[$i][2]);
+			$serial_no = $items[$i][3];
+			$category = $items[$i][4];
+			$property_no = $items[$i][5];
+			$quantity = $items[$i][6];
+			$unit = $items[$i][7];
+			$cost = $items[$i][8];
+			$total = $items[$i][9];
+			$remarks = $items[$i][10];
 			mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area) VALUES ('$par_no', '$entity_name', '$fund_cluster', '$reference_no', '$item', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$cost', '$total', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$area')");
 			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND po_id = '$item_id'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
@@ -185,14 +189,9 @@ function insert_par(){
 			$pns = explode(",", $property_no);
 			$pn = end($pns);
 			mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
-
-			$emp_id = $_SESSION["emp_id"];
-			$description = $_SESSION["username"]." created a PAR No. ".$par_no;
-			mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
-			echo "0";
-		}else{
-			echo "1";
 		}
+	}else{
+		echo "1";
 	}
 }
 
