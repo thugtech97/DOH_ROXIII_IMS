@@ -289,24 +289,25 @@ function insert_ptr(){
 		echo "0";
 		for($i = 0; $i < count($items); $i++){
 			$item_id = $items[$i][0];
-			$item = mysqli_real_escape_string($conn, $items[$i][1]);
-			$description = mysqli_real_escape_string($conn, $items[$i][2]);
-			$serial_no = $items[$i][3];
-			$exp_date = $items[$i][4];
-			$category = $items[$i][5];
-			$property_no = $items[$i][6];
-			$quantity = $items[$i][7];
-			$unit = $items[$i][8];
-			$cost = $items[$i][9];
-			$total = $items[$i][10];
-			$conditions = $items[$i][11];
-			$remarks = $items[$i][12];
+			$ref_no = $items[$i][1];
+			$item = mysqli_real_escape_string($conn, $items[$i][2]);
+			$description = mysqli_real_escape_string($conn, $items[$i][3]);
+			$serial_no = $items[$i][4];
+			$exp_date = $items[$i][5];
+			$category = $items[$i][6];
+			$property_no = $items[$i][7];
+			$quantity = $items[$i][8];
+			$unit = $items[$i][9];
+			$cost = $items[$i][10];
+			$total = $items[$i][11];
+			$conditions = $items[$i][12];
+			$remarks = $items[$i][13];
 		
-			mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$reference_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address')");
-			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND po_id = '$item_id'");
+			mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$ref_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address')");
+			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$ref_no' AND po_id = '$item_id'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
-			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND po_id = '$item_id'");
+			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$ref_no' AND po_id = '$item_id'");
 			if($exp_date == "0000-00-00"){
 				$serials = explode(",", $serial_no);
 				for($j = 0; $j < count($serials); $j++){

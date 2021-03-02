@@ -374,7 +374,7 @@ function insert_ris(){
 		echo "0";
 		for($i = 0; $i < count($items); $i++){
 			$po_id = $items[$i][0];
-			$reference_no = $items[$i][1];
+			$ref_no = $items[$i][1];
 			$item = mysqli_real_escape_string($conn, $items[$i][2]);
 			$description = mysqli_real_escape_string($conn, $items[$i][3]);
 			$category = $items[$i][4];
@@ -386,7 +386,7 @@ function insert_ris(){
 			$total = $items[$i][10];
 			$stock = $items[$i][11];
 			$remarks = $items[$i][12];
-			mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,approved_by,approved_by_designation,tbl_ris.date,supplier,lot_no,exp_date) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$category','$quantity','$cost','$total','1','$stock','$remarks','$reference_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$approved_by','$approved_by_designation','$date','$supplier','$lot_no','$exp_date')");
+			mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,approved_by,approved_by_designation,tbl_ris.date,supplier,lot_no,exp_date) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$category','$quantity','$cost','$total','1','$stock','$remarks','$ref_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$approved_by','$approved_by_designation','$date','$supplier','$lot_no','$exp_date')");
 			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$po_id' AND item_name LIKE '$item'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];

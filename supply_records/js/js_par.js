@@ -292,6 +292,7 @@ function add_item(){
                             if($("#serial_no").val() == ""){
                                 $("table#par_items tbody").append("<tr>"+
                                     "<td>"+$("#item_name").val()+"</td>"+
+                                    "<td>"+$("#reference_no option:selected").text()+"</td>"+
                                     "<td>"+$("#item_name option:selected").text()+"</td>"+
                                     "<td>"+$("#description").val()+"</td>"+
                                     "<td></td>"+
@@ -346,6 +347,7 @@ function validate_with_snln(){
         if(parseInt($("#quantity").val()) == $('#serial_no').select2("val").length){
             $("table#par_items tbody").append("<tr>"+
                 "<td>"+$("#item_name").val()+"</td>"+
+                "<td>"+$("#reference_no option:selected").text()+"</td>"+
                 "<td>"+$("#item_name option:selected").text()+"</td>"+
                 "<td>"+$("#description").val()+"</td>"+
                 "<td>"+$('#serial_no').select2("val")+"</td>"+
@@ -378,6 +380,7 @@ function validate_with_snln(){
     }else{
         $("table#par_items tbody").append("<tr>"+
         "<td>"+$("#item_name").val()+"</td>"+
+        "<td>"+$("#reference_no option:selected").text()+"</td>"+
         "<td>"+$("#item_name option:selected").text()+"</td>"+
         "<td>"+$("#description").val()+"</td>"+
         "<td>"+$('#serial_no').select2("val")+"</td>"+
@@ -413,7 +416,7 @@ function get_rows(){
     var rows = 0;
     table.find('tr').each(function (i) {
         var $tds = $(this).find('td');
-        items.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).text(),$tds.eq(5).text(),$tds.eq(6).text(),$tds.eq(7).text(),origNumber($tds.eq(8).text()),origNumber($tds.eq(9).text()),$tds.eq(10).text()]);
+        items.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).text(),$tds.eq(5).text(),$tds.eq(6).text(),$tds.eq(7).text(),$tds.eq(8).text(),origNumber($tds.eq(9).text()),origNumber($tds.eq(10).text()),$tds.eq(11).text()]);
         rows++;
     });
     return rows;
@@ -424,7 +427,7 @@ function calculate_all_total(){
     var table = $("table#par_items tbody");
     table.find('tr').each(function (i) {
         var $tds = $(this).find('td');
-        all_total_amount+=parseFloat(origNumber($tds.eq(9).text()));
+        all_total_amount+=parseFloat(origNumber($tds.eq(10).text()));
     });
     $("#all_total_amount").html(formatNumber(all_total_amount));
 }

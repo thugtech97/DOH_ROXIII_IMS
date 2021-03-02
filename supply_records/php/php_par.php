@@ -166,21 +166,22 @@ function insert_par(){
 		echo "0";
 		for($i = 0; $i < count($items); $i++){
 			$item_id = $items[$i][0];
-			$item = mysqli_real_escape_string($conn, $items[$i][1]);
-			$description = mysqli_real_escape_string($conn, $items[$i][2]);
-			$serial_no = $items[$i][3];
-			$category = $items[$i][4];
-			$property_no = $items[$i][5];
-			$quantity = $items[$i][6];
-			$unit = $items[$i][7];
-			$cost = $items[$i][8];
-			$total = $items[$i][9];
-			$remarks = $items[$i][10];
-			mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area) VALUES ('$par_no', '$entity_name', '$fund_cluster', '$reference_no', '$item', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$cost', '$total', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$area')");
-			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND po_id = '$item_id'");
+			$ref_no = $items[$i][1];
+			$item = mysqli_real_escape_string($conn, $items[$i][2]);
+			$description = mysqli_real_escape_string($conn, $items[$i][3]);
+			$serial_no = $items[$i][4];
+			$category = $items[$i][5];
+			$property_no = $items[$i][6];
+			$quantity = $items[$i][7];
+			$unit = $items[$i][8];
+			$cost = $items[$i][9];
+			$total = $items[$i][10];
+			$remarks = $items[$i][11];
+			mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area) VALUES ('$par_no', '$entity_name', '$fund_cluster', '$ref_no', '$item', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$cost', '$total', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$area')");
+			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$ref_no' AND po_id = '$item_id'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
-			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND po_id = '$item_id'");
+			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$ref_no' AND po_id = '$item_id'");
 			$serials = explode(",", $serial_no);
 			for($j = 0; $j < count($serials); $j++){
 				$sn = $serials[$j];

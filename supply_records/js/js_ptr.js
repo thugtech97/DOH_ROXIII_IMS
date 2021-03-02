@@ -79,7 +79,7 @@ function get_rows(){
     var rows = 0;
     table.find('tr').each(function (i) {
         var $tds = $(this).find('td');
-        items.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).text(),$tds.eq(5).text(),$tds.eq(6).text(),$tds.eq(7).text(),$tds.eq(8).text(),origNumber($tds.eq(9).text()),origNumber($tds.eq(10).text()),$tds.eq(11).text(),$tds.eq(12).text()]);
+        items.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).text(),$tds.eq(5).text(),$tds.eq(6).text(),$tds.eq(7).text(),$tds.eq(8).text(),$tds.eq(9).text(),origNumber($tds.eq(10).text()),origNumber($tds.eq(11).text()),$tds.eq(12).text(),$tds.eq(13).text()]);
         rows++;
     });
     return rows;
@@ -179,6 +179,7 @@ function add_item(){
                         if($("#serial_no").val() == ""){
                             $("table#ptr_items tbody").append("<tr>"+
                                 "<td>"+$("#item_name").val()+"</td>"+
+                                "<td>"+$("#reference_no option:selected").text()+"</td>"+
                                 "<td>"+$("#item_name option:selected").text()+"</td>"+
                                 "<td>"+$("#description").val()+"</td>"+
                                 "<td>"+$("#serial_no option:selected").text()+"</td>"+
@@ -232,6 +233,7 @@ function validate_with_snln(){
         if(parseInt($("#quantity").val()) == $('#serial_no').select2("val").length){
             $("table#ptr_items tbody").append("<tr>"+
                                 "<td>"+$("#item_name").val()+"</td>"+
+                                "<td>"+$("#reference_no option:selected").text()+"</td>"+
                                 "<td>"+$("#item_name option:selected").text()+"</td>"+
                                 "<td>"+$("#description").val()+"</td>"+
                                 "<td>"+$("#serial_no option:selected").text()+"</td>"+
@@ -266,6 +268,7 @@ function validate_with_snln(){
     }else{
         $("table#ptr_items tbody").append("<tr>"+
                                 "<td>"+$("#item_name").val()+"</td>"+
+                                "<td>"+$("#reference_no option:selected").text()+"</td>"+
                                 "<td>"+$("#item_name option:selected").text()+"</td>"+
                                 "<td>"+$("#description").val()+"</td>"+
                                 "<td>"+$("#serial_no option:selected").text()+"</td>"+

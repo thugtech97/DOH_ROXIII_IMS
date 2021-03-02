@@ -189,6 +189,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
+                                    <th>PO Number</th>
                                     <th>Item</th>
                                     <th>Description</th>
                                     <th>SN/LN</th>
@@ -207,6 +208,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
