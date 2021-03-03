@@ -5,13 +5,17 @@ require "../../php/php_conn.php";
 function insert_unit(){
 	global $conn;
 	$unit = mysqli_real_escape_string($conn, $_POST["unit"]);
-	mysqli_query($conn, "INSERT INTO ref_unit(unit, status) VALUES('$unit','0')");
+	if($unit != ""){
+		mysqli_query($conn, "INSERT INTO ref_unit(unit, status) VALUES('$unit','0')");
+	}
 }
 
 function insert_supplier(){
 	global $conn;
 	$supplier = mysqli_real_escape_string($conn, $_POST["supplier"]);
-	mysqli_query($conn, "INSERT INTO ref_supplier(supplier, status) VALUES('$supplier','0')");
+	if($supplier != ""){
+		mysqli_query($conn, "INSERT INTO ref_supplier(supplier, status) VALUES('$supplier','0')");
+	}
 }
 
 function insert_item(){
