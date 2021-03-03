@@ -199,7 +199,7 @@ function insert_par(){
 function get_latest_par(){
 	global $conn; $latest_par = ""; $latest_pn = "";
 
-	$yy_mm = mysqli_real_escape_string($conn, $_POST["yy_mm"]);
+	$yy_mm = substr(mysqli_real_escape_string($conn, $_POST["yy_mm"]), 0, 4);
 	$sql = mysqli_query($conn, "SELECT DISTINCT par_no FROM tbl_par WHERE par_no LIKE '%$yy_mm%' ORDER BY par_id DESC LIMIT 1");
 	if(mysqli_num_rows($sql) != 0){
 		$row = mysqli_fetch_assoc($sql);
@@ -211,9 +211,9 @@ function get_latest_par(){
 	$sql = mysqli_query($conn, "SELECT property_no FROM ref_lastpn WHERE id = 1 AND property_no LIKE '%$yy_mm%'");
 	if(mysqli_num_rows($sql) != 0){
 		$row = mysqli_fetch_assoc($sql);
-		$latest_pn = str_pad(((int)explode("-", $row["property_no"])[2]) + 1, 3, '0', STR_PAD_LEFT);
+		$latest_pn = str_pad(((int)explode("-", $row["property_no"])[2]) + 1, 4, '0', STR_PAD_LEFT);
 	}else{
-		$latest_pn = "001";
+		$latest_pn = "0001";
 	}
 	echo json_encode(array("latest_par"=>$latest_par,"latest_pn"=>$latest_pn));
 }

@@ -47,7 +47,7 @@ function modify(){
 					<td>".$row["quantity"]."</td>
 					<td>".$row["unit"]."</td>
 					<td>".number_format((float)$row["unit_cost"],2)."</td>
-					<td>".number_format((float)$row["total"],2)."</td>
+					<td>".number_format((float)$row["unit_cost"] * $row["quantity"],2)."</td>
 					<td>".$row["quantity_stocks"]."</td>
 					<td>".$row["remarks"]."</td>
 				</tr>";
@@ -326,7 +326,7 @@ function get_ris(){
 function get_latest_ris(){
 	global $conn;
 
-	$yy_mm = mysqli_real_escape_string($conn, $_POST["yy_mm"]);
+	$yy_mm = substr(mysqli_real_escape_string($conn, $_POST["yy_mm"]), 0, 4);
 	$sql = mysqli_query($conn, "SELECT DISTINCT ris_no FROM tbl_ris WHERE ris_no LIKE '%$yy_mm%' ORDER BY ris_id DESC LIMIT 1");
 	if(mysqli_num_rows($sql) != 0){
 		$row = mysqli_fetch_assoc($sql);
