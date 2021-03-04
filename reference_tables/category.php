@@ -20,7 +20,7 @@ if(!isset($_SESSION["username"])){
     <title>INVENTORY MS | Reference Tables - Category</title>
 
 </head>
-<body>
+<body style="color: black;">
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">

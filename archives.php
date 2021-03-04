@@ -63,7 +63,7 @@ if(!isset($_SESSION["username"])){
     }
 </style>
 
-<body>
+<body style="color: black;">
 
 <div id="wrapper">
 

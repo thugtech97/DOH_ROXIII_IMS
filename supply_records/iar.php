@@ -19,7 +19,7 @@ if(!isset($_SESSION["username"])){
     <title>INVENTORY MS | Supply Records - Inspection and Acceptance Report</title>
 
 </head>
-<body>
+<body style="color: black;">
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">

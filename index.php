@@ -104,7 +104,7 @@ if(!isset($_SESSION["username"])){
             </div>
         </nav>
 
-        <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div id="page-wrapper" class="gray-bg dashbard-1" style="color: black;">
         <div class="row border-bottom">
         <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
