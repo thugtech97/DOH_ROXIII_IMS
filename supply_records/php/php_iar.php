@@ -18,12 +18,13 @@ function update(){
 	$date_received = mysqli_real_escape_string($conn, $_POST["date_received"]);
 	$items = $_POST["items"];
 	for($i = 0; $i < count($items); $i++){
-		$item_name = mysqli_real_escape_string($conn,$items[$i][0]);
-		$description = mysqli_real_escape_string($conn,$items[$i][1]);
-		$exp_date = $items[$i][2];
-		$manufactured_by = mysqli_real_escape_string($conn,$items[$i][3]);
-		$bool = $items[$i][4];
-		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name = '$item_name' AND description = '$description' AND po_number = '$po_number'");
+		$id = $items[$i][0];
+		$item_name = mysqli_real_escape_string($conn,$items[$i][1]);
+		$description = mysqli_real_escape_string($conn,$items[$i][2]);
+		$exp_date = $items[$i][3];
+		$manufactured_by = mysqli_real_escape_string($conn,$items[$i][4]);
+		$bool = $items[$i][5];
+		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name = '$item_name' AND description = '$description' AND po_number = '$po_number' AND po_id = '$id'");
 	}
 	mysqli_query($conn,"UPDATE tbl_iar SET entity_name = '$entity_name', fund_cluster = '$fund_cluster', req_office = '$req_office', res_cc = '$res_cc', charge_invoice = '$charge_invoice', /*inspector = '$inspector',*/ date_inspected = '$date_inspected', date_received = '$date_received' WHERE iar_number LIKE '$iar_number'");
 
@@ -38,13 +39,14 @@ function get_iar_details(){
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
 	$entity_name="";$fund_cluster="";$po_number="";$req_office="";$res_cc="";$charge_invoice="";$date_inspected="";$inspector="";$date_received="";$end_user="";$supplier="";
 	$table = "";
-	$sql = mysqli_query($conn, "SELECT i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, p.main_stocks, p.exp_date, s.supplier, p.activity_title FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
+	$sql = mysqli_query($conn, "SELECT p.po_id, i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, p.main_stocks, p.exp_date, s.supplier, p.activity_title FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$po_number = $row["po_number"];$req_office = $row["req_office"];$res_cc = $row["res_cc"];
 		$charge_invoice = $row["charge_invoice"];$date_inspected = $row["date_inspected"];$inspector = $row["inspector"];$date_received = $row["date_received"];
 		$end_user = $row["end_user"];$supplier = $row["supplier"];
 		$unit = (explode(" ", $row["quantity"]))[1];
 		$table.="<tr>
+					<td>".$row["po_id"]."</td>
 					<td>".$row["date_delivered"]."</td>
 					<td>".$row["item_name"]."</td>
 					<td>".$row["description"]."</td>
@@ -88,12 +90,13 @@ function print_iar_dm(){
 	}
 	$inspector = str_replace('|', '____', $inspector);
 
-	$sql2 = mysqli_query($conn, "SELECT DISTINCT p.item_name, p.po_id, s.supplier, p.description, p.unit_cost, p.date_conformed, p.date_delivered, p.end_user FROM ref_supplier AS s, tbl_po AS p WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1' AND s.supplier_id = p.supplier_id AND p.iar_no LIKE '$iar_number'");
+	$sql2 = mysqli_query($conn, "SELECT p.item_name, p.po_id, s.supplier, p.description, p.unit_cost, p.date_conformed, p.date_delivered, p.end_user FROM ref_supplier AS s, tbl_po AS p WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1' AND s.supplier_id = p.supplier_id AND p.iar_no LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql2)){
+		$po_id = $row["po_id"];
 		$item_name = mysqli_real_escape_string($conn,$row["item_name"]); $poid = $row["po_id"];
 		$supplier = $row["supplier"]; $date_conformed = $row["date_conformed"];$date_delivered = $row["date_delivered"];$end_user = $row["end_user"];
 		$quan_unit = "";
-		$getQuan = mysqli_query($conn, "SELECT quantity, main_stocks, activity_title FROM tbl_po WHERE item_name LIKE '$item_name' AND iar_no LIKE '$iar_number'");
+		$getQuan = mysqli_query($conn, "SELECT quantity, main_stocks, activity_title FROM tbl_po WHERE item_name LIKE '$item_name' AND iar_no LIKE '$iar_number' AND po_id = '$po_id'");
 		$total_quan = 0.00;
 		while($rowt = mysqli_fetch_assoc($getQuan)){
 			$quan_unit = explode(" ", $rowt["quantity"]);
@@ -108,7 +111,7 @@ function print_iar_dm(){
 	          <td colspan=\"2\" style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width:2px;border-right-style:solid;\">".number_format((float)$total_quan, 0)."</td>
 	        </tr>";
 	        
-	        $sql3 = mysqli_query($conn, "SELECT p.main_stocks, p.quantity, s.serial_no, p.exp_date FROM tbl_po AS p, tbl_serial AS s WHERE p.item_name LIKE '$item_name' AND iar_no LIKE '$iar_number' AND s.inventory_id = p.po_id");
+	        $sql3 = mysqli_query($conn, "SELECT p.main_stocks, p.quantity, s.serial_no, p.exp_date FROM tbl_po AS p, tbl_serial AS s WHERE p.item_name LIKE '$item_name' AND iar_no LIKE '$iar_number' AND s.inventory_id = '$po_id' AND p.po_id = '$po_id'");
 	        while($rows = mysqli_fetch_assoc($sql3)){
 	        	$tbody.="<tr>
 		          <td style=\"width: 73.2px; height: 15px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
@@ -286,7 +289,7 @@ function get_po(){
 
 	if($action == "get_details"){
 		$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-		$sql = mysqli_query($conn, "SELECT s.supplier, p.date_delivered, p.date_conformed, p.end_user, i.item, p.description, p.exp_date, p.unit_cost, p.quantity, p.po_type, p.activity_title FROM ref_supplier AS s, tbl_po AS p, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id AND p.inspection_status = '0'");
+		$sql = mysqli_query($conn, "SELECT p.po_id, s.supplier, p.date_delivered, p.date_conformed, p.end_user, i.item, p.description, p.exp_date, p.unit_cost, p.quantity, p.po_type, p.activity_title FROM ref_supplier AS s, tbl_po AS p, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id AND p.inspection_status = '0'");
 		$supplier = "";
 		$date_delivered = "";
 		$date_conformed = "";
@@ -303,6 +306,7 @@ function get_po(){
 				$quantity = explode(" ", $row["quantity"]);
 				$po_type = $row["po_type"];
 				$tbody.="<tr>
+							<td>".$row["po_id"]."</td>
 							<td>".$date_delivered."</td>
 							<td>".$row["item"]."</td>
 							<td>".$row["description"]."</td>
@@ -383,12 +387,13 @@ function insert_various(){
 		mysqli_query($conn, "INSERT INTO tbl_iar(entity_name,fund_cluster,po_number,iar_number,iar_type,req_office,res_cc,charge_invoice,date_inspected,inspector,inspected,date_received,property_custodian,status,partial_specify) VALUES('$entity_name','$fund_cluster','$po_number','$iar_number','$iar_type','$req_office','$res_cc','$charge_invoice','$date_inspected','$inspector','$inspected','$date_received','$property_custodian','$status','$partial_specify')");
 
 		for($i = 0; $i < count($items); $i++){
-			$item_name = mysqli_real_escape_string($conn, $items[$i][0]);
-			$description = mysqli_real_escape_string($conn, $items[$i][1]);
-			$exp_date = $items[$i][2];
-			$manufactured_by = $items[$i][3];
-			$bool = $items[$i][4];
-			mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name LIKE '$item_name' AND description LIKE '$description' AND po_number LIKE '$po_number'");
+			$id = $items[$i][0];
+			$item_name = mysqli_real_escape_string($conn, $items[$i][1]);
+			$description = mysqli_real_escape_string($conn, $items[$i][2]);
+			$exp_date = $items[$i][3];
+			$manufactured_by = $items[$i][4];
+			$bool = $items[$i][5];
+			mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name LIKE '$item_name' AND description LIKE '$description' AND po_number LIKE '$po_number' AND po_id = '$id'");
 		}
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created an IAR No. ".$iar_number." - PO#".$po_number;

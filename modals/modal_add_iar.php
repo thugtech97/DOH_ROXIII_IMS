@@ -90,6 +90,7 @@
                                         <table id="var_items" class="table table-bordered">
                                             <thead>
                                                 <tr>
+                                                    <th>#</th>
                                                     <th>Date Delivered/Travel</th>
                                                     <th>Item</th>
                                                     <th>Description</th>

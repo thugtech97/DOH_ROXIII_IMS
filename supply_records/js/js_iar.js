@@ -208,12 +208,13 @@ function update(){
     var table = $("table#evar_items tbody");
     table.find('tr').each(function (i) {
         var $tds = $(this).find('td');
-        var item = $tds.eq(1).text();
-        var description = $tds.eq(2).text();
-        var exp_date = $tds.eq(3).find('input').val();
-        var manufactured_by = $tds.eq(4).find('input').val();
-        var bool = ($tds.eq(7).find('input').is(":checked") ? 1 : 0);
-        items.push([item,description,exp_date,manufactured_by,bool]);
+        var id = $tds.eq(0).text();
+        var item = $tds.eq(2).text();
+        var description = $tds.eq(3).text();
+        var exp_date = $tds.eq(4).find('input').val();
+        var manufactured_by = $tds.eq(5).find('input').val();
+        var bool = ($tds.eq(8).find('input').is(":checked") ? 1 : 0);
+        items.push([id,item,description,exp_date,manufactured_by,bool]);
         rows++;
     });
     $.ajax({
@@ -284,12 +285,13 @@ function add_item(tbl_name){
     var table = $("table#"+tbl_name+" tbody");
     table.find('tr').each(function (i) {
         var $tds = $(this).find('td');
-        var item = $tds.eq(1).text();
-        var description = $tds.eq(2).text();
-        var exp_date = $tds.eq(3).find('input').val();
-        var manufactured_by = $tds.eq(4).find('input').val();
-        var bool = ($tds.eq(7).find('input').is(":checked") ? 1 : 0);
-        items.push([item,description,exp_date,manufactured_by,bool]);
+        var id = $tds.eq(0).text();
+        var item = $tds.eq(2).text();
+        var description = $tds.eq(3).text();
+        var exp_date = $tds.eq(4).find('input').val();
+        var manufactured_by = $tds.eq(5).find('input').val();
+        var bool = ($tds.eq(8).find('input').is(":checked") ? 1 : 0);
+        items.push([id,item,description,exp_date,manufactured_by,bool]);
         rows++;
     });
     return rows;
