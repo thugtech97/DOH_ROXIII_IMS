@@ -257,6 +257,20 @@ $("#lookup").keyup(function () {
     });
 });
 
+$("#tbl_ppe:has(td)").mouseover(function(e) {
+	$(this).css("cursor", "pointer");
+});
+
+$("#tbl_ppe:has(td)").click(function(e) {
+	$("#tbl_ppe td").removeClass("highlight");
+	var clickedCell= $(e.target).closest("td");
+	clickedCell.addClass("highlight");
+	var account_code = prompt("Edit account code:", clickedCell.text());
+	if(account_code != null){
+		clickedCell.html(account_code);
+	}
+});
+
 $("#inv_rpci").keyup(function(){
 	$("#inv_rep").html($("#inv_rpci").val().toUpperCase());
 });

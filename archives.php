@@ -136,8 +136,7 @@ if(!isset($_SESSION["username"])){
             <div class="navbar-header">
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 <ul class="nav navbar-top-links navbar-left">
-                    <li style="padding: 20px;">
-                    <span class="m-r-sm text-muted welcome-message">Archives</span>
+                    <li style="padding: 20px;">Archives
                 </li>
                 </ul>
             </div>

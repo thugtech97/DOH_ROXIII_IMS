@@ -125,9 +125,7 @@ if(!isset($_SESSION["username"])){
             <div class="navbar-header">
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 <ul class="nav navbar-top-links navbar-left">
-                    <li style="padding: 20px;">
-                    <span class="m-r-sm text-muted welcome-message">Purchase Orders</span>
-                </li>
+                    <li style="padding: 20px;">Purchase Orders</li>
                 </ul>
             </div>
                 <ul class="nav navbar-top-links navbar-right">

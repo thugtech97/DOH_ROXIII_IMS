@@ -90,8 +90,7 @@ if(!isset($_SESSION["username"])){
             <div class="navbar-header">
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 <ul class="nav navbar-top-links navbar-left">
-                    <li style="padding: 20px;">
-                    <span class="m-r-sm text-muted welcome-message"><?php echo $_SESSION["link1"]; ?> | Property Acknowledgement Receipt</span>
+                    <li style="padding: 20px;"><?php echo $_SESSION["link1"]; ?> | Property Acknowledgement Receipt
                 </li>
                 </ul>
             </div>

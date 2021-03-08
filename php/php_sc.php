@@ -254,7 +254,7 @@ function get_ppe_details(){
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["unit"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$row["unit_cost"], 2)."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".number_format((float)$row["total_cost"], 2)."</td>
-                    <td style=\"padding-left: 10px; padding-right: 10px;\"><input type=\"text\" onchange=\"this.setAttribute('value', this.value)\" style=\"border: none transparent;outline: none; text-align: center;\" value=\"".$row["account_code"]."\"></td>
+                    <td class=\"acc_code\" style=\"padding-left: 10px; padding-right: 10px;\">".$row["account_code"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".(($row["type"] == "ptr") ? number_format((float)$row["total_cost"], 2) : "")."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".(($row["type"] == "par") ? number_format((float)$row["total_cost"], 2) : "")."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".(($row["type"] == "ics") ? number_format((float)$row["total_cost"], 2) : "")."</td>

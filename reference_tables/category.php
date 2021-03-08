@@ -91,8 +91,7 @@ if(!isset($_SESSION["username"])){
             <div class="navbar-header">
                 <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 <ul class="nav navbar-top-links navbar-left">
-                    <li style="padding: 20px;">
-                    <span class="m-r-sm text-muted welcome-message"><?php echo $_SESSION["link2"]; ?> | Category</span>
+                    <li style="padding: 20px;"><?php echo $_SESSION["link2"]; ?> | Category
                 </li>
                 </ul>
             </div>
