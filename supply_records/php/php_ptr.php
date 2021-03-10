@@ -22,8 +22,11 @@ function update(){
 	$area = mysqli_real_escape_string($conn, $_POST["area"]);
 	$reason = mysqli_real_escape_string($conn, $_POST["reason"]);
 	$address = mysqli_real_escape_string($conn, $_POST["address"]);
+	$alloc_num = mysqli_real_escape_string($conn, $_POST["alloc_num"]);
+	$storage_temp = mysqli_real_escape_string($conn, $_POST["storage_temp"]);
+	$transport_temp = mysqli_real_escape_string($conn, $_POST["transport_temp"]);
 
-	mysqli_query($conn, "UPDATE tbl_ptr SET tbl_ptr.from='$from',entity_name='$entity_name',approved_by='$approved_by',approved_by_designation='$approved_by_designation',date_released='$date_released',transfer_type='$ttype',tbl_ptr.to='$to',fund_cluster='$fund_cluster',received_from='$received_from',received_from_designation='$received_from_designation',area='$area',reason='$reason',address='$address' WHERE ptr_no LIKE '$ptr_no'");
+	mysqli_query($conn, "UPDATE tbl_ptr SET tbl_ptr.from='$from',entity_name='$entity_name',approved_by='$approved_by',approved_by_designation='$approved_by_designation',date_released='$date_released',transfer_type='$ttype',tbl_ptr.to='$to',fund_cluster='$fund_cluster',received_from='$received_from',received_from_designation='$received_from_designation',area='$area',reason='$reason',address='$address',alloc_num='$alloc_num',storage_temp='$storage_temp',transport_temp='$transport_temp' WHERE ptr_no LIKE '$ptr_no'");
 
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." edited the details of PTR No. ".$ptr_no;
@@ -35,11 +38,13 @@ function modify(){
 	
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
 	$reference_no = "";$from = "";$to = "";$entity_name = "";$fund_cluster = "";$approved_by = "";$approved_by_designation = "";$received_from = "";$received_from_designation = "";$date_released = "";$area = "";$transfer_type = "";$reason = ""; $table = ""; $address = "";
-	$sql = mysqli_query($conn, "SELECT reference_no, tbl_ptr.from, tbl_ptr.to, entity_name, fund_cluster, approved_by, approved_by_designation, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, area, transfer_type, reason, address, item, description, serial_no, exp_date, category, property_no, quantity, unit, cost, total, conditions, remarks FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
+	$alloc_num = ""; $storage_temp = ""; $transport_temp = "";
+	$sql = mysqli_query($conn, "SELECT reference_no, tbl_ptr.from, tbl_ptr.to, entity_name, fund_cluster, approved_by, approved_by_designation, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, area, transfer_type, reason, address, alloc_num, storage_temp, transport_temp, item, description, serial_no, exp_date, category, property_no, quantity, unit, cost, total, conditions, remarks FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$from = $row["from"];$to = $row["to"];$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$approved_by = $row["approved_by"];
 		$approved_by_designation = $row["approved_by_designation"];$received_from = $row["received_from"];$received_from_designation = $row["received_from_designation"];
 		$date_released = $row["date_r"];$area = $row["area"];$transfer_type = $row["transfer_type"];$reason = $row["reason"]; $address = $row["address"]; $reference_no = $row["reference_no"];
+		$alloc_num = $row["alloc_num"]; $storage_temp = $row["storage_temp"]; $transport_temp = $row["transport_temp"];
 		$table.="<tr>
 					<td>".$row["item"]."</td>
 					<td>".$row["description"]."</td>
@@ -71,7 +76,10 @@ function modify(){
 		"transfer_type"=>$transfer_type,
 		"reason"=>$reason,
 		"address"=>$address,
-		"table"=>$table
+		"table"=>$table,
+		"alloc_num"=>$alloc_num,
+		"storage_temp"=>$storage_temp,
+		"transport_temp"=>$transport_temp
 	));
 }
 
@@ -274,6 +282,9 @@ function insert_ptr(){
 	$reason = mysqli_real_escape_string($conn, $_POST["reason"]);
 	$address = mysqli_real_escape_string($conn, $_POST["address"]);
 	$items = $_POST["items"];
+	$alloc_num = mysqli_real_escape_string($conn, $_POST["alloc_num"]);
+	$storage_temp = mysqli_real_escape_string($conn, $_POST["storage_temp"]);
+	$transport_temp = mysqli_real_escape_string($conn, $_POST["transport_temp"]);
 
 	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$approved_by_id'");
 	$quer2 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$received_from_id'");
@@ -303,7 +314,7 @@ function insert_ptr(){
 			$conditions = $items[$i][12];
 			$remarks = $items[$i][13];
 		
-			mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$ref_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address')");
+			mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$ref_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address','$alloc_num','$storage_temp','$transport_temp')");
 			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$ref_no' AND po_id = '$item_id'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];

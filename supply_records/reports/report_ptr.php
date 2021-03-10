@@ -62,10 +62,7 @@
       <td style="width: 72.6px; height: 15px; text-align: center; font-size: 14px; font-weight: bold; vertical-align: bottom;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 24.6px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">Allocation List No:</td>
-      <td style="width: 19.8px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 26.4px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 14.4px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
+      <td colspan="6" style="width: 24.6px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">Allocation List No: <span id="alloc_num"></span></td>
       <td style="width: 58.8px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 25.2px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 14.4px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
@@ -226,7 +223,7 @@
       <td colspan="5" style="width: 24.6px; height: 15px; text-align: left;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
        <td colspan="3" style="width: 24.6px; height: 15px; text-align: left;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
        <td colspan="3" style="width: 24.6px; height: 15px; text-align: left;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
-      <td colspan="4" style="width: 24.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
+      <td id="storage_temp" colspan="4" style="width: 24.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
     </tr>
     <tr>
       <td colspan="2" style="width: 24.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom;border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px;border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Printed Name:</td>
@@ -240,7 +237,7 @@
       <td colspan="5" style="width: 24.6px; height: 15px; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Warehouse Staff</td>
        <td colspan="3" style="width: 24.6px; height: 15px; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Pharmacist I</td>
        <td colspan="3" style="width: 24.6px; height: 15px; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Pharmacist III</td>
-      <td colspan="4" style="width: 24.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
+      <td id="transport_temp" colspan="4" style="width: 24.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
     </tr>
     <tr>
       <td colspan="2" style="width: 24.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom;border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px;border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Date:</td>

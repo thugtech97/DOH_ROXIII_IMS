@@ -117,7 +117,10 @@ function validate(){
                                                                     area: $("#area option:selected").text(),
                                                                     reason: $("#reason").val(),
                                                                     address: $("#address").val(),
-                                                                    items: items
+                                                                    items: items,
+                                                                    alloc_num: $("#alloc_num").val(),
+                                                                    storage_temp: $("#storage_temp option:selected").text(),
+                                                                    transport_temp: $("#transport_temp option:selected").text()
                                                                 },
                                                             url: "php/php_ptr.php",
                                                             success: function(data){
@@ -526,6 +529,17 @@ function modify(ptr_no){
             $("#ereason").val(data["reason"]);
             $("#eaddress").val(data["address"]);
             $("table#eptr_items tbody").html(data["table"]);
+            $("#ealloc_num").val(data["alloc_num"]);
+            $("#estorage_temp option").each(function(){
+                if($(this).text() == data["storage_temp"]){
+                    $(this).prop("selected", true).change();
+                }
+            });
+            $("#etransport_temp option").each(function(){
+                if($(this).text() == data["transport_temp"]){
+                    $(this).prop("selected", true).change();
+                }
+            });
         }
     });
 }
@@ -549,7 +563,10 @@ function update(){
             received_from_designation: $("#erfd").val(),
             area: $("#earea option:selected").text(),
             reason: $("#ereason").val(),
-            address: $("#eaddress").val()
+            address: $("#eaddress").val(),
+            alloc_num: $("#ealloc_num").val(),
+            storage_temp: $("#estorage_temp option:selected").text(),
+            transport_temp: $("#etransport_temp option:selected").text()
         },
         url: "php/php_ptr.php",
         success: function(data){

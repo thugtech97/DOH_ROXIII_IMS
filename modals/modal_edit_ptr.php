@@ -61,6 +61,21 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Address:</label>
+                                    <div class="col-lg-9">
+                                        <input id="eaddress" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Storage Temp.:</label>
+                                    <div class="col-lg-9">
+                                        <select id="estorage_temp" class="form-control select2_demo_1">
+                                            <option disabled selected></option>
+                                            <option>At room temperature, not exceeding 30°</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group row">
@@ -107,12 +122,21 @@
                                         <input id="ereason" type="text" class="form-control">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-lg-1 col-form-label">Address:</label>
-                            <div class="col-lg-11">
-                                <input id="eaddress" type="text" class="form-control">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Allocation No.:</label>
+                                    <div class="col-lg-9">
+                                        <input id="ealloc_num" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Transport Temp.:</label>
+                                    <div class="col-lg-9">
+                                        <select id="etransport_temp" class="form-control select2_demo_1">
+                                            <option disabled selected></option>
+                                            <option>At room temperature, not exceeding 30°</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
