@@ -645,6 +645,9 @@ function print_ptr(ptr_no){
                 $("input#"+data["ptr_details"][5]).attr("checked", "checked");
             }
 
+            $("#palloc_num").html(data["alloc_num"]);
+            $("#pstorage_temp").html(data["storage_temp"]);
+            $("#ptransport_temp").html(data["transport_temp"]);
             var divContents = $("#report_ptr").html(); 
             var a = window.open('', '_blank', 'height=1500, width=800'); 
             a.document.write('<html>'); 
@@ -687,7 +690,10 @@ function download_xls(ptr_no){
             }else{
                 $("input#"+data["ptr_details"][5]).attr("checked", "checked");
             }
-
+            $("#palloc_num").html(data["alloc_num"]);
+            $("#pstorage_temp").html(data["storage_temp"]);
+            $("#ptransport_temp").html(data["transport_temp"]);
+            
             exportTableToExcel("report_ptr", "PTR No. "+ptr_no);
         }
     });

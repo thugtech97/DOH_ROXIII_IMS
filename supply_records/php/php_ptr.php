@@ -188,16 +188,18 @@ function get_ptr_details(){
 
 	$entity_name = ""; $fund_cluster = ""; $from = ""; $to = ""; $date = ""; $transfer_type = "";
 	$total_cost = 0.00; $reason = ""; $approved_by = ""; $approved_by_designation = ""; $received_from = "";$received_from_designation = "";
+	$alloc_num = ""; $storage_temp = ""; $transport_temp = "";
 
 	$rows_limit = 35; $rows_occupied = 0;
 	$ptr_body = "";
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
-	$sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, tbl_ptr.from, tbl_ptr.to, serial_no, exp_date, SUBSTRING(date_released, 1, 10) AS date_r, transfer_type, reference_no, description, quantity, unit, cost, total, remarks, reason, approved_by, approved_by_designation, received_from, received_from_designation FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
+	$sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, tbl_ptr.from, tbl_ptr.to, serial_no, exp_date, SUBSTRING(date_released, 1, 10) AS date_r, transfer_type, reference_no, description, quantity, unit, cost, total, remarks, reason, approved_by, approved_by_designation, received_from, received_from_designation,alloc_num,storage_temp,transport_temp FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$entity_name = $row["entity_name"]; $fund_cluster = $row["fund_cluster"]; $from = $row["from"]; $to = $row["to"]; $date = $row["date_r"];
 			$transfer_type = $row["transfer_type"]; $reason = $row["reason"]; $approved_by = $row["approved_by"]; $received_from = $row["received_from"];
 			$approved_by_designation = $row["approved_by_designation"];$received_from_designation = $row["received_from_designation"];
+			$alloc_num = $row["alloc_num"]; $storage_temp = $row["storage_temp"]; $transport_temp = $row["transport_temp"];
 			$total_cost += (float)implode("", explode(",",$row["total"]));
 			$ptr_body .= "<tr>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
@@ -231,7 +233,7 @@ function get_ptr_details(){
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\"></td>
 			      </tr>";
 		}
-		echo json_encode(array("ptr_details"=>array($entity_name, $fund_cluster, $from, $to, _m_d_yyyy_($date), $transfer_type, number_format((float)$total_cost,2), $reason, $approved_by, $approved_by_designation, $received_from, $received_from_designation), "ptr_tbody"=>$ptr_body));	
+		echo json_encode(array("ptr_details"=>array($entity_name, $fund_cluster, $from, $to, _m_d_yyyy_($date), $transfer_type, number_format((float)$total_cost,2), $reason, $approved_by, $approved_by_designation, $received_from, $received_from_designation), "ptr_tbody"=>$ptr_body,"alloc_num"=>$alloc_num,"storage_temp"=>$storage_temp,"transport_temp"=>$transport_temp));	
 	}
 }
 
