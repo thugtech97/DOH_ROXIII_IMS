@@ -73,6 +73,7 @@
                                         <select id="estorage_temp" class="form-control select2_demo_1">
                                             <option disabled selected></option>
                                             <option>At room temperature, not exceeding 30°</option>
+                                            <option>Keep between +2°c and +8°c (in a refrigerator)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -134,6 +135,7 @@
                                         <select id="etransport_temp" class="form-control select2_demo_1">
                                             <option disabled selected></option>
                                             <option>At room temperature, not exceeding 30°</option>
+                                            <option>Keep between +2°c and +8°c (in a refrigerator)</option>
                                         </select>
                                     </div>
                                 </div>
