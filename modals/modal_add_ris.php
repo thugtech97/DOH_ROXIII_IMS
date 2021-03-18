@@ -16,7 +16,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">RIS Number:</label>
                                     <div class="col-lg-9">
-                                        <input type="text" data-pc="<?php echo $_SESSION["property_custodian"]; ?>" id="ris_no" placeholder="XXXX-XX-XXXX" class="form-control">
+                                        <input type="text" data-pc="<?php echo $_SESSION["property_custodian"]; ?>" data-ppb="<?php echo $_SESSION["ppe_prepared_by"]; ?>" id="ris_no" placeholder="XXXX-XX-XXXX" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">

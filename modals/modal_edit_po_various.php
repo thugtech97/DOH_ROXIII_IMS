@@ -146,7 +146,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="2"></td>
+                                            <td colspan="4"></td>
                                             <td><b>TOTAL</b></td>
                                             <td><b>₱ <span id="tot_amt"></span></b></td>
                                             <td></td>
