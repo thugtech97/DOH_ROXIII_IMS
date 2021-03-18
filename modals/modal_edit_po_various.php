@@ -133,7 +133,9 @@
                                     <thead>
                                         <tr>
                                             <th>Item Name</th>
+                                            <th>Description</th>
                                             <th>Unit Cost</th>
+                                            <th>IN</th>
                                             <th>Quantity</th>
                                             <th>Total Amount</th>
                                             <th></th>
