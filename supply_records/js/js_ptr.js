@@ -314,6 +314,7 @@ function ready_all(){
     });
 
     $("#ptr_no").ready(function(){
+        $("#date").val(new Date().toDateInputValue());
         var po_value = (new Date().toDateInputValue()).split("-");
         $.ajax({
             type: "POST",

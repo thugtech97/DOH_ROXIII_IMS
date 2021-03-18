@@ -67,6 +67,7 @@ function ready_all(){
     });
 
     $("#par_no").ready(function(){
+        $("#date").val(new Date().toDateInputValue());
         var po_value = (new Date().toDateInputValue()).split("-");
         $.ajax({
             type: "POST",
