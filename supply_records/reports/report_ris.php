@@ -93,10 +93,7 @@
       </tr>
     <tr>
       <td style="width: 64.8px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;">Purpose:</td>
-      <td colspan="5" style="width: 115.8px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"><span id="print_purp"></span></td>
-      <td style="width: 40.2px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"></td>
-      <td style="width: 61.2px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"></td>
-      <td style="width: 108.6px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;"></td>
+      <td colspan="8" style="width: 115.8px; height: 13.75px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;"><span id="print_purp"></span></td>
     </tr>
     <tr>
       <td style="width: 64.8px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
