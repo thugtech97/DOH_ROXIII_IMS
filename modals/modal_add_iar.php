@@ -9,7 +9,7 @@
                 <div class="tabs-container">
                     <ul class="nav nav-tabs" role="tablist">
                         <li><a class="nav-link active" data-toggle="tab" onclick="set_state(1);" href="#tab-1">General</a></li>
-                        <li><a class="nav-link" data-toggle="tab" onclick="set_state(2);" href="#tab-2">Drugs and Medicines</a></li>
+                        <?php//<li><a class="nav-link" data-toggle="tab" onclick="set_state(2);" href="#tab-2">Drugs and Medicines</a></li>?>
                     </ul>
                     <div class="tab-content">
 
@@ -25,7 +25,7 @@
                                                 <div class="form-group row">
                                                     <label class="col-lg-4 col-form-label">Entity Name:</label>
                                                     <div class="col-lg-8">
-                                                        <input id="var_en" type="text" class="form-control" value="DOH-ROXIII">
+                                                        <input id="var_en" type="text" class="form-control" value="<?php echo $_SESSION["entity_name"]; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">

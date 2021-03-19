@@ -353,6 +353,7 @@ if(!isset($_SESSION["username"])){
     
     <script>
         $(document).ready(function() {
+            //alert('<?php echo $_SESSION["emp_name"]; ?>')
             get_data();
             setTimeout(function() {
                 toastr.options = {
