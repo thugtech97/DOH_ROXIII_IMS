@@ -19,15 +19,17 @@ function get_par_details(){
 	$received_by = ""; $received_by_designation = "";
 	$date_released = ""; $par_tbody = "";
 	$supplier = ""; $reference_no = "";
+	$entity_name = "";
 	$total_cost = 0.00;
 	$rows_limit = 45; $rows_occupied = 0;
 	$par_no = mysqli_real_escape_string($conn, $_POST["par_no"]);
-	$sql = mysqli_query($conn, "SELECT quantity, item, unit, description, serial_no, property_no, cost, total, received_from, received_from_designation, received_by, received_by_designation, SUBSTRING(date_released, 1, 10) AS date_r, reference_no, supplier FROM tbl_par WHERE par_no LIKE '$par_no'");
+	$sql = mysqli_query($conn, "SELECT entity_name, quantity, item, unit, description, serial_no, property_no, cost, total, received_from, received_from_designation, received_by, received_by_designation, SUBSTRING(date_released, 1, 10) AS date_r, reference_no, supplier FROM tbl_par WHERE par_no LIKE '$par_no'");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$received_from = utf8_encode($row["received_from"]); $received_by = utf8_encode($row["received_by"]);
 			$received_from_designation = utf8_encode($row["received_from_designation"]); $received_by_designation = utf8_encode($row["received_by_designation"]);
 			$date_released = $row["date_r"]; $supplier = $row["supplier"]; $reference_no = $row["reference_no"];
+			$entity_name = $row["entity_name"];
 			$total_cost += (float)($row["cost"] * $row["quantity"]);
 			$pn = explode(",", $row["property_no"]);
 			$par_tbody .= "<tr id=\"1\">
@@ -107,7 +109,7 @@ function get_par_details(){
 			      </tr>";
 		}
 		$received_by = get_complete_name($received_by);
-		echo json_encode(array("par_tbody"=>$par_tbody, "total_cost"=>number_format((float)$total_cost,2), "receivers"=>array($received_from, $received_from_designation, $received_by, $received_by_designation, _m_d_yyyy_($date_released))));
+		echo json_encode(array("par_tbody"=>$par_tbody, "total_cost"=>number_format((float)$total_cost,2), "receivers"=>array($received_from, $received_from_designation, $received_by, $received_by_designation, _m_d_yyyy_($date_released)), "entity_name"=>$entity_name));
 	}
 }
 

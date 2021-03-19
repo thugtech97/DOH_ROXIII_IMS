@@ -22,7 +22,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">Entity Name:</label>
                                     <div class="col-lg-9">
-                                        <input id="entity_name" type="text" value="DOH-ROXIII" class="form-control" disabled="">
+                                        <input id="entity_name" type="text" value="<?php echo $_SESSION["entity_name"]; ?>" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">

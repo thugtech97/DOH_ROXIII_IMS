@@ -563,6 +563,7 @@ function print_par(par_no){
             $("#print_received_by").html("<u>"+data["receivers"][2].toUpperCase()+"</u>");
             $("#print_received_by_designation").html(data["receivers"][3]);
             $(".date_r").html(data["receivers"][4]);
+            $("#agency").html(data["entity_name"]);
 
             var divContents = $("#report_par").html(); 
             var a = window.open('', '_blank', 'height=1500, width=800'); 

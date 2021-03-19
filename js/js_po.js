@@ -515,6 +515,7 @@ function add_item(){
 							if($("#unit").val() != null){
 								if($("#total_amount").val() != ""){
 									if(get_snln_rows()[0] == 0){
+										setLocalStorage();
 										$("table#item_various tbody").append("<tr>"+
 																			"<td>"+($("#item_name").val().split("┼"))[0]+"</td>"+
 																			"<td>"+$("#item_name option:selected").text()+"</td>"+
@@ -571,6 +572,7 @@ function add_item(){
 function validate_with_snln(){
 	if($("#category").val() != "Drugs and Medicines" && $("#category").val() != "Medical Supplies"){
 		if(get_snln_rows()[0] == parseInt($("#quantity").val())){
+			setLocalStorage();
 			$("table#item_various tbody").append("<tr>"+
 											"<td>"+($("#item_name").val().split("┼"))[0]+"</td>"+
 											"<td>"+$("#item_name option:selected").text()+"</td>"+
@@ -599,6 +601,7 @@ function validate_with_snln(){
 			swal("Quantity not matched!","Number of serial numbers should correspond to the inputted quantity","warning");
 		}
 	}else{
+		setLocalStorage();
 		$("table#item_various tbody").append("<tr>"+
 										"<td>"+($("#item_name").val().split("┼"))[0]+"</td>"+
 										"<td>"+$("#item_name option:selected").text()+"</td>"+
