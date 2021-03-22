@@ -22,6 +22,9 @@ if(!isset($_SESSION["username"])){
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
+    <!-- demand letter style -->
+    <link rel="stylesheet" type="text/css" href="css/demand_letter.css">
+
     <!-- Gritter -->
     <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 
@@ -167,6 +170,11 @@ if(!isset($_SESSION["username"])){
                                             <i class="fa fa-plus"></i> New Balance Forward
                                         </button>
                                     </li>
+                                    <li class="breadcrumb-item">
+                                        <button type="button" class="btn btn-danger" onclick="print_dl();">
+                                            <span style="border-radius: 15px; color: #dc3545; background-color: white;" class="label label-danger">6</span> Print Demand Letters
+                                        </button>
+                                    </li>
                                 </ol>
                             <?php 
                                 }
@@ -221,6 +229,7 @@ if(!isset($_SESSION["username"])){
                 require "modals/modal_view_po.php";
                 require "modals/modal_add_bf.php";
                 require "modals/modal_view_conso.php";
+                require "reports/report_dl.php";
             ?>
 
             <div class="footer">
