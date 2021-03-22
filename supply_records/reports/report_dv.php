@@ -1,4 +1,4 @@
-<div id="report_dv" style="display: none;">
+<div id="report_dv">
       <table style="border-collapse: collapse;" cellspacing="0">
         <tbody>
           <tr>
@@ -122,7 +122,7 @@
             <td colspan="6" style="width: 48px; height: 15.5px; text-align: center; font-size: 12px; vertical-align: bottom;border-right-width: 2px; border-right-style: solid;"></td>
           </tr>
           <tr>
-            <td colspan="17" style="width: 48px; height: 17.5px; text-align: center; font-size: 11px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-width: 1px; border-right-style: solid;">To pay Portable Bluetooth Speaker for the use of PDOHO's, PHO's and CHO of NONCOM Program</td>
+            <td colspan="17" style="width: 48px; height: 17.5px; text-align: center; font-size: 11px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-width: 1px; border-right-style: solid;"><div id="dv_purpose" width="50"></span></td>
             <td colspan="5" style="width: 48px; height: 17.5px; text-align: center; font-size: 11px; vertical-align: center;border-right-width: 1px; border-right-style: solid;"><span id="pp_res_cc"></span></td>
             <td colspan="5" style="width: 48px; height: 17.5px; text-align: left; font-size: 11px; vertical-align: bottom;border-right-width: 1px; border-right-style: solid;"></td>
             <td colspan="6" style="width: 48px; height: 17.5px; text-align: center; font-size: 12px; vertical-align: center;border-right-width: 2px; border-right-style: solid;"><b>₱ <span id="pp_total_amount"></span></b></td>
@@ -338,4 +338,3 @@
         </tbody>
       </table>
 </div>
-<br><br><br><br>

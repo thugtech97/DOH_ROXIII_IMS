@@ -1,4 +1,4 @@
-<div id="report_nod" style="display: none;">
+<div id="report_nod">
   <table style="border-collapse: collapse;" cellspacing="0" width="100%">
     <tbody>
       <tr>
@@ -98,9 +98,9 @@
       <tr>
         <td style="width: 107.4px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;"><span id="p_itemdesc"></span></td>
         <td style="width: 95.4px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="p_supplier"></span></td>
-        <td style="width: 65.4px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><?php echo date("Y-m-d"); ?></td>
+        <td style="width: 65.4px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="dd_nod"></span></td>
         <td style="width: 94.2px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="p_ci"></span></td>
-        <td style="width: 57px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><?php echo date("Y-m-d"); ?></td>
+        <td style="width: 57px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
         <td style="width: 50.4px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="p_po"></span></td>
         <td style="width: 75.6px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">n/a</td>
       </tr>

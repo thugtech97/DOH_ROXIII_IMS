@@ -574,22 +574,12 @@ function print_nod(iar_number, po_number){
         dataType: "JSON",
         url: "php/php_iar.php",
         success: function(data){
+            $("#modal_nod").modal();
             $("#p_iarno1").html(iar_number);
             $("#p_po").html(po_number);
             $("#p_supplier").html(data["supplier"]);
             $("#p_ci").html(data["charge_invoice"]);
             $("#p_itemdesc").html(data["item_description"]);
-
-            var divContents = $("#report_nod").html(); 
-            var a = window.open('', '_blank', 'height=1500, width=800'); 
-            a.document.write('<html>'); 
-            a.document.write('<body><center>');
-            a.document.write('<table><tr>');
-            a.document.write('<td>'+divContents+'</td>'); 
-            a.document.write('</tr></table>');
-            a.document.write('</center></body></html>'); 
-            a.document.close(); 
-            a.print();
         }
     });
 }
@@ -605,23 +595,13 @@ function print_dv(iar_number, po_number){
         dataType: "JSON",
         url: "php/php_iar.php",
         success: function(data){
+            $("#modal_dv").modal();
             $("#pp_iar").html(iar_number);
             $("#pp_supplier").html(data["supplier"].toUpperCase());
             $("#pp_spvs").html(data["spvs"].toUpperCase());
             $("#pp_spvs_designation").html(data["spvs_designation"]);
             $("#pp_total_amount").html(data["total_amount"]);
             $("#pp_res_cc").html(data["res_cc"]);
-
-            var divContents = $("#report_dv").html(); 
-            var a = window.open('', '_blank', 'height=1500, width=800'); 
-            a.document.write('<html>'); 
-            a.document.write('<body><center>');
-            a.document.write('<table><tr>');
-            a.document.write('<td>'+divContents+'</td>'); 
-            a.document.write('</tr></table>');
-            a.document.write('</center></body></html>'); 
-            a.document.close(); 
-            a.print();
         }
     });
 }
