@@ -51,6 +51,12 @@
                                         <input id="evar_rcc" type="text" class="form-control">
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Supervisor (For DV):</label>
+                                    <div class="col-lg-8">
+                                        <input id="espvs" type="text" class="form-control">
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group row">
@@ -87,6 +93,12 @@
                                     <label class="col-lg-4 col-form-label">Date Received:</label>
                                     <div class="col-lg-8">
                                         <input id="evar_dr" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')"/>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Designation:</label>
+                                    <div class="col-lg-8">
+                                        <input id="espvs_designation" type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>

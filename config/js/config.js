@@ -59,6 +59,7 @@ function get_data(){
 			set_names("rpci_approved_by", data["rpci_approved_by"]);
 			$("#rpci_coa").val(data["rpci_coa"]);
 			$("#rpci_coa_designation").val(data["rpci_coa_designation"]);
+			$("#warehouse_name").val(data["warehouse_name"]);
 		}
 	});
 }
@@ -80,7 +81,8 @@ function save_organizational(){
 			company_title: $("#company_title").val(),
 			supporting_title: $("#supporting_title").val(),
 			entity_name: $("#entity_name").val(),
-			company_head: $("#director_head").val()+"|"+$("#director_head option:selected").text()
+			company_head: $("#director_head").val()+"|"+$("#director_head option:selected").text(),
+			warehouse_name: $("#warehouse_name").val()
 			},
 		url: "php/config.php",
 		success: function(data){

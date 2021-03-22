@@ -30,13 +30,14 @@ function save_org(){
 	$supporting_title = mysqli_real_escape_string($conn, $_POST["supporting_title"]);
 	$entity_name = mysqli_real_escape_string($conn, $_POST["entity_name"]);
 	$company_head = mysqli_real_escape_string($conn, $_POST["company_head"]);
-	mysqli_query($conn, "UPDATE config SET company_title='$company_title',supporting_title='$supporting_title',entity_name='$entity_name',company_head='$company_head' WHERE id='1'");
+	$warehouse_name = mysqli_real_escape_string($conn, $_POST["warehouse_name"]);
+	mysqli_query($conn, "UPDATE config SET company_title='$company_title',supporting_title='$supporting_title',entity_name='$entity_name',company_head='$company_head',warehouse_name='$warehouse_name' WHERE id='1'");
 }
 
 function get_data(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT company_title, supporting_title, entity_name, company_head, company_logo, property_custodian, division_chief, ppe_prepared_by, ppe_noted_by, wi_prepared_by, wi_reviewed_by, wi_noted_by, wi_approved_by, rpci_prepared_by, rpci_certified_correct, rpci_noted_by, rpci_approved_by, rpci_coa, rpci_coa_designation FROM config WHERE id='1'");
+	$sql = mysqli_query($conn, "SELECT company_title, supporting_title, entity_name, company_head, company_logo, property_custodian, division_chief, ppe_prepared_by, ppe_noted_by, wi_prepared_by, wi_reviewed_by, wi_noted_by, wi_approved_by, rpci_prepared_by, rpci_certified_correct, rpci_noted_by, rpci_approved_by, rpci_coa, rpci_coa_designation, warehouse_name FROM config WHERE id='1'");
 	$row = mysqli_fetch_assoc($sql);
 	echo json_encode(array(
 		"company_title"=>$row["company_title"],
@@ -57,7 +58,8 @@ function get_data(){
 		"rpci_noted_by"=>$row["rpci_noted_by"],
 		"rpci_approved_by"=>$row["rpci_approved_by"],
 		"rpci_coa"=>$row["rpci_coa"],
-		"rpci_coa_designation"=>$row["rpci_coa_designation"]
+		"rpci_coa_designation"=>$row["rpci_coa_designation"],
+		"warehouse_name"=>$row["warehouse_name"]
 	));
 }
 

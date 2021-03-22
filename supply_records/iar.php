@@ -166,6 +166,8 @@ if(!isset($_SESSION["username"])){
                 </div>
             </div>
             <?php
+                require "reports/report_nod.php";
+                require "reports/report_dv.php";
                 require "reports/report_iar_dm.php";
                 require "reports/report_iar_gen.php";
                 require "../modals/modal_add_iar.php";

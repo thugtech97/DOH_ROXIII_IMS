@@ -102,6 +102,12 @@
                                     <center><img id="img_logo" src="" height="150" width="150" /><br>Current Logo</center>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-lg-3 col-form-label">Warehouse Name:</label>
+                                <div class="col-lg-7">
+                                    <input id="warehouse_name" type="text" class="form-control">
+                                </div>
+                            </div>
                             <hr>
                             <button class="btn btn-primary" onclick="save_organizational();">Save</button>
                         </div>

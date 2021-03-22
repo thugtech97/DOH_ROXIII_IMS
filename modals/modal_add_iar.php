@@ -9,7 +9,7 @@
                 <div class="tabs-container">
                     <ul class="nav nav-tabs" role="tablist">
                         <li><a class="nav-link active" data-toggle="tab" onclick="set_state(1);" href="#tab-1">General</a></li>
-                        <?php//<li><a class="nav-link" data-toggle="tab" onclick="set_state(2);" href="#tab-2">Drugs and Medicines</a></li>?>
+                        <?php //<li><a class="nav-link" data-toggle="tab" onclick="set_state(2);" href="#tab-2">Drugs and Medicines</a></li> ?>
                     </ul>
                     <div class="tab-content">
 
@@ -128,7 +128,15 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                 <label><input id="var_chk" type="checkbox" class="i-checks"> Inspected, verified and found in order as to quantity and specifications</label>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label">Supervisor (For DV):</label>
+                                                    <div class="col-lg-8">
+                                                        <select id="spvs" class="select2_demo_1 form-control">
+                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                 <label style="display: none;"><input id="var_chk" type="checkbox" class="i-checks"> Inspected, verified and found in order as to quantity and specifications</label>
                                             </div>
                                         </div>
                                     </div>
@@ -159,12 +167,14 @@
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="form-group row">
-                                                            <label class="col-lg-5 col-form-label">Status:</label>
-                                                            <select id="var_as" class="col-lg-7 form-control">
-                                                                <option disabled selected></option>
-                                                                <option value="complete">Complete</option>
-                                                                <option value="partial">Partial</option>
-                                                            </select>
+                                                            <label class="col-lg-4 col-form-label">Status:</label>
+                                                            <div class="col-lg-8">
+                                                                <select id="var_as" class="form-control select2_demo_1">
+                                                                    <option disabled selected></option>
+                                                                    <option value="complete">Complete</option>
+                                                                    <option value="partial">Partial</option>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

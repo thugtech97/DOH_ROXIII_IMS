@@ -3,6 +3,47 @@
 require "../../php/php_conn.php";
 require "../../php/php_general_functions.php";
 session_start();
+
+function get_nod_dv(){
+	global $conn;
+
+	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
+	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+	$supplier = ""; $charge_invoice = ""; $item_description = "";
+	$spvs = ""; $spvs_designation = ""; $res_cc = ""; $total_amount = 0.00;
+
+	$sql = mysqli_query($conn, "SELECT s.supplier, i.charge_invoice, i.spvs, i.spvs_designation, i.res_cc, p.item_name, p.description FROM tbl_po AS p, tbl_iar AS i, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.po_number = '$po_number' AND p.iar_no = '$iar_number' AND i.po_number = '$po_number'");
+	$rows = mysqli_num_rows($sql);
+
+	if($rows != 0){
+		$row = mysqli_fetch_assoc($sql);
+		$supplier = $row["supplier"];
+		$charge_invoice = $row["charge_invoice"];
+		$spvs = $row["spvs"]; $spvs_designation = $row["spvs_designation"];
+		$res_cc = $row["res_cc"];
+		if($rows > 1){
+			$item_description = $row["item_name"]." - ".$row["description"]." and etc.";
+		}else{
+			$item_description = $row["item_name"]." - ".$row["description"];
+		}
+	}
+
+	$sql2 = mysqli_query($conn, "SELECT unit_cost, main_stocks FROM tbl_po WHERE po_number = '$po_number'");
+	while($rowt = mysqli_fetch_assoc($sql2)){
+		$total_amount+=((float)$rowt["unit_cost"] * (float)$rowt["main_stocks"]);
+	}
+	echo json_encode(array(
+		"supplier"=>$supplier,
+		"charge_invoice"=>$charge_invoice,
+		"item_description"=>$item_description,
+		"num_rows"=>$rows,
+		"spvs"=>$spvs,
+		"spvs_designation"=>$spvs_designation,
+		"res_cc"=>$res_cc,
+		"total_amount"=>number_format((float)$total_amount, 2)
+	));
+}
+
 function update(){
 	global $conn;
 
@@ -16,6 +57,8 @@ function update(){
 	$inspector = mysqli_real_escape_string($conn, $_POST["inspector"]);
 	$date_inspected = mysqli_real_escape_string($conn, $_POST["date_inspected"]);
 	$date_received = mysqli_real_escape_string($conn, $_POST["date_received"]);
+	$spvs = mysqli_real_escape_string($conn, $_POST["spvs"]);
+	$spvs_designation = mysqli_real_escape_string($conn, $_POST["spvs_designation"]);
 	$items = $_POST["items"];
 	for($i = 0; $i < count($items); $i++){
 		$id = $items[$i][0];
@@ -24,9 +67,9 @@ function update(){
 		$exp_date = $items[$i][3];
 		$manufactured_by = mysqli_real_escape_string($conn,$items[$i][4]);
 		$bool = $items[$i][5];
-		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name = '$item_name' AND description = '$description' AND po_number = '$po_number' AND po_id = '$id'");
+		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE po_id = '$id'");
 	}
-	mysqli_query($conn,"UPDATE tbl_iar SET entity_name = '$entity_name', fund_cluster = '$fund_cluster', req_office = '$req_office', res_cc = '$res_cc', charge_invoice = '$charge_invoice', /*inspector = '$inspector',*/ date_inspected = '$date_inspected', date_received = '$date_received' WHERE iar_number LIKE '$iar_number'");
+	mysqli_query($conn,"UPDATE tbl_iar SET entity_name = '$entity_name', fund_cluster = '$fund_cluster', req_office = '$req_office', res_cc = '$res_cc', charge_invoice = '$charge_invoice', /*inspector = '$inspector',*/ date_inspected = '$date_inspected', date_received = '$date_received', spvs = '$spvs', spvs_designation = '$spvs_designation' WHERE iar_number LIKE '$iar_number'");
 
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." edited the details of IAR No. ".$iar_number;
@@ -37,13 +80,13 @@ function get_iar_details(){
 	global $conn;
 
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
-	$entity_name="";$fund_cluster="";$po_number="";$req_office="";$res_cc="";$charge_invoice="";$date_inspected="";$inspector="";$date_received="";$end_user="";$supplier="";
+	$entity_name="";$fund_cluster="";$po_number="";$req_office="";$res_cc="";$charge_invoice="";$date_inspected="";$inspector="";$date_received="";$end_user="";$supplier="";$spvs = ""; $spvs_designation = "";
 	$table = "";
-	$sql = mysqli_query($conn, "SELECT p.po_id, i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, p.main_stocks, p.exp_date, s.supplier, p.activity_title FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
+	$sql = mysqli_query($conn, "SELECT p.po_id, i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, i.spvs, i.spvs_designation, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, p.main_stocks, p.exp_date, s.supplier, p.activity_title FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$po_number = $row["po_number"];$req_office = $row["req_office"];$res_cc = $row["res_cc"];
 		$charge_invoice = $row["charge_invoice"];$date_inspected = $row["date_inspected"];$inspector = $row["inspector"];$date_received = $row["date_received"];
-		$end_user = $row["end_user"];$supplier = $row["supplier"];
+		$end_user = $row["end_user"];$supplier = $row["supplier"];$spvs = $row["spvs"];$spvs_designation = $row["spvs_designation"];
 		$unit = (explode(" ", $row["quantity"]))[1];
 		$table.="<tr>
 					<td>".$row["po_id"]."</td>
@@ -69,6 +112,8 @@ function get_iar_details(){
 		"date_received"=>$date_received,
 		"end_user"=>$end_user,
 		"supplier"=>$supplier,
+		"spvs"=>$spvs,
+		"spvs_designation"=>$spvs_designation,
 		"table"=>$table
 	));
 }
@@ -344,7 +389,7 @@ function get_iar(){
 				<td>".$row["iar_number"]."</td>
 				<td>".$row["req_office"]."</td>
 				<td>".$row["res_cc"]."</td>
-				<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["iar_number"]."\" onclick=\"view_iss(this.value,'tbl_iar','view_iar','IAR','iar_number','".substr($pn,0,4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"".$row["iar_number"]."\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success ladda-button\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"".$row["iar_number"]."\" onclick=\"print_iar(this.value);\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["iar_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["iar_number"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
+				<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["iar_number"]."\" onclick=\"view_iss(this.value,'tbl_iar','view_iar','IAR','iar_number','".substr($pn,0,4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"".$row["iar_number"]."\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success ladda-button\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"".$row["iar_number"]."\" onclick=\"print_iar(this.value);\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["iar_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["iar_number"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button>&nbsp;|&nbsp;<button class=\"btn btn-xs\" title=\"Notice of Delivery\" onclick=\"print_nod('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-truck\"></i></button>&nbsp;<button class=\"btn btn-xs\" title=\"Disbursement Voucher\" onclick=\"print_dv('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-credit-card\"></i></button></center></td>
 				</tr>";
 			}else{
 				echo "<tr>
@@ -366,6 +411,7 @@ function insert_ntc(){
 
 function insert_various(){
 	global $conn;
+	global $connhr;
 
 	$entity_name = mysqli_real_escape_string($conn, $_POST["entity_name"]);
 	$fund_cluster = mysqli_real_escape_string($conn, $_POST["fund_cluster"]);
@@ -383,9 +429,14 @@ function insert_various(){
 	$status = mysqli_real_escape_string($conn, $_POST["status"]);
 	$partial_specify = mysqli_real_escape_string($conn, $_POST["partial_specify"]);
 	$items = $_POST["items"];
-	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT iar_number FROM tbl_iar WHERE iar_number = '$iar_number'"))==0){
-		mysqli_query($conn, "INSERT INTO tbl_iar(entity_name,fund_cluster,po_number,iar_number,iar_type,req_office,res_cc,charge_invoice,date_inspected,inspector,inspected,date_received,property_custodian,status,partial_specify) VALUES('$entity_name','$fund_cluster','$po_number','$iar_number','$iar_type','$req_office','$res_cc','$charge_invoice','$date_inspected','$inspector','$inspected','$date_received','$property_custodian','$status','$partial_specify')");
+	$spvs = mysqli_real_escape_string($conn, $_POST["spvs"]);
+	$spvs_id = mysqli_real_escape_string($conn, $_POST["spvs_id"]);
 
+	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$spvs_id'");
+	$spvs_designation = mysqli_fetch_assoc($quer1)["designation"];
+
+	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT iar_number FROM tbl_iar WHERE iar_number = '$iar_number'"))==0){
+		mysqli_query($conn, "INSERT INTO tbl_iar(entity_name,fund_cluster,po_number,iar_number,iar_type,req_office,res_cc,charge_invoice,date_inspected,inspector,inspected,date_received,property_custodian,status,partial_specify,spvs,spvs_designation) VALUES('$entity_name','$fund_cluster','$po_number','$iar_number','$iar_type','$req_office','$res_cc','$charge_invoice','$date_inspected','$inspector','$inspected','$date_received','$property_custodian','$status','$partial_specify','$spvs','$spvs_designation')");
 		for($i = 0; $i < count($items); $i++){
 			$id = $items[$i][0];
 			$item_name = mysqli_real_escape_string($conn, $items[$i][1]);
@@ -393,7 +444,7 @@ function insert_various(){
 			$exp_date = $items[$i][3];
 			$manufactured_by = $items[$i][4];
 			$bool = $items[$i][5];
-			mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE item_name LIKE '$item_name' AND description LIKE '$description' AND po_number LIKE '$po_number' AND po_id = '$id'");
+			mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE po_id = '$id'");
 		}
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created an IAR No. ".$iar_number." - PO#".$po_number;
@@ -432,6 +483,9 @@ switch($call_func){
 		break;
 	case "update":
 		update();
+		break;
+	case "get_nod_dv":
+		get_nod_dv();
 		break;
 }
 

@@ -130,6 +130,7 @@ function ready_all(){
             data: {call_func: "get_employee"},
             success: function(data){
                 $("#var_inspector").html("").append(data);
+                $("#spvs").html("<option disabled selected></option>").append(data);
                 //$("#evar_inspector").html("<option disabled selected></option>").append(data);
             }
         });
@@ -186,6 +187,8 @@ function modify(iar_number){
             $("#evar_fc").val(data["fund_cluster"]);
             $("#evar_sn").val(data["supplier"]);
             $("#evar_eu").val(data["end_user"]);
+            $("#espvs").val(data["spvs"]);
+            $("#espvs_designation").val(data["spvs_designation"]);
 
             $('#evar_rod option').each(function() {
                 if($(this).text() == data["req_office"]) {
@@ -232,6 +235,8 @@ function update(){
             inspector: $("#evar_inspector").val(),
             date_inspected: $("#evar_inspected").val(),
             date_received: $("#evar_dr").val(),
+            spvs: $("#espvs").val(),
+            spvs_designation: $("#espvs_designation").val(),
             items: items
         },
         success: function(data){
@@ -298,7 +303,6 @@ function add_item(tbl_name){
 }
 
 function validate_various(){
-    var other = 0;
     if($("#var_po").val() != null){
         if($("#var_rod").val() != null){
             if($("#var_iar").val() != ""){
@@ -310,41 +314,47 @@ function validate_various(){
                     }
                     if($("#var_pc").val() != ""){
                         if(add_item("var_items")!=0){
-                            $("#save_changes").attr("disabled", true);
-                            $.ajax({
-                                type: "POST",
-                                url: "php/php_iar.php",
-                                data: { 
-                                    entity_name: $("#var_en").val(),
-                                    call_func: "insert_various",
-                                    fund_cluster: $("#var_fc").val(),
-                                    po_number: $("#var_po option:selected").text(),
-                                    iar_number: $("#var_iar").val(),
-                                    iar_type: po_type,
-                                    req_office: $("#var_rod option:selected").text(),
-                                    res_cc: $("#var_rcc").val(),
-                                    charge_invoice: $("#var_ci").val(),
-                                    date_inspected: $("#var_inspected").val(),
-                                    date_received: $("#var_dr").val(),
-                                    inspector: inspectors,
-                                    inspected: ($('#var_chk').is(':checked')) ? 1 : 0,
-                                    property_custodian: $("#var_pc").val(),
-                                    status: $("#var_as option:selected").text(),
-                                    partial_specify: partial_specify,
-                                    items: items
-                                     },
-                                success: function(data){
-                                    if(data == "0"){
-                                        swal("Inserted!", "Saved successfully to the database.", "success");
-                                        setTimeout(function () {
-                                            location.reload();
-                                          }, 1500);
-                                    }else{
-                                        $("#save_changes").attr("disabled", false);
-                                        swal("IAR Number already existed!", "Please enter another IAR number!", "warning");
+                            if($("#spvs option:selected").text() != ""){
+                                $("#save_changes").attr("disabled", true);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "php/php_iar.php",
+                                    data: { 
+                                        entity_name: $("#var_en").val(),
+                                        call_func: "insert_various",
+                                        fund_cluster: $("#var_fc").val(),
+                                        po_number: $("#var_po option:selected").text(),
+                                        iar_number: $("#var_iar").val(),
+                                        iar_type: po_type,
+                                        req_office: $("#var_rod option:selected").text(),
+                                        res_cc: $("#var_rcc").val(),
+                                        charge_invoice: $("#var_ci").val(),
+                                        date_inspected: $("#var_inspected").val(),
+                                        date_received: $("#var_dr").val(),
+                                        inspector: inspectors,
+                                        inspected: ($('#var_chk').is(':checked')) ? 1 : 0,
+                                        property_custodian: $("#var_pc").val(),
+                                        status: $("#var_as option:selected").text(),
+                                        partial_specify: partial_specify,
+                                        items: items,
+                                        spvs: $("#spvs option:selected").text(),
+                                        spvs_id: $("#spvs").val()
+                                         },
+                                    success: function(data){
+                                        if(data == "0"){
+                                            swal("Inserted!", "Saved successfully to the database.", "success");
+                                            setTimeout(function () {
+                                                location.reload();
+                                              }, 1500);
+                                        }else{
+                                            $("#save_changes").attr("disabled", false);
+                                            swal("IAR Number already existed!", "Please enter another IAR number!", "warning");
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }else{
+                                swal("Please fill in!", "Supervisor (For Disbursement Voucher)", "warning");
+                            }
                         }else{
                             swal("Items not found!", "No item to be inspected!", "warning");
                         }
@@ -549,6 +559,69 @@ function download_xls_dm(iar_number){
             }
             */
             exportTableToExcel("report_iar_dm", "IAR No. "+iar_number);
+        }
+    });
+}
+
+function print_nod(iar_number, po_number){
+    $.ajax({
+        type: "POST",
+        data: {
+            call_func: "get_nod_dv",
+            po_number: po_number,
+            iar_number: iar_number
+            },
+        dataType: "JSON",
+        url: "php/php_iar.php",
+        success: function(data){
+            $("#p_iarno1").html(iar_number);
+            $("#p_po").html(po_number);
+            $("#p_supplier").html(data["supplier"]);
+            $("#p_ci").html(data["charge_invoice"]);
+            $("#p_itemdesc").html(data["item_description"]);
+
+            var divContents = $("#report_nod").html(); 
+            var a = window.open('', '_blank', 'height=1500, width=800'); 
+            a.document.write('<html>'); 
+            a.document.write('<body><center>');
+            a.document.write('<table><tr>');
+            a.document.write('<td>'+divContents+'</td>'); 
+            a.document.write('</tr></table>');
+            a.document.write('</center></body></html>'); 
+            a.document.close(); 
+            a.print();
+        }
+    });
+}
+
+function print_dv(iar_number, po_number){
+     $.ajax({
+        type: "POST",
+        data: {
+            call_func: "get_nod_dv",
+            po_number: po_number,
+            iar_number: iar_number
+            },
+        dataType: "JSON",
+        url: "php/php_iar.php",
+        success: function(data){
+            $("#pp_iar").html(iar_number);
+            $("#pp_supplier").html(data["supplier"].toUpperCase());
+            $("#pp_spvs").html(data["spvs"].toUpperCase());
+            $("#pp_spvs_designation").html(data["spvs_designation"]);
+            $("#pp_total_amount").html(data["total_amount"]);
+            $("#pp_res_cc").html(data["res_cc"]);
+
+            var divContents = $("#report_dv").html(); 
+            var a = window.open('', '_blank', 'height=1500, width=800'); 
+            a.document.write('<html>'); 
+            a.document.write('<body><center>');
+            a.document.write('<table><tr>');
+            a.document.write('<td>'+divContents+'</td>'); 
+            a.document.write('</tr></table>');
+            a.document.write('</center></body></html>'); 
+            a.document.close(); 
+            a.print();
         }
     });
 }
