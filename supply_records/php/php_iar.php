@@ -9,10 +9,15 @@ function get_nod_dv(){
 
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
 	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-	$supplier = ""; $charge_invoice = ""; $item_description = "";
-	$spvs = ""; $spvs_designation = ""; $res_cc = ""; $total_amount = 0.00;
+	$supplier = ""; $charge_invoice = ""; $item_description = ""; $item_name = "";
+	$inspector = "";
+	$spvs = ""; $spvs_designation = ""; $res_cc = ""; $inspector = "";
+	$date_received = ""; $date_delivered = ""; $delivery_term = ""; $payment_term = "";
+	$end_user = ""; $procurement_mode = "";
 
-	$sql = mysqli_query($conn, "SELECT s.supplier, i.charge_invoice, i.spvs, i.spvs_designation, i.res_cc, p.item_name, p.description FROM tbl_po AS p, tbl_iar AS i, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.po_number = '$po_number' AND p.iar_no = '$iar_number' AND i.po_number = '$po_number'");
+	$total_amount = 0.00;
+
+	$sql = mysqli_query($conn, "SELECT s.supplier, i.charge_invoice, i.inspector, i.spvs, i.spvs_designation, i.res_cc, p.item_name, p.description, p.date_received, p.date_delivered, p.delivery_term, p.payment_term, p.end_user, p.procurement_mode FROM tbl_po AS p, tbl_iar AS i, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.po_number = '$po_number' AND p.iar_no = '$iar_number' AND i.po_number = '$po_number'");
 	$rows = mysqli_num_rows($sql);
 
 	if($rows != 0){
@@ -21,9 +26,15 @@ function get_nod_dv(){
 		$charge_invoice = $row["charge_invoice"];
 		$spvs = $row["spvs"]; $spvs_designation = $row["spvs_designation"];
 		$res_cc = $row["res_cc"];
+		$date_received = $row["date_received"]; $date_delivered = $row["date_delivered"];
+		$delivery_term =$row["delivery_term"]; $payment_term = $row["payment_term"];
+		$end_user = $row["end_user"]; $procurement_mode = $row["procurement_mode"];
+		$inspector = $row["inspector"];
 		if($rows > 1){
+			$item_name = $row["item_name"]." and etc.";
 			$item_description = $row["item_name"]." - ".$row["description"]." and etc.";
 		}else{
+			$item_name = $row["item_name"];
 			$item_description = $row["item_name"]." - ".$row["description"];
 		}
 	}
@@ -40,6 +51,14 @@ function get_nod_dv(){
 		"spvs"=>$spvs,
 		"spvs_designation"=>$spvs_designation,
 		"res_cc"=>$res_cc,
+		"item_name"=>$item_name,
+		"date_received"=>$date_received,
+		"date_delivered"=>$date_delivered,
+		"delivery_term"=>$delivery_term,
+		"payment_term"=>$payment_term,
+		"end_user"=>$end_user,
+		"procurement_mode"=>$procurement_mode,
+		"inspector"=>$inspector,
 		"total_amount"=>number_format((float)$total_amount, 2)
 	));
 }
@@ -389,7 +408,7 @@ function get_iar(){
 				<td>".$row["iar_number"]."</td>
 				<td>".$row["req_office"]."</td>
 				<td>".$row["res_cc"]."</td>
-				<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["iar_number"]."\" onclick=\"view_iss(this.value,'tbl_iar','view_iar','IAR','iar_number','".substr($pn,0,4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"".$row["iar_number"]."\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success ladda-button\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"".$row["iar_number"]."\" onclick=\"print_iar(this.value);\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["iar_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["iar_number"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button>&nbsp;|&nbsp;<button class=\"btn btn-xs\" title=\"Notice of Delivery\" onclick=\"print_nod('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-truck\"></i></button>&nbsp;<button class=\"btn btn-xs\" title=\"Disbursement Voucher\" onclick=\"print_dv('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-credit-card\"></i></button>&nbsp;<button class=\"btn btn-xs\" title=\"Performance Evaluation\" onclick=\"print_pe();\"><i class=\"fa fa-tasks\"></i></button></center></td>
+				<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["iar_number"]."\" onclick=\"view_iss(this.value,'tbl_iar','view_iar','IAR','iar_number','".substr($pn,0,4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"".$row["iar_number"]."\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success ladda-button\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"".$row["iar_number"]."\" onclick=\"print_iar(this.value);\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["iar_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["iar_number"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button>&nbsp;|&nbsp;<button class=\"btn btn-xs\" title=\"Notice of Delivery\" onclick=\"print_nod('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-truck\"></i></button>&nbsp;<button class=\"btn btn-xs\" title=\"Disbursement Voucher\" onclick=\"print_dv('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-credit-card\"></i></button>&nbsp;<button class=\"btn btn-xs\" title=\"Performance Evaluation\" onclick=\"print_pe('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-tasks\"></i></button></center></td>
 				</tr>";
 			}else{
 				echo "<tr>

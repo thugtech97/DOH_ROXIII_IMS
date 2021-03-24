@@ -606,15 +606,38 @@ function print_dv(iar_number, po_number){
     });
 }
 
-function print_pe(){
-    var divContents = $('#report_pe').html(); 
-    var a = window.open('', '_blank', 'height=1500, width=800'); 
-    a.document.write('<html>'); 
-    a.document.write('<body><center>');
-    a.document.write('<table><tr>');
-    a.document.write('<td>'+divContents+'</td>'); 
-    a.document.write('</tr></table>');
-    a.document.write('</center></body></html>'); 
-    a.document.close(); 
-    a.print();
+function print_pe(iar_number, po_number){
+    $.ajax({
+        type: "POST",
+        data: {
+            call_func: "get_nod_dv",
+            po_number: po_number,
+            iar_number: iar_number
+            },
+        dataType: "JSON",
+        url: "php/php_iar.php",
+        success: function(data){
+            $("#pe_po").html(po_number);
+            $("#pe_supplier").html(data["supplier"].toUpperCase());
+            $("#pe_date_r").html(data["date_received"].substring(0,10));
+            $("#pe_dt").html(data["delivery_term"]);
+            $("#pe_date_d").html(data["date_delivered"]);
+            $("#pe_pm").html(data["procurement_mode"]);
+            $("#pe_item").html(data["item_name"]);
+            $("#pe_pt").html(data["payment_term"]);
+            $("#pe_inspector").html(data["inspector"].toUpperCase().split('|').join('/'));
+            $("#pe_eu").html(data["end_user"].toUpperCase());
+
+            var divContents = $('#report_pe').html(); 
+            var a = window.open('', '_blank', 'height=1500, width=800'); 
+            a.document.write('<html>'); 
+            a.document.write('<body><center>');
+            a.document.write('<table><tr>');
+            a.document.write('<td>'+divContents+'</td>'); 
+            a.document.write('</tr></table>');
+            a.document.write('</center></body></html>'); 
+            a.document.close(); 
+            a.print();
+        }
+    });
 }
