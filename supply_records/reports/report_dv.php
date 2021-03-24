@@ -54,8 +54,9 @@
             <td colspan="6" style="width: 48px; height: 14.5px; text-align: left; font-size: 10px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Fund Cluster: </td>
           </tr>
           <tr>
-            <td colspan="19" style="width: 48px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-            <td colspan="6" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+            <td colspan="17" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom;">Department of Health - CHD Caraga</td>
+            <td colspan="2" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
+            <td colspan="6" style="width: 48px; height: 14.5px; text-align: left; font-size: 10px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Fund Cluster: </td>
           </tr>
           <tr>
             <td colspan="17" style="width: 48px; height: 14.5px; text-align: center; font-size: 14; font-weight: bold; vertical-align: bottom;">DISBURSEMENT VOUCHER</td>

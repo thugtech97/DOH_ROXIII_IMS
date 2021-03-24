@@ -21,10 +21,9 @@ if(!isset($_SESSION["username"])){
 
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
-    <!-- demand letter style -->
+<!--
     <link rel="stylesheet" type="text/css" href="css/demand_letter.css">
-
+!-->
     <!-- Gritter -->
     <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 
@@ -229,7 +228,7 @@ if(!isset($_SESSION["username"])){
                 require "modals/modal_view_po.php";
                 require "modals/modal_add_bf.php";
                 require "modals/modal_view_conso.php";
-                require "reports/report_dl.php";
+                //require "reports/report_dl.php";
             ?>
 
             <div class="footer">

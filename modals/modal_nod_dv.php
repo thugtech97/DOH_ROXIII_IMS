@@ -11,7 +11,7 @@
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label">Delivery Date:</label>
                             <div class="col-lg-8">
-                                <input id="nod_dd" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text'); $('#dd_nod').html($(this).val());"/>
+                                <input id="nod_dd" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text'); $('#dd_nod').html($(this).val()); $('#nod_d').html($(this).val());"/>
                             </div>
                         </div>
                     </div>

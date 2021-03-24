@@ -605,3 +605,16 @@ function print_dv(iar_number, po_number){
         }
     });
 }
+
+function print_pe(){
+    var divContents = $('#report_pe').html(); 
+    var a = window.open('', '_blank', 'height=1500, width=800'); 
+    a.document.write('<html>'); 
+    a.document.write('<body><center>');
+    a.document.write('<table><tr>');
+    a.document.write('<td>'+divContents+'</td>'); 
+    a.document.write('</tr></table>');
+    a.document.write('</center></body></html>'); 
+    a.document.close(); 
+    a.print();
+}

@@ -54,7 +54,7 @@
       <tr>
         <td style="width: 107.4px; height: 13.75px; text-align: left; font-size: 9px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-left-width: 1px; border-right-style: solid; border-left-style: solid;">NOD No.</td>
         <td rowspan="3" colspan="4" style="width: 95.4px; height: 13.75px; vertical-align: center; text-align: center; font-size: 12px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;">NOTICE OF DELIVERY</td>
-        <td rowspan="3" colspan="2" style="width: 50.4px; height: 13.75px; vertical-align: center; text-align: center; font-size: 11px;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><b><?php echo date("Y-m-d"); ?></b></td>
+        <td rowspan="3" colspan="2" style="width: 50.4px; height: 13.75px; vertical-align: center; text-align: center; font-size: 11px;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><b><span id="nod_d"></span></b></td>
       </tr>
       <tr>
         <td style="width: 107.4px; height: 13.75px; text-align: center; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-left-width: 1px; border-right-style: solid; border-left-style: solid;">
