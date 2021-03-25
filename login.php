@@ -82,7 +82,6 @@ if(isset($_SESSION["username"])){
                 if(data=="1"){
                   window.location = "index.php";
                 }else{
-                  alert(data);
                   swal("Login failed!", "Account not found.", "error");
                 }
               });
