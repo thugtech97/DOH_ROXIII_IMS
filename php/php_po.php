@@ -306,15 +306,26 @@ function get_latest_po(){
 function get_po(){
 	global $conn;
 	
-	$sql = mysqli_query($conn, "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, p.procurement_mode,s.supplier, SUBSTRING(p.date_received, 1, 10) AS date_r, p.date_conformed, p.date_delivered, p.activity_date, p.end_user FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id ORDER BY po_id ASC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, p.procurement_mode,s.supplier, SUBSTRING(p.date_received, 1, 10) AS date_r, p.delivery_term, p.date_conformed, p.date_delivered, p.activity_date, p.end_user FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id ORDER BY po_id ASC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$eu = str_replace(' ', '', $row["end_user"]);
+			$date = date_create($row["date_conformed"]);
+			date_add($date,date_interval_create_from_date_string($row["delivery_term"]));
+			$expected_delivery_date = date_format($date,"Y-m-d");
+
+			$start_date = strtotime(date("Y-m-d"));
+			$end_date = strtotime($expected_delivery_date);
+
+			$remaining_days = round(($end_date - $start_date)/60/60/24);
+			$fdays = ($remaining_days < 0) ? "<span style=\"color: red;\">".$remaining_days." days left</span>" : $remaining_days." days left";
+			//$days_left
 			echo "<tr>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["po_number"]."</td>
 					<td>".$row["procurement_mode"]."</td>
 					<td>".$row["date_conformed"]."</td>
+					<td>".(($row["status"] == "Delivered" || $row["status"] == "") ? "" : $expected_delivery_date." (".$fdays.")")."</td>
 					<td>".$row["date_delivered"]."</td>
 					<td>".$row["supplier"]."</td>
 					<td>".$row["end_user"]."</td>

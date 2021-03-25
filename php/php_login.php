@@ -13,7 +13,7 @@ if(mysqli_num_rows($sql) != 0){
 	$row = mysqli_fetch_assoc($sql);
 	$_SESSION["emp_id"] = $row["emp_id"];
 	$_SESSION["username"] = $username;
-	$_SESSION["emp_name"] = $row["fname"]." ".$row["mname"][0].". ".$row["lname"];
+	$_SESSION["emp_name"] = $row["fname"]." ".($row["mname"] != null ? $row["mname"][0].". ": "")."".$row["lname"];
 	$_SESSION["role"] = $row["role"];
 	$_SESSION["link0"] = "Dashboards";
 	$_SESSION["link1"] = "Supply Records";

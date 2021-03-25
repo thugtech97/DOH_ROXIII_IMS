@@ -200,6 +200,7 @@ if(!isset($_SESSION["username"])){
                                             <th>P.O Number</th>
                                             <th>Mode of Procurement</th>
                                             <th>Date Conformed</th>
+                                            <th>Expected Delivery</th>
                                             <th>Date Delivered</th>
                                             <th>Supplier</th>
                                             <th>End User</th>
