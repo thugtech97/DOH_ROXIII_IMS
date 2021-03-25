@@ -1,4 +1,4 @@
-<div style="display: none;" id="report_pe">
+<div style="display: block;" id="report_pe">
   <table style="border-collapse: collapse;" cellspacing="0">
     <tbody>
       <tr>
@@ -11,56 +11,55 @@
         <td style="width: 133.2px; height: 14.5px; text-align: center; font-size: 11px; vertical-align: bottom;"></td>
       </tr>
       <tr>
-        <td colspan="7" style="width: 161.4px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-top-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-top-width: 2px; border-left-width: 2px; border-top-style: solid; border-left-style: solid; border-right-width: 2px; border-right-style: solid;">Republic of the Philippines</td>
+        <td rowspan="4" style="text-align: center; vertical-align: center; border-left-width: 2px; border-left-style: solid;border-top-width: 2px; border-top-style: solid;" colspan="2"><img src="../../archives/img/<?php echo $_SESSION["company_logo"]; ?>" width="75" height="75"></td>
+        <td colspan="3" style="width: 161.4px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;">Republic of the Philippines</td>
+        <td rowspan="4" colspan="2" style="text-align: center; vertical-align: center; border-top-width: 2px; border-top-style: solid;border-right-width: 2px; border-right-style: solid;"><img src="../imgsys/f1plus.png" width="70" height="70"></td>
       </tr>
       <tr>
-        <td colspan="7" style="width: 161.4px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">DOH - REGIONAL OFFICE XIII</td>
+        <td colspan="3" style="width: 161.4px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0);">DOH - REGIONAL OFFICE XIII</td>
+        <td colspan="2" style=""></td>
       </tr>
       <tr>
-        <td colspan="7" style="width: 161.4px; height: 14.5px; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-width: 2px; border-right-style: solid;"></td>
+        <td colspan="5" style="width: 161.4px; height: 14.5px; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
       </tr>
       <tr>
-        <td colspan="7" style="width: 161.4px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-width: 2px; border-right-style: solid;">PERFORMANCE EVALUATION OF SUPPLIERS</td>
+        <td colspan="3" style="width: 161.4px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0);">PERFORMANCE EVALUATION OF SUPPLIERS</td>
+        <td colspan="2" style=""></td>
       </tr>
       <tr>
         <td colspan="7" style="width: 161.4px; height: 14.5px; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-width: 2px; border-right-style: solid;"></td>
       </tr>
       <tr>
         <td style="width: 161.4px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Name of Supplier:</td>
-        <td colspan="2" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_supplier"></span></td>
-        <td style="width: 104.4px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
+        <td colspan="3" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_supplier"></span></td>
         <td style="width: 118.2px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
         <td style="width: 156px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom;">Purchase Order:</td>
         <td style="width: 133.2px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="pe_po"></span></td>
       </tr>
       <tr>
-        <td style="width: 161.4px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Address:</td>
-        <td colspan="2" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_address"></span></td>
-        <td style="width: 104.4px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
+        <td class="pe_addr" style="cursor: pointer; width: 161.4px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Address:</td>
+        <td colspan="3" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_address"></span></td>
         <td style="width: 118.2px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
-        <td style="width: 156px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom;">Date Received:</td>
+        <td style="width: 156px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom;">Date Conformed:</td>
         <td style="width: 133.2px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="pe_date_r"></td>
       </tr>
       <tr>
-        <td style="width: 161.4px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Contact Number:</td>
-        <td colspan="2" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_cn"></span> </td>
-        <td style="width: 104.4px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
+        <td class="pe_contact" style="cursor: pointer; width: 161.4px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Contact Number:</td>
+        <td colspan="3" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_cn"></span> </td>
         <td style="width: 118.2px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
         <td style="width: 156px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom;">Delivery Term:</td>
         <td style="width: 133.2px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="pe_dt"></span></td>
       </tr>
       <tr>
         <td style="width: 161.4px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Date Delivered/Travel:</td>
-        <td colspan="2" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_date_d"></span></td>
-        <td style="width: 104.4px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
+        <td colspan="3" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_date_d"></span></td>
         <td style="width: 118.2px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
         <td style="width: 156px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom;">Mode of Procurement:</td>
         <td style="width: 133.2px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="pe_pm"></span></td>
       </tr>
       <tr>
         <td style="width: 161.4px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Items Delivered/Travel:</td>
-        <td colspan="2" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_item"></span></td>
-        <td style="width: 104.4px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
+        <td colspan="3" style="width: 127.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_item"></span></td>
         <td style="width: 118.2px; height: 15px; font-size: 11px; vertical-align: bottom;"></td>
         <td style="width: 156px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom;">Payment Term:</td>
         <td style="width: 133.2px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="pe_pt"></span></td>
@@ -69,7 +68,7 @@
         <td colspan="7" style="width: 161.4px; height: 7.5px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 1px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;border-right-width: 2px;border-right-style: solid;"></td>
       </tr>
       <tr>
-        <td style="width: 161.4px; height: 25.5px; text-align: center; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-left-width: 2px; border-right-style: solid; border-left-style: solid;">PARTICUALR</td>
+        <td style="width: 161.4px; height: 25.5px; text-align: center; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-left-width: 2px; border-right-style: solid; border-left-style: solid;">PARTICULAR</td>
         <td style="width: 127.8px; height: 25.5px; text-align: center; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">EXCELLENT</td>
         <td style="width: 142.2px; height: 25.5px; text-align: center; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">VERY SATISFACTORY</td>
         <td style="width: 104.4px; height: 25.5px; text-align: center; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">SATISFACTORY</td>

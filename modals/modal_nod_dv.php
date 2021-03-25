@@ -37,7 +37,6 @@
     </div>
 </div>
 
-
 <div class="modal inmodal" id="modal_dv" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content animated slideInDown">
@@ -65,6 +64,35 @@
                         <center>
                             <?php
                                 require "reports/report_dv.php";
+                            ?>
+                        </center>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="modal_pe" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated slideInDown">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title"><i class="fa fa-tasks"></i> Performance Evaluation of Supplier</h5>
+            </div>
+            <div class="modal-body">
+                <div class="pull-right">
+                    <button type="button" class="btn btn-success btn-lg" onclick="generate_rep('report_pe');"><i class="fa fa-print"></i> Print</button>
+                </div>
+                <div class="ibox">
+                    <br>
+                    <div class="ibox-content" style="height: 750px; overflow: auto; color: black;">
+                        <center>
+                            <?php
+                                require "reports/report_pe.php";
                             ?>
                         </center>
                     </div>

@@ -171,7 +171,6 @@ if(!isset($_SESSION["username"])){
                 require "../modals/modal_add_iar.php";
                 require "../modals/modal_edit_iar.php";
                 require "../modals/modal_nod_dv.php";
-                require "reports/report_pe.php";
             ?>
             <div class="footer">
                 <div>

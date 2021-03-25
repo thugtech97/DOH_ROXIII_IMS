@@ -13,11 +13,11 @@ function get_nod_dv(){
 	$inspector = "";
 	$spvs = ""; $spvs_designation = ""; $res_cc = ""; $inspector = "";
 	$date_received = ""; $date_delivered = ""; $delivery_term = ""; $payment_term = "";
-	$end_user = ""; $procurement_mode = "";
+	$end_user = ""; $procurement_mode = ""; $date_conformed = "";
 
 	$total_amount = 0.00;
 
-	$sql = mysqli_query($conn, "SELECT s.supplier, i.charge_invoice, i.inspector, i.spvs, i.spvs_designation, i.res_cc, p.item_name, p.description, p.date_received, p.date_delivered, p.delivery_term, p.payment_term, p.end_user, p.procurement_mode FROM tbl_po AS p, tbl_iar AS i, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.po_number = '$po_number' AND p.iar_no = '$iar_number' AND i.po_number = '$po_number'");
+	$sql = mysqli_query($conn, "SELECT s.supplier, i.charge_invoice, i.inspector, i.spvs, i.spvs_designation, i.res_cc, p.item_name, p.description, p.date_received, p.date_delivered, p.date_conformed, p.delivery_term, p.payment_term, p.end_user, p.procurement_mode FROM tbl_po AS p, tbl_iar AS i, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.po_number = '$po_number' AND p.iar_no = '$iar_number' AND i.po_number = '$po_number'");
 	$rows = mysqli_num_rows($sql);
 
 	if($rows != 0){
@@ -29,7 +29,7 @@ function get_nod_dv(){
 		$date_received = $row["date_received"]; $date_delivered = $row["date_delivered"];
 		$delivery_term =$row["delivery_term"]; $payment_term = $row["payment_term"];
 		$end_user = $row["end_user"]; $procurement_mode = $row["procurement_mode"];
-		$inspector = $row["inspector"];
+		$inspector = $row["inspector"]; $date_conformed = $row["date_conformed"];
 		if($rows > 1){
 			$item_name = $row["item_name"]." and etc.";
 			$item_description = $row["item_name"]." - ".$row["description"]." and etc.";
@@ -54,6 +54,7 @@ function get_nod_dv(){
 		"item_name"=>$item_name,
 		"date_received"=>$date_received,
 		"date_delivered"=>$date_delivered,
+		"date_conformed"=>$date_conformed,
 		"delivery_term"=>$delivery_term,
 		"payment_term"=>$payment_term,
 		"end_user"=>$end_user,
