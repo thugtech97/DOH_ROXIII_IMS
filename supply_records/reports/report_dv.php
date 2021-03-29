@@ -49,19 +49,19 @@
             <td colspan="6" style="text-align: center;border-right-width: 2px; border-right-style: solid;"></td>
           </tr>
           <tr>
-            <td colspan="17" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom;">Republic of the Philippines</td>
+            <td colspan="17" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center;">Republic of the Philippines</td>
             <td colspan="2" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-            <td colspan="6" style="width: 48px; height: 14.5px; text-align: left; font-size: 10px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Fund Cluster: </td>
+            <td colspan="6" style="width: 48px; height: 14.5px; text-align: left; font-size: 10px;  vertical-align: center; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Fund Cluster: </td>
           </tr>
           <tr>
-            <td colspan="17" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom;">Department of Health - CHD Caraga</td>
+            <td colspan="17" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center;">Department of Health - CHD Caraga</td>
             <td colspan="2" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-            <td colspan="6" style="width: 48px; height: 14.5px; text-align: left; font-size: 10px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Fund Cluster: </td>
+            <td colspan="6" style="width: 48px; height: 14.5px; text-align: left; font-size: 10px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
           </tr>
           <tr>
-            <td colspan="17" style="width: 48px; height: 14.5px; text-align: center; font-size: 14; font-weight: bold; vertical-align: bottom;">DISBURSEMENT VOUCHER</td>
+            <td colspan="17" style="width: 48px; height: 14.5px; text-align: center; font-size: 14; font-weight: bold; vertical-align: center;">DISBURSEMENT VOUCHER</td>
             <td colspan="2" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-            <td colspan="6" style="width: 48px; height: 14.5px; text-align: left; font-size: 10px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date: </td>
+            <td colspan="6" style="width: 48px; height: 14.5px; text-align: left;vertical-align: center; font-size: 10px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date: </td>
           </tr>
           <tr>
             <td colspan="19" style="width: 48px; height: 14.5px; text-align: center; font-size: 14px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>

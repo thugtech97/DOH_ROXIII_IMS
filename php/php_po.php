@@ -318,7 +318,7 @@ function get_po(){
 			$end_date = strtotime($expected_delivery_date);
 
 			$remaining_days = round(($end_date - $start_date)/60/60/24);
-			$fdays = ($remaining_days < 0) ? "<span style=\"color: red;\">".$remaining_days." days left</span>" : $remaining_days." days left";
+			$fdays = ($remaining_days < 0) ? "<span style=\"color: red;\">".(-1 * (int)$remaining_days)." days ago</span>" : $remaining_days." days left";
 			//$days_left
 			echo "<tr>
 					<td>".$row["date_r"]."</td>
