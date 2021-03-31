@@ -160,35 +160,35 @@
         <td style="width: 75.6px; height: 13.75px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
       </tr>
       <tr>
+        <td style="width: 107.4px; height: 13.75px; text-align: center; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;"></td>
+        <td style="width: 95.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 65.4px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
+        <td style="width: 94.2px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 57px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 50.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 75.6px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
+      </tr>
+      <tr>
+        <td style="width: 107.4px; height: 13.75px; text-align: center; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;"></td>
+        <td style="width: 95.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 65.4px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
+        <td style="width: 94.2px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 57px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 50.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 75.6px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
+      </tr>
+      <tr>
+        <td style="width: 107.4px; height: 13.75px; text-align: center; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;"></td>
+        <td style="width: 95.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 65.4px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
+        <td style="width: 94.2px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 57px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 50.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
+        <td style="width: 75.6px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
+      </tr>
+      <tr>
         <td colspan="3" style="width: 107.4px; height: 13.75px; text-align: center; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><b><u><?php echo strtoupper($_SESSION["emp_name"]); ?></u></b><br>Supply Staff - <?php echo $_SESSION["warehouse_name"]; ?></td>
         <td colspan="4" style="width: 94.2px; height: 13.75px; text-align: center; font-size: 11px;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><b><u><?php echo strtoupper($_SESSION["property_custodian"]); ?></u></b><br><?php echo $_SESSION["property_custodian_designation"]; ?></td>
-      </tr>
-      <tr>
-        <td style="width: 107.4px; height: 13.75px; text-align: center; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;"></td>
-        <td style="width: 95.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 65.4px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-        <td style="width: 94.2px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 57px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 50.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 75.6px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-      </tr>
-      <tr>
-        <td style="width: 107.4px; height: 13.75px; text-align: center; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;"></td>
-        <td style="width: 95.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 65.4px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-        <td style="width: 94.2px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 57px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 50.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 75.6px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-      </tr>
-      <tr>
-        <td style="width: 107.4px; height: 13.75px; text-align: center; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;"></td>
-        <td style="width: 95.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 65.4px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
-        <td style="width: 94.2px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 57px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 50.4px; height: 13.75px; text-align: center; font-size: 11px;"></td>
-        <td style="width: 75.6px; height: 13.75px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
       </tr>
       <tr>
         <td style="width: 107.4px; height: 13.75px; text-align: center; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;"></td>

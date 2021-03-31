@@ -5,6 +5,23 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function update_quantity(){
+	global $conn;
+
+	$table = mysqli_real_escape_string($conn, $_POST["table"]);
+	$field = mysqli_real_escape_string($conn, $_POST["field"]);
+	$iss_id = mysqli_real_escape_string($conn, $_POST["iss_id"]);
+	$item = mysqli_real_escape_string($conn, $_POST["item"]);
+	$description = mysqli_real_escape_string($conn, $_POST["description"]);
+	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+	$quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
+	$new_quantity = mysqli_real_escape_string($conn, $_POST["new_quantity"]);
+
+	if($new_quantity != ""){
+		$difference = (int)$quantity - (int)$new_quantity;
+	}
+}
+
 function get_pic(){
 	global $conn;
 
@@ -52,7 +69,7 @@ function modify(){
 	$number=mysqli_real_escape_string($conn, $_POST["number"]);
 
 	$entity_name="";$received_from="";$received_from_designation="";$date_released="";$reference_no="";$fund_cluster="";$received_by="";$received_by_designation="";$area=""; $tabled = ""; $tot_amt = 0.00;
-	$sql = mysqli_query($conn, "SELECT entity_name, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, reference_no,  fund_cluster, received_by, received_by_designation, area, item, description, serial_no, category, property_no, quantity, unit, cost, total, remarks FROM ".$table." WHERE ".$field." LIKE '".$number."'");
+	$sql = mysqli_query($conn, "SELECT ics_id, entity_name, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, reference_no,  fund_cluster, received_by, received_by_designation, area, item, description, serial_no, category, property_no, quantity, unit, cost, total, remarks FROM ".$table." WHERE ".$field." LIKE '".$number."'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name=$row["entity_name"];$received_from=$row["received_from"];$received_from_designation=$row["received_from_designation"];$date_released=$row["date_r"];$reference_no=$row["reference_no"];$fund_cluster=$row["fund_cluster"];$received_by=$row["received_by"];$received_by_designation=$row["received_by_designation"];$area=$row["area"];
 		$tabled.="<tr>
@@ -61,7 +78,7 @@ function modify(){
 					<td>".$row["serial_no"]."</td>
 					<td>".$row["category"]."</td>
 					<td>".$row["property_no"]."</td>
-					<td>".$row["quantity"]."</td>
+					<td onclick=\"edit_quantity('".$row["ics_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".$row["item"]."','".$row["description"]."', 'tbl_ics', 'ics_id');\"><a><u>".$row["quantity"]."</u></a></td>
 					<td>".$row["unit"]."</td>
 					<td>".number_format((float)$row["cost"], 2)."</td>
 					<td>".number_format((float)$row["total"], 2)."</td>
@@ -440,6 +457,9 @@ switch($call_func){
 		break;
 	case "get_pic":
 		get_pic();
+		break;
+	case "update_quantity":
+		update_quantity();
 		break;
 }
 

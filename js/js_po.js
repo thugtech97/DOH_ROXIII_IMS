@@ -922,12 +922,6 @@ function setLocalStorage(){
 function print_dl(){
 	var divContents = $('#report_dl').html(); 
     var a = window.open('', '_blank', 'height=1500, width=800'); 
-    a.document.write('<html>'); 
-    a.document.write('<body><center>');
-    a.document.write('<table><tr>');
-    a.document.write('<td>'+divContents+'</td>'); 
-    a.document.write('</tr></table>');
-    a.document.write('</center></body></html>'); 
     a.document.close(); 
     a.print();
 }

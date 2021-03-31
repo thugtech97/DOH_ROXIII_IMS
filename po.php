@@ -21,9 +21,9 @@ if(!isset($_SESSION["username"])){
 
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
-<!--
-    <link rel="stylesheet" type="text/css" href="css/demand_letter.css">
-!-->
+
+    <!-- <link rel="stylesheet" type="text/css" href="css/demand_letter.css"> -->
+
     <!-- Gritter -->
     <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 
@@ -261,7 +261,6 @@ if(!isset($_SESSION["username"])){
             <?php //<span class="badge badge-warning float-right"></span> ?>
             <a class="open-small-chat" href="">
                 <i class="fa fa-comments"></i>
-
             </a>
         </div>
         <div id="right-sidebar" class="animated">
