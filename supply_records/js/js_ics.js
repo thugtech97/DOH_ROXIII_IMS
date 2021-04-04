@@ -472,6 +472,7 @@ function modify(ics_no){
 			call_func: "modify",
 			table: "tbl_ics",
 			field: "ics_no",
+			field_id: "ics_id",
 			number: ics_no
 		},
 		success: function(data){
@@ -492,29 +493,6 @@ function modify(ics_no){
 			});
 		}
 	});
-}
-
-function edit_quantity(id,quantity,po_number,item,description, table, field){
-	//alert(id+" - "+quantity+" - "+po_number+" - "+item+" - "+description);
-	var new_quantity = prompt("Enter new quantity:", quantity);
-	$.ajax({
-		type: "POST",
-		data: {
-				call_func: "update_quantity",
-				item: item,
-				description: description,
-				po_number: po_number,
-				quantity: quantity,
-				new_quantity: new_quantity,
-				table: table,
-				field: field,
-				iss_id: id
-			},
-		url: "php/php_ics.php",
-		success: function(data){
-			alert(data);
-		}
-	})
 }
 
 function update(){

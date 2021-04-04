@@ -80,3 +80,33 @@ function uploadFiles(event) {
         }
     });
 }
+
+function edit_quantity(id,quantity,po_number,item,description, table, field){
+    //alert(id+" - "+quantity+" - "+po_number+" - "+item+" - "+description);
+    var new_quantity = prompt("Enter new quantity:", quantity);
+    $.ajax({
+        type: "POST",
+        data: {
+                call_func: "update_quantity",
+                item: item,
+                description: description,
+                po_number: po_number,
+                quantity: quantity,
+                new_quantity: new_quantity,
+                table: table,
+                field: field,
+                iss_id: id
+            },
+        url: "php/php_ics.php",
+        success: function(data){
+            if(data == "1"){
+                swal("Updated!", "Quantity and remaining stocks updated successfully.", "success");
+                setTimeout(function () {
+                    location.reload();
+                  }, 1500);
+            }else{
+                swal("Invalid!", "Remaining stocks cannot be negative.", "warning");
+            }
+        }
+    })
+}

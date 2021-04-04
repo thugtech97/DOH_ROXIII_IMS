@@ -81,6 +81,16 @@ function get_account_code($type, $category,$index){
 	return $acc_code;
 }
 
+function array_push_assoc($array, $key, $value){
+    if(array_key_exists($key, $array)){
+        array_push($array[$key], $value);
+    }else{
+        $array[$key] = array();
+        array_push($array[$key], $value);
+    }
+    return $array;
+}
+
 function check_pn_exist(){
 
 }

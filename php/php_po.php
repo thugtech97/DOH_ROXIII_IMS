@@ -1,8 +1,58 @@
 <?php
 
 require "php_conn.php";
+require "php_general_functions.php";
 
 session_start();
+
+function generate_dl(){
+	global $conn;
+
+	$supplier = mysqli_real_escape_string($conn, $_POST["supplier"]);
+	$po_list = mysqli_real_escape_string($conn, $_POST["po_list"]);
+	$separator = mysqli_real_escape_string($conn, $_POST["separator"]);
+
+	$list_po = explode($separator, $po_list);
+
+	$tbody = "";
+
+	foreach($list_po AS $po){
+		$sql = mysqli_query($conn, "SELECT item_name, description, main_stocks, unit_cost, quantity FROM tbl_po WHERE po_number LIKE '$po'");
+		$flag = true;
+		$suma_tot = 0.00;
+		while($row = mysqli_fetch_assoc($sql)){
+			$unit = (explode(" ", $row["quantity"]))[1];
+			$tbody.="<tr>
+            			<td style=\"border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".(($flag) ? $po : "")."</td>
+            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".$unit."</td>
+            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top;\"><span style=\"text-align: left;\">".$row["item_name"]." - ".$row["description"]."</span></td>
+            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".$row["main_stocks"]."</td>
+            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".number_format($row["unit_cost"], 2)."</td>
+            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".number_format(((float)$row["unit_cost"] * (float)$row["main_stocks"]), 2)."</td>
+            		</tr>";
+            		$flag = false;
+            		$suma_tot+=((float)$row["unit_cost"] * (float)$row["main_stocks"]);
+		}
+		$tbody.="<tr>
+        			<td style=\"border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">-</td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\"></td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top;\"></td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\"></td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\"></td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">-</td>
+        		</tr>
+        		<tr>
+        			<td style=\"border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; border-bottom-style: solid; border-bottom-width: 1px; vertical-align: top; text-align: center;\"></td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;border-bottom-style: solid; border-bottom-width: 1px;\"></td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: right; border-bottom-style: solid; border-bottom-width: 1px; font-weight:bold;\">TOTAL</td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;border-bottom-style: solid; border-bottom-width: 1px;\"></td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: right;border-bottom-style: solid; border-bottom-width: 1px; font-weight:bold;\">Php</td>
+        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;border-bottom-style: solid; border-bottom-width: 1px; font-weight: bold;\">".number_format((float)$suma_tot, 2)."</td>
+        		</tr>";
+	}
+
+	echo $tbody;
+}
 
 function consolidate_po(){
 	global $conn;
@@ -306,34 +356,47 @@ function get_latest_po(){
 function get_po(){
 	global $conn;
 	
+	$supplier_po = array();
+	$tbody = ""; $lists = "";
+	$separator = "|";
 	$sql = mysqli_query($conn, "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, p.procurement_mode,s.supplier, SUBSTRING(p.date_received, 1, 10) AS date_r, p.delivery_term, p.date_conformed, p.date_delivered, p.activity_date, p.end_user FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id ORDER BY po_id ASC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$eu = str_replace(' ', '', $row["end_user"]);
 			$date = date_create($row["date_conformed"]);
-			date_add($date,date_interval_create_from_date_string($row["delivery_term"]));
+			date_add($date,date_interval_create_from_date_string(($row["delivery_term"] == "Progress Billing" || $row["delivery_term"]) == "" ? "0 days" : $row["delivery_term"]));
 			$expected_delivery_date = date_format($date,"Y-m-d");
 
 			$start_date = strtotime(date("Y-m-d"));
 			$end_date = strtotime($expected_delivery_date);
 
 			$remaining_days = round(($end_date - $start_date)/60/60/24);
-			$fdays = ($remaining_days < 0) ? "<span style=\"color: red;\">".(-1 * (int)$remaining_days)." days ago</span>" : $remaining_days." days left";
-			//$days_left
-			echo "<tr>
+			$fdays = ($remaining_days < 0) ? "<span style=\"color: red;\">(".(-1 * (int)$remaining_days)." days ago)</span>" : "(".$remaining_days." days left)";
+			$supplier_po = ($remaining_days < 0 && $row["status"] == "Not Yet Delivered") ? array_push_assoc($supplier_po, $row["supplier"], $row["po_number"]) : $supplier_po;
+			$tbody.="<tr>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["po_number"]."</td>
 					<td>".$row["procurement_mode"]."</td>
 					<td>".$row["date_conformed"]."</td>
-					<td>".(($row["status"] == "Delivered" || $row["status"] == "") ? "" : $expected_delivery_date." (".$fdays.")")."</td>
+					<td>".(($row["status"] == "Delivered" || $row["status"] == "") ? "" : $expected_delivery_date." ".$fdays)."</td>
 					<td>".$row["date_delivered"]."</td>
 					<td>".$row["supplier"]."</td>
 					<td>".$row["end_user"]."</td>
 					<td>".$row["status"]."</td>
 					<td><center>".(($row["inspection_status"] == '0') ? "<button class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\" disabled>✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td><center><button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '".$eu."')\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Consolidate\" onclick=\"consolidate(this.id)\"><i class=\"fa fa-stack-overflow\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "")."</center></td></tr>";
-			}
+		}
+
+		foreach ($supplier_po as $key => $value) {
+			$lists.="<ol class=\"dd-list\" onclick=\"print_dl('".$key."', '".implode($separator, $value)."', '".$separator."');\">
+	                    <li class=\"dd-item\">
+	                        <div class=\"dd-handle\"><span class=\"label label-danger\" style=\"border-radius: 10px;\">".count($supplier_po[$key])."</span>&nbsp;&nbsp;<b>".$key."</b></div>
+	                    </li>
+	                </ol>";
+		}
 	}
+
+	echo json_encode(array("tbody"=>$tbody, "supplier_po"=>$supplier_po, "lists"=>$lists));
 }
 
 function edit_po_various(){
@@ -534,6 +597,9 @@ switch($call_func){
 		break;
 	case "consolidate_po":
 		consolidate_po();
+		break;
+	case "generate_dl":
+		generate_dl();
 		break;
 }
 

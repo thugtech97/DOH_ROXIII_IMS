@@ -470,6 +470,7 @@ function modify(par_no){
             call_func: "modify",
             table: "tbl_par",
             field: "par_no",
+            field_id: "par_id",
             number: par_no
         },
         success: function(data){

@@ -1,26 +1,39 @@
-footer {
-  font-size: 9px;
-  color: #f00;
-  text-align: center;
+
+.dl-header, .dl-header-space {
+  height: 100px;
+}
+
+.dl-footer, .dl-footer-space {
+  height: 50px;
+}
+
+.dl-footer {
+  position: fixed;
+  bottom: 0mm;
+  width: 100%;
+  /* border-top: 1px solid black; for demo 
+  background: yellow;  for demo */
+}
+
+.dl-header {
+  position: fixed;
+  top: 0mm;
+  width: 100%;
+/*border-bottom: 1px solid black; for demo 
+  background: yellow;  for demo */
+}
+
+.page {
+  page-break-after: always;
 }
 
 @page {
-  size: A4;
-  margin: 11mm 17mm 17mm 17mm;
+  margin: 15mm;
 }
 
 @media print {
-  footer {
-    position: fixed;
-    bottom: 0;
-  }
-
-  .content-block, p {
-    page-break-inside: avoid;
-  }
-
-  html, body {
-    width: 210mm;
-    height: 297mm;
-  }
+   thead {display: table-header-group;} 
+   tfoot {display: table-footer-group;}
+   button {display: none;}
+   body {margin: 0;}
 }

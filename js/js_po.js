@@ -2,6 +2,7 @@ var active_state = 1;
 var items = [];
 var pax_selected = "";
 var snln = "";
+var supplier_po = {};
 
 var ntc_balance = "", actual_balance = "", quant = 0, pon="", eus = "", ctgr = "", account_code = "";
 
@@ -68,9 +69,14 @@ function get_po(){
 	$.ajax({
 		type: "POST",
 		data: {call_func: "get_po"},
+		dataType: "JSON",
 		url: "php/php_po.php",
 		success: function(data){
-			$("table#tbl_po tbody").html(data);
+			$("#count_supp").html(Object.keys(data["supplier_po"]).length);
+			$("#num_supp").html(Object.keys(data["supplier_po"]).length);
+			$("#nestable").html(data["lists"]);
+			supplier_po = data["supplier_po"];
+			$("table#tbl_po tbody").html(data["tbody"]);
 			create_datatable();
 		}
 	});
@@ -99,8 +105,9 @@ function create_datatable(){
     ready_all();
 }
 
-/*
+
 function validate_po_catering(){
+	/*
 	if($("#cdate_received").val() != ""){
 		if($("#cpo_number").val().match($po_regex)){
 			if($("#ntc_category").val() != null){
@@ -204,8 +211,9 @@ function validate_po_catering(){
 	}else{
 		swal("Please fill in!", "Date Received", "warning");
 	}
+	*/
 }
-*/
+
 
 function validate_po_various(){
 	items = [];
@@ -919,11 +927,38 @@ function setLocalStorage(){
 	//alert(JSON.parse(localStorage.getItem("po_details"))[6]);
 }
 
-function print_dl(){
-	var divContents = $('#report_dl').html(); 
-    var a = window.open('', '_blank', 'height=1500, width=800'); 
-    a.document.close(); 
-    a.print();
+function print_dl(supplier,po_list,separator){
+    $.ajax({
+    	type: "POST",
+    	data: {
+    		call_func: "generate_dl",
+    		supplier: supplier,
+    		po_list: po_list,
+    		separator: separator
+    	},
+    	url: "php/php_po.php",
+    	success: function(data){
+    		$("#dl_supp_name").html(supplier);
+    		$("#dl_tbody").html(data);
+
+    		var title = supplier+" - Demand Letter";
+		    var divElements = document.getElementById('report_dl').innerHTML;
+		    var printWindow = window.open("", "_blank", "");
+		    
+		    printWindow.document.open();
+		    
+		    printWindow.document.write('<html><head><title>' + title + '</title><link rel="stylesheet" type="text/css" href="css/demand_letter.css"></head><body>');
+		    printWindow.document.write(divElements);
+		    printWindow.document.write('</body></html>');
+		    printWindow.document.close();
+		    printWindow.focus();
+		    //The Timeout is ONLY to make Safari work, but it still works with FF, IE & Chrome.
+		    setTimeout(function() {
+		        printWindow.print();
+		        printWindow.close();
+		    }, 100);
+    	}
+    });
 }
 
 $('#serial_numbers').on('click', 'tbody tr button', function(event) {

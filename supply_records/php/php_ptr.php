@@ -39,7 +39,7 @@ function modify(){
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
 	$reference_no = "";$from = "";$to = "";$entity_name = "";$fund_cluster = "";$approved_by = "";$approved_by_designation = "";$received_from = "";$received_from_designation = "";$date_released = "";$area = "";$transfer_type = "";$reason = ""; $table = ""; $address = "";
 	$alloc_num = ""; $storage_temp = ""; $transport_temp = "";
-	$sql = mysqli_query($conn, "SELECT reference_no, tbl_ptr.from, tbl_ptr.to, entity_name, fund_cluster, approved_by, approved_by_designation, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, area, transfer_type, reason, address, alloc_num, storage_temp, transport_temp, item, description, serial_no, exp_date, category, property_no, quantity, unit, cost, total, conditions, remarks FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
+	$sql = mysqli_query($conn, "SELECT ptr_id,reference_no, tbl_ptr.from, tbl_ptr.to, entity_name, fund_cluster, approved_by, approved_by_designation, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, area, transfer_type, reason, address, alloc_num, storage_temp, transport_temp, item, description, serial_no, exp_date, category, property_no, quantity, unit, cost, total, conditions, remarks FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$from = $row["from"];$to = $row["to"];$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$approved_by = $row["approved_by"];
 		$approved_by_designation = $row["approved_by_designation"];$received_from = $row["received_from"];$received_from_designation = $row["received_from_designation"];
@@ -52,7 +52,7 @@ function modify(){
 					<td>".$row["exp_date"]."</td>
 					<td>".$row["category"]."</td>
 					<td>".$row["property_no"]."</td>
-					<td>".$row["quantity"]."</td>
+					<td onclick=\"edit_quantity('".$row["ptr_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".$row["item"]."','".$row["description"]."', 'tbl_ptr', 'ptr_id');\"><a><u>".$row["quantity"]."</u></a></td>
 					<td>".$row["unit"]."</td>
 					<td>".number_format((float)$row["cost"], 2)."</td>
 					<td>".number_format((float)$row["total"], 2)."</td>
@@ -299,7 +299,6 @@ function insert_ptr(){
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created a PTR No. ".$ptr_no;
 		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
-		echo "0";
 		for($i = 0; $i < count($items); $i++){
 			$item_id = $items[$i][0];
 			$ref_no = $items[$i][1];
@@ -315,7 +314,6 @@ function insert_ptr(){
 			$total = $items[$i][11];
 			$conditions = $items[$i][12];
 			$remarks = $items[$i][13];
-		
 			mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$ref_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address','$alloc_num','$storage_temp','$transport_temp')");
 			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$ref_no' AND po_id = '$item_id'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
@@ -336,6 +334,7 @@ function insert_ptr(){
 				}
 			}
 		}
+		echo "0";
 	}else{
 		echo "1";
 	}
