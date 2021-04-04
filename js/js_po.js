@@ -937,9 +937,11 @@ function print_dl(supplier,po_list,separator){
     		separator: separator
     	},
     	url: "php/php_po.php",
+    	dataType: "JSON",
     	success: function(data){
     		$("#dl_supp_name").html(supplier);
-    		$("#dl_tbody").html(data);
+    		$("#dl_tbody").html(data["tbody"]);
+    		$("#dl_date").html(data["date_today"]);
 
     		var title = supplier+" - Demand Letter";
 		    var divElements = document.getElementById('report_dl').innerHTML;

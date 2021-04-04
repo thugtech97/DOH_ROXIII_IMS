@@ -51,7 +51,7 @@ function generate_dl(){
         		</tr>";
 	}
 
-	echo $tbody;
+	echo json_encode(array("tbody"=>$tbody,"date_today"=>_m_d_yyyy_(date("Y-m-d"))));
 }
 
 function consolidate_po(){
