@@ -84,7 +84,7 @@ function get_par_details(){
 				}
 			}
 		}
-		$the_rest = array("*Nothing Follows*", "", "PO No. ".$reference_no, $supplier, "", "", "", "", "", "", "", "", "", "Approved by:", "", "<center><b>JOSE R. LLACUNA,JR.,MD,MPH,CESO III</b></center>", "<center>Director IV</center>");
+		$the_rest = array("*Nothing Follows*", "", "PO No. ".$reference_no, $supplier, "", "", "", "", "", "", "", "", "", "Approved by:", "", "<center><b>".strtoupper($_SESSION["company_head"])."</b></center>", "<center>".$_SESSION["company_head_designation"]."</center>");
 		for($i = 0; $i < count($the_rest); $i++){
 			$par_tbody .= "<tr>
 		  	      <td style=\"width: 75.6px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>

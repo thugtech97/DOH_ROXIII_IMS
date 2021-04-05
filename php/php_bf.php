@@ -6,7 +6,7 @@ session_start();
 
 function save_bf(){
 	global $conn;
-	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+	$po_number = mysqli_real_escape_string($conn, str_replace(' ', '', $_POST["po_number"]));
 	$supplier_id = mysqli_real_escape_string($conn, $_POST["supplier_id"]);
 	$bdfwd = mysqli_real_escape_string($conn, $_POST["date_fwd"]);
 	$end_user = mysqli_real_escape_string($conn, $_POST["program_eu"]);

@@ -494,7 +494,7 @@ function insert_po_various(){
 	date_default_timezone_set("Asia/Shanghai");
 	$time_now = date("H:i:s");
 	$date_received = mysqli_real_escape_string($conn, $_POST["date_received"])." ".$time_now;
-	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+	$po_number = mysqli_real_escape_string($conn, str_replace(' ', '', $_POST["po_number"]));
 	$procurement_mode = mysqli_real_escape_string($conn, $_POST["procurement_mode"]);
 	$delivery_term = mysqli_real_escape_string($conn, $_POST["delivery_term"]);
 	$payment_term = mysqli_real_escape_string($conn, $_POST["payment_term"]);
