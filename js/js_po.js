@@ -996,3 +996,13 @@ $(".input-amount").keyup(function(){
 $(".form-control").focusout(function(){
 	setLocalStorage();
 });
+
+$('.tdesc').on('keypress', function (e) {
+    var ingnore_key_codes = [34];
+    if ($.inArray(e.which, ingnore_key_codes) >= 0) {
+        e.preventDefault();
+        $(".error").html("only valid characters are allowed").show();
+    } else {
+        $(".error").hide();
+    }
+});

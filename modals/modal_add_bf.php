@@ -75,9 +75,9 @@
                                 <div class="row">
                                     <div class="col-lg-7">
                                         <div class="form-group row">
-                                            <label class="col-lg-2 col-form-label">Description:</label>
+                                            <label class="col-lg-2 col-form-label tdesc">Description:</label>
                                             <div class="col-lg-10">
-                                                <textarea id="bdescription" style="width:100%;height:90px;"></textarea>
+                                                <textarea id="bdescription" class="tdesc" style="width:100%;height:90px;"></textarea>
                                             </div>
                                         </div>
                                     </div>
