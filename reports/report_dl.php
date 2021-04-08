@@ -82,7 +82,7 @@
             </table>
             <p style="text-align: justify;">Please be informed that as per inspection of our Supply Officer, we found out that the P.O are already expired and despite our several verbal demands, your firm has not done any remedial measures to deliver the above-mentioned items.</p>
             <p style="text-align: justify;">Hence, this <span style="font-weight: bold;">final and formal demand</span> is made upon you to proceed with the delivery of the said P.O. expeditiously and without any further delay. Otherwise, we have no other recourse but to terminate the purchase order on such ground(s) which may be available on our favor. Such other administrative and civil remedies shall likewise be made against you.</p>
-            <p style="text-align: justify;">Attached herewith are copies of above- mentioned purchases order for your reference.</p>
+            <p style="text-align: justify;">Attached herewith are copies of above- mentioned purchase order for your reference.</p>
             <p style="text-align: justify;">I am hoping for your prompt action.</p>
             <br><p style="text-align: justify;">Very truly yours,</p>
             <br><p style="text-align: justify;"><span style="font-weight: bold;"><?php echo strtoupper($_SESSION["company_head"]); ?></span><br><span><?php echo $_SESSION["company_head_designation"]; ?></span></p>

@@ -23,31 +23,31 @@ function generate_dl(){
 		while($row = mysqli_fetch_assoc($sql)){
 			$unit = (explode(" ", $row["quantity"]))[1];
 			$tbody.="<tr>
-            			<td style=\"border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".(($flag) ? $po : "")."</td>
-            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".$unit."</td>
-            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top;\"><span style=\"text-align: left;\">".$row["item_name"]." - ".$row["description"]."</span></td>
-            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".$row["main_stocks"]."</td>
-            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".number_format($row["unit_cost"], 2)."</td>
-            			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".number_format(((float)$row["unit_cost"] * (float)$row["main_stocks"]), 2)."</td>
+            			<td style=\"padding: 5px; border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".(($flag) ? $po : "")."</td>
+            			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".$unit."</td>
+            			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top;\"><span style=\"text-align: left;\">".$row["item_name"]." - ".$row["description"]."</span></td>
+            			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".$row["main_stocks"]."</td>
+            			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".number_format($row["unit_cost"], 2)."</td>
+            			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".number_format(((float)$row["unit_cost"] * (float)$row["main_stocks"]), 2)."</td>
             		</tr>";
             		$flag = false;
             		$suma_tot+=((float)$row["unit_cost"] * (float)$row["main_stocks"]);
 		}
 		$tbody.="<tr>
-        			<td style=\"border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">-</td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\"></td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top;\"></td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\"></td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\"></td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">-</td>
+        			<td style=\"padding: 5px; border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">-</td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\"></td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top;\"></td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\"></td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\"></td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">-</td>
         		</tr>
         		<tr>
-        			<td style=\"border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; border-bottom-style: solid; border-bottom-width: 1px; vertical-align: top; text-align: center;\"></td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;border-bottom-style: solid; border-bottom-width: 1px;\"></td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: right; border-bottom-style: solid; border-bottom-width: 1px; font-weight:bold;\">TOTAL</td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;border-bottom-style: solid; border-bottom-width: 1px;\"></td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: right;border-bottom-style: solid; border-bottom-width: 1px; font-weight:bold;\">Php</td>
-        			<td style=\"border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;border-bottom-style: solid; border-bottom-width: 1px; font-weight: bold;\">".number_format((float)$suma_tot, 2)."</td>
+        			<td style=\"padding: 5px; border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; border-bottom-style: solid; border-bottom-width: 1px; vertical-align: top; text-align: center;\"></td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;border-bottom-style: solid; border-bottom-width: 1px;\"></td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: right; border-bottom-style: solid; border-bottom-width: 1px; font-weight:bold;\">TOTAL</td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;border-bottom-style: solid; border-bottom-width: 1px;\"></td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: right;border-bottom-style: solid; border-bottom-width: 1px; font-weight:bold;\">Php</td>
+        			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;border-bottom-style: solid; border-bottom-width: 1px; font-weight: bold;\">".number_format((float)$suma_tot, 2)."</td>
         		</tr>";
 	}
 
