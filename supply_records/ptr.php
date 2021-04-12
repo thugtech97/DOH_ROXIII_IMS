@@ -121,7 +121,7 @@ if(!isset($_SESSION["username"])){
                             if($_SESSION["role"] == "SUPPLY"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_ptr">
+                                        <button type="button" class="btn btn-primary" id="btn_add_ptr" data-toggle="modal" data-target="#add_ptr">
                                             <i class="fa fa-plus"></i> Add PTR
                                         </button>
                                     </li>

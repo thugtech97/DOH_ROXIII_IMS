@@ -17,11 +17,13 @@ Date.prototype.toDateInputValue = (function() {
 });
 
 function get_ptr(){
+    $("#btn_add_ptr").attr("disabled", true);
     $.ajax({
         type: "POST",
         data: {call_func: "get_ptr"},
         url: "php/php_ptr.php",
         success: function(data){
+            $("#btn_add_ptr").attr("disabled", false);
             $("table#ptr_data tbody").html(data);
             create_datatable();
         }
@@ -101,7 +103,9 @@ function validate(){
                                                         $("#save_changes").attr("disabled", true);
                                                         $.ajax({
                                                             type: "POST",
-                                                            data: { call_func: "insert_ptr",
+                                                            data: 
+                                                                { 
+                                                                    call_func: "insert_ptr",
                                                                     ptr_no: $("#ptr_no").val(),
                                                                     from: $("#from").val(),
                                                                     entity_name: $("#entity_name").val(),

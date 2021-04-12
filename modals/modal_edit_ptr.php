@@ -57,6 +57,7 @@
                                             <option>Donation</option>
                                             <option>Relocate</option>
                                             <option>Reassignment</option>
+                                            <option>Allocation</option>
                                             <option>Others</option>
                                         </select>
                                     </div>
