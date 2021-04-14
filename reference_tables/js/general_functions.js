@@ -56,6 +56,7 @@ function create_datatable(title){
 function add_category(){
     if($("#category_name").val() != ""){
         if($("#category_code").val() != ""){
+            $("#save_category").attr("disabled", true);
             $.ajax({
                 data: {call_func: "insert_category", category: $("#category_name").val(), category_code: $("#category_code").val()},
                 type: "POST",
@@ -77,6 +78,7 @@ function add_category(){
 function add_item(){
     if($("#item").val() != ""){
         if($("#category").val() != null){
+            $("#save_item").attr("disabled", true);
             $.ajax({
                 data: {call_func: "insert_item", item: $("#item").val(), category_id: $("#category").val()},
                 type: "POST",

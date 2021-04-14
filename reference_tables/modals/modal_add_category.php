@@ -21,7 +21,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="add_category();">Save</button>
+                <button type="button" class="btn btn-primary" id="save_category" onclick="add_category();">Save</button>
             </div>
         </div>
     </div>

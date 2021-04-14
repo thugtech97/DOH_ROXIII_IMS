@@ -22,7 +22,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="add_item();">Save</button>
+                <button type="button" class="btn btn-primary" id="save_item" onclick="add_item();">Save</button>
             </div>
         </div>
     </div>
