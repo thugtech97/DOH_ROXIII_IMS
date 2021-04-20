@@ -137,11 +137,11 @@ if(!isset($_SESSION["username"])){
             <br>
             <div class="row">
                 <div class="col-lg-12 animated bounceInDown">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5><i class="fa fa-houzz"></i> Inventory Custodian Slip</h5>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3><i class="fa fa-clipboard"></i> Inventory Custodian Slip</h3>
                         </div>
-                        <div class="ibox-content">
+                        <div class="panel-body">
                             <div class="table-responsive">
                                 <table id="ics_data" class="table table-bordered table-hover dataTables-example" >
                                     <thead>

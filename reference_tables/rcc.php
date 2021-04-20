@@ -122,16 +122,6 @@ if(!isset($_SESSION["username"])){
                                         Add
                                     </button>
                                 </li>
-                                <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-danger">
-                                        Delete
-                                    </button>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-warning">
-                                        Print
-                                    </button>
-                                </li>
                             </ol>
                         </div>
                         <div class="col-lg-2">
@@ -143,11 +133,11 @@ if(!isset($_SESSION["username"])){
             <br>
             <div class="row">
                 <div class="col-lg-12 animated bounceInDown">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <h5><i class="fa fa-houzz"></i> Responsibility Center Codes</h5>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3><i class="fa fa-code-fork"></i> Responsibility Center Codes</h3>
                         </div>
-                        <div class="ibox-content">
+                        <div class="panel-body">
                             <div class="table-responsive">
                                 <table id="tbl_rcc" class="table table-bordered table-hover dataTables-example" >
                                     <thead>
