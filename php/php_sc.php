@@ -139,12 +139,12 @@ function get_rsmi_details(){
 
 	$year_month = mysqli_real_escape_string($conn, $_POST["year_month"]);
 	mysqli_query($conn, "TRUNCATE tbl_rsmi");
-	$tbody = "";
+	$tbody = ""; $total_rsmi = 0.00;
 	$sql = mysqli_query($conn, "SELECT tbl_ris.date,ris_no,item,description,rcc,category,quantity,unit,unit_cost,requested_by,remarks FROM tbl_ris WHERE tbl_ris.date LIKE '%".$year_month."%'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date"];
 		$ris_no = $row["ris_no"];
-		$description = $row["description"];
+		$description = mysqli_real_escape_string($conn, $row["description"]);
 		$rcc = $row["rcc"];
 		$unit = $row["unit"];
 		$quantity = $row["quantity"];
@@ -168,7 +168,20 @@ function get_rsmi_details(){
 		      <td style=\"width: 103.2px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 2)."</td>
 		      <td style=\"width: 62.4px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["unit_cost"], 2)."</td>
 		    </tr>";
+		    $total_rsmi+=((float)$row["quantity"] * (float)$row["unit_cost"]);
 	}
+	$tbody .= "<tr>
+		      <td style=\"width: 61.8px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
+		      <td style=\"width: 63px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+		      <td style=\"width: 49.8px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+		      <td style=\"width: 48px; height: 18px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+		      <td style=\"width: 190.2px; height: 16px; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+		      <td style=\"width: 52.2px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+		      <td style=\"width: 46.8px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+		      <td style=\"width: 118.8px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+		      <td style=\"width: 103.2px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>TOTAL</b></td>
+		      <td style=\"width: 62.4px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>₱ ".number_format((float)$total_rsmi, 2)."</b></td>
+		    </tr>";
 
 	echo $tbody;
 }
@@ -182,7 +195,7 @@ function get_ppe_details(){
 	$sql = mysqli_query($conn, "SELECT date_released,item,category,ics_no,quantity,unit,cost,total,received_by,remarks FROM tbl_ics WHERE date_released LIKE '%$year_month%'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
-		$item = $row["item"];
+		$item = mysqli_real_escape_string($conn, $row["item"]);
 		$reference_no = $row["ics_no"];
 		$quantity = $row["quantity"];
 		$unit = $row["unit"];
@@ -198,7 +211,7 @@ function get_ppe_details(){
 	$sql = mysqli_query($conn, "SELECT date_released,item,category,par_no,quantity,unit,cost,total,received_by,remarks FROM tbl_par WHERE date_released LIKE '%$year_month%'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
-		$item = $row["item"];
+		$item = mysqli_real_escape_string($conn, $row["item"]);
 		$reference_no = $row["par_no"];
 		$quantity = $row["quantity"];
 		$unit = $row["unit"];
@@ -228,7 +241,7 @@ function get_ppe_details(){
 	$sql = mysqli_query($conn, "SELECT date_released,item,category,ptr_no,quantity,unit,cost,total,tbl_ptr.to,remarks FROM tbl_ptr WHERE date_released LIKE '%$year_month%' /*AND (category != 'Drugs and Medicines' AND category != 'Medical Supplies')*/");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
-		$item = $row["item"];
+		$item = mysqli_real_escape_string($conn, $row["item"]);
 		$reference_no = $row["ptr_no"];
 		$quantity = $row["quantity"];
 		$unit = $row["unit"];

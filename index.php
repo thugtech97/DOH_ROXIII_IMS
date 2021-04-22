@@ -182,11 +182,11 @@ if(!isset($_SESSION["username"])){
                     </div>
                     <div class="row">
                         <div class="col-lg-12" id="PO" style="display: none;">
-                            <div class="ibox">
-                                <div class="ibox-title">
-                                    <h5>Purchase Orders</h5>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-list-alt"></i> Purchase Orders</h4>
                                 </div>
-                                <div class="ibox-content">
+                                <div class="panel-body">
                                     <table id="tbl_PO" class="table table-bordered table-hover dataTables-example">
                                         <thead>
                                             <tr>
@@ -203,23 +203,25 @@ if(!isset($_SESSION["username"])){
                             </div>
                         </div>
                         <div class="col-lg-12" id="IS" style="display: none;">
-                            <div class="ibox">
-                                <div class="ibox-title">
-                                    <h5>Issuances</h5>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-shopping-cart"></i> Issuances</h4>
                                 </div>
-                                <div class="ibox-content">
-                                    <div id="pie">
-                                                
-                                    </div>
+                                <div class="panel-body">
+                                    <center>
+                                        <div id="pie" style="height: 450px; width: 100%;">
+                                                    
+                                        </div>
+                                    </center>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-12" id="UL" style="display: none;">
-                            <div class="ibox">
-                                <div class="ibox-title">
-                                    <h5>User Logs</h5>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4><i class="fa fa-history"></i> User Logs</h4>
                                 </div>
-                                <div class="ibox-content">
+                                <div class="panel-body">
                                     <table id="tbl_UL" class="table table-bordered table-hover dataTables-example">
                                         <thead>
                                             <tr>
@@ -347,13 +349,12 @@ if(!isset($_SESSION["username"])){
     <script src="js/plugins/dataTables/datatables.min.js"></script>
     <script src="js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- d3 and c3 charts -->
-    <script src="js/plugins/d3/d3.min.js"></script>
-    <script src="js/plugins/c3/c3.min.js"></script>
+    <!-- CanvasJS -->
+    <script src="canvasjs/canvasjs.min.js"></script>
     
     <script>
         $(document).ready(function() {
-            //alert('<?php echo $_SESSION["emp_name"]; ?>')
+            var is_data = [];
             get_data();
             setTimeout(function() {
                 toastr.options = {
@@ -377,18 +378,7 @@ if(!isset($_SESSION["username"])){
                     $("#it_num").html(data["it_rows"]);
                     $("#is_num").html(data["is_rows"]);
                     $("#ul_num").html(data["ul_rows"]);
-                    c3.generate({
-                        bindto: '#pie',
-                        data:{
-                            columns: [
-                                ['ICS - '+data["is_data"][0], data["is_data"][0]],
-                                ['PAR - '+data["is_data"][1], data["is_data"][1]],
-                                ['PTR - '+data["is_data"][2], data["is_data"][2]],
-                                ['RIS - '+data["is_data"][3], data["is_data"][3]]
-                            ],
-                            type : 'pie'
-                        }
-                    });
+                    is_data = data["is_data"];
                     load_all();
                 }
             });
@@ -402,8 +392,6 @@ if(!isset($_SESSION["username"])){
                 dataType: "JSON",
                 success: function(data){
                     $("table#tbl_PO tbody").html(data["po_data"]);
-                    /*
-                    */
                     $("table#tbl_UL tbody").html(data["ul_data"]);
                     create_datatable();
                 }
@@ -411,9 +399,14 @@ if(!isset($_SESSION["username"])){
         }
 
         function load_list(name){
+            $("#pie").html("");
             for(id of ["PO", "IT", "IS", "UL"]){
                 if(id==name){
-                    $("#"+id).slideDown("slow");
+                    $("#"+id).slideDown("slow", ()=>{
+                        if(name=="IS"){
+                            draw_chart(is_data);
+                        }
+                    });
                 }else{
                     $("#"+id).hide();
                 }
@@ -441,6 +434,43 @@ if(!isset($_SESSION["username"])){
                 ]
             });
             $(".first_col").click();
+        }
+
+        function draw_chart(data) {
+            var tot = parseInt($("#is_num").html().toString());
+            var chart = new CanvasJS.Chart("pie", {
+                exportEnabled: true,
+                animationEnabled: true,
+                title:{
+                    text: "Overall Issuances"
+                },
+                legend:{
+                    cursor: "pointer",
+                    itemclick: explodePie
+                },
+                data: [{
+                    type: "pie",
+                    showInLegend: true,
+                    toolTipContent: "{name}: <strong>{y}%</strong>",
+                    indexLabel: "{name} - {y}%",
+                    dataPoints: [
+                        { y: ((data[0] / tot) * 100).toFixed(2), name: "ICS ("+data[0]+")", exploded: true },
+                        { y: ((data[1] / tot) * 100).toFixed(2), name: "PAR ("+data[1]+")" },
+                        { y: ((data[2] / tot) * 100).toFixed(2), name: "PTR ("+data[2]+")" },
+                        { y: ((data[3] / tot) * 100).toFixed(2), name: "RIS ("+data[3]+")" }
+                    ]
+                }]
+            });
+            chart.render();
+        }
+
+        function explodePie (e) {
+            if(typeof (e.dataSeries.dataPoints[e.dataPointIndex].exploded) === "undefined" || !e.dataSeries.dataPoints[e.dataPointIndex].exploded) {
+                e.dataSeries.dataPoints[e.dataPointIndex].exploded = true;
+            } else {
+                e.dataSeries.dataPoints[e.dataPointIndex].exploded = false;
+            }
+            e.chart.render();
         }
     </script>
 </body>
