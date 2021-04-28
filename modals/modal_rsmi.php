@@ -130,7 +130,7 @@
                 <hr>
                 <div class="ibox">
                     <div class="ibox-content" style="height: 400px; overflow: auto; color: black;">
-                        <input type="text" id="wi_lookup" placeholder="Search...">
+                        <input type="text" id="wi_lookup" placeholder="Filter...">
                         <br><br>
                         <center>
                             <?php

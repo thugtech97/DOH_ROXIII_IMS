@@ -371,7 +371,7 @@ function get_po(){
 			$end_date = strtotime($expected_delivery_date);
 
 			$remaining_days = round(($end_date - $start_date)/60/60/24);
-			$fdays = ($remaining_days < 0) ? "<span style=\"color: red;\">(".(-1 * (int)$remaining_days)." days ago)</span>" : "(".$remaining_days." days left)";
+			$fdays = ($remaining_days < 0) ? "<span style=\"color: red;\">(".(-1 * (int)$remaining_days)." days ago)</span>" : "<span style=\"color: green;\">(".$remaining_days." days left)</span>";
 			$supplier_po = ($remaining_days < 0 && $row["status"] == "Not Yet Delivered") ? array_push_assoc($supplier_po, $row["supplier"], $row["po_number"]) : $supplier_po;
 			$tbody.="<tr>
 					<td>".$row["date_r"]."</td>

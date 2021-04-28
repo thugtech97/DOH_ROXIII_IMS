@@ -2,7 +2,7 @@
 <table style="border-collapse: collapse;" cellspacing="0">
   <tbody>
     <tr>
-      <td colspan="12" style="width: 61.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-top-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-top-width: 2px; border-left-width: 2px; border-top-style: solid; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;"><?php echo $_SESSION["company_title"]; ?></td>
+      <td colspan="12" style="width: 61.2px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-top-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-top-width: 2px; border-left-width: 2px; border-top-style: solid; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;"><?php echo $_SESSION["company_title"]; ?></td>
     </tr>
     <tr>
       <td style="width: 155.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
@@ -19,10 +19,10 @@
       <td style="width: 51.6px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="12" style="width: 61.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;"><?php echo $_SESSION["supporting_title"]; ?></td>
+      <td colspan="12" style="width: 61.2px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;"><?php echo $_SESSION["supporting_title"]; ?></td>
     </tr>
     <tr>
-      <td colspan="12" style="width: 61.2px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;">Warehouse Inventory as of <span id="mwi"></span> <span id="ywi"></span></td>
+      <td colspan="12" style="width: 61.2px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;">Warehouse Inventory as of <span id="mwi"></span> <span id="ywi"></span></td>
     </tr>
     <tr>
       <td style="width: 61.2px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;"></td>
@@ -58,17 +58,17 @@
   </tbody>
   <tbody>
     <tr>
-      <td style="width: 61.2px; height: 0px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 1px; border-left-width: 1px; border-bottom-style: solid; border-left-style: solid; background-color: rgb(255, 255, 0);"></td>
-      <td style="width: 56.4px; height: 0px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
-      <td style="width: 73.8px; height: 0px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
-      <td style="width: 56.4px; height: 0px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
-      <td style="width: 204.6px; height: 0px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
-      <td style="width: 59.4px; height: 0px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
-      <td style="width: 53.4px; height: 0px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
-      <td style="width: 54px; height: 0px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
-      <td colspan="2" style="width: 41.4px; height: 0px; text-align: center; font-size: 9px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);">GRAND - TOTAL</td>
-      <td style="width: 73.8px; height: 0px; text-align: right; font-size: 9px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"><span id="grand_total"></span></td>
-      <td style="width: 51.6px; height: 0px; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
+      <td style="width: 61.2px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 1px; border-left-width: 1px; border-bottom-style: solid; border-left-style: solid; background-color: rgb(255, 255, 0);"></td>
+      <td style="width: 56.4px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
+      <td style="width: 73.8px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
+      <td style="width: 56.4px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
+      <td style="width: 204.6px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
+      <td style="width: 59.4px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
+      <td style="width: 53.4px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
+      <td style="width: 54px; text-align: center; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
+      <td colspan="2" style="width: 41.4px; text-align: center; font-size: 9px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);">GRAND - TOTAL</td>
+      <td style="width: 73.8px; text-align: right; font-size: 9px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; background-color: rgb(255, 255, 0);"><span id="grand_total"></span></td>
+      <td style="width: 51.6px; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);"></td>
     </tr>
     <tr>
       <td style="width: 61.2px; height: 0px; text-align: left; font-size: 8px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;">Prepared by:</td>

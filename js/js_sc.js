@@ -101,12 +101,10 @@ function print_rsmi(){
 function generate_wi(){
 	$.ajax({
 		type: "POST",
-		data: {call_func: "print_wi"},
+		data: {call_func: "print_wi", filter: $("#wi_lookup").val()},
 		url: "php/php_sc.php",
 		dataType: "JSON",
 		success: function(data){
-			$("#mwi").html($("#wi_month option:selected").text());
-			$("#ywi").html($("#wi_year option:selected").text());
 			$("#tbody_wi").html(data["tbody"]);
 			$("#grand_total").html(data["grand_total"]);
 			$("#modal_wi").modal();
@@ -255,6 +253,11 @@ $("#lookup").keyup(function () {
             return not_found;
         });
     });
+});
+
+$("#wi_lookup").keyup(function() {
+	var value = this.value;
+	generate_wi();
 });
 
 $("#tbl_ppe:has(td)").mouseover(function(e) {
