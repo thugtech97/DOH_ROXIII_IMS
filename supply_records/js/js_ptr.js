@@ -15,14 +15,32 @@ Date.prototype.toDateInputValue = (function() {
     local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
     return local.toJSON().slice(0,10);
 });
+/*
+function get_local(){
+    try{
+        if(typeof(Storage) !== "undefined") {
+            $("table#ptr_data tbody").html(localStorage.getItem("po_details"));
+        }else{
+            console.log("Browser doesn't support local storage...");
+        }
+    }catch(e){
+        console.log("No data stored on local storage.");
+    }
+}
 
+function set_local(){
+
+}
+*/
 function get_ptr(){
     $("#btn_add_ptr").attr("disabled", true);
     $.ajax({
         type: "POST",
+        cache: true,
         data: {call_func: "get_ptr"},
         url: "php/php_ptr.php",
         success: function(data){
+
             $("#btn_add_ptr").attr("disabled", false);
             $("table#ptr_data tbody").html(data);
             create_datatable();

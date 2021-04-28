@@ -14,7 +14,7 @@
         </div>
     </div>
 </div>
-
+<!--
 <div class="modal inmodal" id="view_supp" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
     <div class="modal-dialog modal-sm">
         <div class="modal-content animated slideInDown">
@@ -40,3 +40,4 @@
         </div>
     </div>
 </div>
+!-->

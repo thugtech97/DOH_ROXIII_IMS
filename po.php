@@ -132,9 +132,12 @@ if(!isset($_SESSION["username"])){
             </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" onclick="$('#view_supp').modal();">
+                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" onclick="//$('#view_supp').modal();">
                             <i class="fa fa-users"></i><span class="label label-danger" id="count_supp">0</span>
                         </a>
+                        <ul class="dropdown-menu dropdown-alerts" id="nestable">
+                            
+                        </ul>
                     </li>
                     <li>
                         <a href="php/php_logout.php">

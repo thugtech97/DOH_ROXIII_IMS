@@ -240,6 +240,7 @@ function get_ptr_details(){
 function get_ptr(){
 	global $conn;
 	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, reference_no, transfer_type FROM tbl_ptr ORDER BY ptr_id DESC");
+	$tbody = "";
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$ptr_no = $row["ptr_no"];
@@ -247,7 +248,7 @@ function get_ptr(){
 			$func_call = ($category == "Drugs and Medicines" || $category == "Medical Supplies") ? "print_ptr(this.value);" : "print_ptr_gen(this.value)";
 			$dl_xls = ($category == "Drugs and Medicines" || $category == "Medical Supplies") ? "download_xls(this.value);" : "download_xls_gen(this.value)";
 			$to = str_replace(' ', '', $row["to"]);
-			echo "<tr>
+			$tbody.="<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ptr_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["ptr_no"]."</td>
 					<td>".$row["reference_no"]."</td>
@@ -261,6 +262,7 @@ function get_ptr(){
 				</tr>";
 		}
 	}
+	echo $tbody;
 }
 
 function insert_ptr(){

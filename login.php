@@ -30,7 +30,7 @@ if(isset($_SESSION["username"])){
 </head>
 
 <body class="gray-bg">
-    <div class="loginColumns animated fadeInDown"  style="color: black;">
+    <div class="loginColumns animated fadeIn" style="color: black;">
         <div class="row">
             <div class="col-md-6">
                 <center>

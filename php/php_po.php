@@ -388,11 +388,15 @@ function get_po(){
 		}
 
 		foreach ($supplier_po as $key => $value) {
-			$lists.="<ol class=\"dd-list\" onclick=\"print_dl('".$key."', '".implode($separator, $value)."', '".$separator."');\">
-	                    <li class=\"dd-item\">
-	                        <div class=\"dd-handle\"><span class=\"label label-danger\" style=\"border-radius: 10px;\">".count($supplier_po[$key])."</span>&nbsp;&nbsp;<b>".$key."</b></div>
-	                    </li>
-	                </ol>";
+	        $lists.="<li>
+                        <a onclick=\"print_dl('".$key."', '".implode($separator, $value)."', '".$separator."');\" class=\"dropdown-item\">
+                            <div>
+                                <i class=\"fa fa-user\"></i> ".$key."
+                                <span class=\"float-right text-muted small\"><span class=\"label label-primary\" style=\"border-radius: 10px;\">".count($supplier_po[$key])."</span> Purchase Orders</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class=\"dropdown-divider\"></li>";
 		}
 	}
 
