@@ -307,12 +307,19 @@ function get_ris(){
 			$category = mysqli_fetch_assoc(mysqli_query($conn, "SELECT category FROM tbl_ris WHERE ris_no = '$ris_no'"))["category"];
 			$call_print = ($category != "Drugs and Medicines" && $category != "Medical Supplies") ? "print_ris(this.value);" : "print_ris_dm(this.value);";
 			$call_excel = ($category != "Drugs and Medicines" && $category != "Medical Supplies") ? "download_xls(this.value);" : "download_xls_dm(this.value);";
+
+			$in = array();
+			$get_items = mysqli_query($conn, "SELECT item FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
+			while($ri = mysqli_fetch_assoc($get_items)){
+				array_push($in, $ri["item"]);
+			}
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ris_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["ris_no"]."</td>
 					<td>".$row["division"]."</td>
 					<td>".$row["office"]."</td>
 					<td>".$row["reference_no"]."</td>
+					<td style=\"font-size: 10px;\">".implode(",", $in)."</td>
 					<td>".$row["d"]."</td>
 					<td>".utf8_encode($row["requested_by"])."</td>
 					<td>".utf8_encode($row["issued_by"])."</td>

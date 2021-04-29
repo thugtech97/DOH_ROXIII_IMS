@@ -248,10 +248,17 @@ function get_ptr(){
 			$func_call = ($category == "Drugs and Medicines" || $category == "Medical Supplies") ? "print_ptr(this.value);" : "print_ptr_gen(this.value)";
 			$dl_xls = ($category == "Drugs and Medicines" || $category == "Medical Supplies") ? "download_xls(this.value);" : "download_xls_gen(this.value)";
 			$to = str_replace(' ', '', $row["to"]);
+
+			$in = array();
+			$get_items = mysqli_query($conn, "SELECT item FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
+			while($ri = mysqli_fetch_assoc($get_items)){
+				array_push($in, $ri["item"]);
+			}
 			$tbody.="<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ptr_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["ptr_no"]."</td>
 					<td>".$row["reference_no"]."</td>
+					<td style=\"font-size: 10px;\">".implode(",", $in)."</td>
 					<td>".$row["from"]."</td>
 					<td>".$row["to"]."</td>
 					<td>".$row["date_r"]."</td>

@@ -121,11 +121,17 @@ function get_par(){
 		while($row = mysqli_fetch_assoc($sql)){
 			$parn = $row["par_no"];
 			$rb = str_replace(' ', '', $row["received_by"]);
+			$in = array();
+			$get_items = mysqli_query($conn, "SELECT item FROM tbl_par WHERE par_no LIKE '$parn'");
+			while($ri = mysqli_fetch_assoc($get_items)){
+				array_push($in, $ri["item"]);
+			}
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["par_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
 					<td>".$row["par_no"]."</td>
 					<td>".$row["reference_no"]."</td>
+					<td style=\"font-size: 10px;\">".implode(",", $in)."</td>
 					<td>".$row["date_r"]."</td>
 					<td>".utf8_encode($row["received_from"])."</td>
 					<td>".utf8_encode($row["received_by"])."</td>

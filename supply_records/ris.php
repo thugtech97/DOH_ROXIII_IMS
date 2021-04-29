@@ -153,6 +153,7 @@ if(!isset($_SESSION["username"])){
                                         <th>Division</th>
                                         <th>Office</th>
                                         <th>PO No</th>
+                                        <th>Items</th>
                                         <th>Date Released</th>
                                         <th>Requested By</th>
                                         <th>Issued By</th>

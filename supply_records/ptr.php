@@ -151,6 +151,7 @@ if(!isset($_SESSION["username"])){
                                         <th class="first_col">Issued</th>
                                         <th>PTR No</th>
                                         <th>PO No</th>
+                                        <th>Items</th>
                                         <th>From</th>
                                         <th>To</th>
                                         <th>Date Released</th>

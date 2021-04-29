@@ -325,11 +325,17 @@ function get_ics(){
 		while($row = mysqli_fetch_assoc($sql)){
 			$icsn = $row["ics_no"];
 			$rb = str_replace(' ', '', $row["received_by"]);
+			$in = array();
+			$get_items = mysqli_query($conn, "SELECT item FROM tbl_ics WHERE ics_no LIKE '$icsn'");
+			while($ri = mysqli_fetch_assoc($get_items)){
+				array_push($in, $ri["item"]);
+			}
 			echo "<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ics_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
 					<td>".$row["ics_no"]."</td>
 					<td>".$row["reference_no"]."</td>
+					<td style=\"font-size: 10px;\">".implode(",", $in)."</td>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["received_from"]."</td>
 					<td>".$row["received_by"]."</td>

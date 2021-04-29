@@ -201,6 +201,7 @@ if(!isset($_SESSION["username"])){
                                         <tr>
                                             <th>Date Received</th>
                                             <th>P.O Number</th>
+                                            <th>Items</th>
                                             <th>Mode of Procurement</th>
                                             <th>Date Conformed</th>
                                             <th>Expected Delivery</th>
