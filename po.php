@@ -215,7 +215,7 @@ if(!isset($_SESSION["username"])){
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th colspan="10"><center><h1><i class="fa fa-spinner fa-spin"></i></h1></center></th>
+                                            <th colspan="12"><center><h1><i class="fa fa-spinner fa-spin"></i></h1></center></th>
                                         </tr>
                                     </tbody>
                                 </table>

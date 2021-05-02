@@ -25,7 +25,7 @@ function generate_dl(){
 			$tbody.="<tr>
             			<td style=\"padding: 5px; border-left-style: solid; border-left-width: 1px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".(($flag) ? $po : "")."</td>
             			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".$unit."</td>
-            			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top;\"><span style=\"text-align: left;\">".$row["item_name"]." - ".$row["description"]."</span></td>
+            			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top;\"><span style=\"text-align: left;\"><b>".$row["item_name"]."</b> - ".$row["description"]."</span></td>
             			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".$row["main_stocks"]."</td>
             			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".number_format($row["unit_cost"], 2)."</td>
             			<td style=\"padding: 5px; border-right-style: solid; border-right-width: 1px; vertical-align: top; text-align: center;\">".number_format(((float)$row["unit_cost"] * (float)$row["main_stocks"]), 2)."</td>
@@ -109,6 +109,41 @@ function consolidate_po(){
 	echo 'Consolidated-PONo.'.$po_number.'.pdf';
 }
 
+function edit_description(){
+	global $conn;
+
+	$po = mysqli_real_escape_string($conn, $_POST["po"]);
+	$item = mysqli_real_escape_string($conn, $_POST["item"]);
+	$desc = mysqli_real_escape_string($conn, $_POST["desc"]);
+	$price = mysqli_real_escape_string($conn, $_POST["price"]);
+	$newdesc = mysqli_real_escape_string($conn, $_POST["newdesc"]);
+
+	if($newdesc != null){
+		mysqli_query($conn, "UPDATE tbl_po SET description = '$newdesc' WHERE po_number = '$po' AND item_name = '$item' AND description = '$desc' AND unit_cost = '$price'");
+		mysqli_query($conn, "UPDATE tbl_ics SET description = '$newdesc' WHERE reference_no = '$po' AND item = '$item' AND description = '$desc' AND cost = '$price'");
+		mysqli_query($conn, "UPDATE tbl_par SET description = '$newdesc' WHERE reference_no = '$po' AND item = '$item' AND description = '$desc' AND cost = '$price'");
+		mysqli_query($conn, "UPDATE tbl_ptr SET description = '$newdesc' WHERE reference_no = '$po' AND item = '$item' AND description = '$desc' AND cost = '$price'");
+		mysqli_query($conn, "UPDATE tbl_ris SET description = '$newdesc' WHERE reference_no = '$po' AND item = '$item' AND description = '$desc' AND unit_cost = '$price'");
+
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." modified the description of ".$item." from ".$desc." to ".$newdesc." - PO#".$po;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+	}
+
+	$sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po'");
+	while($row = mysqli_fetch_assoc($sql)){
+		echo "<tr>
+				<td>".$row["item_name"]."</td>
+				<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"edit_description('".$po."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
+				<td>".number_format((float)$row["unit_cost"], 2)."</td>
+				<td>".$row["main_stocks"]."</td>
+				<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
+				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 2)."</td>
+				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
+			</tr>";
+	}
+}
+
 function update_quantity(){
 	global $conn;
 
@@ -134,10 +169,10 @@ function update_quantity(){
 	while($row = mysqli_fetch_assoc($sql)){
 		$tbody.="<tr>
 				<td>".$row["item_name"]."</td>
-				<td>".$row["description"]."</td>
+				<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 				<td>".number_format((float)$row["unit_cost"], 2)."</td>
 				<td>".$row["main_stocks"]."</td>
-				<td onclick=\"add_quantity('".$row["po_id"]."','".$po_number."');\"><a><u>".$row["quantity"]."</u></a></td>
+				<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 2)."</td>
 				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
 			</tr>";
@@ -169,10 +204,10 @@ function add_serials(){
 	while($row = mysqli_fetch_assoc($sql)){
 		echo "<tr>
 				<td>".$row["item_name"]."</td>
-				<td>".$row["description"]."</td>
+				<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 				<td>".number_format((float)$row["unit_cost"], 2)."</td>
 				<td>".$row["main_stocks"]."</td>
-				<td onclick=\"add_quantity('".$row["po_id"]."');\">".$row["quantity"]."</td>
+				<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 2)."</td>
 				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
 			</tr>";
@@ -368,7 +403,7 @@ function get_po(){
 			$in = array();
 			$get_items = mysqli_query($conn, "SELECT item_name FROM tbl_po WHERE po_number LIKE '$pon'");
 			while($ri = mysqli_fetch_assoc($get_items)){
-				array_push($in, $ri["item_name"]);
+				array_push($in, trim($ri["item_name"]));
 			}
 			date_add($date,date_interval_create_from_date_string(($row["delivery_term"] == "Progress Billing" || $row["delivery_term"]) == "" ? "0 days" : $row["delivery_term"]));
 			$expected_delivery_date = date_format($date,"Y-m-d");
@@ -381,7 +416,7 @@ function get_po(){
 			$tbody.="<tr>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["po_number"]."</td>
-					<td style=\"font-size: 10px;\">".implode(",", $in)."</td>
+					<td style=\"font-size: 10px;\">".implode(", ", $in)."</td>
 					<td>".$row["procurement_mode"]."</td>
 					<td>".$row["date_conformed"]."</td>
 					<td>".(($row["status"] == "Delivered" || $row["status"] == "") ? "" : $expected_delivery_date." ".$fdays)."</td>
@@ -397,7 +432,7 @@ function get_po(){
 	        $lists.="<li>
                         <a onclick=\"print_dl('".$key."', '".implode($separator, $value)."', '".$separator."');\" class=\"dropdown-item\">
                             <div>
-                                <i class=\"fa fa-user\"></i> ".$key."
+                                <i class=\"fa fa-user\"></i> ".strtoupper($key)."
                                 <span class=\"float-right text-muted small\"><span class=\"label label-primary\" style=\"border-radius: 10px;\">".count($supplier_po[$key])."</span> Purchase Orders</span>
                             </div>
                         </a>
@@ -413,7 +448,7 @@ function edit_po_various(){
 	global $conn;
 	
 	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-	$sql = mysqli_query($conn, "SELECT p.po_id, SUBSTRING(p.date_received,1,10) AS dr, p.delivery_term, p.payment_term, p.description, p.main_stocks, p.pr_no, s.supplier, i.item, p.end_user, p.unit_cost, p.quantity, p.category, p.date_conformed, p.date_delivered, p.inspection_status, p.status, p.sn_ln, p.po_type, p.procurement_mode FROM tbl_po AS p, ref_supplier AS s, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id");
+	$sql = mysqli_query($conn, "SELECT p.po_id, SUBSTRING(p.date_received,1,10) AS dr, p.delivery_term, p.payment_term, p.description, p.main_stocks, p.pr_no, s.supplier, p.item_name, p.end_user, p.unit_cost, p.quantity, p.category, p.date_conformed, p.date_delivered, p.inspection_status, p.status, p.sn_ln, p.po_type, p.procurement_mode FROM tbl_po AS p, ref_supplier AS s WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id");
 
 	$tbody = "";
 	$date_received = "";
@@ -445,8 +480,8 @@ function edit_po_various(){
 		$procurement_mode = $row["procurement_mode"];
 
 		$tbody.="<tr>
-					<td>".$row["item"]."</td>
-					<td>".$row["description"]."</td>
+					<td>".$row["item_name"]."</td>
+					<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn,$row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 					<td>".number_format((float)$row["unit_cost"], 2)."</td>
 					<td>".$row["main_stocks"]."</td>
 					<td ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
@@ -610,6 +645,9 @@ switch($call_func){
 		break;
 	case "generate_dl":
 		generate_dl();
+		break;
+	case "edit_description":
+		edit_description();
 		break;
 }
 

@@ -499,6 +499,25 @@ function add_quantity(po_id, po_number){
 	});
 }
 
+function edit_description(po, item, desc, price){
+	var d = prompt("Edit description:", desc);
+	$.ajax({
+		type: "POST",
+		url: "php/php_po.php",
+		data: {
+			call_func: "edit_description",
+			po: po,
+			item: item,
+			desc: desc,
+			price: price,
+			newdesc: d
+		},
+		success: function(data){
+			$("table#eitem_various tbody").html(data);
+		}
+	});
+}
+
 function setActiveState(state){
 	active_state = state;
 }
