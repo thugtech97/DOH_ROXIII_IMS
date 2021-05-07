@@ -145,28 +145,9 @@ if(!isset($_SESSION["username"])){
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table id="ptr_data" class="table table-bordered table-hover dataTables-example" >
-                                    <thead>
-                                    <tr>
-                                        <th class="first_col">Issued</th>
-                                        <th>PTR No</th>
-                                        <th>PO No</th>
-                                        <th>Items</th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th>Date Released</th>
-                                        <th>Supply Received Date</th>
-                                        <th>Transfer Type</th>
-                                        <th>Reason</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="11"><center><h1><i class="fa fa-spinner fa-spin"></i></h1></center></th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive" id="dynamic_content">
+            
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -7,7 +7,7 @@ var ettype = null;
 var exp_date = "";
 
 $(document).ready(function(){
-    get_ptr();
+    get_ptr(1);
 });
 
 Date.prototype.toDateInputValue = (function() {
@@ -15,64 +15,25 @@ Date.prototype.toDateInputValue = (function() {
     local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
     return local.toJSON().slice(0,10);
 });
-/*
-function get_local(){
-    try{
-        if(typeof(Storage) !== "undefined") {
-            $("table#ptr_data tbody").html(localStorage.getItem("po_details"));
-        }else{
-            console.log("Browser doesn't support local storage...");
-        }
-    }catch(e){
-        console.log("No data stored on local storage.");
-    }
-}
 
-function set_local(){
+$(document).on('click', '.page-link', function(){
+      var page = $(this).data('page_number');
+      get_ptr(page);
+    });
 
-}
-*/
-function get_ptr(){
+function get_ptr(page){
     $("#btn_add_ptr").attr("disabled", true);
     $.ajax({
         type: "POST",
         cache: true,
-        data: {call_func: "get_ptr"},
+        data: {call_func: "get_ptr", page: page},
         url: "php/php_ptr.php",
         success: function(data){
-
             $("#btn_add_ptr").attr("disabled", false);
-            $("table#ptr_data tbody").html(data);
-            create_datatable();
+            $('#dynamic_content').html(data);
+            ready_all();
         }
     });
-}
-
-function create_datatable(){
-    $('.dataTables-example').DataTable({
-        pageLength: 10,
-        responsive: true,
-        dom: '<"html5buttons"B>lTfgitp',
-        buttons: [
-            { extend: 'copy'},
-            {extend: 'csv'},
-            {extend: 'excel', title: 'PTR'},
-            {extend: 'pdf', title: 'PTR'},
-
-            {extend: 'print',
-             customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-            }
-            }
-        ]
-    });
-    $(".first_col").click();
-    ready_all();
 }
 
 function origNumber(s){
