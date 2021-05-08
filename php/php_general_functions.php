@@ -101,7 +101,7 @@ function create_table_pagination($page, $limit, $total_data, $columns){
 */
 
 	$input = '<label>Total Records - '.$total_data.'</label>
-	          <table class="table table-striped table-bordered">
+	          <table class="table table-bordered">
 	            <tr>';
 	foreach($columns as $c){
 		$input.='<th>'.$c.'</th>';
@@ -112,7 +112,7 @@ function create_table_pagination($page, $limit, $total_data, $columns){
 	          <div align="center">
 	            <ul class="pagination">
 	          ';
-
+	            
 	$total_links = ceil($total_data/$limit);
 	$previous_link = '';
 	$next_link = '';

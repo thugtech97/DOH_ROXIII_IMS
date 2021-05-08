@@ -248,8 +248,16 @@ function get_ptr(){
 	}else{
 	  $start = 0;
 	}
-	$sql_orig = mysqli_query($conn, "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, reference_no, transfer_type FROM tbl_ptr ORDER BY ptr_id DESC");
-	$sql = mysqli_query($conn, "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, reference_no, transfer_type FROM tbl_ptr ORDER BY ptr_id DESC LIMIT ".$start.", ".$limit."");
+
+	$query = "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, reference_no, transfer_type FROM tbl_ptr ";
+	if($_POST["search"] != ""){
+		$qs = $_POST["search"];
+		$query.="WHERE ptr_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR tbl_ptr.from LIKE '%$qs%' OR tbl_ptr.to LIKE '%$qs%' OR transfer_type LIKE '%$qs%' OR reason LIKE '%$qs%' ";
+	}
+	$query.="ORDER BY ptr_id DESC ";
+
+	$sql_orig = mysqli_query($conn, $query);
+	$sql = mysqli_query($conn, $query."LIMIT ".$start.", ".$limit."");
 	$tbody = "";
 	$total_data = mysqli_num_rows($sql_orig);
 	if($total_data != 0){
@@ -280,7 +288,7 @@ function get_ptr(){
 				</tr>";
 		}
 	}else{
-		$tbody="<tr><td colspan=\"11\" align=\"center;\">No data found.</td></tr>";
+		$tbody="<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
 	}
 	$in_out = create_table_pagination($page, $limit, $total_data, array("","PTR No.","PO No.","Items","From","To","Date Released","Date Received", "Transfer Type", "Reason", ""));
 	$whole_dom = $in_out[0]."".$tbody."".$in_out[1];

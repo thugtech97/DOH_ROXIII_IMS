@@ -7,7 +7,7 @@ var ettype = null;
 var exp_date = "";
 
 $(document).ready(function(){
-    get_ptr(1);
+    
 });
 
 Date.prototype.toDateInputValue = (function() {
@@ -15,26 +15,6 @@ Date.prototype.toDateInputValue = (function() {
     local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
     return local.toJSON().slice(0,10);
 });
-
-$(document).on('click', '.page-link', function(){
-      var page = $(this).data('page_number');
-      get_ptr(page);
-    });
-
-function get_ptr(page){
-    $("#btn_add_ptr").attr("disabled", true);
-    $.ajax({
-        type: "POST",
-        cache: true,
-        data: {call_func: "get_ptr", page: page},
-        url: "php/php_ptr.php",
-        success: function(data){
-            $("#btn_add_ptr").attr("disabled", false);
-            $('#dynamic_content').html(data);
-            ready_all();
-        }
-    });
-}
 
 function origNumber(s){
     return s.split(',').join('');

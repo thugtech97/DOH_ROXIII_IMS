@@ -1,4 +1,5 @@
 var iss_numbers, tables, fields, isss, iss_fields, rbs;
+var _url;
 
 function exportTableToExcel(tableID, filename = ''){
     var downloadLink;
@@ -109,4 +110,33 @@ function edit_quantity(id,quantity,po_number,item,description, table, field){
             }
         }
     })
+}
+
+$(document).on('click', '.page-link', function(){
+      var page = $(this).data('page_number');
+      var query = $('#search_box').val();
+      get_records(page, query);
+    });
+
+$('#search_box').keyup(function(){
+      var query = $('#search_box').val();
+      get_records(1, _url, query);
+    });
+
+function get_records(page, url, query = ""){
+    $.ajax({
+        type: "POST",
+        cache: true,
+        data: {call_func: "get_ptr", page: page, search: query},
+        url: url,
+        success: function(data){
+            $('#dynamic_content').html(data);
+            ready_all();
+        }
+    });
+}
+
+function set_url(url){
+    _url = url;
+    get_records(1, _url);
 }

@@ -144,10 +144,11 @@ if(!isset($_SESSION["username"])){
                             <h3><i class="fa fa-clipboard"></i> Property Transfer Report</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="table-responsive">
-                                <div class="table-responsive" id="dynamic_content">
-            
-                                </div>
+                            <div class="pull-right">
+                                Search: <input type="text" name="search_box" id="search_box"/>
+                            </div>
+                            <div class="table-responsive" id="dynamic_content">
+
                             </div>
                         </div>
                     </div>
@@ -180,5 +181,8 @@ if(!isset($_SESSION["username"])){
 
     <script src="js/js_ptr.js"></script>
     <script src="js/js_general_functions.js"></script>
+    <script type="text/javascript">
+        set_url("php/php_ptr.php");
+    </script>
 </body>
 </html>
