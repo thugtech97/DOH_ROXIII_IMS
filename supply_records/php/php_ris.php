@@ -296,11 +296,30 @@ function get_po(){
 	}
 }
 
-function get_ris(){
+function get_records(){
 	global $conn;
-	
-	$sql = mysqli_query($conn, "SELECT DISTINCT ris_no,division,office,SUBSTRING(tbl_ris.date,1,10) AS d,requested_by,issued_by,purpose, reference_no, issued FROM tbl_ris ORDER BY ris_id DESC");
-	if(mysqli_num_rows($sql) != 0){
+
+	$limit = '10';
+	$page = 1;
+	if($_POST["page"] > 1){
+	  $start = (($_POST["page"] - 1) * $limit);
+	  $page = $_POST["page"];
+	}else{
+	  $start = 0;
+	}
+
+	$query = "SELECT DISTINCT ris_no,division,office,SUBSTRING(tbl_ris.date,1,10) AS d,requested_by,issued_by,purpose, reference_no, issued FROM tbl_ris ";
+	if($_POST["search"] != ""){
+		$qs = $_POST["search"];
+		$query.="WHERE ris_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR division LIKE '%$qs%' OR office LIKE '%$qs%' OR requested_by LIKE '%$qs%' OR purpose LIKE '%$qs%' OR item LIKE '%$qs%' ";
+	}
+	$query.="ORDER BY ris_id DESC ";
+
+	$sql_orig = mysqli_query($conn, $query);
+	$sql = mysqli_query($conn, $query."LIMIT ".$start.", ".$limit."");
+	$tbody = "";
+	$total_data = mysqli_num_rows($sql_orig);
+	if($total_data != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$rb = str_replace(' ', '', $row["requested_by"]);
 			$ris_no = $row["ris_no"];
@@ -313,7 +332,7 @@ function get_ris(){
 			while($ri = mysqli_fetch_assoc($get_items)){
 				array_push($in, $ri["item"]);
 			}
-			echo "<tr>
+			$tbody.="<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ris_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["ris_no"]."</td>
 					<td>".$row["division"]."</td>
@@ -327,7 +346,12 @@ function get_ris(){
 					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["ris_no"]."\" onclick=\"view_iss(this.value,'tbl_ris','view_ris','RIS','ris_no','".$rb."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" value=\"".$row["ris_no"]."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["ris_no"]."\" onclick=\"".$call_print."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ris_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ris_no"]."\" onclick=\"".$call_excel."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
 		}
+	}else{
+		$tbody="<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
 	}
+	$in_out = create_table_pagination($page, $limit, $total_data, array("","RIS No.","Division","Office","PO No.","Items","Date Released","Requested By", "Issued By", "Purpose", ""));
+	$whole_dom = $in_out[0]."".$tbody."".$in_out[1];
+	echo $whole_dom;
 }
 
 function get_latest_ris(){
@@ -409,8 +433,8 @@ switch($call_func){
 	case "insert_ris":
 		insert_ris();
 		break;
-	case "get_ris":
-		get_ris();
+	case "get_records":
+		get_records();
 		break;
 	case "get_po":
 		get_po();

@@ -237,7 +237,7 @@ function get_ptr_details(){
 	}
 }
 
-function get_ptr(){
+function get_records(){
 	global $conn;
 
 	$limit = '10';
@@ -252,7 +252,7 @@ function get_ptr(){
 	$query = "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, reference_no, transfer_type FROM tbl_ptr ";
 	if($_POST["search"] != ""){
 		$qs = $_POST["search"];
-		$query.="WHERE ptr_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR tbl_ptr.from LIKE '%$qs%' OR tbl_ptr.to LIKE '%$qs%' OR transfer_type LIKE '%$qs%' OR reason LIKE '%$qs%' ";
+		$query.="WHERE ptr_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR tbl_ptr.from LIKE '%$qs%' OR tbl_ptr.to LIKE '%$qs%' OR transfer_type LIKE '%$qs%' OR reason LIKE '%$qs%' OR item LIKE '%$qs%' ";
 	}
 	$query.="ORDER BY ptr_id DESC ";
 
@@ -398,8 +398,8 @@ switch($call_func){
 	case "insert_ptr":
 		insert_ptr();
 		break;
-	case "get_ptr":
-		get_ptr();
+	case "get_records":
+		get_records();
 		break;
 	case "get_ptr_details":
 		get_ptr_details();

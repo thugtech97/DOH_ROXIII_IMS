@@ -142,29 +142,11 @@ if(!isset($_SESSION["username"])){
                             <h3><i class="fa fa-clipboard"></i> Property Acknowledgement Receipt</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="table-responsive">
-                                <table id="par_data" class="table table-bordered table-hover dataTables-example" >
-                                    <thead>
-                                    <tr>
-                                        <th class="first_col">Issued</th>
-                                        <th>Area</th>
-                                        <th>PAR No</th>
-                                        <th>PO No</th>
-                                        <th>Items</th>
-                                        <th>Date Released</th>
-                                        <th>Received From</th>
-                                        <th>Received By</th>
-                                        <th>Supply Received Date</th>
-                                        <th>Remarks</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="11"><center><h1><i class="fa fa-spinner fa-spin"></i></h1></center></th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="pull-right">
+                                Search: <input type="text" name="search_box" id="search_box"/>
+                            </div>
+                            <div class="table-responsive" id="dynamic_content">
+
                             </div>
                         </div>
                     </div>
@@ -191,5 +173,8 @@ if(!isset($_SESSION["username"])){
     ?>
     <script src="js/js_par.js"></script>
     <script src="js/js_general_functions.js"></script>
+    <script type="text/javascript">
+        set_url("php/php_par.php");
+    </script>
 </body>
 </html>

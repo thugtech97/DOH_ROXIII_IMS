@@ -115,7 +115,7 @@ function edit_quantity(id,quantity,po_number,item,description, table, field){
 $(document).on('click', '.page-link', function(){
       var page = $(this).data('page_number');
       var query = $('#search_box').val();
-      get_records(page, query);
+      get_records(page, _url, query);
     });
 
 $('#search_box').keyup(function(){
@@ -127,7 +127,7 @@ function get_records(page, url, query = ""){
     $.ajax({
         type: "POST",
         cache: true,
-        data: {call_func: "get_ptr", page: page, search: query},
+        data: {call_func: "get_records", page: page, search: query},
         url: url,
         success: function(data){
             $('#dynamic_content').html(data);

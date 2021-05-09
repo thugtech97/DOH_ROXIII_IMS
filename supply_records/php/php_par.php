@@ -113,11 +113,30 @@ function get_par_details(){
 	}
 }
 
-function get_par(){
+function get_records(){
 	global $conn;
 	
-	$sql = mysqli_query($conn, "SELECT DISTINCT par_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no FROM tbl_par ORDER BY par_id DESC");
-	if(mysqli_num_rows($sql) != 0){
+	$limit = '10';
+	$page = 1;
+	if($_POST["page"] > 1){
+	  $start = (($_POST["page"] - 1) * $limit);
+	  $page = $_POST["page"];
+	}else{
+	  $start = 0;
+	}
+
+	$query = "SELECT DISTINCT par_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no FROM tbl_par ";
+	if($_POST["search"] != ""){
+		$qs = $_POST["search"];
+		$query.="WHERE par_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR area LIKE '%$qs%' OR received_from LIKE '%$qs%' OR received_by LIKE '%$qs%' OR item LIKE '%$qs%' ";
+	}
+	$query.="ORDER BY par_id DESC ";
+
+	$sql_orig = mysqli_query($conn, $query);
+	$sql = mysqli_query($conn, $query."LIMIT ".$start.", ".$limit."");
+	$tbody = "";
+	$total_data = mysqli_num_rows($sql_orig);
+	if($total_data != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$parn = $row["par_no"];
 			$rb = str_replace(' ', '', $row["received_by"]);
@@ -126,7 +145,7 @@ function get_par(){
 			while($ri = mysqli_fetch_assoc($get_items)){
 				array_push($in, $ri["item"]);
 			}
-			echo "<tr>
+			$tbody.="<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["par_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
 					<td>".$row["par_no"]."</td>
@@ -140,7 +159,12 @@ function get_par(){
 					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["par_no"]."\" onclick=\"view_iss(this.value,'tbl_par','view_par','PAR','par_no','".$rb."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"modify('".$parn."');\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["par_no"]."\" onclick=\"print_par(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\"><i class=\"fa fa-trash\" onclick=\"delete_control('".$parn."');\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" onclick=\"download_xls('".$parn."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
 		}
+	}else{
+		$tbody = "<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
 	}
+	$in_out = create_table_pagination($page, $limit, $total_data, array("","Area","PAR No.","PO No.","Items","Date Released","Received From", "Received By", "Date Supply Received", "Remarks", ""));
+	$whole_dom = $in_out[0]."".$tbody."".$in_out[1];
+	echo $whole_dom;
 }
 
 function insert_par(){
@@ -231,8 +255,8 @@ switch($call_func){
 	case "insert_par":
 		insert_par();
 		break;
-	case "get_par":
-		get_par();
+	case "get_records":
+		get_records();
 		break;
 	case "get_par_details":
 		get_par_details();

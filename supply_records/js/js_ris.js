@@ -4,7 +4,7 @@ var po_details = {};
 var lot_no = "", exp_date = "";
 
 $(document).ready(function(){
-    get_ris();
+    
 });
 
 Date.prototype.toDateInputValue = (function() {
@@ -12,45 +12,6 @@ Date.prototype.toDateInputValue = (function() {
     local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
     return local.toJSON().slice(0,10);
 });
-
-function get_ris(){
-    $.ajax({
-        type: "POST",
-        data: {call_func: "get_ris"},
-        url: "php/php_ris.php",
-        success: function(data){
-            $("table#ris_data tbody").html(data);
-            create_datatable();
-        }
-    });
-}
-
-function create_datatable(){
-    $('.dataTables-example').DataTable({
-        pageLength: 10,
-        responsive: true,
-        dom: '<"html5buttons"B>lTfgitp',
-        buttons: [
-            { extend: 'copy'},
-            {extend: 'csv'},
-            {extend: 'excel', title: 'RIS'},
-            {extend: 'pdf', title: 'RIS'},
-
-            {extend: 'print',
-             customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-            }
-            }
-        ]
-    });
-    $(".first_col").click();
-    ready_all();
-}
 
 function origNumber(s){
     return s.split(',').join('');
