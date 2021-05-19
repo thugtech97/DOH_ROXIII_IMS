@@ -308,9 +308,9 @@ function get_records(){
 	  $start = 0;
 	}
 
-	$query = "SELECT DISTINCT ris_no,division,office,SUBSTRING(tbl_ris.date,1,10) AS d,requested_by,issued_by,purpose, reference_no, issued FROM tbl_ris ";
+	$query = "SELECT DISTINCT ris_no,division,office,SUBSTRING(tbl_ris.date,1,10) AS d,requested_by,issued_by,purpose, issued FROM tbl_ris ";
 	if($_POST["search"] != ""){
-		$qs = $_POST["search"];
+		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
 		$query.="WHERE ris_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR division LIKE '%$qs%' OR office LIKE '%$qs%' OR requested_by LIKE '%$qs%' OR purpose LIKE '%$qs%' OR item LIKE '%$qs%' ";
 	}
 	$query.="ORDER BY ris_id DESC ";
@@ -332,13 +332,18 @@ function get_records(){
 			while($ri = mysqli_fetch_assoc($get_items)){
 				array_push($in, $ri["item"]);
 			}
+			$refs = array();
+			$get_rf = mysqli_query($conn, "SELECT DISTINCT reference_no FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
+			while($rf = mysqli_fetch_assoc($get_rf)){
+				array_push($refs, $rf["reference_no"]);
+			}
 			$tbody.="<tr>
-					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ris_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
+					<td><center>".(($row["issued"] == '0') ? "<button id=\"\" value=\"".$row["ris_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["ris_no"]."</td>
 					<td>".$row["division"]."</td>
 					<td>".$row["office"]."</td>
-					<td>".$row["reference_no"]."</td>
-					<td style=\"font-size: 10px;\">".implode(",", $in)."</td>
+					<td style=\"font-size: 10px;\">".implode(", ", $refs)."</td>
+					<td style=\"font-size: 10px;\">".implode(", ", $in)."</td>
 					<td>".$row["d"]."</td>
 					<td>".utf8_encode($row["requested_by"])."</td>
 					<td>".utf8_encode($row["issued_by"])."</td>

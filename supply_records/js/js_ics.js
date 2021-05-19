@@ -2,6 +2,7 @@ var items = [];
 var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
 
 var po_details = {};
+var property_nos = "";
 
 $(document).ready(function(){
 	
@@ -255,35 +256,7 @@ function add_item(){
 					if(parseInt($("#quantity").val()) <= po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1]) {
 						if(parseInt($("#quantity").val()) > 0){
 							if($("#serial_no").val() == ""){
-								$("table#ics_items tbody").append("<tr>"+
-									"<td>"+$("#item_name").val()+"</td>"+
-									"<td>"+$("#reference_no option:selected").text()+"</td>"+
-									"<td>"+$("#item_name option:selected").text()+"</td>"+
-									"<td>"+$("#description").val()+"</td>"+
-									"<td></td>"+
-									"<td>"+$("#category").val()+"</td>"+
-									"<td>"+$("#property_no").val()+"</td>"+
-									"<td>"+$("#quantity").val()+"</td>"+
-									"<td>"+$("#unit").val()+"</td>"+
-									"<td>"+$("#unit_value").val()+"</td>"+
-									"<td>"+$("#total_amount").val()+"</td>"+
-									"<td>"+$("#remarks").val()+"</td>"+
-									"<td><button class=\"btn btn-danger btn-xs\" id=\""+$("#reference_no option:selected").text()+"\" value=\""+$("#item_name").val()+"\" data-quan=\""+$("#quantity").val()+"\"><i class=\"fa fa-trash\"></i></button></td>"+
-									"</tr>");
-								var rs = po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1] - parseInt($("#quantity").val());
-								po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1] = rs;
-								$("#item_name").val(null).change();
-								$("#stock").val("");
-								$("#unit").val("");
-								$("#description").val("");
-								$("#unit_value").val("");
-								$("#quantity").val("");
-								$("#serial_no").val(null).change();
-								$("#property_no")[0].selectize.clear();
-								$("#remarks").val("");
-								$("#category").val("");
-								$("#total_amount").val("");
-								calculate_all_total();
+								check_pn_exist($("#property_no").val());
 							}else{
 								validate_with_snln();
 							}
@@ -310,12 +283,31 @@ function add_item(){
 function validate_with_snln(){
 	if($("#category").val() != "Drugs and Medicines"){
 		if(parseInt($("#quantity").val()) == $('#serial_no').select2("val").length){
-			$("table#ics_items tbody").append("<tr>"+
+			check_pn_exist($("#property_no").val());
+		}else{
+			swal("Quantity not matched!", "Number of serial numbers selected should correspond to the inputted quantity.", "warning");
+		}
+	}else{
+		check_pn_exist($("#property_no").val());
+	}
+}
+
+function check_pn_exist(pn_){
+	$.ajax({
+		type: "POST",
+		url: "php/php_ics.php",
+		data: {
+			call_func: "check_pn_exist",
+			pn_: pn_
+		},
+		success: function(data){
+			if(data == ""){
+				$("table#ics_items tbody").append("<tr>"+
 				"<td>"+$("#item_name").val()+"</td>"+
 				"<td>"+$("#reference_no option:selected").text()+"</td>"+
 				"<td>"+$("#item_name option:selected").text()+"</td>"+
 				"<td>"+$("#description").val()+"</td>"+
-				"<td>"+$('#serial_no').select2("val")+"</td>"+
+				"<td></td>"+
 				"<td>"+$("#category").val()+"</td>"+
 				"<td>"+$("#property_no").val()+"</td>"+
 				"<td>"+$("#quantity").val()+"</td>"+
@@ -338,41 +330,12 @@ function validate_with_snln(){
 				$("#remarks").val("");
 				$("#category").val("");
 				$("#total_amount").val("");
-			calculate_all_total();
-		}else{
-			swal("Quantity not matched!", "Number of serial numbers selected should correspond to the inputted quantity.", "warning");
+				calculate_all_total();
+			}else{
+				swal("Property Number Exists!", data, "warning");
+			}
 		}
-	}else{
-		$("table#ics_items tbody").append("<tr>"+
-		"<td>"+$("#item_name").val()+"</td>"+
-		"<td>"+$("#reference_no option:selected").text()+"</td>"+
-		"<td>"+$("#item_name option:selected").text()+"</td>"+
-		"<td>"+$("#description").val()+"</td>"+
-		"<td>"+$('#serial_no').select2("val")+"</td>"+
-		"<td>"+$("#category").val()+"</td>"+
-		"<td>"+$("#property_no").val()+"</td>"+
-		"<td>"+$("#quantity").val()+"</td>"+
-		"<td>"+$("#unit").val()+"</td>"+
-		"<td>"+$("#unit_value").val()+"</td>"+
-		"<td>"+$("#total_amount").val()+"</td>"+
-		"<td>"+$("#remarks").val()+"</td>"+
-		"<td><button class=\"btn btn-danger btn-xs\" id=\""+$("#reference_no option:selected").text()+"\" value=\""+$("#item_name").val()+"\" data-quan=\""+$("#quantity").val()+"\"><i class=\"fa fa-trash\"></i></button></td>"+
-		"</tr>");
-		var rs = po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1] - parseInt($("#quantity").val());
-		po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1] = rs;
-		$("#item_name").val(null).change();
-		$("#stock").val("");
-		$("#unit").val("");
-		$("#description").val("");
-		$("#unit_value").val("");
-		$("#quantity").val("");
-		$("#serial_no").val(null).change();
-		$("#property_no")[0].selectize.clear();
-		$("#remarks").val("");
-		$("#category").val("");
-		$("#total_amount").val("");
-		calculate_all_total();
-	}
+	});
 }
 
 function get_rows(){

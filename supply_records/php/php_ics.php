@@ -329,9 +329,9 @@ function get_records(){
 	  $start = 0;
 	}
 
-	$query = "SELECT DISTINCT ics_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no FROM tbl_ics ";
+	$query = "SELECT DISTINCT ics_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued FROM tbl_ics ";
 	if($_POST["search"] != ""){
-		$qs = $_POST["search"];
+		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
 		$query.="WHERE ics_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR area LIKE '%$qs%' OR received_from LIKE '%$qs%' OR received_by LIKE '%$qs%' OR item LIKE '%$qs%' ";
 	}
 	$query.="ORDER BY ics_id DESC ";
@@ -349,12 +349,17 @@ function get_records(){
 			while($ri = mysqli_fetch_assoc($get_items)){
 				array_push($in, $ri["item"]);
 			}
+			$refs = array();
+			$get_rf = mysqli_query($conn, "SELECT DISTINCT reference_no FROM tbl_ics WHERE ics_no LIKE '$icsn'");
+			while($rf = mysqli_fetch_assoc($get_rf)){
+				array_push($refs, $rf["reference_no"]);
+			}
 			$tbody.="<tr>
-					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" value=\"".$row["ics_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
+					<td><center>".(($row["issued"] == '0') ? "<button id=\"\" value=\"".$row["ics_no"]."\" ".(($_SESSION["role"] == "SUPPLY") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
 					<td>".$row["ics_no"]."</td>
-					<td>".$row["reference_no"]."</td>
-					<td style=\"font-size: 10px;\">".implode(",", $in)."</td>
+					<td style=\"font-size: 10px;\">".implode(", ", $refs)."</td>
+					<td style=\"font-size: 10px;\">".implode(", ", $in)."</td>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["received_from"]."</td>
 					<td>".$row["received_by"]."</td>
@@ -502,6 +507,9 @@ switch($call_func){
 		break;
 	case "update_quantity":
 		update_quantity();
+		break;
+	case "check_pn_exist":
+		check_pn_exist();
 		break;
 }
 

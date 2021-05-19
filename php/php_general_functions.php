@@ -160,7 +160,7 @@ function create_table_pagination($page, $limit, $total_data, $columns){
 	      $previous_link = '<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>';
 	    }
 	    $next_id = $page_array[$count] + 1;
-	    if($next_id >= $total_links){
+	    if($next_id > $total_links){
 	      $next_link = '<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>';
 	    }else{
 	      $next_link = '<li class="page-item"><a class="page-link" href="javascript:void(0)" data-page_number="'.$next_id.'">Next</a></li>';
@@ -180,7 +180,20 @@ function create_table_pagination($page, $limit, $total_data, $columns){
 }
 
 function check_pn_exist(){
+	global $conn;
 
+	$pn = mysqli_real_escape_string($conn, $_POST["pn_"]);
+	$p_n = explode(",", $pn);
+	$existing = array();
+	foreach($p_n AS $prop_no){
+		$exp_prop = explode("-", $prop_no);
+		$imp_prop = $exp_prop[0]."-".$exp_prop[1]."-".$exp_prop[2];
+		if(mysqli_num_rows(mysqli_query($conn, "SELECT property_no FROM tbl_ics WHERE property_no LIKE '%$imp_prop%'")) != 0 || mysqli_num_rows(mysqli_query($conn, "SELECT property_no FROM tbl_par WHERE property_no LIKE '%$imp_prop%'")) != 0 || mysqli_num_rows(mysqli_query($conn, "SELECT property_no FROM tbl_ptr WHERE property_no LIKE '%$imp_prop%'")) != 0){
+			array_push($existing, $prop_no);
+		}
+	}
+
+	echo implode(",", $existing);
 }
 
 ?>
