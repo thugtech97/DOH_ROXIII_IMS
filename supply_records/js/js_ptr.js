@@ -191,7 +191,7 @@ function check_pn_exist(pn_){
                 "<td>"+$("#reference_no option:selected").text()+"</td>"+
                 "<td>"+$("#item_name option:selected").text()+"</td>"+
                 "<td>"+$("#description").val()+"</td>"+
-                "<td>"+$("#serial_no option:selected").text()+"</td>"+
+                "<td>"+$("#serial_no").val()+"</td>"+
                 "<td>"+exp_date+"</td>"+
                 "<td>"+$("#category").val()+"</td>"+
                 "<td>"+$("#property_no").val()+"</td>"+
