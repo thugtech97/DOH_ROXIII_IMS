@@ -106,7 +106,7 @@ function print_ptr_gen(){
 			$transfer_type = $row["transfer_type"]; $reason = $row["reason"]; $approved_by = $row["approved_by"]; $received_from = $row["received_from"];
 			$approved_by_designation = $row["approved_by_designation"]; $received_from_designation = $row["received_from_designation"]; $address = $row["address"];
 			$supplier = $row["supplier"]; $reference_no = $row["reference_no"];
-			$total_cost += (float)implode("", explode(",",$row["total"]));
+			$total_cost += (float)$row["quantity"] * (float)$row["cost"];
 			$pn = explode(",", $row["property_no"]);
 			$ptr_body .= "<tr>
 			      <td style=\"width: 73.2px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
@@ -115,7 +115,7 @@ function print_ptr_gen(){
 			      <td style=\"width: 49.8px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity"]."</td>
 			      <td style=\"width: 51.6px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
 			      <td style=\"width: 64.8px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["cost"], 2)."</td>
-			      <td style=\"width: 72px; height: 14px; text-align: right; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["total"],2)."</td>
+			      <td style=\"width: 72px; height: 14px; text-align: right; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["cost"], 2)."</td>
 			      <td style=\"width: 72.6px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["conditions"]."</td>
 			    </tr>";$rows_occupied++;
 			    $rows_occupied+=round((float)strlen($row["description"]) / 50.00);
@@ -200,7 +200,7 @@ function get_ptr_details(){
 			$transfer_type = $row["transfer_type"]; $reason = $row["reason"]; $approved_by = $row["approved_by"]; $received_from = $row["received_from"];
 			$approved_by_designation = $row["approved_by_designation"];$received_from_designation = $row["received_from_designation"];
 			$alloc_num = $row["alloc_num"]; $storage_temp = $row["storage_temp"]; $transport_temp = $row["transport_temp"];
-			$total_cost += (float)implode("", explode(",",$row["total"]));
+			$total_cost += (float)$row["quantity"] * (float)$row["cost"];
 			$ptr_body .= "<tr>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
 			        <td style=\"width: 24.6px; height: 13.75px; text-align:center; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
@@ -211,7 +211,7 @@ function get_ptr_details(){
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["quantity"]."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["unit"]."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["cost"]."</td>
-			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".number_format((float)$row["total"], 2)."</td>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["cost"], 2)."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 11px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\">".$row["remarks"]."</td>
 			      </tr>";

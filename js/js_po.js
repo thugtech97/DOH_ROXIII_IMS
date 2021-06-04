@@ -971,13 +971,17 @@ function print_dl(supplier,po_list,separator){
 		    printWindow.document.write('<html><head><title>' + title + '</title><link rel="stylesheet" type="text/css" href="css/demand_letter.css"></head><body>');
 		    printWindow.document.write(divElements);
 		    printWindow.document.write('</body></html>');
+		    
+		    /*
 		    printWindow.document.close();
 		    printWindow.focus();
+		    
 		    //The Timeout is ONLY to make Safari work, but it still works with FF, IE & Chrome.
 		    setTimeout(function() {
 		        printWindow.print();
 		        printWindow.close();
 		    }, 100);
+		    */
     	}
     });
 }
