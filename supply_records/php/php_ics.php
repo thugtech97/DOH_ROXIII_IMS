@@ -5,6 +5,20 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function iss_validator(){
+	global $conn;
+
+	$ics_no = mysqli_real_escape_string($conn, $_POST["ics_no"]);
+	$sql = mysqli_query($conn, "SELECT view_ics FROM tbl_ics WHERE ics_no = '$ics_no'");
+	$view_ics = mysqli_fetch_assoc($sql)["view_ics"];
+	$parts = explode(".", $view_ics);
+	if(end($parts) == "pdf" || end($parts) == "PDF"){
+		echo "1";
+	}else{
+		echo "0";
+	}
+}
+
 function update_quantity(){
 	global $conn;
 
@@ -510,6 +524,9 @@ switch($call_func){
 		break;
 	case "check_pn_exist":
 		check_pn_exist();
+		break;
+	case "iss_validator":
+		iss_validator();
 		break;
 }
 

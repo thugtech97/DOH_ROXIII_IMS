@@ -358,27 +358,38 @@ function calculate_all_total(){
 }
 
 function to_issue(par_no, ref_no){
-    swal({
-        title: "Are you sure?",
-        text: "This PAR record will be issued as soon as you clicked 'Yes'",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes",
-        closeOnConfirm: false
-    }, function () {
-        $.ajax({
-            type: "POST",
-            data: {call_func: "to_issue", par_no: par_no},
-            url: "php/php_par.php",
-            success: function(data){
-                swal("Issued!", "The items on PAR No. "+par_no+" is now issued.", "success");
-                setTimeout(function () {
-                    location.reload();
-                  }, 1500);
+    $.ajax({
+        type: "POST",
+        data: {call_func: "iss_validator", par_no: par_no},
+        url: "php/php_par.php",
+        success: function(data){
+            if(data == "1"){
+                swal({
+                    title: "Are you sure?",
+                    text: "This PAR record will be issued as soon as you clicked 'Yes'",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes",
+                    closeOnConfirm: false
+                }, function () {
+                    $.ajax({
+                        type: "POST",
+                        data: {call_func: "to_issue", par_no: par_no},
+                        url: "php/php_par.php",
+                        success: function(data){
+                            swal("Issued!", "The items on PAR No. "+par_no+" is now issued.", "success");
+                            setTimeout(function () {
+                                location.reload();
+                              }, 1500);
+                        }
+                    });
+                });
+            }else{
+                swal("Please upload first the scanned copy of this PAR record.","", "error");
             }
-        });
-    });
+        }
+    });    
 }
 
 function modify(par_no){

@@ -17,7 +17,7 @@ if(!isset($_SESSION["username"])){
     ?>
     <link href="../css/plugins/dataTables/datatables.min.css" rel="stylesheet">
 
-    <title>INVENTORY MS | Reference Tables - Area</title>
+    <title>INVENTORY MS | Reference Tables - RCC</title>
 
 </head>
 <body style="color: black;">

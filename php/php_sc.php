@@ -352,44 +352,49 @@ function print_stock_card(){
 		$supplier = $row["supplier"];
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_received','$main_stocks','$reference_no','$supplier','','IN')");
 	}
-	$sql = mysqli_query($conn, "SELECT date_released,ics_no,quantity,received_by,remarks FROM tbl_ics WHERE item LIKE '$item_name' AND description LIKE '$item_desc' AND issued = '1'");
+	$sql = mysqli_query($conn, "SELECT issued,date_released,ics_no,quantity,received_by,remarks FROM tbl_ics WHERE item LIKE '$item_name' AND description LIKE '$item_desc'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$reference_no = $row["ics_no"];
 		$quantity = $row["quantity"];
 		$area = $row["received_by"];
-		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','','OUT')");
+		$remarks = $row["issued"];
+		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
 
-	$sql = mysqli_query($conn, "SELECT date_released,par_no,quantity,received_by,remarks FROM tbl_par WHERE item LIKE '$item_name' AND description LIKE '$item_desc' AND issued = '1'");
+	$sql = mysqli_query($conn, "SELECT issued,date_released,par_no,quantity,received_by,remarks FROM tbl_par WHERE item LIKE '$item_name' AND description LIKE '$item_desc'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$reference_no = $row["par_no"];
 		$quantity = $row["quantity"];
 		$area = $row["received_by"];
-		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','','OUT')");
+		$remarks = $row["issued"];
+		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
 	
-	$sql = mysqli_query($conn, "SELECT tbl_ris.date,ris_no,quantity,requested_by,remarks FROM tbl_ris WHERE item LIKE '$item_name' AND description LIKE '$item_desc' AND issued = '1'");
+	$sql = mysqli_query($conn, "SELECT issued,tbl_ris.date,ris_no,quantity,requested_by,remarks FROM tbl_ris WHERE item LIKE '$item_name' AND description LIKE '$item_desc'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date"];
 		$reference_no = $row["ris_no"];
 		$quantity = $row["quantity"];
 		$area = $row["requested_by"];
-		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','','OUT')");
+		$remarks = $row["issued"];
+		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
 	
-	$sql = mysqli_query($conn, "SELECT date_released,ptr_no,quantity,tbl_ptr.to,remarks FROM tbl_ptr WHERE item = '$item_name' AND description LIKE '$item_desc' AND issued = '1'");
+	$sql = mysqli_query($conn, "SELECT issued,date_released,ptr_no,quantity,tbl_ptr.to,remarks FROM tbl_ptr WHERE item = '$item_name' AND description LIKE '$item_desc'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$reference_no = $row["ptr_no"];
 		$quantity = $row["quantity"];
 		$area = $row["to"];
-		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','','OUT')");
+		$remarks = $row["issued"];
+		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
 
 	$read_sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_stockcard.date, 1, 10) AS date_r,quantity,reference_no,office,remarks,status FROM tbl_stockcard ORDER BY tbl_stockcard.date ASC");
 	while($row = mysqli_fetch_assoc($read_sql)){
+		$remarks = ($row["remarks"] == "1") ? "Released" : "Issued";
 		if($row["status"] == "IN"){
 			$qty_balance+=(int)$row["quantity"];
 			$sc_drugs.="<tr>
@@ -413,7 +418,7 @@ function print_stock_card(){
 		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["quantity"]."</td>
 		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["office"]."</td>
 		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$qty_balance."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
+		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$remarks."</td>
 		    </tr>";
 		}
 		$rows++;

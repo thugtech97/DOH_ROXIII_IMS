@@ -5,6 +5,20 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function iss_validator(){
+	global $conn;
+
+	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);
+	$sql = mysqli_query($conn, "SELECT view_ris FROM tbl_ris WHERE ris_no = '$ris_no'");
+	$view_ris = mysqli_fetch_assoc($sql)["view_ris"];
+	$parts = explode(".", $view_ris);
+	if(end($parts) == "pdf" || end($parts) == "PDF"){
+		echo "1";
+	}else{
+		echo "0";
+	}
+}
+
 function update(){
 	global $conn;
 
@@ -476,6 +490,9 @@ switch($call_func){
 		break;
 	case "update":
 		update();
+		break;
+	case "iss_validator":
+		iss_validator();
 		break;
 }
 

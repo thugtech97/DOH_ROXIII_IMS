@@ -304,27 +304,39 @@ function get_rows(){
 }
 
 function to_issue(ris_no, ref_no){
-    swal({
-        title: "Are you sure?",
-        text: "This RIS record will be issued as soon as you clicked 'Yes'",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes",
-        closeOnConfirm: false
-    }, function () {
-        $.ajax({
-            type: "POST",
-            data: {call_func: "to_issue", ris_no: ris_no},
-            url: "php/php_ris.php",
-            success: function(data){
-                swal("Issued!", "The items on RIS No. "+ris_no+" is now issued.", "success");
-                setTimeout(function () {
-                    location.reload();
-                  }, 1500);
+    $.ajax({
+        type: "POST",
+        data: {call_func: "iss_validator", ris_no: ris_no},
+        url: "php/php_ris.php",
+        success: function(data){
+            if(data == "1"){
+                swal({
+                    title: "Are you sure?",
+                    text: "This RIS record will be issued as soon as you clicked 'Yes'",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes",
+                    closeOnConfirm: false
+                }, function () {
+                    $.ajax({
+                        type: "POST",
+                        data: {call_func: "to_issue", ris_no: ris_no},
+                        url: "php/php_ris.php",
+                        success: function(data){
+                            swal("Issued!", "The items on RIS No. "+ris_no+" is now issued.", "success");
+                            setTimeout(function () {
+                                location.reload();
+                              }, 1500);
+                        }
+                    });
+                });        
+            }else{
+                 swal("Please upload first the scanned copy of this RIS record.","", "error");
             }
-        });
+        }
     });
+
 }
 
 function modify(ris_no){

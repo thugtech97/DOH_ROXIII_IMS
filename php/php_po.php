@@ -573,7 +573,7 @@ function insert_po_various(){
 		$unit_cost = $items[$i][6];
 		$quantity = $items[$i][7];
 		$main_stocks = explode(" ", $quantity)[0];
-		if(mysqli_query($conn, "INSERT INTO tbl_po(po_number,date_received,procurement_mode,delivery_term,payment_term,pr_no, supplier_id,inspection_status,item_id,item_name,description,category,sn_ln,exp_date,unit_cost,main_stocks,quantity,end_user,date_conformed,date_delivered,status,po_type) VALUES('$po_number','$date_received','$procurement_mode','$delivery_term','$payment_term','$pr_no','$supplier_id','$inspect','$item_id','$item_name','$description','$category','$sn_ln','$exp_date','$unit_cost','$main_stocks','$quantity','$end_user','$date_conformed','$date_delivered','$status','$category')")){
+		if(mysqli_query($conn, "INSERT INTO tbl_po(po_number,date_received,procurement_mode,delivery_term,payment_term,pr_no, supplier_id,inspection_status,item_id,item_name,description,category,sn_ln,exp_date,unit_cost,main_stocks,quantity,end_user,date_conformed,date_delivered,status,po_type,entry_type) VALUES('$po_number','$date_received','$procurement_mode','$delivery_term','$payment_term','$pr_no','$supplier_id','$inspect','$item_id','$item_name','$description','$category','$sn_ln','$exp_date','$unit_cost','$main_stocks','$quantity','$end_user','$date_conformed','$date_delivered','$status','$category','0')")){
 			if($sn_ln != ""){
 				$last_id = (int)mysqli_insert_id($conn);
 				$serials_lots = explode("|", $sn_ln);
