@@ -394,7 +394,7 @@ function print_stock_card(){
 
 	$read_sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_stockcard.date, 1, 10) AS date_r,quantity,reference_no,office,remarks,status FROM tbl_stockcard ORDER BY tbl_stockcard.date ASC");
 	while($row = mysqli_fetch_assoc($read_sql)){
-		$remarks = ($row["remarks"] == "1") ? "Released" : "Issued";
+		$remarks = ($row["remarks"] == "1") ? "✔️" : "❌";
 		if($row["status"] == "IN"){
 			$qty_balance+=(int)$row["quantity"];
 			$sc_drugs.="<tr>
