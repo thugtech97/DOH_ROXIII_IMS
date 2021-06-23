@@ -117,7 +117,7 @@ if(!isset($_SESSION["username"])){
                         <div class="col-lg-10">
                             <h2>Supplier</h2>
                             <?php
-                            if($_SESSION["role"] == "SUPPLY"){ ?>
+                            if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
                                         <button type="button" class="btn btn-primary" onclick="add_supplier();">

@@ -118,7 +118,7 @@ if(!isset($_SESSION["username"])){
                         <div class="col-lg-10">
                             <h2>Property Transfer Report</h2>
                             <?php
-                            if($_SESSION["role"] == "SUPPLY"){ ?>
+                            if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
                                         <button type="button" class="btn btn-primary" id="btn_add_ptr" data-toggle="modal" data-target="#add_ptr">

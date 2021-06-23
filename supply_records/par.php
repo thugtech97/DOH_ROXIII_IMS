@@ -116,7 +116,7 @@ if(!isset($_SESSION["username"])){
                         <div class="col-lg-10">
                             <h2>Property Acknowledgement Receipt</h2>
                             <?php
-                            if($_SESSION["role"] == "SUPPLY"){ ?>
+                            if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_par">
