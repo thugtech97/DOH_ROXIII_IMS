@@ -6,7 +6,7 @@
                 <h5 class="modal-title"><i class="fa fa-picture-o"></i> PO No. <span id="po_num"></span></h5>
             </div>
             <div class="modal-body">
-                <?php if($_SESSION["role"] == "SUPPLY") { ?><input type="file" name="file_upload" id="file_upload" accept="application/pdf" class="file pull-right" multiple> <?php } ?>
+                <?php if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") { ?><input type="file" name="file_upload" id="file_upload" accept="application/pdf" class="file pull-right" multiple> <?php } ?>
                 <embed id="img_po" src="" type="application/pdf" height="1200" width="100%"/>
             </div>
             <div class="modal-footer">
