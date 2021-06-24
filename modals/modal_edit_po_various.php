@@ -160,7 +160,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <?php if($_SESSION["role"] == "SUPPLY"){ ?>
+                <?php if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                     <button type="button" class="btn btn-primary" onclick="update();">Save changes</button>
                 <?php } ?>
             </div>
