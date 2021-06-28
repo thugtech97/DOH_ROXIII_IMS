@@ -228,7 +228,7 @@ function insert_par(){
 			$cost = $items[$i][9];
 			$total = $items[$i][10];
 			$remarks = $items[$i][11];
-			mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area) VALUES ('$par_no', '$entity_name', '$fund_cluster', '$ref_no', '$item', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$cost', '$total', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$area')");
+			mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$par_no', '$entity_name', '$fund_cluster', '$ref_no', '$item', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$cost', '$total', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$area', '$item_id')");
 			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$ref_no' AND po_id = '$item_id'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];

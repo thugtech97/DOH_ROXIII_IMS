@@ -134,13 +134,14 @@ function delete_record(){
 	$field = mysqli_real_escape_string($conn, $_POST["field"]);
 	$table = mysqli_real_escape_string($conn, $_POST["table"]);
 	$number=mysqli_real_escape_string($conn, $_POST["number"]);
-	$sql = mysqli_query($conn, "SELECT item, description, quantity, serial_no, reference_no FROM ".$table." WHERE ".$field." LIKE '".$number."'");
+	$sql = mysqli_query($conn, "SELECT item, description, quantity, serial_no, reference_no, po_id FROM ".$table." WHERE ".$field." LIKE '".$number."'");
 	while($row = mysqli_fetch_assoc($sql)){
-		$item = mysqli_real_escape_string($conn, $row["item"]); $description = mysqli_real_escape_string($conn, $row["description"]); $reference_no = mysqli_real_escape_string($conn, $row["reference_no"]); $quantity = $row["quantity"]; $serial_no = $row["serial_no"];
-		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description' AND sn_ln LIKE '%$serial_no%'");
+		$item = mysqli_real_escape_string($conn, $row["item"]); $description = mysqli_real_escape_string($conn, $row["description"]); $reference_no = mysqli_real_escape_string($conn, $row["reference_no"]); $quantity = $row["quantity"]; $serial_no = $row["serial_no"];$pid = $row["po_id"];
+		$po_id = ($pid == "0") ? "" : " AND po_id = '".$pid."'";
+		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description' AND sn_ln LIKE '%$serial_no%'".$po_id."");
 		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 		$newrstocks = ((int)$rstocks[0] + (int)$quantity)." ".$rstocks[1];
-		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description' AND sn_ln LIKE '%$serial_no%'");
+		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description' AND sn_ln LIKE '%$serial_no%'".$po_id."");
 		if($row["serial_no"] != null){
 			$serials = explode(",", $row["serial_no"]);
 			for($j = 0; $j < count($serials); $j++){
@@ -432,7 +433,7 @@ function insert_ics(){
 			$cost = $items[$i][9];
 			$total = $items[$i][10];
 			$remarks = $items[$i][11];
-			mysqli_query($conn, "INSERT INTO tbl_ics(ics_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area) VALUES ('$ics_no', '$entity_name', '$fund_cluster', '$ref_no', '$item', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$cost', '$total', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$area')");
+			mysqli_query($conn, "INSERT INTO tbl_ics(ics_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$ics_no', '$entity_name', '$fund_cluster', '$ref_no', '$item', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$cost', '$total', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$area', '$item_id')");
 			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$ref_no' AND po_id = '$item_id'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
