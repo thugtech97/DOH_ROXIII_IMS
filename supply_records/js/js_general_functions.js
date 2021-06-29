@@ -82,8 +82,8 @@ function uploadFiles(event) {
     });
 }
 
-function edit_quantity(id,quantity,po_number,item,description, table, field){
-    //alert(id+" - "+quantity+" - "+po_number+" - "+item+" - "+description);
+function edit_quantity(id,quantity,po_number,item,description, table, field, po_id){
+    //alert("PO ID: "+po_id);
     var new_quantity = prompt("Enter new quantity:", quantity);
     $.ajax({
         type: "POST",
@@ -109,7 +109,7 @@ function edit_quantity(id,quantity,po_number,item,description, table, field){
                 swal("Invalid!", "Remaining stocks cannot be negative.", "warning");
             }
         }
-    })
+    });
 }
 
 $(document).on('click', '.page-link', function(){

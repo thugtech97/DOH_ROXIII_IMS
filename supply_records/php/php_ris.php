@@ -49,7 +49,7 @@ function modify(){
 
 	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);
 	$entity_name = "";$division = "";$office = "";$date = "";$fund_cluster = "";$rcc = "";$requested_by = "";$requested_by_designation="";$issued_by = "";$issued_by_designation="";$approved_by="";$approved_by_designation="";$purpose = "";$table = "";
-	$sql = mysqli_query($conn, "SELECT ris_id,entity_name, division, office, SUBSTRING(tbl_ris.date,1,10) AS date_r, fund_cluster, rcc, requested_by, requested_by_designation, issued_by, issued_by_designation, approved_by, approved_by_designation, purpose, reference_no, item, description, category, quantity, unit, unit_cost, total, quantity_stocks, remarks FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
+	$sql = mysqli_query($conn, "SELECT ris_id, po_id, entity_name, division, office, SUBSTRING(tbl_ris.date,1,10) AS date_r, fund_cluster, rcc, requested_by, requested_by_designation, issued_by, issued_by_designation, approved_by, approved_by_designation, purpose, reference_no, item, description, category, quantity, unit, unit_cost, total, quantity_stocks, remarks FROM tbl_ris WHERE ris_no LIKE '$ris_no'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name = $row["entity_name"];$division = $row["division"];$office = $row["office"];$date = $row["date_r"];$fund_cluster = $row["fund_cluster"];
 		$rcc = $row["rcc"];$requested_by = $row["requested_by"];$requested_by_designation = $row["requested_by_designation"];$issued_by = $row["issued_by"];$issued_by_designation=$row["issued_by_designation"];$approved_by = $row["approved_by"];$approved_by_designation=$row["approved_by_designation"];$purpose = $row["purpose"];
@@ -58,7 +58,7 @@ function modify(){
 					<td>".$row["item"]."</td>
 					<td>".$row["description"]."</td>
 					<td>".$row["category"]."</td>
-					<td onclick=\"edit_quantity('".$row["ris_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".$row["item"]."','".$row["description"]."', 'tbl_ris', 'ris_id');\"><a><u>".$row["quantity"]."</u></a></td>
+					<td onclick=\"edit_quantity('".$row["ris_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".mysqli_real_escape_string($conn, $row["item"])."','".mysqli_real_escape_string($conn, $row["description"])."', 'tbl_ris', 'ris_id', '".$row["po_id"]."');\"><a><u>".$row["quantity"]."</u></a></td>
 					<td>".$row["unit"]."</td>
 					<td>".number_format((float)$row["unit_cost"],2)."</td>
 					<td>".number_format((float)$row["unit_cost"] * $row["quantity"],2)."</td>

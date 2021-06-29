@@ -53,7 +53,7 @@ function modify(){
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
 	$reference_no = "";$from = "";$to = "";$entity_name = "";$fund_cluster = "";$approved_by = "";$approved_by_designation = "";$received_from = "";$received_from_designation = "";$date_released = "";$area = "";$transfer_type = "";$reason = ""; $table = ""; $address = "";
 	$alloc_num = ""; $storage_temp = ""; $transport_temp = "";
-	$sql = mysqli_query($conn, "SELECT ptr_id,reference_no, tbl_ptr.from, tbl_ptr.to, entity_name, fund_cluster, approved_by, approved_by_designation, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, area, transfer_type, reason, address, alloc_num, storage_temp, transport_temp, item, description, serial_no, exp_date, category, property_no, quantity, unit, cost, total, conditions, remarks FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
+	$sql = mysqli_query($conn, "SELECT ptr_id, po_id, reference_no, tbl_ptr.from, tbl_ptr.to, entity_name, fund_cluster, approved_by, approved_by_designation, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, area, transfer_type, reason, address, alloc_num, storage_temp, transport_temp, item, description, serial_no, exp_date, category, property_no, quantity, unit, cost, total, conditions, remarks FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$from = $row["from"];$to = $row["to"];$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$approved_by = $row["approved_by"];
 		$approved_by_designation = $row["approved_by_designation"];$received_from = $row["received_from"];$received_from_designation = $row["received_from_designation"];
@@ -66,7 +66,7 @@ function modify(){
 					<td>".$row["exp_date"]."</td>
 					<td>".$row["category"]."</td>
 					<td>".$row["property_no"]."</td>
-					<td onclick=\"edit_quantity('".$row["ptr_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".$row["item"]."','".$row["description"]."', 'tbl_ptr', 'ptr_id');\"><a><u>".$row["quantity"]."</u></a></td>
+					<td onclick=\"edit_quantity('".$row["ptr_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".mysqli_real_escape_string($conn, $row["item"])."','".mysqli_real_escape_string($conn, $row["description"])."', 'tbl_ptr', 'ptr_id', '".$row["po_id"]."');\"><a><u>".$row["quantity"]."</u></a></td>
 					<td>".$row["unit"]."</td>
 					<td>".number_format((float)$row["cost"], 2)."</td>
 					<td>".number_format((float)$row["total"], 2)."</td>
@@ -207,6 +207,7 @@ function get_ptr_details(){
 	$rows_limit = 35; $rows_occupied = 0;
 	$ptr_body = "";
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
+	$item = "";
 	$sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, tbl_ptr.from, tbl_ptr.to, serial_no, exp_date, SUBSTRING(date_released, 1, 10) AS date_r, transfer_type, reference_no, item, description, quantity, unit, cost, total, remarks, reason, approved_by, approved_by_designation, received_from, received_from_designation,alloc_num,storage_temp,transport_temp FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
@@ -214,7 +215,7 @@ function get_ptr_details(){
 			$transfer_type = $row["transfer_type"]; $reason = $row["reason"]; $approved_by = $row["approved_by"]; $received_from = $row["received_from"];
 			$approved_by_designation = $row["approved_by_designation"];$received_from_designation = $row["received_from_designation"];
 			$alloc_num = $row["alloc_num"]; $storage_temp = $row["storage_temp"]; $transport_temp = $row["transport_temp"];
-			$total_cost += (float)$row["quantity"] * (float)$row["cost"];
+			$total_cost += (float)$row["quantity"] * (float)$row["cost"]; $item = $row["item"];
 			$ptr_body .= "<tr>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
 			        <td style=\"width: 24.6px; height: 13.75px; text-align:center; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
@@ -230,6 +231,22 @@ function get_ptr_details(){
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 11px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\">".$row["remarks"]."</td>
 			      </tr>";
 			      $rows_occupied+=2;
+		}
+		if($item == "COVID-19 VACCINE (Sinovac)"){
+			$ptr_body .= "<tr>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td style=\"width: 24.6px; height: 13.75px; text-align:center; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td colspan=\"2\" style=\"width: 24.6px; height: 13.75px; text-align:center;font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td colspan=\"6\" style=\"width: 24.6px; height: 13.75px; font-weight: bold; font-size: 15px; vertical-align: center; text-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">*** DO NOT FREEZE ***</td>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 11px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\"></td>
+			      </tr>";
+			      $rows_occupied+=1;	
 		}
 		for($i = 0; $i < ($rows_limit - $rows_occupied); $i++){
 			$ptr_body .= "<tr>
