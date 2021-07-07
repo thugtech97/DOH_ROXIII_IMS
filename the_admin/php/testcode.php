@@ -5,7 +5,7 @@ require "../../php/php_conn.php";
 function get_records1(){
 	global $conn;
 	
-	$sql = mysqli_query($conn, "SELECT DISTINCT ics_no, area, category, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no, property_no, serial_no FROM tbl_ics ORDER BY ics_id DESC");
+	$sql = mysqli_query($conn, "SELECT ics_no, item, area, cost, category, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no, property_no, serial_no FROM tbl_ics ORDER BY ics_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			echo "<tr>
@@ -13,8 +13,10 @@ function get_records1(){
 					<td>".$row["area"]."</td>
 					<td>".$row["ics_no"]."</td>
 					<td>".$row["reference_no"]."</td>
+					<td>".$row["item"]."</td>
 					<td>".$row["property_no"]."</td>
 					<td>".$row["serial_no"]."</td>
+					<td>".$row["cost"]."</td>
 					<td>".$row["category"]."</td>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["received_from"]."</td>
@@ -30,7 +32,7 @@ function get_records1(){
 function get_records(){
 	global $conn;
 	
-	$sql = mysqli_query($conn, "SELECT DISTINCT par_no, area, category, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no, property_no, serial_no FROM tbl_par ORDER BY par_id DESC");
+	$sql = mysqli_query($conn, "SELECT par_no, item, area, cost, category, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued, reference_no, property_no, serial_no FROM tbl_par ORDER BY par_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			echo "<tr>
@@ -38,8 +40,10 @@ function get_records(){
 					<td>".$row["area"]."</td>
 					<td>".$row["par_no"]."</td>
 					<td>".$row["reference_no"]."</td>
+					<td>".$row["item"]."</td>
 					<td>".$row["property_no"]."</td>
 					<td>".$row["serial_no"]."</td>
+					<td>".$row["cost"]."</td>
 					<td>".$row["category"]."</td>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["received_from"]."</td>

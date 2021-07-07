@@ -66,8 +66,10 @@
                                             <th>Area</th>
                                             <th>ICS No.</th>
                                             <th>PO No.</th>
+                                            <th>Item</th>
                                             <th>Property No.</th>
                                             <th>Serial No.</th>
+                                            <th>Unit Cost</th>
                                             <th>Category</th>
                                             <th>Date Released</th>
                                             <th>Received From</th>
