@@ -67,6 +67,7 @@
                                             <th>ICS No.</th>
                                             <th>PO No.</th>
                                             <th>Item</th>
+                                            <th>Description</th>
                                             <th>Property No.</th>
                                             <th>Serial No.</th>
                                             <th>Unit Cost</th>
