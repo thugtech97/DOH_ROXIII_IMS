@@ -115,6 +115,9 @@ if(!isset($_SESSION["username"])){
         </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
+                    <button class="btn btn-xs btn-success" onclick="$('#print_idr').modal();"><i class="fa fa-print"></i> Incoming Delivery Report</button>
+                </li>&nbsp;&nbsp;
+                <li>
                     <button class="btn btn-xs btn-primary" onclick="$('#print_ppe').modal();"><i class="fa fa-print"></i> PPE (ICT/Various Supplies)</button>
                 </li>&nbsp;&nbsp;
                 <li>
@@ -179,7 +182,11 @@ if(!isset($_SESSION["username"])){
                 <div class="ibox" style="border-style: solid; border-color: black; border-width: 1px;">
                     <div class="ibox-title">
                         <h5>Stockcard Preview&nbsp;&nbsp;&nbsp;<span id="loader" style="display: none;"><i class="fa fa-refresh fa-spin" style="color: black;"></i></span></h5>
-                        <span class="pull-right"><a class="btn btn-default btn-xs" onclick="print_sc();"><i class="fa fa-print"></i> Print</a></span>
+                        <div class="pull-right">
+                            <span><a class="btn btn-default btn-xs" onclick="load_sc_spec('1');" title="Show Released">✔️</a></span>
+                            <span><a class="btn btn-default btn-xs" onclick="load_sc_spec('0');" title="Show Unreleased">❌</a></span>
+                            <span><a class="btn btn-default btn-xs" onclick="print_sc();"><i class="fa fa-print"></i> Print</a></span>
+                        </div>
                     </div>
                     <div class="ibox-content" style="color: black;">
                         <?php require "reports/report_sc.php"; ?>

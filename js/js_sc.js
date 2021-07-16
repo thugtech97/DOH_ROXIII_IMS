@@ -1,4 +1,6 @@
 var category = "";
+var item_name = "";
+var item_desc = "";
 
 $(document).ready(function(){
 	$(".select2_demo_1").select2({
@@ -189,15 +191,15 @@ function load_item(c,s){
 $("#nestable").on('click','li .dd-handle',function (){
 	var element = $(this);
 	element.removeClass("dd-handle");
-    var item_name = $(this).find('b').text();
-    var item_desc = $(this).data("desc");
+    item_name = $(this).find('b').text();
+    item_desc = $(this).data("desc");
     $("#loader").show();
     $("#print_itemname").html("");
 	$("#desc").html("");
 	$("#sc_drugs").html("");
     $.ajax({
     	type: "POST",
-    	data: {call_func: "print_stock_card", item_name: item_name, item_desc: item_desc},
+    	data: {call_func: "print_stock_card", item_name: item_name, item_desc: item_desc, spec: ""},
     	url: "php/php_sc.php",
     	dataType: "JSON",
     	success: function(data){
@@ -209,6 +211,30 @@ $("#nestable").on('click','li .dd-handle',function (){
     	}
     });
 });
+
+function load_sc_spec(spc){
+	if(item_name != "" && item_desc != ""){
+		$("#loader").show();
+	    $("#print_itemname").html("");
+		$("#desc").html("");
+		$("#sc_drugs").html("");
+	    $.ajax({
+	    	type: "POST",
+	    	data: {call_func: "print_stock_card", item_name: item_name, item_desc: item_desc, spec: spc},
+	    	url: "php/php_sc.php",
+	    	dataType: "JSON",
+	    	success: function(data){
+	    		$("#loader").hide();
+	    		//element.addClass("dd-handle");
+	    		$("#print_itemname").html(item_name);
+	    		$("#desc").html(item_desc);
+	    		$("#sc_drugs").html(data["sc_drugs"]);
+	    	}
+	    });
+	}else{
+		alert("panget ka!!");
+	}
+}
 
 $("#category").ready(function(){
 	$.ajax({

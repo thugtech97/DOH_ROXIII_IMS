@@ -340,6 +340,9 @@ function print_stock_card(){
 	$qty_balance = 0;
 	$item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
 	$item_desc = mysqli_real_escape_string($conn, $_POST["item_desc"]);
+	$spec = mysqli_real_escape_string($conn, $_POST["spec"]);
+
+	$is_issued = ($spec == "") ? "" : " AND issued = '".$spec."'";
 
 	mysqli_query($conn, "TRUNCATE tbl_stockcard");
 	$rows+=round((float)strlen($item_desc) / 47.00);
@@ -352,7 +355,7 @@ function print_stock_card(){
 		$supplier = $row["supplier"];
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_received','$main_stocks','$reference_no','$supplier','','IN')");
 	}
-	$sql = mysqli_query($conn, "SELECT issued,date_released,ics_no,quantity,received_by,remarks FROM tbl_ics WHERE item LIKE '$item_name' AND description LIKE '$item_desc'");
+	$sql = mysqli_query($conn, "SELECT issued,date_released,ics_no,quantity,received_by,remarks FROM tbl_ics WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$reference_no = $row["ics_no"];
@@ -362,7 +365,7 @@ function print_stock_card(){
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
 
-	$sql = mysqli_query($conn, "SELECT issued,date_released,par_no,quantity,received_by,remarks FROM tbl_par WHERE item LIKE '$item_name' AND description LIKE '$item_desc'");
+	$sql = mysqli_query($conn, "SELECT issued,date_released,par_no,quantity,received_by,remarks FROM tbl_par WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$reference_no = $row["par_no"];
@@ -372,7 +375,7 @@ function print_stock_card(){
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
 	
-	$sql = mysqli_query($conn, "SELECT issued,tbl_ris.date,ris_no,quantity,requested_by,remarks FROM tbl_ris WHERE item LIKE '$item_name' AND description LIKE '$item_desc'");
+	$sql = mysqli_query($conn, "SELECT issued,tbl_ris.date,ris_no,quantity,requested_by,remarks FROM tbl_ris WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date"];
 		$reference_no = $row["ris_no"];
@@ -382,7 +385,7 @@ function print_stock_card(){
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
 	
-	$sql = mysqli_query($conn, "SELECT issued,date_released,ptr_no,quantity,tbl_ptr.to,remarks FROM tbl_ptr WHERE item = '$item_name' AND description LIKE '$item_desc'");
+	$sql = mysqli_query($conn, "SELECT issued,date_released,ptr_no,quantity,tbl_ptr.to,remarks FROM tbl_ptr WHERE item = '$item_name' AND description LIKE '$item_desc'".$is_issued."");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
 		$reference_no = $row["ptr_no"];
