@@ -232,7 +232,7 @@ function get_ptr_details(){
 			      </tr>";
 			      $rows_occupied+=2;
 		}
-		if($item == "COVID-19 VACCINE (Sinovac)"){
+		if($item == "COVID-19 VACCINE (Sinovac)" || $item == "Covid-19 Vaccine Astrazeneca" || $item == "(JANSSEN COVID -19 VACCINE) VIRAL VECTOR" || $item == "COVID-19 VACCINE (AstraZeneca) viral vector"){
 			$ptr_body .= "<tr>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
 			        <td style=\"width: 24.6px; height: 13.75px; text-align:center; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
