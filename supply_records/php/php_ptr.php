@@ -208,7 +208,7 @@ function get_ptr_details(){
 	$ptr_body = "";
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
 	$item = "";
-	$sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, tbl_ptr.from, tbl_ptr.to, serial_no, exp_date, SUBSTRING(date_released, 1, 10) AS date_r, transfer_type, reference_no, item, description, quantity, unit, cost, total, remarks, reason, approved_by, approved_by_designation, received_from, received_from_designation,alloc_num,storage_temp,transport_temp FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
+	$sql = mysqli_query($conn, "SELECT po_id, entity_name, fund_cluster, tbl_ptr.from, tbl_ptr.to, serial_no, exp_date, SUBSTRING(date_released, 1, 10) AS date_r, transfer_type, reference_no, item, description, quantity, unit, cost, total, remarks, reason, approved_by, approved_by_designation, received_from, received_from_designation,alloc_num,storage_temp,transport_temp FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$entity_name = $row["entity_name"]; $fund_cluster = $row["fund_cluster"]; $from = $row["from"]; $to = $row["to"]; $date = $row["date_r"];
@@ -216,9 +216,10 @@ function get_ptr_details(){
 			$approved_by_designation = $row["approved_by_designation"];$received_from_designation = $row["received_from_designation"];
 			$alloc_num = $row["alloc_num"]; $storage_temp = $row["storage_temp"]; $transport_temp = $row["transport_temp"];
 			$total_cost += (float)$row["quantity"] * (float)$row["cost"]; $item = $row["item"];
+			$date_acquired = mysqli_fetch_assoc(mysqli_query($conn, "SELECT date_delivered FROM tbl_po WHERE po_id = '".$row["po_id"]."'"))["date_delivered"];
 			$ptr_body .= "<tr>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
-			        <td style=\"width: 24.6px; height: 13.75px; text-align:center; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+			        <td style=\"width: 24.6px; height: 13.75px; text-align:center; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$date_acquired."</td>
 			        <td colspan=\"2\" style=\"width: 24.6px; height: 13.75px; text-align:center;font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["reference_no"]."</td>
 			        <td colspan=\"5\" style=\"width: 24.6px; height: 13.75px; font-size: 13px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"><b>".$row["item"]."</b><br>- ".$row["description"]."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["serial_no"]."</td>

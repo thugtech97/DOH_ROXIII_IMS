@@ -3,6 +3,61 @@
 require "php_conn.php";
 require "php_general_functions.php";
 
+function get_idr(){
+	global $conn;
+
+	$from = mysqli_real_escape_string($conn, $_POST["from"]);
+	$to = mysqli_real_escape_string($conn, $_POST["to"]);
+	$end = false;
+	$tbody = "";
+
+	$sub_total = 0.00; $grand_total = 0.00;
+
+	$months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+	$dates = array();
+
+	while(!$end) {
+		array_push($dates, $from);
+		if($from == $to) {
+			$end = true;
+			break;
+		}
+		$from_arr = explode("-", $from);
+		if(((int)$from_arr[1]) < 12) {
+			$from = $from_arr[0]."-".str_pad(((int)$from_arr[1]) + 1, 2, '0', STR_PAD_LEFT);
+		}else{
+			$from = (((int)$from_arr[0]) + 1 )."-01";
+		}
+	}
+	foreach ($dates as $date) {
+		$sql = mysqli_query($conn, "SELECT p.date_delivered, p.end_user, p.po_number, s.supplier, p.item_name, p.description, p.main_stocks, p.unit_cost FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.date_delivered LIKE '%$date%' AND p.status = 'Delivered' ORDER BY p.date_delivered ASC");
+		while($row = mysqli_fetch_assoc($sql)){
+			$tbody.="<tr>
+				      <td style=\"width: 32.4px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
+				      <td style=\"width: 72.6px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["date_delivered"]."</td>
+				      <td style=\"width: 59.4px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["end_user"]."</td>
+				      <td style=\"width: 105px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["po_number"]."</td>
+				      <td style=\"width: 96.6px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["supplier"]."</td>
+				      <td style=\"width: 294.6px; text-align: left; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>".$row["item_name"]."</b> - ".$row["description"]."</td>
+				      <td style=\"width: 119.4px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["main_stocks"] * (float)$row["unit_cost"], 2)."</td>
+				    </tr>";
+				    $sub_total+=((float)$row["main_stocks"] * (float)$row["unit_cost"]);
+		}
+		$date_arr = explode("-", $date);
+		$tbody.="<tr>
+				      <td colspan=\"2\" style=\"width: 32.4px; height: 18px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 1px; border-left-width: 1px; border-bottom-style: solid; border-left-style: solid; background-color: rgb(255, 255, 0);border-right-color: rgb(0, 0, 0);border-right-width: 1px;border-right-style: solid;\">".strtoupper($months[(int)$date_arr[1] - 1])." ".$date_arr[0]."</td>
+				      <td style=\"width: 59.4px; height: 18px; text-align: center; font-size: 9px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+				      <td style=\"width: 105px; height: 18px; text-align: center; font-size: 9px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+				      <td style=\"width: 96.6px; height: 18px; text-align: center; font-size: 9px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\"></td>
+				      <td style=\"width: 294.6px; height: 18px; text-align: left; font-size: 9px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\">SUB - TOTAL P</td>
+				      <td style=\"width: 119.4px; height: 18px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid; background-color: rgb(255, 255, 0);\">".number_format($sub_total, 2)."</td>
+				    </tr>";
+				    $grand_total+=$sub_total;
+				    $sub_total = 0.00;
+	}
+	echo json_encode(array("tbody"=>$tbody, "grand_total"=>number_format($grand_total,2)));
+}
+
 function get_rpci(){
 	global $conn;
 
@@ -78,7 +133,7 @@ function print_wi(){
 	while($row = mysqli_fetch_assoc($sql)){
 		$category = $row["category"];
 		$sub_total = 0.00;
-		$sql2 = mysqli_query($conn, "SELECT p.end_user, p.po_number, p.item_name, s.supplier, p.date_delivered, p.description, p.quantity, p.sn_ln, p.exp_date, p.unit_cost FROM tbl_po AS p, ref_supplier AS s WHERE p.end_user LIKE '%$filter%' AND p.supplier_id = s.supplier_id AND p.category = '$category'  AND (p.status = 'Delivered' OR p.status = '') ORDER BY p.end_user ASC");
+		$sql2 = mysqli_query($conn, "SELECT p.end_user, p.po_number, p.item_name, s.supplier, p.date_delivered, p.description, p.quantity, p.sn_ln, p.exp_date, p.unit_cost FROM tbl_po AS p, ref_supplier AS s WHERE p.end_user LIKE '%$filter%' AND p.supplier_id = s.supplier_id AND p.category = '$category' AND (p.status = 'Delivered' OR p.status = '') ORDER BY p.end_user ASC");
 		if(mysqli_num_rows($sql2) != 0){
 			while($row2 = mysqli_fetch_assoc($sql2)){
 				$quantity_unit = explode(" ", $row2["quantity"]);
@@ -461,7 +516,9 @@ switch($call_func){
 	case "get_rpci":
 		get_rpci();
 		break;
-
+	case "get_idr":
+		get_idr();
+		break;
 }
 
 ?>

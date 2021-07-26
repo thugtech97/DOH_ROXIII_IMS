@@ -34,6 +34,9 @@ function get_ppe_details(month,year){
 function get_rsmi_details(month,year){
 	var year_month = year+"-"+month;
 	$("#rmonth").html($("#rsmi_month option:selected").text());$("#ryear").html($("#rsmi_year option:selected").text());
+	$("#rsmi_tbody").html("<tr>"+
+                            "<td colspan=\"10\"><center><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></center></td>"+
+                        "</tr>");
 	$.ajax({
 		type: "POST",
 		data: {call_func: "get_rsmi_details", year_month: year_month},
@@ -42,6 +45,33 @@ function get_rsmi_details(month,year){
 			$("#rsmi_tbody").html(data);
 		}
 	});
+}
+
+function get_idr_details(from, to){
+	if(from != null && to != null){
+		var from_arr = from.split("-");
+		var to_arr = to.split("-");	
+		if(parseInt(from_arr[0]) <= parseInt(to_arr[0]) && parseInt(from_arr[1]) <= parseInt(to_arr[1])){
+			$("#lbl_idrfrom").html($("#from_idr option:selected").text().toUpperCase());$("#lbl_idrto").html($("#to_idr option:selected").text().toUpperCase());
+			$("#idr_tbody").html("<tr>"+
+                                    "<td colspan=\"7\"><center><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></center></td>"+
+                                "</tr>");
+			$.ajax({
+				type: "POST",
+				data: {call_func: "get_idr", from: from, to: to},
+				url: "php/php_sc.php",
+				dataType: "JSON",
+				success: function(data){
+					$("#idr_tbody").html(data["tbody"]);
+					$("#idr_gtotal").html(data["grand_total"]);
+				}
+			});
+		}else{
+			swal("Invalid date selections!", "Please select a valid date range.", "error");
+			$("#idr_tbody").html("");
+			$("#idr_gtotal").html("0.00");
+		}
+	}
 }
 
 function excel_ppe(){
@@ -89,6 +119,23 @@ function excel_rsmi(){
 
 function print_rsmi(){
 	var divContents = $("#report_rsmi").html(); 
+	var a = window.open('', '', 'height=1500, width=800'); 
+	a.document.write('<html>');
+  	a.document.write('<body><center>');
+  	a.document.write('<table><tr>');
+	a.document.write('<td>'+divContents+'</td>'); 
+	a.document.write('</tr></table>');
+  	a.document.write('</center></body></html>');
+	a.document.close();
+	a.print();
+}
+
+function excel_idr(){
+
+}
+
+function print_idr(){
+	var divContents = $("#report_idr").html(); 
 	var a = window.open('', '', 'height=1500, width=800'); 
 	a.document.write('<html>');
   	a.document.write('<body><center>');
@@ -298,6 +345,14 @@ $("#tbl_ppe:has(td)").click(function(e) {
 	if(account_code != null){
 		clickedCell.html(account_code);
 	}
+});
+
+$("#from_idr").change(function(){
+	get_idr_details($("#from_idr").val(), $("#to_idr").val());
+});
+
+$("#to_idr").change(function(){
+	get_idr_details($("#from_idr").val(), $("#to_idr").val());
 });
 
 $("#inv_rpci").keyup(function(){

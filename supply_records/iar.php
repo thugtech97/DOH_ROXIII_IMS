@@ -156,7 +156,19 @@ if(!isset($_SESSION["username"])){
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th colspan="7"><center><h1><i class="fa fa-spinner fa-spin"></i></h1></center></th>
+                                            <th colspan="7">
+                                                <center>
+                                                    <div class="spiner-example">
+                                                        <div class="sk-spinner sk-spinner-wave">
+                                                            <div class="sk-rect1"></div>
+                                                            <div class="sk-rect2"></div>
+                                                            <div class="sk-rect3"></div>
+                                                            <div class="sk-rect4"></div>
+                                                            <div class="sk-rect5"></div>
+                                                        </div>
+                                                    </div>
+                                                </center>
+                                            </th>
                                         </tr>
                                     </tbody>
                                 </table>

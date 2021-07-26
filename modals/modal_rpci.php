@@ -36,6 +36,52 @@
                 <h5 class="modal-title"><i class="fa fa-print"></i> Generate IDR</h5>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">From:</label>
+                                    <div class="col-lg-9">
+                                        <select id="from_idr" class="select2_demo_1 form-control">
+                                            <option selected disabled></option>
+                                            <script type="text/javascript">
+                                                var month_idr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                                                for(var i = 2020; i <= 2040; i++){
+                                                    for(var j = 0; j < month_idr.length; j++){
+                                                        document.write("<option value=\""+i+"-"+(j+1).toString().padStart(2, "0")+"\">"+month_idr[j]+" "+i+"</option>");
+                                                    }
+                                                }
+                                            </script>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label">To:</label>
+                                    <div class="col-lg-10">
+                                        <select id="to_idr" class="select2_demo_1 form-control">
+                                            <option selected disabled></option>
+                                            <script type="text/javascript">
+                                                var month_idr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                                                for(var i = 2020; i <= 2040; i++){
+                                                    for(var j = 0; j < month_idr.length; j++){
+                                                        document.write("<option value=\""+i+"-"+(j+1).toString().padStart(2, "0")+"\">"+month_idr[j]+" "+i+"</option>");
+                                                    }
+                                                }
+                                            </script>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="button" class="btn btn-success btn-lg" onclick="print_idr();"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick=""><i class="fa fa-file-excel-o"></i> Save as Excel</button>
+                    </div>
+                </div>
                 <hr>
                 <div class="ibox">
                     <div class="ibox-content" style="height: 450px; overflow: auto; color: black;">
@@ -49,7 +95,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" onclick=""><i class="fa fa-print"></i> Print</button>
+                <button type="button" class="btn btn-success" onclick="print_idr();"><i class="fa fa-print"></i> Print</button>
                 <button type="button" class="btn btn-primary" onclick=""><i class="fa fa-file-excel-o"></i> Save as Excel</button>
             </div>
         </div>

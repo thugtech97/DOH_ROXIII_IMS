@@ -24,6 +24,8 @@ if(!isset($_SESSION["username"])){
     <!-- Gritter -->
     <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
+
     <link rel="shortcut icon" type="image/x-icon" href="../archives/img/<?php echo $_SESSION["company_logo"]; ?>">
 
     <link href="css/animate.css" rel="stylesheet">
