@@ -1,6 +1,6 @@
 var active_state = 1;
 var items = [];
-var pax_selected = "";
+var pax_selected = "", supp = "";
 var snln = "";
 var supplier_po = {};
 
@@ -947,6 +947,7 @@ function setLocalStorage(){
 }
 
 function print_dl(supplier,po_list,separator){
+	supp = supplier;
     $.ajax({
     	type: "POST",
     	data: {
@@ -958,32 +959,38 @@ function print_dl(supplier,po_list,separator){
     	url: "php/php_po.php",
     	dataType: "JSON",
     	success: function(data){
-    		$("#dl_supp_name").html(supplier.toUpperCase());
-    		$("#dl_tbody").html(data["tbody"]);
-    		$("#dl_date").html(data["date_today"]);
+    		$("#modal_dl_title").html(supplier.toUpperCase());
+    		$(".dl_supp_name").html(supplier.toUpperCase());
+    		$(".dl_tbody").html(data["tbody"]);
+    		$(".dl_date").html(data["date_today"]);
+    		$(".dl_address").html("<u>(CLICK TO EDIT ADDRESS)</u>");
 
-    		var title = supplier.toUpperCase()+" - Demand Letter";
-		    var divElements = document.getElementById('report_dl').innerHTML;
-		    var printWindow = window.open("", "_blank", "");
+    		$(".linking_verb").html(((po_list.split(separator)).length > 1) ? "are" : "is");
+    		$(".copy_verb").html(((po_list.split(separator)).length > 1) ? "the copies" : "a copy");
+
+    		$(".modal_dl_content").html($(".dl_content").html());
+    		$("#print_mdl").modal();
 		    
-		    printWindow.document.open();
-		    
-		    printWindow.document.write('<html><head><title>' + title + '</title><link rel="stylesheet" type="text/css" href="css/demand_letter.css"></head><body>');
-		    printWindow.document.write(divElements);
-		    printWindow.document.write('</body></html>');
-		    
-		    /*
-		    printWindow.document.close();
-		    printWindow.focus();
-		    
-		    //The Timeout is ONLY to make Safari work, but it still works with FF, IE & Chrome.
-		    setTimeout(function() {
-		        printWindow.print();
-		        printWindow.close();
-		    }, 100);
-		    */
     	}
     });
+}
+
+function print_prev_dl(){
+	var title = supp.toUpperCase()+" - Demand Letter";
+	$(".dl_content").html($(".modal_dl_content").html());
+    var divElements = document.getElementById('report_dl').innerHTML;
+    var printWindow = window.open("", "_blank", "");
+    
+    printWindow.document.open();
+    
+    printWindow.document.write('<html><head><title>' + title + '</title><link rel="stylesheet" type="text/css" href="css/demand_letter.css"></head><body>');
+    printWindow.document.write(divElements);
+    printWindow.document.write('</body></html>');
+}
+
+function edit_text(id){
+	var prompt_addr = prompt("Edit Address: ", $("."+id).html());
+	$("."+id).html((prompt_addr == null) ? "<u>(CLICK TO EDIT ADDRESS)</u>" : prompt_addr);
 }
 
 $('#serial_numbers').on('click', 'tbody tr button', function(event) {
