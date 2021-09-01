@@ -132,7 +132,7 @@ if(!isset($_SESSION["username"])){
                 <div class="wrapper wrapper-content">
                    <div class="row">
                         <div class="col-lg-3 animated bounceIn">
-                            <div class="ibox" onmouseover="load_list('PO');">
+                            <div class="ibox" onclick="load_list('PO');">
                                 <div class="ibox-title">
                                     <span class="label label-info float-right">PO</span>
                                     <h5><i class="fa fa-list-alt"></i> Purchase Orders</h5>
@@ -156,7 +156,7 @@ if(!isset($_SESSION["username"])){
                             </div>
                         </div>
                         <div class="col-lg-3 animated bounceIn">
-                            <div class="ibox" onmouseover="load_list('IS');">
+                            <div class="ibox" onclick="load_list('IS');">
                                 <div class="ibox-title">
                                     <span class="label label-danger float-right">IS</span>
                                     <h5><i class="fa fa-shopping-cart"></i> Issuances</h5>
@@ -168,7 +168,7 @@ if(!isset($_SESSION["username"])){
                             </div>
                         </div>
                         <div class="col-lg-3 animated bounceIn">
-                            <div class="ibox" onmouseover="load_list('UL');">
+                            <div class="ibox" onclick="load_list('UL');">
                                 <div class="ibox-title">
                                     <span class="label label-warning float-right">UL</span>
                                     <h5><i class="fa fa-history"></i> User Logs</h5>
@@ -374,10 +374,10 @@ if(!isset($_SESSION["username"])){
                 data: {call_func: "load_card"},
                 dataType: "JSON",
                 success: function(data){
-                    $("#po_num").html(data["po_rows"]);
-                    $("#it_num").html(data["it_rows"]);
-                    $("#is_num").html(data["is_rows"]);
-                    $("#ul_num").html(data["ul_rows"]);
+                    $("#po_num").html(data["po_rows"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                    $("#it_num").html(data["it_rows"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                    $("#is_num").html(data["is_rows"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                    $("#ul_num").html(data["ul_rows"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                     is_data = data["is_data"];
                     load_all();
                 }

@@ -448,7 +448,7 @@ function update(){
         },
         url: "php/php_ics.php",
         success: function(data){
-            swal("Updated!", "ICS details successfully updated.", "success");
+            swal("Updated!", "PAR details successfully updated.", "success");
             setTimeout(function () {
                 location.reload();
               }, 1500);
