@@ -355,6 +355,7 @@ if(!isset($_SESSION["username"])){
     <script>
         $(document).ready(function() {
             var is_data = [];
+            var is_num = "";
             get_data();
             setTimeout(function() {
                 toastr.options = {
@@ -379,6 +380,7 @@ if(!isset($_SESSION["username"])){
                     $("#is_num").html(data["is_rows"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                     $("#ul_num").html(data["ul_rows"].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                     is_data = data["is_data"];
+                    is_num = data["is_rows"];
                     load_all();
                 }
             });
@@ -437,7 +439,7 @@ if(!isset($_SESSION["username"])){
         }
 
         function draw_chart(data) {
-            var tot = parseInt($("#is_num").html().toString());
+            var tot = parseInt(is_num.toString());
             var chart = new CanvasJS.Chart("pie", {
                 exportEnabled: true,
                 animationEnabled: true,
