@@ -12,7 +12,7 @@ function iss_validator(){
 	$sql = mysqli_query($conn, "SELECT view_ics FROM tbl_ics WHERE ics_no = '$ics_no'");
 	$view_ics = mysqli_fetch_assoc($sql)["view_ics"];
 	$parts = explode(".", $view_ics);
-	if(end($parts) == "pdf" || end($parts) == "PDF"){
+	if(strtoupper(end($parts)) == "PDF"){
 		echo "1";
 	}else{
 		echo "0";

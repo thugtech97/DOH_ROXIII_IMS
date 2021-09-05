@@ -135,7 +135,7 @@ if(!isset($_SESSION["username"])){
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" onclick="//$('#view_supp').modal();">
                             <i class="fa fa-users"></i><span class="label label-danger" id="count_supp">0</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-alerts" id="nestable">
+                        <ul class="dropdown-menu dropdown-alerts" id="nestable" style="height: 500px; overflow: auto;">
                             
                         </ul>
                     </li>

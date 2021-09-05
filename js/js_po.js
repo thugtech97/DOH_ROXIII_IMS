@@ -76,6 +76,7 @@ function get_po(){
 			$("#num_supp").html(Object.keys(data["supplier_po"]).length);
 			$("#nestable").html(data["lists"]);
 			supplier_po = data["supplier_po"];
+			if(data["csp"]=="0"){ $("#nestable").removeAttr("style"); }
 			$("table#tbl_po tbody").html(data["tbody"]);
 			create_datatable();
 		}

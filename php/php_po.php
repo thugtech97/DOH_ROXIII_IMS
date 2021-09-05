@@ -395,6 +395,7 @@ function get_po(){
 	$tbody = ""; $lists = "";
 	$separator = "|";
 	$sql = mysqli_query($conn, "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, p.procurement_mode,s.supplier, SUBSTRING(p.date_received, 1, 10) AS date_r, p.delivery_term, p.date_conformed, p.date_delivered, p.activity_date, p.end_user FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id ORDER BY po_id ASC");
+	$csp = 0;
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$eu = str_replace(' ', '', $row["end_user"]);
@@ -439,6 +440,7 @@ function get_po(){
 	                    </li>
 	                    <li class=\"dropdown-divider\"></li>";
 			}
+			$csp = 1;
 		}else{
 			$lists="<li>
                         <a class=\"dropdown-item\">
@@ -450,7 +452,7 @@ function get_po(){
 		}
 	}
 
-	echo json_encode(array("tbody"=>$tbody, "supplier_po"=>$supplier_po, "lists"=>$lists));
+	echo json_encode(array("tbody"=>$tbody, "supplier_po"=>$supplier_po, "lists"=>$lists, "csp"=>$csp));
 }
 
 function edit_po_various(){
