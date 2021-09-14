@@ -148,7 +148,7 @@ if(!isset($_SESSION["username"])){
                                 Search: <input type="text" name="search_box" id="search_box"/>
                             </div>
                             <div class="table-responsive" id="dynamic_content">
-
+                                
                             </div>
                         </div>
                     </div>
