@@ -124,6 +124,9 @@ if(!isset($_SESSION["username"])){
                 <a href="archives.php"><i class="fa fa-archive"></i> <span class="nav-label">Archive</span></a>
             </li>
             <li>
+                <a href="https://drive.google.com/file/d/1H6DzrxhfjMdY0wh9NiCpfuq5_hdbgc5H/view?usp=sharing" target="_blank"><i class="fa fa-book"></i> <span class="nav-label">User Manual</span></a>
+            </li>
+            <li>
                 <a href="php/php_logout.php"><i class="fa fa-power-off"></i> <span class="nav-label">Logout</span></a>
             </li>
         </ul>
