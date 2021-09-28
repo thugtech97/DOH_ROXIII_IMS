@@ -4,6 +4,14 @@ require "../../php/php_conn.php";
 require "../../php/php_general_functions.php";
 session_start();
 
+function delete_control(){
+	global $conn;
+
+	$number = mysqli_real_escape_string($conn, $_POST["number"]);
+	mysqli_query($conn, "DELETE FROM tbl_iar WHERE iar_number = '$number'");
+	mysqli_query($conn, "UPDATE tbl_po SET iar_no = '' WHERE iar_no = '$number'");
+}
+
 function get_nod_dv(){
 	global $conn;
 
@@ -24,12 +32,14 @@ function get_nod_dv(){
 		$row = mysqli_fetch_assoc($sql);
 		$supplier = $row["supplier"];
 		$charge_invoice = $row["charge_invoice"];
-		$spvs = $row["spvs"]; $spvs_designation = $row["spvs_designation"];
+		$rowspvs = mysqli_fetch_assoc(mysqli_query($conn, "SELECT spvs, spvs_designation FROM tbl_iar WHERE iar_number = '$iar_number'"));
+		$spvs = $rowspvs["spvs"]; $spvs_designation = $rowspvs["spvs_designation"];
 		$res_cc = $row["res_cc"];
 		$date_received = $row["date_received"]; $date_delivered = $row["date_delivered"];
 		$delivery_term =$row["delivery_term"]; $payment_term = $row["payment_term"];
 		$end_user = $row["end_user"]; $procurement_mode = $row["procurement_mode"];
-		$inspector = $row["inspector"]; $date_conformed = $row["date_conformed"];
+		$inspector = $row["inspector"]; 
+		$date_conformed = $row["date_conformed"];
 		if($rows > 1){
 			$item_name = $row["item_name"]." and etc.";
 			$item_description = $row["item_name"]." - ".$row["description"]." and etc.";
@@ -39,7 +49,7 @@ function get_nod_dv(){
 		}
 	}
 
-	$sql2 = mysqli_query($conn, "SELECT unit_cost, main_stocks FROM tbl_po WHERE po_number = '$po_number'");
+	$sql2 = mysqli_query($conn, "SELECT unit_cost, main_stocks FROM tbl_po WHERE po_number = '$po_number' AND iar_no = '$iar_number'");
 	while($rowt = mysqli_fetch_assoc($sql2)){
 		$total_amount+=((float)$rowt["unit_cost"] * (float)$rowt["main_stocks"]);
 	}
@@ -464,7 +474,8 @@ function insert_various(){
 			$exp_date = $items[$i][3];
 			$manufactured_by = $items[$i][4];
 			$bool = $items[$i][5];
-			mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iar_number', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE po_id = '$id'");
+			$iarno = ($bool == 0) ? "" : $iar_number;
+			mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iarno', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE po_id = '$id'");
 		}
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created an IAR No. ".$iar_number." - PO#".$po_number;
@@ -506,6 +517,9 @@ switch($call_func){
 		break;
 	case "get_nod_dv":
 		get_nod_dv();
+		break;
+	case "delete_control":
+		delete_control();
 		break;
 }
 

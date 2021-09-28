@@ -261,11 +261,9 @@ function delete_control(iar_number){
         $.ajax({
             type: "POST",
             data: {call_func: "delete_control",
-                    field: "iar_number",
-                    table: "tbl_iar",
                     number: iar_number
                 },
-            url: "../php/php_po.php",
+            url: "php/php_iar.php",
             success: function(data){
                 swal("Deleted!", "The IAR No. "+iar_number+" is now deleted.", "success");
                 setTimeout(function () {
