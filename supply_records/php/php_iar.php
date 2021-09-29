@@ -10,6 +10,10 @@ function delete_control(){
 	$number = mysqli_real_escape_string($conn, $_POST["number"]);
 	mysqli_query($conn, "DELETE FROM tbl_iar WHERE iar_number = '$number'");
 	mysqli_query($conn, "UPDATE tbl_po SET iar_no = '', inspection_status = '0' WHERE iar_no = '$number'");
+
+	$emp_id = $_SESSION["emp_id"];
+	$description = $_SESSION["username"]." deleted an IAR document No. ".$number;
+	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
 function get_nod_dv(){
