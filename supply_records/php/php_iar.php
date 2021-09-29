@@ -9,7 +9,7 @@ function delete_control(){
 
 	$number = mysqli_real_escape_string($conn, $_POST["number"]);
 	mysqli_query($conn, "DELETE FROM tbl_iar WHERE iar_number = '$number'");
-	mysqli_query($conn, "UPDATE tbl_po SET iar_no = '' WHERE iar_no = '$number'");
+	mysqli_query($conn, "UPDATE tbl_po SET iar_no = '', inspection_status = '0' WHERE iar_no = '$number'");
 }
 
 function get_nod_dv(){
