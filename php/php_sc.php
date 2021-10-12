@@ -407,7 +407,7 @@ function print_stock_card(){
 		$date_received = ($row["date_delivered"] != "0000-00-00") ? $row["date_delivered"] : $row["date_received"];
 		$reference_no = $row["po_number"];
 		$main_stocks = $row["main_stocks"];
-		$supplier = $row["supplier"];
+		$supplier = mysqli_real_escape_string($conn, $row["supplier"]);
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_received','$main_stocks','$reference_no','$supplier','','IN')");
 	}
 	$sql = mysqli_query($conn, "SELECT issued,date_released,ics_no,quantity,received_by,remarks FROM tbl_ics WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
@@ -415,7 +415,7 @@ function print_stock_card(){
 		$date_released = $row["date_released"];
 		$reference_no = $row["ics_no"];
 		$quantity = $row["quantity"];
-		$area = $row["received_by"];
+		$area = mysqli_real_escape_string($conn, $row["received_by"]);
 		$remarks = $row["issued"];
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
@@ -425,7 +425,7 @@ function print_stock_card(){
 		$date_released = $row["date_released"];
 		$reference_no = $row["par_no"];
 		$quantity = $row["quantity"];
-		$area = $row["received_by"];
+		$area = mysqli_real_escape_string($conn, $row["received_by"]);
 		$remarks = $row["issued"];
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
@@ -435,7 +435,7 @@ function print_stock_card(){
 		$date_released = $row["date"];
 		$reference_no = $row["ris_no"];
 		$quantity = $row["quantity"];
-		$area = $row["requested_by"];
+		$area = mysqli_real_escape_string($conn, $row["requested_by"]);
 		$remarks = $row["issued"];
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
@@ -445,7 +445,7 @@ function print_stock_card(){
 		$date_released = $row["date_released"];
 		$reference_no = $row["ptr_no"];
 		$quantity = $row["quantity"];
-		$area = $row["to"];
+		$area = mysqli_real_escape_string($conn, $row["to"]);
 		$remarks = $row["issued"];
 		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$area','$remarks','OUT')");
 	}
