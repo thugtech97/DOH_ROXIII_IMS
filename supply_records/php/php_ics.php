@@ -107,10 +107,10 @@ function modify(){
 					<td onclick=\"edit_quantity('".$row[$field_id]."','".$row["quantity"]."','".$row["reference_no"]."','".mysqli_real_escape_string($conn, $row["item"])."','".mysqli_real_escape_string($conn, $row["description"])."', '$table', '$field_id', '".$row["po_id"]."');\"><a><u>".$row["quantity"]."</u></a></td>
 					<td>".$row["unit"]."</td>
 					<td>".number_format((float)$row["cost"], 2)."</td>
-					<td>".number_format((float)$row["total"], 2)."</td>
+					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 2)."</td>
 					<td>".$row["remarks"]."</td>
 					</tr>";
-					$tot_amt+=(float)$row["total"];
+					$tot_amt+=(float)$row["cost"] * (float)$row["quantity"];
 	}
 	
 	echo json_encode(array(
