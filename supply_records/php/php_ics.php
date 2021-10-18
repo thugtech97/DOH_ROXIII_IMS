@@ -411,8 +411,8 @@ function insert_ics(){
 	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$received_from_id'");
 	$quer2 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$received_by_id'");
 	$query = mysqli_query($conn, "SELECT s.supplier, p.supplier_id FROM tbl_po AS p, ref_supplier AS s WHERE s.supplier_id = p.supplier_id AND p.po_number LIKE '$reference_no'");
-	$received_from_designation = mysqli_fetch_assoc($quer1)["designation"];
-	$received_by_designation = mysqli_fetch_assoc($quer2)["designation"];
+	$received_from_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer1)["designation"]);
+	$received_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer2)["designation"]);
 
 	$supplier = mysqli_real_escape_string($conn, mysqli_fetch_assoc($query)["supplier"]);
 	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT ics_no FROM tbl_ics WHERE ics_no = '$ics_no'"))==0){

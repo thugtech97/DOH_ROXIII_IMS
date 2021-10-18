@@ -413,10 +413,10 @@ function insert_ris(){
 	$quer2 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$issued_by_id'");
 	$quer3 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$approved_by_id'");
 
-	$supplier = mysqli_fetch_assoc($query)["supplier"];
-	$requested_by_designation = mysqli_fetch_assoc($quer1)["designation"];
-	$issued_by_designation = mysqli_fetch_assoc($quer2)["designation"];
-	$approved_by_designation = mysqli_fetch_assoc($quer3)["designation"];
+	$supplier = mysqli_real_escape_string($conn, mysqli_fetch_assoc($query)["supplier"]);
+	$requested_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer1)["designation"]);
+	$issued_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer2)["designation"]);
+	$approved_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer3)["designation"]);
 	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT ris_no FROM tbl_ris WHERE ris_no = '$ris_no'"))==0){
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created an RIS No. ".$ris_no;
