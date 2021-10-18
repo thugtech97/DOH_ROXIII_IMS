@@ -414,7 +414,7 @@ function insert_ics(){
 	$received_from_designation = mysqli_fetch_assoc($quer1)["designation"];
 	$received_by_designation = mysqli_fetch_assoc($quer2)["designation"];
 
-	$supplier = mysqli_fetch_assoc($query)["supplier"];
+	$supplier = mysqli_real_escape_string($conn, mysqli_fetch_assoc($query)["supplier"]);
 	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT ics_no FROM tbl_ics WHERE ics_no = '$ics_no'"))==0){
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created an ICS No. ".$ics_no;
