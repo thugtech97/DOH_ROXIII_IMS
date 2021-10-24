@@ -136,7 +136,7 @@ if(!isset($_SESSION["username"])){
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" onclick="//$('#view_supp').modal();">
-                            <i class="fa fa-users"></i><span class="label label-danger" id="count_supp">0</span>
+                            <i class="fa fa-users"></i><span class="label label-danger" id="count_supp"><i class="fa fa-spinner fa-spin"></i></span>
                         </a>
                         <ul class="dropdown-menu dropdown-alerts" id="nestable" style="height: 500px; overflow: auto;">
                             

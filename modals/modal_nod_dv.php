@@ -92,7 +92,7 @@
                     <div class="ibox-content" style="height: 750px; overflow: auto; color: black;">
                         <center>
                             <?php
-                                require "reports/report_pe.php";
+                                require "reports/report_pes.php";
                             ?>
                         </center>
                     </div>
