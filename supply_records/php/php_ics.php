@@ -138,10 +138,10 @@ function delete_record(){
 	while($row = mysqli_fetch_assoc($sql)){
 		$item = mysqli_real_escape_string($conn, $row["item"]); $description = mysqli_real_escape_string($conn, $row["description"]); $reference_no = mysqli_real_escape_string($conn, $row["reference_no"]); $quantity = $row["quantity"]; $serial_no = $row["serial_no"];$pid = $row["po_id"];
 		$po_id = ($pid == "0") ? "" : " AND po_id = '".$pid."'";
-		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description' AND sn_ln LIKE '%$serial_no%'".$po_id);
+		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description'".$po_id);
 		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 		$newrstocks = ((int)$rstocks[0] + (int)$quantity)." ".$rstocks[1];
-		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description' AND sn_ln LIKE '%$serial_no%'".$po_id);
+		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description'".$po_id);
 		if($row["serial_no"] != null){
 			$serials = explode(",", $row["serial_no"]);
 			for($j = 0; $j < count($serials); $j++){
