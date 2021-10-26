@@ -131,7 +131,11 @@ function print_rsmi(){
 }
 
 function excel_idr(){
-
+	let file = new Blob([$('#report_idr').html()], {type:"application/vnd.ms-excel"});
+	let url = URL.createObjectURL(file);
+	let a = $("<a />", {
+	  href: url,
+	  download: "IDR_"+$("#from_idr option:selected").text()+"-"+$("#to_idr option:selected").text()+".xls"}).appendTo("body").get(0).click();
 }
 
 function print_idr(){

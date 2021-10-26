@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-lg-4">
                         <button type="button" class="btn btn-success btn-lg" onclick="print_idr();"><i class="fa fa-print"></i> Print</button>
-                        <button type="button" class="btn btn-primary btn-lg" onclick=""><i class="fa fa-file-excel-o"></i> Save as Excel</button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="excel_idr();"><i class="fa fa-file-excel-o"></i> Save as Excel</button>
                     </div>
                 </div>
                 <hr>
