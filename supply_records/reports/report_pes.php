@@ -167,7 +167,7 @@
         <td style="width: 202.8px; height: 20.5px; text-align: right; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Adjectival Rating: ______________</td>
       </tr>
       <tr>
-        <td colspan="6" style="width: 133.8px; height: 14.5px; text-align: left; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">(Total Number of Rating :  ___ / 4</td>
+        <td colspan="6" style="width: 133.8px; height: 14.5px; text-align: left; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">(Total Number of Rating :  ___ / 12</td>
         <td style="width: 45.6px; height: 14.5px; font-size: 11px; vertical-align: bottom;"></td>
         <td style="width: 180px; height: 14.5px; font-size: 11px; vertical-align: bottom;"></td>
         <td style="width: 189.6px; height: 14.5px; font-size: 11px; vertical-align: bottom;"></td>

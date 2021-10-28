@@ -96,7 +96,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-success" onclick="print_idr();"><i class="fa fa-print"></i> Print</button>
-                <button type="button" class="btn btn-primary" onclick=""><i class="fa fa-file-excel-o"></i> Save as Excel</button>
+                <button type="button" class="btn btn-primary" onclick="excel_idr();"><i class="fa fa-file-excel-o"></i> Save as Excel</button>
             </div>
         </div>
     </div>
