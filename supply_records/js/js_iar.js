@@ -621,9 +621,9 @@ function print_pe(iar_number, po_number){
             $("#pe_date_r").html(data["date_conformed"]);
             $("#pe_dt").html(data["delivery_term"]);
             $("#pe_date_d").html(data["date_delivered"]);
-            $("#pe_pm").html(data["procurement_mode"]);
+            $("#pe_pm").html("<b>Bidding / Alternative Method of Procurement</b>");
             $("#pe_item").html(data["item_name"]);
-            $("#pe_pt").html(data["payment_term"]);
+            $("#pe_pt").html("After Delivery / Progress Billing");
             $("#pe_inspector").html(data["inspector"].toUpperCase().split('|').join('/'));
             $("#pe_eu").html(data["end_user"].toUpperCase());
         }
