@@ -109,15 +109,15 @@
 
     function generate_rep(rep_name){
         var divContents = $('#'+rep_name).html(); 
-        var a = window.open('', '_blank', 'height=1500, width=800'); 
+        var a = window.open("", "_blank", "");
+        a.open();
         a.document.write('<html>'); 
         a.document.write('<body><center>');
         a.document.write('<table><tr>');
         a.document.write('<td>'+divContents+'</td>'); 
         a.document.write('</tr></table>');
-        a.document.write('</center></body></html>'); 
-        a.document.close(); 
-        a.print();
+        a.document.write('</center></body></html>');
+        setTimeout(function(){ a.print(); }, 1000);
     }
 
 </script>
