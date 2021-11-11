@@ -50,7 +50,7 @@
       <tr>
         <td class="pe_addr" style="width: 133.8px; height: 15px; text-align: left; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Address:</td>
         <td colspan="6" style="width: 43.8px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"><span id="pe_address"></span></td>
-        <td style="width: 180px; height: 15px; text-align: right; font-size: 11px; vertical-align: bottom;">Date Received:</td>
+        <td style="width: 180px; height: 15px; text-align: right; font-size: 11px; vertical-align: bottom;">Date Conformed:</td>
         <td colspan="2" style="width: 189.6px; height: 15px; text-align: left;font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;"><span id="pe_date_r"></span></td>
       </tr>
       <tr>

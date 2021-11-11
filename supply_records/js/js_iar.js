@@ -578,6 +578,7 @@ function print_nod(iar_number, po_number){
             $("#p_supplier").html(data["supplier"]);
             $("#p_ci").html(data["charge_invoice"]);
             $("#p_itemdesc").html(data["item_description"]);
+            $("#dopc").html(data["date_conformed"]);
         }
     });
 }

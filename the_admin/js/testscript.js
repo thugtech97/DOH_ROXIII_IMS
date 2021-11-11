@@ -2,6 +2,18 @@ $(document).ready(function(){
 	
 });
 
+function get_ptr(){
+    $.ajax({
+        type: "POST",
+        data: {call_func: "get_ptr"},
+        url: "php/testcode.php",
+        success: function(data){
+            $("table#test_table tbody").html(data);
+            create_datatable("PTR");
+        }
+    });
+}
+
 function get_records(call_func, type){
     $.ajax({
         type: "POST",

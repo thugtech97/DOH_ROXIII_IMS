@@ -102,7 +102,7 @@
         <td style="width: 94.2px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="p_ci"></span></td>
         <td style="width: 57px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"></td>
         <td style="width: 50.4px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="p_po"></span></td>
-        <td style="width: 75.6px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;">n/a</td>
+        <td style="width: 75.6px; height: 55.5px; text-align: center; font-size: 11px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;"><span id="dopc"></span></td>
       </tr>
       <tr>
         <td style="width: 107.4px; height: 14.5px; text-align: left; font-size: 11px; font-style: italic; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;">Attachments:</td>
