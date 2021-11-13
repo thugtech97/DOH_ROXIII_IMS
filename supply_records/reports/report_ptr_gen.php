@@ -50,10 +50,7 @@
       <td style="width: 58.8px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 135.6px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 49.8px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 51.6px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 64.8px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 72px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
-      <td style="width: 72.6px; height: 15px; text-align: left; font-size: 12px; font-style: italic; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
+      <td colspan="4" style="width: 51.6px; height: 15px; text-align: right; font-size: 12px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"><span class="warehouse_type"><?php echo $_SESSION["warehouse_name"]; ?></span></td>
     </tr>
     <tr>
       <td colspan="5" style="width: 73.2px; height: 13.75px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Entity Name : <span id="gprint_en"></span></td>
