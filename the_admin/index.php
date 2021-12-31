@@ -33,6 +33,7 @@
                     <li><a href="../login.php"><i class="fa fa-sign-in"></i> <span class="nav-label">Login Page</span></a></li>
                     <li><a href="ics.php"><i class="fa fa-clipboard"></i> <span class="nav-label">ICS</span></a></li>
                     <li><a href="par.php"><i class="fa fa-clipboard"></i> <span class="nav-label">PAR</span></a></li>
+                    <li><a href="ptr.php"><i class="fa fa-clipboard"></i> <span class="nav-label">PTR</span></a></li>
                 </ul>
             </div>
         </nav>

@@ -63,8 +63,16 @@
                                 <table id="test_table" class="table table-bordered table-hover dataTables-example" >
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>PTR No.</th>
                                             <th>Recipient</th>
+                                            <th>Item</th>
+                                            <th>Description</th>
+                                            <th>Serial No</th>
+                                            <th>Property No</th>
+                                            <th>Unit</th>
+                                            <th>Cost</th>
+                                            <th>Quantity</th>
                                             <th></th>
                                         </tr>
                                     </thead>

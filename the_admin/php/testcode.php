@@ -2,6 +2,29 @@
 
 require "../../php/php_conn.php";
 
+function get_ptr(){
+	global $conn;
+
+	$sql = mysqli_query($conn, "SELECT ptr_no, item, description, serial_no, property_no, unit, cost, quantity, tbl_ptr.to, issued, reference_no FROM tbl_ptr ORDER BY ptr_id DESC");
+	if(mysqli_num_rows($sql) != 0){
+		while($row = mysqli_fetch_assoc($sql)){
+			echo "<tr>
+					<td><center>".(($row["issued"] == '0') ? "<button id=\"".$row["reference_no"]."\" class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
+					<td>".$row["ptr_no"]."</td>
+					<td>".$row["to"]."</td>
+					<td>".$row["item"]."</td>
+					<td>".$row["description"]."</td>
+					<td>".$row["serial_no"]."</td>
+					<td>".$row["property_no"]."</td>
+					<td>".$row["unit"]."</td>
+					<td>".$row["cost"]."</td>
+					<td>".$row["quantity"]."</td>
+					<td></td>
+				</tr>";
+		}
+	}
+}
+
 function get_records1(){
 	global $conn;
 	
@@ -58,6 +81,8 @@ function get_records(){
 	}
 }
 
+//get_ptr();
+
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
 switch($call_func){
 	case "get_records":
@@ -65,6 +90,9 @@ switch($call_func){
 		break;
 	case "get_records1":
 		get_records1();
+		break;
+	case "get_ptr":
+		get_ptr();
 		break;
 }
 
