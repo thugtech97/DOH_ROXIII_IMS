@@ -220,7 +220,7 @@ function insert_par(){
 			$ref_no = $items[$i][1];
 			$item = mysqli_real_escape_string($conn, $items[$i][2]);
 			$description = mysqli_real_escape_string($conn, $items[$i][3]);
-			$serial_no = $items[$i][4];
+			$serial_no = mysqli_real_escape_string($conn, $items[$i][4]);
 			$category = $items[$i][5];
 			$property_no = $items[$i][6];
 			$quantity = $items[$i][7];
@@ -258,7 +258,6 @@ function get_latest_par(){
 	}else{
 		$latest_par = "0001";
 	}
-
 	$sql = mysqli_query($conn, "SELECT property_no FROM ref_lastpn WHERE id = 1 AND property_no LIKE '%$yy_mm%'");
 	if(mysqli_num_rows($sql) != 0){
 		$row = mysqli_fetch_assoc($sql);

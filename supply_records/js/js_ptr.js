@@ -239,6 +239,7 @@ function ready_all(){
             url: "php/php_ptr.php",
             data: {call_func: "get_latest_ptr", yy_mm: po_value[0]+"-"+po_value[1]},
             success: function(data){
+                //alert(data["latest_ptr"]);
                 $('#ptr_no').val(po_value[0]+"-"+po_value[1]+"-"+data["latest_ptr"]);
                 $('#lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
             }
