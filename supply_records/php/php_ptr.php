@@ -373,7 +373,7 @@ function insert_ptr(){
 			$ref_no = $items[$i][1];
 			$item = mysqli_real_escape_string($conn, $items[$i][2]);
 			$description = mysqli_real_escape_string($conn, $items[$i][3]);
-			$serial_no = $items[$i][4];
+			$serial_no = mysqli_real_escape_string($conn, $items[$i][4]);
 			$exp_date = $items[$i][5];
 			$category = $items[$i][6];
 			$property_no = $items[$i][7];
