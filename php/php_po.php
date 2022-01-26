@@ -406,7 +406,7 @@ function get_po(){
 			while($ri = mysqli_fetch_assoc($get_items)){
 				array_push($in, trim($ri["item_name"]));
 			}
-			date_add($date,date_interval_create_from_date_string(($row["delivery_term"] == "Progress Billing" || $row["delivery_term"]) == "" ? "0 days" : $row["delivery_term"]));
+			date_add($date,date_interval_create_from_date_string($row["delivery_term"] == "Progress Billing" || $row["delivery_term"] == "" ? "0 days" : $row["delivery_term"]));
 			$expected_delivery_date = date_format($date,"Y-m-d");
 			$start_date = strtotime(date("Y-m-d"));
 			$end_date = strtotime($expected_delivery_date);
