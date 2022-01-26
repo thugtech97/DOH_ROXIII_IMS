@@ -59,7 +59,7 @@ function ready_all(){
             success: function(data){
                 $("#issued_by").html("<option disabled selected></option>").append(data);
                 $('#issued_by option').each(function() {
-                    if($(this).text() == $("#ris_no").data("pc")){
+                    if($(this).text() == $("#ris_no").data("ppb")){
                         $(this).prop("selected", true).change();
                     }
                 });
