@@ -591,9 +591,9 @@ function insert_po_various(){
 	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
-get_po();
+//get_po();
 
-//$call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
+$call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
 
 switch($call_func){
 	case "get_po":
