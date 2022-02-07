@@ -412,9 +412,8 @@ function to_issue(ptr_no, ref_no){
                         url: "php/php_ptr.php",
                         success: function(data){
                             swal("Issued!", "The items on PTR No. "+ptr_no+" is now issued.", "success");
-                            setTimeout(function () {
-                                location.reload();
-                              }, 1500);
+                            var query = $('#search_box').val();
+                            get_records(active_page, _url, query);
                         }
                     });
                 });

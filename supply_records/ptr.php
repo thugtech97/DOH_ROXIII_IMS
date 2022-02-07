@@ -170,6 +170,7 @@ if(!isset($_SESSION["username"])){
             require "../modals/modal_add_ptr.php";
             require "../modals/modal_edit_ptr.php";
             require "../modals/modal_view_iss.php";
+            require "../modals/modal_edit_dr.php";
         ?>
 
     </div>
@@ -182,8 +183,8 @@ if(!isset($_SESSION["username"])){
     <script src="../js/plugins/dataTables/datatables.min.js"></script>
     <script src="../js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
 
-    <script src="js/js_ptr.js"></script>
     <script src="js/js_general_functions.js"></script>
+    <script src="js/js_ptr.js"></script>
     <script type="text/javascript">
         set_url("php/php_ptr.php");
     </script>

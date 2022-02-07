@@ -311,7 +311,7 @@ function get_records(){
 				array_push($refs, $rf["reference_no"]);
 			}
 			$tbody.="<tr>
-					<td><center>".(($row["issued"] == '0') ? "<button id=\"\" value=\"".$row["ptr_no"]."\" ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
+					<td><center>".(($row["issued"] == '0') ? "<button id=\"\" value=\"".$row["ptr_no"]."\" ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" value=\"".$row["ptr_no"]."\" onclick=\"modify_dr(this.value, 'PTR No. '+this.value, 'tbl_ptr', 'ptr_no');\">✓</button>")."</center></td>
 					<td>".$row["ptr_no"]."</td>
 					<td style=\"font-size: 10px;\">".implode(", ", $refs)."</td>
 					<td style=\"font-size: 10px;\">".implode(", ", $in)."</td>

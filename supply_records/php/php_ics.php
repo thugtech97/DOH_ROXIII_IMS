@@ -5,6 +5,29 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function set_dr(){
+	global $conn;
+
+	$control_no = mysqli_real_escape_string($conn, $_POST["control_no"]);
+	$table = mysqli_real_escape_string($conn, $_POST["table"]);
+	$control = mysqli_real_escape_string($conn, $_POST["control"]);
+	$new_date_dr = mysqli_real_escape_string($conn, $_POST["new_date_dr"]);
+	$field = ($table == "tbl_ris") ? "date_received" : "date_supply_received";
+	mysqli_query($conn, "UPDATE ".$table." SET ".$field." = '".$new_date_dr."' WHERE ".$control." LIKE '".$control_no."'");
+}
+
+function get_dr(){
+	global $conn;
+
+	$control_no = mysqli_real_escape_string($conn, $_POST["control_no"]);
+	$table = mysqli_real_escape_string($conn, $_POST["table"]);
+	$control = mysqli_real_escape_string($conn, $_POST["control"]);
+	$field = ($table == "tbl_ris") ? "date_received" : "date_supply_received";
+	$sql = mysqli_query($conn, "SELECT ".$field." FROM ".$table." WHERE ".$control." LIKE '".$control_no."'");
+
+	echo substr(mysqli_fetch_assoc($sql)[$field], 0, 10);
+}
+
 function iss_validator(){
 	global $conn;
 
@@ -370,7 +393,7 @@ function get_records(){
 				array_push($refs, $rf["reference_no"]);
 			}
 			$tbody.="<tr>
-					<td><center>".(($row["issued"] == '0') ? "<button id=\"\" value=\"".$row["ics_no"]."\" ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
+					<td><center>".(($row["issued"] == '0') ? "<button id=\"\" value=\"".$row["ics_no"]."\" ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" value=\"".$row["ics_no"]."\" onclick=\"modify_dr(this.value, 'ICS No. '+this.value, 'tbl_ics', 'ics_no');\">✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
 					<td>".$row["ics_no"]."</td>
 					<td style=\"font-size: 10px;\">".implode(", ", $refs)."</td>
@@ -528,6 +551,12 @@ switch($call_func){
 		break;
 	case "iss_validator":
 		iss_validator();
+		break;
+	case "get_dr":
+		get_dr();
+		break;
+	case "set_dr":
+		set_dr();
 		break;
 }
 

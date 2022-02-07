@@ -160,6 +160,7 @@ if(!isset($_SESSION["username"])){
                 require "../modals/modal_add_par.php";
                 require "../modals/modal_edit_ics_par.php";
                 require "../modals/modal_view_iss.php";
+                require "../modals/modal_edit_dr.php";
             ?>
             <div class="footer">
                 <div>
@@ -174,8 +175,8 @@ if(!isset($_SESSION["username"])){
     <?php
         require "../assets/small_chat.php";
     ?>
-    <script src="js/js_par.js"></script>
     <script src="js/js_general_functions.js"></script>
+    <script src="js/js_par.js"></script>
     <script type="text/javascript">
         set_url("php/php_par.php");
     </script>

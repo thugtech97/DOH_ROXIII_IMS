@@ -325,9 +325,8 @@ function to_issue(ris_no, ref_no){
                         url: "php/php_ris.php",
                         success: function(data){
                             swal("Issued!", "The items on RIS No. "+ris_no+" is now issued.", "success");
-                            setTimeout(function () {
-                                location.reload();
-                              }, 1500);
+                            var query = $('#search_box').val();
+                            get_records(active_page, _url, query);
                         }
                     });
                 });        

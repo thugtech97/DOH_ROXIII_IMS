@@ -165,7 +165,7 @@ function get_records(){
 				array_push($refs, $rf["reference_no"]);
 			}
 			$tbody.="<tr>
-					<td><center>".(($row["issued"] == '0') ? "<button id=\"\" value=\"".$row["par_no"]."\" ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
+					<td><center>".(($row["issued"] == '0') ? "<button id=\"\" value=\"".$row["par_no"]."\" ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" value=\"".$parn."\" onclick=\"modify_dr(this.value, 'PAR No. '+this.value, 'tbl_par', 'par_no');\">✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
 					<td>".$row["par_no"]."</td>
 					<td style=\"font-size: 10px;\">".implode(", ", $refs)."</td>

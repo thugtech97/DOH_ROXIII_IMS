@@ -1,5 +1,7 @@
 var iss_numbers, tables, fields, isss, iss_fields, rbs;
-var _url;
+var _url, active_page;
+
+var control_no, text, table, control;
 
 function exportTableToExcel(tableID, filename = ''){
     var downloadLink;
@@ -113,14 +115,15 @@ function edit_quantity(id,quantity,po_number,item,description, table, field, po_
 }
 
 $(document).on('click', '.page-link', function(){
-      var page = $(this).data('page_number');
-      var query = $('#search_box').val();
-      get_records(page, _url, query);
-    });
+    active_page = $(this).data('page_number');
+    var page = $(this).data('page_number');
+    var query = $('#search_box').val();
+    get_records(page, _url, query);
+});
 
 $('#search_box').keyup(function(){
-      var query = $('#search_box').val();
-      get_records(1, _url, query);
+    var query = $('#search_box').val();
+    get_records(1, _url, query);
     });
 
 function get_records(page, url, query = ""){
@@ -141,4 +144,33 @@ function get_records(page, url, query = ""){
 function set_url(url){
     _url = url;
     get_records(1, _url);
+}
+
+function modify_dr(control_no, text, table, control){
+    this.control_no = control_no;
+    this.text = text;
+    this.table = table;
+    this.control = control;
+    $("#edit_dr").modal();
+    $("#control_no").html(text);
+    $.ajax({
+        type: "POST",
+        data: {call_func: "get_dr", control_no: control_no, table: table, control: control},
+        url: "php/php_ics.php",
+        success: function(data){
+            $("#input_date_dr").val(data);
+        }
+    });
+}
+
+function set_dr(){
+    $.ajax({
+        type: "POST",
+        data: {call_func: "set_dr", control_no: this.control_no, table: this.table, control: this.control, new_date_dr: $("#input_date_dr").val()},
+        url: "php/php_ics.php",
+        success: function(data){
+            var query = $('#search_box').val();
+            get_records(active_page, _url, query);
+        }
+    });
 }
