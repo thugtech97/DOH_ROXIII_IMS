@@ -3,9 +3,20 @@
 <table style="border-collapse: collapse;" cellspacing="0">
   <tbody>
     <tr>
+      <td style="width: 10px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
+      <td style="width: 10px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
+      <td style="width: 290px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
+      <td style="width: 100px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
+      <td style="width: 80px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
+      <td style="width: 10px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
+      <td style="width: 10px; height: 18px; text-align: right; font-size: 14px; font-style: italic; vertical-align: bottom;"></td>
+    </tr>
+    <tr>
       <td colspan="3" style="width: 10px; height: 18px; font-size: 10px; vertical-align: bottom;"><?php echo $_SESSION["warehouse_name"]; ?></td>
       <td style="width: 100px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
-      <td colspan="3" style="width: 80px; height: 18px; font-size: 11px; vertical-align: bottom; text-align: right;"></td>
+      <td style="width: 80px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
+      <td style="width: 10px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
+      <td style="width: 10px; height: 18px; text-align: right; font-size: 14px; font-style: italic; vertical-align: bottom;"></td>
     </tr>
     <tr>
       <td colspan="7" style="font-size: 13px; text-align: center; vertical-align: bottom; font-weight:bold;">PROPERTY ACKNOWLEDGEMENT RECEIPT</td>
