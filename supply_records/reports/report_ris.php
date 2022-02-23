@@ -13,7 +13,7 @@
       <td style="width: 75px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
     </tr>
     <tr>
-      <td colspan="7" style="width: 64.8px; height: 18.75px; font-size: 10px; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
+      <td colspan="7" style="width: 64.8px; height: 18.75px; font-size: 12px; vertical-align: left; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"><?php echo $_SESSION["warehouse_name"]; ?></td>
       <td colspan="2" style="width: 35.4px; height: 18.75px; font-size: 16px; font-style: italic; text-align: right; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">Appendix 63</td>
     </tr>
     <tr>

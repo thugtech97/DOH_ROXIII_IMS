@@ -2,10 +2,7 @@
   <table style="border-collapse: collapse;" cellspacing="0">
     <tbody>
       <tr>
-        <td style="width: 50.4px; height: 24.75px; font-size: 10px; vertical-align: bottom;"></td>
-        <td style="width: 35.4px; height: 24.75px; font-size: 10px; vertical-align: bottom;"></td>
-        <td style="width: 153.6px; height: 24.75px; font-size: 10px; vertical-align: bottom;"></td>
-        <td style="width: 54.6px; height: 24.75px; font-size: 10px; vertical-align: bottom;"></td>
+        <td colspan="4" style="width: 50.4px; height: 24.75px; font-size: 11px; vertical-align: bottom;"><?php echo $_SESSION["warehouse_name"]; ?></td>
         <td style="width: 37.2px; height: 24.75px; font-size: 10px; vertical-align: bottom;"></td>
         <td style="width: 34.2px; height: 24.75px; font-size: 10px; vertical-align: bottom;"></td>
         <td style="width: 37.8px; height: 24.75px; font-size: 10px; vertical-align: bottom;"></td>

@@ -1,10 +1,8 @@
-<div id="report_iar_gen" style="display:none;">
+<div id="report_iar_gen" style="display: none;">
 <table style="border-collapse: collapse;" cellspacing="0">
   <tbody>
     <tr>
-      <td style="width: 84.6px; height: 22.5px; font-size: 10px; vertical-align: bottom;"></td>
-      <td style="width: 148.8px; height: 22.5px; font-size: 10px; vertical-align: bottom;"></td>
-      <td style="width: 144px; height: 22.5px; font-size: 10px; vertical-align: bottom;"></td>
+      <td colspan="3" style="width: 84.6px; height: 22.5px; font-size: 10px; vertical-align: bottom;"><?php echo $_SESSION["warehouse_name"]; ?></td>
       <td style="width: 61.8px; height: 22.5px; font-size: 10px; vertical-align: bottom;"></td>
       <td colspan="3" style="width: 82.2px; height: 22.5px; text-align: right; font-size: 14px; font-style: italic;">Appendix 62</td>
     </tr>

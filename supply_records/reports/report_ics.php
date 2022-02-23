@@ -3,9 +3,7 @@
 <table style="border-collapse: collapse;" cellspacing="0">
   <tbody>
     <tr>
-      <td style="width: 20px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
-      <td style="width: 20px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
-      <td style="width: 20px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
+      <td colspan="3" style="width: 75.6px; height: 15.5px; text-align: left; font-size: 12px; vertical-align: bottom;"><?php echo $_SESSION["warehouse_name"]; ?></td>
       <td style="width: 20px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 60px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 200px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
@@ -13,9 +11,7 @@
       <td style="width: 20px; height: 18px; text-align: right; font-size: 14px; font-style: italic; vertical-align: bottom;">Appendix 59</td>
     </tr>
     <tr>
-      <td style="width: 75.6px; height: 15.5px; text-align: center; font-size: 12px; font-style: italic; vertical-align: bottom;"></td>
-      <td style="width: 70.8px; height: 15.5px; text-align: center; font-size: 12px; font-style: italic; vertical-align: bottom;"></td>
-      <td style="width: 61.8px; height: 15.5px; text-align: center; font-size: 12px; font-style: italic; vertical-align: bottom;"></td>
+      <td colspan="3" style="width: 75.6px; height: 15.5px; text-align: left; font-size: 12px; vertical-align: bottom;"></td>
       <td style="width: 62.4px; height: 15.5px; text-align: center; font-size: 12px; font-style: italic; vertical-align: bottom;"></td>
       <td style="width: 48px; height: 15.5px; text-align: center; font-size: 12px; font-style: italic; vertical-align: bottom;"></td>
       <td style="width: 85.2px; height: 15.5px; text-align: center; font-size: 12px; font-style: italic; vertical-align: bottom;"></td>

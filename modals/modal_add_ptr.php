@@ -22,7 +22,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">From:</label>
                                     <div class="col-lg-9">
-                                        <input id="from" type="text" class="form-control">
+                                        <input id="from" type="text" class="form-control" value="<?php echo $_SESSION["company_title"].' - '.$_SESSION["supporting_title"]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">

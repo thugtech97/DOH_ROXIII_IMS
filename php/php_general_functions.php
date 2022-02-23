@@ -93,13 +93,6 @@ function array_push_assoc($array, $key, $value){
 
 function create_table_pagination($page, $limit, $total_data, $columns){
 
-/*
-	$filter_query = $query.'LIMIT '.$start.', '.$limit.'';
-
-	$sql2 = mysqli_query($connect, $filter_query);
-	$total_filter_data = mysqli_num_rows($sql2);
-*/
-
 	$input = '<label>Total Records - '.$total_data.'</label>
 	          <table class="table table-bordered">
 	            <tr>';
