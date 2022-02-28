@@ -154,7 +154,7 @@ if(!isset($_SESSION["uname"])){
                                             <div id="ppe_head">
                                                 <table>
                                                     <tr>
-                                                        <td colspan="13" style="text-align: center;font-size: 12px;"><?php echo $_SESSION["company_title"]; ?></td>
+                                                        <td colspan="13" style="text-align: center;font-size: 12px;">Department of Health</td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="13" style="text-align: center;font-size: 12px;"><b>REPORT OF SUPPLIES AND MATERIALS ISSUED</b></td>
