@@ -125,6 +125,9 @@ if(!isset($_SESSION["username"])){
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_ics">
                                             <i class="fa fa-plus"></i> Add ICS
                                         </button>
+                                        <button type="button" class="btn btn-info" id="upload_alloc" onclick="upload_alloc();">
+                                            <i class="fa fa-upload"></i> Upload Allocation List
+                                        </button>
                                     </li>
                                 </ol>
                             <?php

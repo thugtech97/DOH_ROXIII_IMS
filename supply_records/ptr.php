@@ -127,6 +127,9 @@ if(!isset($_SESSION["username"])){
                                         <button type="button" class="btn btn-primary" id="btn_add_ptr" data-toggle="modal" data-target="#add_ptr">
                                             <i class="fa fa-plus"></i> Add PTR
                                         </button>
+                                        <button type="button" class="btn btn-info" id="upload_alloc" onclick="upload_alloc();">
+                                            <i class="fa fa-upload"></i> Upload Allocation List
+                                        </button>
                                     </li>
                                 </ol>
                             <?php
