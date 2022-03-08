@@ -68,8 +68,8 @@ function modify(){
 					<td>".$row["property_no"]."</td>
 					<td onclick=\"edit_quantity('".$row["ptr_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".mysqli_real_escape_string($conn, $row["item"])."','".mysqli_real_escape_string($conn, $row["description"])."', 'tbl_ptr', 'ptr_id', '".$row["po_id"]."');\"><a><u>".$row["quantity"]."</u></a></td>
 					<td>".$row["unit"]."</td>
-					<td>".number_format((float)$row["cost"], 2)."</td>
-					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 2)."</td>
+					<td>".number_format((float)$row["cost"], 3)."</td>
+					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
 					<td>".$row["conditions"]."</td>
 					<td>".$row["remarks"]."</td>
 				</tr>";
@@ -128,8 +128,8 @@ function print_ptr_gen(){
 			      <td colspan=\"3\" style=\"width: 26.4px; height: 14px; text-align: left; font-size: 12.5px; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\"><b>".$row["item"]."</b><br>".$row["description"]."</td>
 			      <td style=\"width: 49.8px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity"]."</td>
 			      <td style=\"width: 51.6px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
-			      <td style=\"width: 64.8px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["cost"], 2)."</td>
-			      <td style=\"width: 72px; height: 14px; text-align: right; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["cost"], 2)."</td>
+			      <td style=\"width: 64.8px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["cost"], 3)."</td>
+			      <td style=\"width: 72px; height: 14px; text-align: right; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["cost"], 3)."</td>
 			      <td style=\"width: 72.6px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["conditions"]."</td>
 			    </tr>";$rows_occupied++;
 			    $rows_occupied+=round((float)strlen($row["description"]) / 50.00);
@@ -193,7 +193,7 @@ function print_ptr_gen(){
 			    </tr>";
 		}
 		$approved_by = get_complete_name($approved_by);
-		echo json_encode(array("ptr_details"=>array($entity_name, $fund_cluster, $from, $to, _m_d_yyyy_($date), $transfer_type, number_format((float)$total_cost,2), $reason, $approved_by, $approved_by_designation, $received_from, $received_from_designation, $address), "ptr_tbody"=>$ptr_body));	
+		echo json_encode(array("ptr_details"=>array($entity_name, $fund_cluster, $from, $to, _m_d_yyyy_($date), $transfer_type, number_format((float)$total_cost,3), $reason, $approved_by, $approved_by_designation, $received_from, $received_from_designation, $address), "ptr_tbody"=>$ptr_body));	
 	}
 }
 
@@ -227,7 +227,7 @@ function get_ptr_details(){
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".number_format((float)$row["quantity"])."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["unit"]."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["cost"]."</td>
-			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["cost"], 2)."</td>
+			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["cost"], 3)."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 11px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\">".$row["remarks"]."</td>
 			      </tr>";
@@ -265,7 +265,7 @@ function get_ptr_details(){
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\"></td>
 			      </tr>";
 		}
-		echo json_encode(array("ptr_details"=>array($entity_name, $fund_cluster, $from, $to, _m_d_yyyy_($date), $transfer_type, number_format((float)$total_cost,2), $reason, $approved_by, $approved_by_designation, $received_from, $received_from_designation), "ptr_tbody"=>$ptr_body,"alloc_num"=>$alloc_num,"storage_temp"=>$storage_temp,"transport_temp"=>$transport_temp));	
+		echo json_encode(array("ptr_details"=>array($entity_name, $fund_cluster, $from, $to, _m_d_yyyy_($date), $transfer_type, number_format((float)$total_cost,3), $reason, $approved_by, $approved_by_designation, $received_from, $received_from_designation), "ptr_tbody"=>$ptr_body,"alloc_num"=>$alloc_num,"storage_temp"=>$storage_temp,"transport_temp"=>$transport_temp));	
 	}
 }
 

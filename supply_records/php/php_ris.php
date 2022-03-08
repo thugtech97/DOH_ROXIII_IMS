@@ -60,8 +60,8 @@ function modify(){
 					<td>".$row["category"]."</td>
 					<td onclick=\"edit_quantity('".$row["ris_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".mysqli_real_escape_string($conn, $row["item"])."','".mysqli_real_escape_string($conn, $row["description"])."', 'tbl_ris', 'ris_id', '".$row["po_id"]."');\"><a><u>".$row["quantity"]."</u></a></td>
 					<td>".$row["unit"]."</td>
-					<td>".number_format((float)$row["unit_cost"],2)."</td>
-					<td>".number_format((float)$row["unit_cost"] * $row["quantity"],2)."</td>
+					<td>".number_format((float)$row["unit_cost"],3)."</td>
+					<td>".number_format((float)$row["unit_cost"] * $row["quantity"],3)."</td>
 					<td>".$row["quantity_stocks"]."</td>
 					<td>".$row["remarks"]."</td>
 				</tr>";
@@ -136,8 +136,8 @@ function print_ris_dm(){
           <td style=\"width: 45.6px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".(explode("|",$row["lot_no"]))[0]."</td>
           <td style=\"width: 52.2px; height: 18px; text-align: center; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["exp_date"]."</td>
           <td style=\"width: 78.6px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["supplier"]."</td>
-          <td style=\"width: 50.4px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 2)."</td>
-          <td style=\"width: 109.8px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * $row["unit_cost"], 2)."</td>
+          <td style=\"width: 50.4px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 3)."</td>
+          <td style=\"width: 109.8px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * $row["unit_cost"], 3)."</td>
         </tr>";
 	      $rows_allocate+=round((float)strlen($row["description"]) / 60.00);;
 		}
@@ -173,7 +173,7 @@ function print_ris_dm(){
 		"issued_by_designation"=>$issued_by_designation,
 		"approved_by"=>$approved_by,
 		"approved_by_designation"=>$approved_by_designation,
-		"total_cost"=>number_format((float)$all_total, 2),
+		"total_cost"=>number_format((float)$all_total, 3),
 		"date"=>_m_d_yyyy_($date)));
 }
 
@@ -200,8 +200,8 @@ function print_ris(){
 	        <td style=\"width: 41.4px; height: 15px; text-align: center; font-size: 12px; font-style: italic; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>✓</b></td>
 	        <td style=\"width: 40.2px; height: 15px; text-align: center; font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	        <td style=\"width: 61.2px; height: 15px; text-align: center; font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity_stocks"]."</td>
-	        <td style=\"width: 108.6px; height: 15px; font-size: 12px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 2)."</td>
-	        <td style=\"width: 108.6px; height: 15px; font-size: 12px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * $row["unit_cost"], 2)."</td>
+	        <td style=\"width: 108.6px; height: 15px; font-size: 12px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 3)."</td>
+	        <td style=\"width: 108.6px; height: 15px; font-size: 12px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * $row["unit_cost"], 3)."</td>
 	      </tr>";
 	      $rows_allocate+=round((float)strlen($row["item"]) + strlen($row["description"]) / 55.00);
 		}
@@ -249,7 +249,7 @@ function print_ris(){
 		"issued_by_designation"=>$issued_by_designation,
 		"approved_by"=>$approved_by,
 		"approved_by_designation"=>$approved_by_designation,
-		"total_cost"=>number_format((float)$all_total, 2),
+		"total_cost"=>number_format((float)$all_total, 3),
 		"date"=>_m_d_yyyy_($date)));
 }
 

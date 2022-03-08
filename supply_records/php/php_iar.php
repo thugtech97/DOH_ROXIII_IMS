@@ -74,7 +74,7 @@ function get_nod_dv(){
 		"end_user"=>$end_user,
 		"procurement_mode"=>$procurement_mode,
 		"inspector"=>$inspector,
-		"total_amount"=>number_format((float)$total_amount, 2)
+		"total_amount"=>number_format((float)$total_amount, 3)
 	));
 }
 
@@ -213,7 +213,7 @@ function print_iar_dm(){
 	        </tr>
 	        <tr>
 	          <td style=\"width: 73.2px; height: 15px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
-	          <td colspan=\"3\" style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\">Price: P ".number_format((float)$row["unit_cost"],2)." = P ".number_format(((float)$row["unit_cost"] * (float)$total_quan), 2)."</td>
+	          <td colspan=\"3\" style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\">Price: P ".number_format((float)$row["unit_cost"],3)." = P ".number_format(((float)$row["unit_cost"] * (float)$total_quan), 3)."</td>
 	          <td style=\"width: 63px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	          <td style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
 	          <td style=\"width: 28.8px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
@@ -261,7 +261,7 @@ function print_iar_dm(){
 		"date_delivered"=>_m_d_yyyy_($date_delivered),
 		"end_user"=>$end_user,
 		"supplier"=>$supplier,
-		"total_amount"=>number_format((float)$total_amount, 2)
+		"total_amount"=>number_format((float)$total_amount, 3)
 		)
 	);
 }
@@ -333,7 +333,7 @@ function print_iar_gen(){
 		"date_delivered"=>_m_d_yyyy_($date_delivered),
 		"end_user"=>$end_user,
 		"supplier"=>$supplier,
-		"total_amount"=>number_format((float)$total_amount, 2)
+		"total_amount"=>number_format((float)$total_amount, 3)
 		)
 	);
 }
@@ -392,7 +392,7 @@ function get_po(){
 							<td><input type=\"text\" value=\"".$row["exp_date"]."\" onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\"></td>
 							<td><input type=\"text\" value=\"".$row["activity_title"]."\"></td>
 							<td>".$row["quantity"]."</td>
-							<td>".number_format((float)$quantity[0] * (float)$row["unit_cost"], 2)."</td>
+							<td>".number_format((float)$quantity[0] * (float)$row["unit_cost"], 3)."</td>
 							<td><center><input type=\"checkbox\" checked></center></td>
 						</tr>";
 			}

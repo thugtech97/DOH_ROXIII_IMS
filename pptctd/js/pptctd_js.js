@@ -28,7 +28,7 @@ $(".warehouse_link").on('click', function(){
 	});
 });
 
-function get_data(call_func, page, query){
+function get_data(call_func, page, query = ""){
 	$.ajax({
 		type: 	"POST",
 		data: 	{call_func: call_func, page: page, query: query, warehouse: warehouse_name},

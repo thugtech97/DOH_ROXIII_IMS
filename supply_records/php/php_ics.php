@@ -129,8 +129,8 @@ function modify(){
 					<td>".$row["property_no"]."</td>
 					<td onclick=\"edit_quantity('".$row[$field_id]."','".$row["quantity"]."','".$row["reference_no"]."','".mysqli_real_escape_string($conn, $row["item"])."','".mysqli_real_escape_string($conn, $row["description"])."', '$table', '$field_id', '".$row["po_id"]."');\"><a><u>".$row["quantity"]."</u></a></td>
 					<td>".$row["unit"]."</td>
-					<td>".number_format((float)$row["cost"], 2)."</td>
-					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 2)."</td>
+					<td>".number_format((float)$row["cost"], 3)."</td>
+					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
 					<td>".$row["remarks"]."</td>
 					</tr>";
 					$tot_amt+=(float)$row["cost"] * (float)$row["quantity"];
@@ -276,8 +276,8 @@ function get_ics_details(){
       $ics_tbody.="<tr>
                   <td style=\"width: 75.6px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\">".$row["quantity"]."</td>
                   <td style=\"width: 70.8px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
-                  <td style=\"width: 61.8px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["cost"], 2)."</td>
-                  <td style=\"width: 62.4px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)($row["cost"] * $row["quantity"]), 2)."</td>
+                  <td style=\"width: 61.8px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["cost"], 3)."</td>
+                  <td style=\"width: 62.4px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)($row["cost"] * $row["quantity"]), 3)."</td>
                   <td colspan=\"2\" style=\"width: 48px; height: 14.5px; text-align: left; font-size: 10px; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\"><b>".$row["item"]."</b><br>".$row["description"]."</td>
                   <td style=\"width: 86.4px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".((count($pn) >= 1 && $row["serial_no"] == null) ? $pn[0] : "")."</td>
                   <td style=\"width: 89.4px; height: 14.5px; font-size: 11px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
@@ -351,7 +351,7 @@ function get_ics_details(){
              </tr>";
     }
     $received_by = get_complete_name($received_by);
-    echo json_encode(array("entity_name"=>$entity_name, "fund_cluster"=>$fund_cluster, "ics_tbody"=>$ics_tbody, "total_cost"=>number_format((float)$total_cost,2), "receivers"=>array($received_from, $received_from_designation, $received_by, $received_by_designation, _m_d_yyyy_($date_released))));
+    echo json_encode(array("entity_name"=>$entity_name, "fund_cluster"=>$fund_cluster, "ics_tbody"=>$ics_tbody, "total_cost"=>number_format((float)$total_cost,3), "receivers"=>array($received_from, $received_from_designation, $received_by, $received_by_designation, _m_d_yyyy_($date_released))));
   }
 }
 
