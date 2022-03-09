@@ -9,7 +9,7 @@
         require "../assets/scripts_assets.php";
         require "../assets/styles_assets.php";
     ?>
-    <title>INVENTORY MS | Supply Records - Property Acknowledgement Receipt</title>
+    <title>INVENTORY MS | Supply Records - Inventory Custodian Slip</title>
 
 </head>
 <body>
@@ -67,6 +67,7 @@
                                             <th>Area</th>
                                             <th>ICS No.</th>
                                             <th>PO No.</th>
+                                            <th>Quantity</th>
                                             <th>Item</th>
                                             <th>Description</th>
                                             <th>Property No.</th>

@@ -67,6 +67,7 @@
                                         <th>Area</th>
                                         <th>PAR No</th>
                                         <th>PO No</th>
+                                        <th>Quantity</th>
                                         <th>Item</th>
                                         <th>Description</th>
                                         <th>Property No.</th>
