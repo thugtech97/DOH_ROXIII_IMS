@@ -71,7 +71,7 @@ function bget_total_row_amount(){
 		var $tds = $(this).find('td');
 		all_total_amount+=parseFloat(origNumber($tds.eq(8).text()));
 	});
-	$("#btot_amt").html(formatNumber(all_total_amount.toFixed(2)));
+	$("#btot_amt").html(formatNumber(all_total_amount.toFixed(3)));
 }
 
 function badd_item(){
@@ -269,7 +269,7 @@ function bcalculate_total_amount(){
 	var quantity = ($("#bquantity").val() != "") ? parseFloat($("#bquantity").val()) : 0.00;
 
 	var total_amount = unit_cost * quantity;
-	$("#btotal_amount").val(formatNumber(total_amount.toFixed(2)));
+	$("#btotal_amount").val(formatNumber(total_amount.toFixed(3)));
 }
 
 $('#bserial_numbers').on('click', 'tbody tr button', function(event) {

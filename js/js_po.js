@@ -332,7 +332,6 @@ function uploadFiles(event) {
 function edit_po_various(po_number){
 	$("#ins_chk").attr("checked", false);
 	pon = po_number;
-	$("#edit_po_various").modal();
 	$.ajax({
 		type: "POST",
 		url: "php/php_po.php",
@@ -340,6 +339,7 @@ function edit_po_various(po_number){
 				po_number: po_number},
 		dataType: "JSON",
 		success: function(data){
+			$("#edit_po_various").modal();
 			$("#edate_received").val(data["date_received"]);
 			$("#epo_number").val(po_number);
 			$("#epo_type").val(data["po_type"]);
@@ -366,7 +366,7 @@ function edit_po_various(po_number){
 			$("#edate_delivered").val(data["date_delivered"]);
 			$("#estatus").val(data["status"]).change();
 			$("table#eitem_various tbody").html(data["tbody"]);
-			$("#tot_amt").html(formatNumber(data["tot_amt"].toFixed(2)));
+			$("#tot_amt").html(formatNumber(data["tot_amt"].toFixed(3)));
 		}
 	});
 	
@@ -495,7 +495,7 @@ function add_quantity(po_id, po_number){
 		dataType: "JSON",
 		success: function(data){
 			$("table#eitem_various tbody").html(data["tbody"]);
-			$("#tot_amt").html(formatNumber(data["tot_amt"].toFixed(2)));
+			$("#tot_amt").html(formatNumber(data["tot_amt"].toFixed(3)));
 		}
 	});
 }
@@ -681,7 +681,7 @@ function calculate_total_amount(){
 	var quantity = ($("#quantity").val() != "") ? parseFloat($("#quantity").val()) : 0.00;
 
 	var total_amount = unit_cost * quantity;
-	$("#total_amount").val(formatNumber(total_amount.toFixed(2)));
+	$("#total_amount").val(formatNumber(total_amount.toFixed(3)));
 }
 
 function get_snln_rows(){
@@ -707,7 +707,7 @@ function pax_total_cost(){
 
 		var total = ppax * pax * days;
 		total_cost_pax+=total;
-		$tds.eq(4).find('input').val(total.toFixed(2));
+		$tds.eq(4).find('input').val(total.toFixed(3));
 	});
 	$("#total_cost_pax").html(formatNumber(total_cost_pax));
 }
@@ -719,7 +719,7 @@ function get_total_row_amount(){
 		var $tds = $(this).find('td');
 		all_total_amount+=parseFloat(origNumber($tds.eq(8).text()));
 	});
-	$("#all_total_amount").html(formatNumber(all_total_amount.toFixed(2)));
+	$("#all_total_amount").html(formatNumber(all_total_amount.toFixed(3)));
 }
 
 function get_item_rows(){
