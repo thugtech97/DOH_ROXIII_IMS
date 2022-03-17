@@ -243,6 +243,8 @@ if(!isset($_SESSION["username"])){
                         </div>
                     </div>
                 </div>
+                <!-- <iframe width="100%" height="100%" src="https://www.addictinggames.com/embed/html5-games/23872" scrolling="no"></iframe> !-->
+                <iframe width="100%" height="100%" src="https://www.addictinggames.com/embed/html5-games/22913" scrolling="no"></iframe>
             </div>
         </div>
         <div class="footer">

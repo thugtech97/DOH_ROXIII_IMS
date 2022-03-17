@@ -413,7 +413,7 @@ function print_stock_card(){
 	$sql = mysqli_query($conn, "SELECT issued,date_released,ics_no,quantity,received_by,remarks FROM tbl_ics WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
-		$reference_no = $row["ics_no"];
+		$reference_no = 'ICS#'.$row["ics_no"];
 		$quantity = $row["quantity"];
 		$area = mysqli_real_escape_string($conn, $row["received_by"]);
 		$remarks = $row["issued"];
@@ -423,7 +423,7 @@ function print_stock_card(){
 	$sql = mysqli_query($conn, "SELECT issued,date_released,par_no,quantity,received_by,remarks FROM tbl_par WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
-		$reference_no = $row["par_no"];
+		$reference_no = 'PAR#'.$row["par_no"];
 		$quantity = $row["quantity"];
 		$area = mysqli_real_escape_string($conn, $row["received_by"]);
 		$remarks = $row["issued"];
@@ -433,7 +433,7 @@ function print_stock_card(){
 	$sql = mysqli_query($conn, "SELECT issued,tbl_ris.date,ris_no,quantity,requested_by,remarks FROM tbl_ris WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date"];
-		$reference_no = $row["ris_no"];
+		$reference_no = 'RIS#'.$row["ris_no"];
 		$quantity = $row["quantity"];
 		$area = mysqli_real_escape_string($conn, $row["requested_by"]);
 		$remarks = $row["issued"];
@@ -443,7 +443,7 @@ function print_stock_card(){
 	$sql = mysqli_query($conn, "SELECT issued,date_released,ptr_no,quantity,tbl_ptr.to,remarks FROM tbl_ptr WHERE item = '$item_name' AND description LIKE '$item_desc'".$is_issued."");
 	while($row = mysqli_fetch_assoc($sql)){
 		$date_released = $row["date_released"];
-		$reference_no = $row["ptr_no"];
+		$reference_no = 'PTR#'.$row["ptr_no"];
 		$quantity = $row["quantity"];
 		$area = mysqli_real_escape_string($conn, $row["to"]);
 		$remarks = $row["issued"];
