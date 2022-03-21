@@ -254,6 +254,7 @@ $("#nestable").on('click','li .dd-handle',function (){
     	url: "php/php_sc.php",
     	dataType: "JSON",
     	success: function(data){
+    		$("#sc_refn").html(data["option_ref"]);
     		$("#loader").hide();
     		element.addClass("dd-handle");
     		$("#print_itemname").html(item_name);
@@ -395,4 +396,15 @@ $("#wi_month").change(function(){
 $("#wi_year").change(function(){
 	$("#mwi").html($("#wi_month option:selected").text());
 	$("#ywi").html($("#wi_year option:selected").text());
+});
+
+$("#sc_refn").change(function(){
+	$.ajax({
+		type: "POST",
+		url: "php/php_sc.php",
+		data: {call_func: "get_sc_ref", refn: $("#sc_refn option:selected").text()},
+		success: function(data){
+			$("#sc_drugs").html(data);
+		}
+	});
 });

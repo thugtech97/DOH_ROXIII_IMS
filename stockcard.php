@@ -194,6 +194,10 @@ if(!isset($_SESSION["username"])){
                         </div>
                     </div>
                     <div class="ibox-content" style="color: black;">
+                        Reference Number:
+                        <select id="sc_refn" style="border-radius: 5px;">
+
+                        </select>
                         <?php require "reports/report_sc.php"; ?>
                     </div>
                 </div>
