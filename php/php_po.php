@@ -137,7 +137,7 @@ function edit_description(){
 				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 				<td>".number_format((float)$row["unit_cost"], 3)."</td>
 				<td>".$row["main_stocks"]."</td>
-				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
+				<td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 3)."</td>
 				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
 			</tr>";
@@ -172,7 +172,7 @@ function update_quantity(){
 				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 				<td>".number_format((float)$row["unit_cost"], 3)."</td>
 				<td>".$row["main_stocks"]."</td>
-				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
+				<td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 3)."</td>
 				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
 			</tr>";
@@ -207,7 +207,7 @@ function add_serials(){
 				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 				<td>".number_format((float)$row["unit_cost"], 3)."</td>
 				<td>".$row["main_stocks"]."</td>
-				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
+				<td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 3)."</td>
 				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
 			</tr>";
@@ -495,7 +495,7 @@ function edit_po_various(){
 					<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn,$row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 					<td>".number_format((float)$row["unit_cost"], 3)."</td>
 					<td>".$row["main_stocks"]."</td>
-					<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
+					<td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 					<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 3)."</td>
 					<td><center>".($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU" ? (($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>") : "")."</center></td>
 				</tr>";
