@@ -167,7 +167,7 @@ function print_iar_dm(){
 		$inspected = $row["inspected"];$date_received = "";$property_custodian = $row["property_custodian"];$status = "";
 		$partial_specify = "";
 	}
-	$inspector = str_replace('|', '____', $inspector);
+	//$inspector = str_replace('|', '____', $inspector);
 
 	$sql2 = mysqli_query($conn, "SELECT p.item_name, p.po_id, s.supplier, p.description, p.unit_cost, p.date_conformed, p.date_delivered, p.end_user FROM ref_supplier AS s, tbl_po AS p WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1' AND s.supplier_id = p.supplier_id AND p.iar_no LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql2)){
@@ -184,8 +184,7 @@ function print_iar_dm(){
 		}
 		$tbody.="<tr>
 	          <td style=\"width: 73.2px; height: 15px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
-	          <td colspan=\"2\" style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["description"]."</td>
-	          <td style=\"width: 72.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
+	          <td colspan=\"3\" style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["description"]."</td>
 	          <td style=\"width: 63px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$quan_unit[1]."</td>
 	          <td colspan=\"2\" style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width:2px;border-right-style:solid;\">".number_format((float)$total_quan, 0)."</td>
 	        </tr>";
@@ -281,7 +280,7 @@ function print_iar_gen(){
 		$inspected = $row["inspected"];$date_received = "";$property_custodian = $row["property_custodian"];$status = "";
 		$partial_specify = $row["partial_specify"];
 	}
-	$inspector = str_replace('|', '____', $inspector);
+	//$inspector = str_replace('|', '____', $inspector);
 	$sql2 = mysqli_query($conn, "SELECT p.item_name, s.supplier, p.description, p.quantity, p.main_stocks, p.unit_cost, p.date_conformed, p.date_delivered, p.end_user FROM ref_supplier AS s, tbl_po AS p WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1' AND s.supplier_id = p.supplier_id AND p.iar_no LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql2)){
 		$supplier = $row["supplier"]; $date_conformed = $row["date_conformed"];$date_delivered = $row["date_delivered"];$end_user = $row["end_user"];

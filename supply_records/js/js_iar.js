@@ -399,8 +399,13 @@ function print_iar(iar_number){
             $("#gprint_di").html(data["date_inspected"]);
             $("#gprint_dr").html(data["date_received"]);
             $("#gprint_eu").html("<u>"+data["end_user"].toUpperCase()+"</u>");
-            $("#gprint_insp").html("<u>"+data["inspector"].toUpperCase()+"</u>");
             $("#gprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
+            var inspc = data["inspector"].split("|");
+
+            for(var i = 0; i < inspc.length; i++){
+                $("#g_insp"+(i+1)).html("<u>"+inspc[i].toUpperCase()+"</u>");
+            }
+
             /*
             if(data["inspected"] == 1){
                 $("input#inspected").attr("checked", "checked");
@@ -448,8 +453,12 @@ function download_xls(iar_number){
             $("#gprint_di").html(data["date_inspected"]);
             $("#gprint_dr").html(data["date_received"]);
             $("#gprint_eu").html("<u>"+data["end_user"].toUpperCase()+"</u>");
-            $("#gprint_insp").html("<u>"+data["inspector"].toUpperCase()+"</u>");
             $("#gprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
+            var inspc = data["inspector"].split("|");
+
+            for(var i = 0; i < inspc.length; i++){
+                $("#g_insp"+(i+1)).html("<u>"+inspc[i].toUpperCase()+"</u>");
+            }
 
             /*
             if(data["inspected"] == 1){
@@ -490,8 +499,12 @@ function print_iar_dm(iar_number){
             $("#dprint_dr").html(data["date_received"]);
             $("#dprint_date").html(data["date_received"]);
             $("#dprint_eu").html("<u>"+data["end_user"].toUpperCase()+"</u>");
-            $("#dprint_insp").html("<u>"+data["inspector"].toUpperCase()+"</u>");
             $("#dprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
+            var inspc = data["inspector"].split("|");
+
+            for(var i = 0; i < inspc.length; i++){
+                $("#insp"+(i+1)).html("<u>"+inspc[i].toUpperCase()+"</u>");
+            }
 
             /*
             if(data["inspected"] == 1){
@@ -542,8 +555,12 @@ function download_xls_dm(iar_number){
             $("#dprint_dr").html(data["date_received"]);
             $("#dprint_date").html(data["date_received"]);
             $("#dprint_eu").html("<u>"+data["end_user"].toUpperCase()+"</u>");
-            $("#dprint_insp").html("<u>"+data["inspector"].toUpperCase()+"</u>");
             $("#dprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
+            var inspc = data["inspector"].split("|");
+
+            for(var i = 0; i < inspc.length; i++){
+                $("#insp"+(i+1)).html("<u>"+inspc[i].toUpperCase()+"</u>");
+            }
 
             /*
             if(data["inspected"] == 1){

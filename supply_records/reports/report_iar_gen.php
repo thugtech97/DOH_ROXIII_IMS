@@ -1,4 +1,4 @@
-<div id="report_iar_gen" style="display:none;">
+<div id="report_iar_gen" style="display: none;">
 <table style="border-collapse: collapse;" cellspacing="0">
   <tbody>
     <tr>
@@ -156,21 +156,28 @@ Delivered/Travel</td>
       <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">END-USER</td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 8px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="gprint_insp"></span></td>
-      <td style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;"></td>
-      <td style="width: 82.2px; height: 15px; font-size: 10px; font-style: italic; vertical-align: bottom;"></td>
-      <td style="width: 57.6px; height: 15px; font-size: 10px; vertical-align: bottom;"></td>
-      <td style="width: 29.4px; height: 15px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp1">_________________________________________</span></td>
+      <td colspan="4" style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 8px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Inspection Officer</td>
+      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Inspector</td>
+      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp2">_________________________________________</span></td>
+      <td colspan="4" style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Inspector</td>
+      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp3">_________________________________________</span></td>
       <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="gprint_pc"></span></td>
     </tr>
     <tr>
-      <td style="width: 84.6px; height: 17.25px; text-align: center; font-size: 12px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
-      <td style="width: 148.8px; height: 17.25px; text-align: center; font-size: 12px; vertical-align: top;"></td>
-      <td style="width: 144px; height: 17.25px; text-align: center; font-size: 12px; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
-      <td colspan="4" style="width: 61.8px; height: 17.25px; text-align: center; font-size: 12px; vertical-align: top;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Supply and/or Property Custodian</td>
+      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Inspector</td>
+      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Supply and/or Property Custodian</td>
     </tr>
     <tr>
       <td style="width: 84.6px; height: 16.5px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;">  </td>
