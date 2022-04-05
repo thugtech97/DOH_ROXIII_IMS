@@ -124,7 +124,7 @@
       <td colspan="3" style="width: 73.2px; height: 21px; text-align: left; font-size: 11px; font-weight: bold; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date Inspected: <span id="dprint_di"></span></td>
       <td colspan="4" style="width: 72.6px; height: 21px; text-align: left; font-size: 11px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date Received: <span id="dprint_dr"></span></td>
     </tr>
-    <tr>
+    <tr style="display: none;">
       <td style="width: 73.2px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
       <td style="width: 148.8px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold;"></td>
       <td style="width: 144px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
@@ -138,23 +138,22 @@
       <td colspan="4" style="width: 72.6px; height: 15.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input id="dComplete" type="checkbox">Complete </td>
     </tr>
     <tr>
+      <td colspan="3" style="width: 73.2px; height: 15.75px; text-align: left; font-size: 12px; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input type="checkbox">Complete </td>
+      <td colspan="4" style="width: 72.6px; height: 15.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input id="dPartial" type="checkbox">Partial (pls. specify quantity): <span id="dprint_psq"></span></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="width: 73.2px; height: 15.75px; text-align: left; font-size: 12px; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input type="checkbox">Partial (pls. specify quantity):  </td>
+      <td colspan="4" style="width: 72.6px; height: 15.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+    </tr>
+    <tr>
       <td style="width: 73.2px; height: 12.75px; text-align: left; font-size: 12px; font-style: italic; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
       <td style="width: 148.8px; height: 12.75px; text-align: left; font-size: 12px; font-style: italic;"></td>
       <td style="width: 144px; height: 12.75px; text-align: left; font-size: 12px; font-style: italic; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
-      <td colspan="4" style="width: 72.6px; height: 12.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input id="dPartial" type="checkbox">Partial (pls. specify quantity): <span id="dprint_psq"></span></td>
-    </tr>
-    <tr>
-      <td style="width: 73.2px; height: 14.25px; font-size: 10px; font-style: italic; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
-      <td style="width: 148.8px; height: 14.25px; font-size: 10px; font-style: italic; vertical-align: bottom;"></td>
-      <td style="width: 144px; height: 14.25px; font-size: 10px; font-style: italic; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
-      <td style="width: 72.6px; height: 14.25px; text-align: left; font-size: 12px;"></td>
-      <td style="width: 63px; height: 14.25px; text-align: left; font-size: 12px;"></td>
-      <td style="width: 57.6px; height: 14.25px; text-align: left; font-size: 12px;"></td>
-      <td style="width: 28.8px; height: 14.25px; text-align: left; font-size: 12px; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+      <td colspan="4" style="width: 72.6px; height: 12.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <!-- inspectors start !-->
     <tr>
-      <td colspan="3" style="width: 73.2px; height: 19.5px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp1">_______________________</span></td>
+      <td colspan="3" style="width: 73.2px; height: 25px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp1">_______________________</span></td>
       <td colspan="4" style="width: 72.6px; height: 19.5px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span style="display: none;">End-user Acceptance</span></td>
     </tr>
     <tr>
@@ -162,7 +161,7 @@
       <td colspan="4" style="width: 72.6px; height: 17.25px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 73.2px; height: 19.5px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp2">_______________________</span></td>
+      <td colspan="3" style="width: 73.2px; height: 25px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp2">_______________________</span></td>
       <td colspan="4" style="width: 72.6px; height: 19.5px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span style="display: none;">End-user Acceptance</span></td>
     </tr>
     <tr>
@@ -170,7 +169,7 @@
       <td colspan="4" style="width: 72.6px; height: 17.25px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 73.2px; height: 19.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp3">_______________________</span></td>
+      <td colspan="3" style="width: 73.2px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp3">_______________________</span></td>
       <td colspan="4" style="width: 72.6px; height: 19.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="dprint_pc"></span></td>
     </tr>
     <tr>

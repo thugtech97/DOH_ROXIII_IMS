@@ -116,23 +116,22 @@ Delivered/Travel</td>
       <td colspan="4" style="width: 61.8px; height: 21px; text-align: left; font-size: 11px; font-weight: bold;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date Received: <span id="gprint_dr"></span></td>
     </tr>
     <tr>
-      <td style="width: 84.6px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
-      <td style="width: 148.8px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold;"></td>
-      <td style="width: 144px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
-      <td style="width: 61.8px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold;"></td>
-      <td style="width: 82.2px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold;"></td>
-      <td style="width: 57.6px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold;"></td>
-      <td style="width: 29.4px; height: 12.75px; text-align: left; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
-    </tr>
-    <tr>
       <td colspan="3" style="width: 84.6px; height: 15.75px; text-align: left; font-size: 12px; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input id="inspected" type="checkbox">Inspected, verified and found in order as to quantity and specifications</td>
       <td colspan="4" style="width: 61.8px; height: 15.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input id="Complete" type="checkbox">Complete</td>
+    </tr>
+    <tr>
+      <td colspan="3" style="width: 84.6px; height: 15.75px; text-align: left; font-size: 12px; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input type="checkbox">Complete</td>
+      <td colspan="4" style="width: 61.8px; height: 15.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input id="Partial" type="checkbox"> Partial (pls. specify quantity): <span id="gprint_psq"></span></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="width: 84.6px; height: 15.75px; text-align: left; font-size: 12px; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input type="checkbox"> Partial (pls. specify quantity): <span id="gprint_psq"></span></td>
+      <td colspan="4" style="width: 61.8px; height: 15.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
       <td style="width: 84.6px; height: 12.75px; text-align: left; font-size: 12px; font-style: italic; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
       <td style="width: 148.8px; height: 12.75px; text-align: left; font-size: 12px; font-style: italic;"></td>
       <td style="width: 144px; height: 12.75px; text-align: left; font-size: 12px; font-style: italic; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
-      <td colspan="4" style="width: 61.8px; height: 12.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><input id="Partial" type="checkbox"> Partial (pls. specify quantity): <span id="gprint_psq"></span></td>
+      <td colspan="4" style="width: 61.8px; height: 12.75px; text-align: left; font-size: 12px;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
       <td style="width: 84.6px; height: 18px; font-size: 10px; font-style: italic; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"></td>
@@ -156,7 +155,7 @@ Delivered/Travel</td>
       <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">END-USER</td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp1">_________________________________________</span></td>
+      <td colspan="3" style="width: 84.6px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp1">_________________________________________</span></td>
       <td colspan="4" style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
@@ -164,7 +163,7 @@ Delivered/Travel</td>
       <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp2">_________________________________________</span></td>
+      <td colspan="3" style="width: 84.6px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp2">_________________________________________</span></td>
       <td colspan="4" style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
@@ -172,7 +171,7 @@ Delivered/Travel</td>
       <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp3">_________________________________________</span></td>
+      <td colspan="3" style="width: 84.6px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp3">_________________________________________</span></td>
       <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="gprint_pc"></span></td>
     </tr>
     <tr>
