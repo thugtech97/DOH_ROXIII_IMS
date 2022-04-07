@@ -5,6 +5,7 @@ var snln = "";
 var supplier_po = {};
 
 var ntc_balance = "", actual_balance = "", quant = 0, pon="", eus = "", ctgr = "", account_code = "";
+var proc_mode = null;
 
 var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
 
@@ -26,7 +27,7 @@ function loadLocal() {
 			    }
 			});
 			$("#date_conformed").val(JSON.parse(localStorage.getItem("po_details"))[4]);
-			$("#vprocurement_mode").val(JSON.parse(localStorage.getItem("po_details"))[5]).change();
+			//$("#vprocurement_mode").val(JSON.parse(localStorage.getItem("po_details"))[5]).change();
 			$("#po_deliveryterm").val(JSON.parse(localStorage.getItem("po_details"))[6]).change();
 			$("#po_paymentterm").val(JSON.parse(localStorage.getItem("po_details"))[7]).change();
 			$("#po_supplier option").each(function() {
@@ -233,7 +234,7 @@ function validate_po_various(){
 									data: {	call_func: "insert_po_various",
 											date_received: $("#vdate_received").val(),
 											po_number: $("#vpo_number").val(),
-											procurement_mode: $("#vprocurement_mode option:selected").text(),
+											procurement_mode: ($("#vprocurement_mode option:selected").text() == "Others") ? proc_mode : $("#vprocurement_mode option:selected").text(),
 											delivery_term: $("#po_deliveryterm option:selected").text(),
 											payment_term: $("#po_paymentterm option:selected").text(),
 											pr_no: $("#vpr_number").val(),
@@ -908,8 +909,18 @@ function ready_all(){
 	$("#vprocurement_mode").on("change", function(event){
 		if($("#vprocurement_mode option:selected").text() == "Central-Office"){
 			$("#title-type").html("PTR");
+			$("#span_pmode").html("");
+		}
+		else if($("#vprocurement_mode option:selected").text() == "Others"){
+			$("#title-type").html("P.O");
+			var pmode = prompt("Please specify the procurement mode:", "");
+            if(pmode != null){
+                proc_mode = pmode;
+                $("#span_pmode").html((pmode.replace(/^\s+|\s+$/gm,'').split(" ").join("") == '') ? "" : "<br><p style=\"font-size: 10px; color: blue;\">Others: "+proc_mode+"</p>");
+            }
 		}else{
 			$("#title-type").html("P.O");
+			$("#span_pmode").html("");
 		}
 	});
 }

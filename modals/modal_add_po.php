@@ -57,7 +57,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label">Mode of Procurement:</label>
+                                                    <label class="col-lg-4 col-form-label">Mode of Procurement:<span id="span_pmode"></span></label>
                                                     <div class="col-lg-8">
                                                         <select id="vprocurement_mode" class="select2_demo_1 form-control">
                                                             <option value="" disabled selected></option>
