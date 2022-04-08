@@ -185,7 +185,11 @@ if(!isset($_SESSION["username"])){
                                 }
                             ?>
                         </div>
-                        <div class="col-lg-2">     
+                        <div class="col-lg-2">
+                            <h2 style="visibility: hidden;">hehehe</h2>
+                            <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#search_item">
+                                <i class="fa fa-search"></i> Search Item
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -238,6 +242,7 @@ if(!isset($_SESSION["username"])){
             </div>
 
              <?php
+                require "modals/modal_search_item.php";
                 require "modals/modal_add_po.php";
                 require "modals/modal_add_ntc.php";
                 require "modals/modal_edit_po_various.php";

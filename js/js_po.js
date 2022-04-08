@@ -843,6 +843,7 @@ function ready_all(){
 			url: "php/php_po.php",
 			success: function(data){
 				$("#item_name").html("<option disabled selected></option>").append(data);
+				$("#item_name_search").html("<option disabled selected></option>").append(data);
 				loadLocal();
 			}
 		});
@@ -922,6 +923,17 @@ function ready_all(){
 			$("#title-type").html("P.O");
 			$("#span_pmode").html("");
 		}
+	});
+
+	$("#item_name_search").on("change", function(event){
+		$.ajax({
+			type: "POST",
+			data: {call_func: "item_name_search", item_name: $("#item_name_search option:selected").text()},
+			url: "php/php_po.php",
+			success: function(data){
+				$("table#item_search_table tbody").html(data);
+			}
+		});
 	});
 }
 

@@ -5,6 +5,28 @@ require "php_general_functions.php";
 
 session_start();
 
+function item_name_search(){
+	global $conn;
+
+	$item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
+	$tbody = "";
+	$sql = mysqli_query($conn, "SELECT po_number, item_name, description, main_stocks, unit_cost, quantity FROM tbl_po WHERE item_name LIKE '$item_name'");
+	while($row = mysqli_fetch_assoc($sql)){
+		$quantity = (explode(" ", $row["quantity"]))[0];
+		$tbody.="<tr>
+					<td>".$row["po_number"]."</td>
+                    <td>".$row["item_name"]."</td>
+                    <td>".$row["description"]."</td>
+                    <td>".$row["unit_cost"]."</td>
+                    <td>".number_format((float)$row["main_stocks"], 0)."</td>
+                    <td>".number_format((float)$row["main_stocks"] * (float)$row["unit_cost"], 2)."</td>
+                    <td>".number_format((float)$quantity, 0)."</td>
+                    <td>".number_format((float)$quantity * (float)$row["unit_cost"], 2)."</td>
+                </tr>";
+	}
+	echo $tbody;
+}
+
 function generate_dl(){
 	global $conn;
 
@@ -661,6 +683,9 @@ switch($call_func){
 		break;
 	case "edit_description":
 		edit_description();
+		break;
+	case "item_name_search":
+		item_name_search();
 		break;
 }
 
