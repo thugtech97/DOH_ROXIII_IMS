@@ -39,7 +39,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td colspan="7"><center>Select item name first.</center></td>
+                                    <td colspan="8"><center>Select item name first.</center></td>
                                 </tr>
                             </tbody>
                         </table>
