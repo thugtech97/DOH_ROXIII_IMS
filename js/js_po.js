@@ -926,6 +926,9 @@ function ready_all(){
 	});
 
 	$("#item_name_search").on("change", function(event){
+		$("table#item_search_table tbody").html("<tr>"+
+                            "<td colspan=\"8\"><center><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></center></td>"+
+                        "</tr>");
 		$.ajax({
 			type: "POST",
 			data: {call_func: "item_name_search", item_name: $("#item_name_search option:selected").text()},

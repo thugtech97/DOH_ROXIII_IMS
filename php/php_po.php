@@ -17,7 +17,7 @@ function item_name_search(){
 					<td>".$row["po_number"]."</td>
                     <td>".$row["item_name"]."</td>
                     <td>".$row["description"]."</td>
-                    <td>".$row["unit_cost"]."</td>
+                    <td>₱ ".number_format((float)$row["unit_cost"], 3)."</td>
                     <td>".number_format((float)$row["main_stocks"], 0)."</td>
                     <td>₱ ".number_format((float)$row["main_stocks"] * (float)$row["unit_cost"], 2)."</td>
                     <td>".number_format((float)$quantity, 0)."</td>

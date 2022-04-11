@@ -125,14 +125,14 @@ function print_ptr_gen(){
 			$ptr_body .= "<tr>
 			      <td style=\"width: 73.2px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
 			      <td colspan=\"2\" style=\"width: 23.4px; height: 14px; text-align: center; font-size: 11px; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\">".((count($pn) >= 1 && $row["serial_no"] == null) ? $pn[0] : "")."</td>
-			      <td colspan=\"3\" style=\"width: 26.4px; height: 14px; text-align: left; font-size: 12.5px; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\"><b>".$row["item"]."</b><br>".$row["description"]."</td>
+			      <td colspan=\"3\" style=\"width: 26.4px; height: 14px; text-align: left; font-size: 12.5px; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;\"><b>".$row["item"]."</b><br>".$row["description"]." (Ref#".$reference_no.")</td>
 			      <td style=\"width: 49.8px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity"]."</td>
 			      <td style=\"width: 51.6px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
 			      <td style=\"width: 64.8px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["cost"], 3)."</td>
 			      <td style=\"width: 72px; height: 14px; text-align: right; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["cost"], 3)."</td>
 			      <td style=\"width: 72.6px; height: 14px; text-align: center; font-size: 12.5px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["conditions"]."</td>
 			    </tr>";$rows_occupied++;
-			    $rows_occupied+=round((float)strlen($row["description"]) / 50.00);
+			    $rows_occupied+=round((float)strlen($row["description"].$reference_no) / 50.00);
 			    if($row["serial_no"] == null && count($pn) > 1){
 			     	for($j = 1; $j < count($pn); $j++){
 			     		$ptr_body .= "<tr>
@@ -222,7 +222,7 @@ function get_ptr_details(){
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
 			        <td style=\"width: 24.6px; height: 13.75px; text-align:center; font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$date_acquired."</td>
 			        <td colspan=\"2\" style=\"width: 24.6px; height: 13.75px; text-align:center;font-size: 9.5px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["reference_no"]."</td>
-			        <td colspan=\"5\" style=\"width: 24.6px; height: 13.75px; font-size: 13px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"><b>".$row["item"]."</b><br>- ".$row["description"]."</td>
+			        <td colspan=\"5\" style=\"width: 24.6px; height: 13.75px; font-size: 13px; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".(strpos(strtoupper($row["description"]), strtoupper($row["item"])) !== false ? "<b>".$row["description"]."</b>" :"<b>".$row["item"]."</b><br>- ".$row["description"])."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".$row["serial_no"]."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center;vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".($row["exp_date"] == "0000-00-00" ? "" : $row["exp_date"])."</td>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 13px; text-align:center; vertical-align: center; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">".number_format((float)$row["quantity"])."</td>
@@ -250,9 +250,10 @@ function get_ptr_details(){
 			      </tr>";
 			      $rows_occupied+=1;	
 		}
+		
 		$sql1 = mysqli_query($conn, "SELECT procurement_mode FROM tbl_po WHERE po_number LIKE '$reference_no'");
 		$p_mode = mysqli_real_escape_string($conn, mysqli_fetch_assoc($sql1)["procurement_mode"]);
-		$the_rest = array("*Nothing Follows*","","","PO No. ".$reference_no, $supplier, "Procurement Mode: ".$p_mode);
+		$the_rest = array("*Nothing Follows*","","","Procurement Mode: ".$p_mode);
 		for($i = 0; $i < count($the_rest); $i++){
 			$ptr_body .= "<tr>
 			        <td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>
