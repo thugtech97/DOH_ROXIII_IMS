@@ -54,7 +54,7 @@ function get_idr_details(from, to){
 		if(parseInt(from_arr[0]) <= parseInt(to_arr[0]) && parseInt(from_arr[1]) <= parseInt(to_arr[1])){
 			$("#lbl_idrfrom").html($("#from_idr option:selected").text().toUpperCase());$("#lbl_idrto").html($("#to_idr option:selected").text().toUpperCase());
 			$("#idr_tbody").html("<tr>"+
-                                    "<td colspan=\"7\"><center><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></center></td>"+
+                                    "<td colspan=\"12\"><center><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></center></td>"+
                                 "</tr>");
 			$.ajax({
 				type: "POST",

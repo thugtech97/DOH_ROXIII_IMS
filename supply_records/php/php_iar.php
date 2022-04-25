@@ -74,7 +74,7 @@ function get_nod_dv(){
 		"end_user"=>$end_user,
 		"procurement_mode"=>$procurement_mode,
 		"inspector"=>$inspector,
-		"total_amount"=>number_format((float)$total_amount, 3)
+		"total_amount"=>number_format((float)$total_amount, 2)
 	));
 }
 
