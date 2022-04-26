@@ -61,13 +61,13 @@
                             <div id="ppe_head">
                                 <table>
                                     <tr>
-                                        <td colspan="13" style="text-align: center;font-size: 12px;"><?php echo $_SESSION["company_title"]; ?></td>
+                                        <td colspan="14" style="text-align: center;font-size: 12px;"><?php echo $_SESSION["company_title"]; ?></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="13" style="text-align: center;font-size: 12px;"><b>REPORT OF SUPPLIES AND MATERIALS ISSUED</b></td>
+                                        <td colspan="14" style="text-align: center;font-size: 12px;"><b>REPORT OF SUPPLIES AND MATERIALS ISSUED</b></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="13" style="text-align: center;font-size: 12px;">As of <span id="lbl_month">MONTH</span>&nbsp;<span id="lbl_year">YEAR</span></td>
+                                        <td colspan="14" style="text-align: center;font-size: 12px;">As of <span id="lbl_month">MONTH</span>&nbsp;<span id="lbl_year">YEAR</span></td>
                                     </tr>
                                 </table>
                                 <br>
@@ -78,6 +78,7 @@
                                 <thead>
                                     <tr style="background-color: #F0F0F0; font-size: 12px;">
                                         <th style="padding: 5px;">Date</th>
+                                        <th style="padding: 5px;">PROGRAM/EU</th>
                                         <th style="padding: 5px;">Particular</th>
                                         <th style="padding: 5px;">PAR/PTR/ICS Reference</th>
                                         <th style="padding: 5px;">QTY</th>
@@ -94,7 +95,7 @@
                                 </thead>
                                 <tbody>
                                     <tr style="font-size: 12px;">
-                                        <td colspan="13" style="text-align: center;">No records found.</td>
+                                        <td colspan="14" style="text-align: center;">No records found.</td>
                                     </tr>
                                 </tbody>
                             </table>

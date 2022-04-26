@@ -13,7 +13,7 @@ function get_ppe_details(month,year){
 	var year_month = year+"-"+month;
 	$("#lbl_month").html($("#ppe_month option:selected").text());$("#lbl_year").html($("#ppe_year option:selected").text());
 	$("table#tbl_ppe tbody").html("<tr>"+
-                                    "<td colspan=\"13\"><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></td>"+
+                                    "<td colspan=\"14\"><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></td>"+
                                 "</tr>");
 	$.ajax({
 		type: "POST",
@@ -24,7 +24,7 @@ function get_ppe_details(month,year){
 				$("table#tbl_ppe tbody").html(data);
 			}else{
 				$("table#tbl_ppe tbody").html("<tr>"+
-                                    "<td colspan=\"13\" style=\"text-align: center;\">No records found.</td>"+
+                                    "<td colspan=\"14\" style=\"text-align: center;\">No records found.</td>"+
                                 "</tr>");
 			}
 		}
