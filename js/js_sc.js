@@ -240,6 +240,7 @@ function load_item(c,s){
 }
 
 $("#nestable").on('click','li .dd-handle',function (){
+	$("li .dd-handle").css("background-color", "");
 	var element = $(this);
 	element.removeClass("dd-handle");
     item_name = $(this).find('b').text();
@@ -257,6 +258,7 @@ $("#nestable").on('click','li .dd-handle',function (){
     		$("#sc_refn").html(data["option_ref"]);
     		$("#loader").hide();
     		element.addClass("dd-handle");
+    		element.css("background-color", "cyan");
     		$("#print_itemname").html(item_name);
     		$("#desc").html(item_desc);
     		$("#sc_drugs").html(data["sc_drugs"]);

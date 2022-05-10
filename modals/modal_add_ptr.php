@@ -28,7 +28,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">Entity Name:</label>
                                     <div class="col-lg-9">
-                                        <input id="entity_name" type="text" class="form-control" value="<?php echo $_SESSION["entity_name"]; ?>">
+                                        <input id="entity_name" type="text" class="form-control" value="<?php  //echo $_SESSION["entity_name"]; ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">

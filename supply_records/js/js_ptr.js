@@ -1,4 +1,5 @@
 var items = [];
+var items_alloc = [];
 var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
 var po_details = {};
 
@@ -7,7 +8,7 @@ var ettype = null;
 var exp_date = "";
 
 $(document).ready(function(){
-    
+    //bsCustomFileInput.init();
 });
 
 Date.prototype.toDateInputValue = (function() {
@@ -527,9 +528,7 @@ function delete_control(ptr_no){
             url: "php/php_ics.php",
             success: function(data){
                 swal("Deleted!", "The PTR No. "+ptr_no+" is now deleted.", "success");
-                setTimeout(function () {
-                    location.reload();
-                  }, 1500);
+                get_records(1, _url);
             }
         });
     });
@@ -701,8 +700,93 @@ function download_xls_gen(ptr_no){
             }else{
                 $("input#g"+data["ptr_details"][5]).attr("checked", "checked");
             }
-
             exportTableToExcel("report_ptr_gen", "PTR No. "+ptr_no);
         }
     });
+}
+
+$(document).on('change', '.custom-file-input', function(){
+    prepareUploadAlloc(event);
+});
+
+function prepareUploadAlloc(event){
+    files = event.target.files;
+    uploadAlloc(event);
+}
+
+function uploadAlloc(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    var data = new FormData();
+    $.each(files, function(key, value){
+        data.append(key, value);
+    });
+    $("table#upload_alloc tbody").html("<tr>"
+                                    + "<td colspan=\"11\" style=\"text-align: center;\"><i class=\"fa fa-refresh fa-spin\"></i></td>"
+                                    + "</tr>");
+    $("#count").html("0");
+    $.ajax({
+        url: 'php/upload_alloc.php?files&type_iss=PTR',
+        type: 'POST',
+        data: data,
+        dataType: "JSON",
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(data){
+            if(data["error"]==true){
+                swal("Invalid format!", "The uploaded excel file is not a valid allocation list format.", "error");
+                $("#btn_insert").prop('disabled', true);
+                $("table#upload_alloc tbody").html("<tr>"
+                                    +"<td colspan=\"11\" style=\"text-align: center;\">No data uploaded.</td>"
+                                    +"</tr>");
+                $("#count").html("0");
+            }else{
+                $("#btn_insert").prop('disabled', (data["tbody"] != "") ? false : true);
+                $("#count").html(data["count"]);
+                $("table#upload_alloc tbody").html((data["tbody"] != "")?data["tbody"]:"<tr><td colspan=\"11\" style=\"text-align: center;\">No data uploaded.</td></tr>");
+            }
+        }
+    });
+}
+
+function insertAlloc(){
+    $("#btn_insert").prop('disabled', true);
+    $("#loader_upload").show();
+    $("table#upload_alloc tbody").find('tr').each(function (i) {
+        var $tds = $(this).find('td');
+        items_alloc.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).text(),$tds.eq(5).text(),$tds.eq(6).text(),$tds.eq(7).text(),$tds.eq(8).text(),$tds.eq(9).text()]);
+    });
+    var counter = 0;
+    var po_value = (new Date().toDateInputValue()).split("-");
+    for(var i = 0; i < items_alloc.length; i++){
+        $.ajax({
+            type: "POST",
+            url: "php/upload_alloc.php",
+            dataType: "JSON",
+            data: {call_func: "insert_ptr",
+                yy_mm: po_value[0]+"-"+po_value[1],
+                alloc_number: $("#alloc_number").val(),
+                alloc_entity: $("#alloc_entity").val(),
+                date_released: new Date().toDateInputValue(),
+                from: items_alloc[i][0],
+                to: items_alloc[i][1],
+                address: items_alloc[i][2],
+                transfer_reason: items_alloc[i][3],
+                storage_temp: items_alloc[i][4],
+                transport_temp: items_alloc[i][5],
+                inventory_id: items_alloc[i][6],
+                quantity: items_alloc[i][7],
+                property_no: items_alloc[i][8],
+                lot_serial: items_alloc[i][9],
+                },
+            success: function(data){
+                counter++;
+                get_records(1, _url);
+                $("#remarks-row-"+counter).html((data["response"] == 1) ? "✔️" : "❌");
+            }
+        });
+    }
+    swal("Done", "", "success");
+    $("#loader_upload").hide();
 }

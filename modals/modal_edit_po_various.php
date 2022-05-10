@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-5">
+                    <div class="col-lg-4">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <i class="fa fa-info-circle"></i> Item Information
@@ -123,7 +123,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-7">
+                    <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <i class="fa fa-list"></i> Item Lists
@@ -132,6 +132,7 @@
                                 <table id="eitem_various" class="table table-bordered">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Item Name</th>
                                             <th>Description</th>
                                             <th>Unit Cost</th>
@@ -146,6 +147,7 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
+                                            <td>
                                             <td colspan="4"></td>
                                             <td><b>TOTAL</b></td>
                                             <td><b>₱ <span id="tot_amt"></span></b></td>

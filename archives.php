@@ -159,6 +159,7 @@ if(!isset($_SESSION["username"])){
             </nav>
         </div>
 <div class="wrapper wrapper-content animated fadeInRight">
+    <!--  
     <div class="responsive">
       <div class="gallery">
         <a target="_blank" href="imgsys/po_pdf.png">
@@ -183,6 +184,8 @@ if(!isset($_SESSION["username"])){
         <div class="desc">Add a description of the image here</div>
       </div>
     </div>
+    !-->
+    <embed id="img_po" src="../archives/" type="application/pdf" height="1000" width="100%"/>
 </div>
 <div class="footer">
     <div>

@@ -127,7 +127,7 @@ if(!isset($_SESSION["username"])){
                                         <button type="button" class="btn btn-primary" id="btn_add_ptr" data-toggle="modal" data-target="#add_ptr">
                                             <i class="fa fa-plus"></i> Add PTR
                                         </button>
-                                        <button type="button" class="btn btn-info" id="upload_alloc" onclick="upload_alloc();">
+                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#ptr_alloc">
                                             <i class="fa fa-upload"></i> Upload Allocation List
                                         </button>
                                     </li>
@@ -174,6 +174,7 @@ if(!isset($_SESSION["username"])){
             require "../modals/modal_edit_ptr.php";
             require "../modals/modal_view_iss.php";
             require "../modals/modal_edit_dr.php";
+            require "modals/modal_ptr_alloc.php";
         ?>
 
     </div>
@@ -186,6 +187,7 @@ if(!isset($_SESSION["username"])){
     <script src="../js/plugins/dataTables/datatables.min.js"></script>
     <script src="../js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
 
+    <script src="../js/plugins/bs-custom-file/bs-custom-file-input.min.js"></script>
     <script src="js/js_general_functions.js"></script>
     <script src="js/js_ptr.js"></script>
     <script type="text/javascript">
