@@ -21,6 +21,7 @@ if(isset($_SESSION["username"])){
 
     <link rel="shortcut icon" type="image/x-icon" href="../archives/img/<?php echo $_SESSION["company_logo"]; ?>">
     <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
+    <link rel="stylesheet" href="css/animate.css">
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="OCAIS_files/bootstrap.css">
@@ -40,7 +41,7 @@ if(isset($_SESSION["username"])){
     <link rel="stylesheet" href="OCAIS_files/fontgoogle.css">
     <link rel="stylesheet" href="OCAIS_files/coresite.css">
   
-  <body id="siteBody" class="animsition page-login-v2 layout-full page-dark pt-0" style="animation-duration: 800ms; opacity: 1;">
+  <body id="siteBody" class="animsition page-login-v2 layout-full page-dark pt-0 fadeIn" style="animation-duration: 800ms; opacity: 1;">
     
     <!-- Page -->
     <div class="page  ml-0" data-animsition-in="fade-in" data-animsition-out="fade-out" style="min-height:calc(100%) !important;">
