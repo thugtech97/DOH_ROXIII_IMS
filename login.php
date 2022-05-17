@@ -9,65 +9,113 @@ if(isset($_SESSION["username"])){
 ?>
 
 <!DOCTYPE html>
-<html>
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<!-- saved from url=(0030)https://ocais.doh.gov.ph/login -->
+<html class="no-js css-menubar" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="text/html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="bootstrap material admin template">
+    <meta name="author" content="">
+    
     <title>INVENTORY MS | Login</title>
-
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
     <link rel="shortcut icon" type="image/x-icon" href="../archives/img/<?php echo $_SESSION["company_logo"]; ?>">
     <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="OCAIS_files/bootstrap.css">
+    <link rel="stylesheet" href="OCAIS_files/bootstrap-extend.css">
+    <link rel="stylesheet" href="OCAIS_files/site.css">
+    <link rel="stylesheet" href="OCAIS_files/green.css" type="text/css">
+    
+    <!-- Plugins -->
+    <link rel="stylesheet" href="OCAIS_files/material-ui.min.css">
+    <link rel="stylesheet" href="OCAIS_files/bootstrap-tokenfield.min.css">
+    <link rel="stylesheet" href="OCAIS_files/login-v2.css">
 
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-</head>
-
-<body class="gray-bg">
-    <div class="loginColumns animated fadeIn" style="color: black;">
-        <div class="row">
-            <div class="col-md-6">
-                <center>
-                    <img id="login_logo" src="" height="340" width="340">
-                </center>
+    <!-- Fonts -->
+    <link rel="stylesheet" href="OCAIS_files/material-design.min.css">
+    <link rel="stylesheet" href="OCAIS_files/font-awesome.css">
+    <link rel="stylesheet" href="OCAIS_files/brand-icons.min.css">
+    <link rel="stylesheet" href="OCAIS_files/fontgoogle.css">
+    <link rel="stylesheet" href="OCAIS_files/coresite.css">
+  
+  <body id="siteBody" class="animsition page-login-v2 layout-full page-dark pt-0" style="animation-duration: 800ms; opacity: 1;">
+    
+    <!-- Page -->
+    <div class="page  ml-0" data-animsition-in="fade-in" data-animsition-out="fade-out" style="min-height:calc(100%) !important;">
+            <!-- Page Content -->
+      <div class="page-content ">
+        <div class="page-brand-info" style="margin:5px 100px 0 90px">
+            
+            <div class="brand mb-5">
+                <img class="brand-img" src="" alt="..." style="height: 171px">
+                <h1 class="brand-text font-size-60" style="font-size: 77px !important;margin-top: -16px">
+                    DOH-ROXIII-IMS</h1>
+                
             </div>
-            <div class="col-md-6" style="width: 100%; text-align: center;">
-                <div class="ibox-content">
-                    <form class="m-t" role="form">
-                        <div class="form-group">
-                            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
-                        </div>
-                        <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
-                        <br>
-                        <p class="text-muted text-center">
-                            <small>Do not have an account?</small>
-                        </p>
-                    </form>
-                    <button class="btn btn-sm btn-white btn-block">Create an account</button>
-                    <p class="m-t">
-                        <small><span id="company_title"></span> &copy; <?php echo date("Y"); ?></small>
-                    </p>
+            <h5 class="brand-text font-size-60" style="font-size: 20px !important;margin-left: 193px;margin-top: -90px;">
+            Inventory Management System </h5>       
+            <h5 class="brand-text font-size-60" style="font-size: 16px !important;margin-left: 193px;
+            margin-top: -362px;color: #fdec09;">
+            DOH-CHD-CARAGA MATERIAL MANAGEMENT UNIT
+            </h5>   
+            <p class="font-size-20"></p>
+            <div style="color: #fdec09;font-size: 18px;border-top: 1PX SOLID #BEBEBE;margin-top: -40px;">
+                <br>
+                <b>NEW SYSTEM UPDATES:</b><br>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <u>UPLOAD ALLOCATION LIST (PTR ISSUANCES) MODULE</u><br>
+                        - System users can now upload an allocation list containing all the recipients with their corresponding allocated items and quantities filled up by the end-users, in an excel file format (XLSX). The allocation list template is downloadable in the PTR section or click <a style="color: cyan;" href="supply_records/alloc/DOH_ROXIII_IMS_PTR_ALLOCATION_LIST_FORMAT.xlsx" download>here.</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col-md-6">
-                INVENTORY MANAGEMENT SYSTEM
+       </div>
+
+        <div class="page-login-main">
+            <div class="brand hidden-md-up text-center mb-20">
+                <img class="brand-img" src="" alt="..." style="height:45px;width:45px">
+                <h3 class="brand-text font-size-40" style="color: #4CAF4E;">DOH-ROXIII-IMS</h3>
+                <h6 class="text-success mt-0">Inventory Management System</h6>
             </div>
-            <div class="col-md-6 text-right">
-               <small>All Rights Reserved &copy; <?php echo date("Y"); ?></small>
-            </div>
-        </div>
+            <h3 class="font-size-24">Sign In</h3>
+            <p class="hidden-xs-down"></p>
+
+            <form id="LoginForm" role="form">
+                <div class="form-group form-material floating" data-plugin="formMaterial">
+                    <input type="text" class="form-control empty" id="username" name="username" formgroup="LoginForm_Data" placeholder="Username" required="" autofocus="">
+                </div>
+                <div class="form-group form-material floating" data-plugin="formMaterial">
+                    <input type="password" class="form-control empty" id="password" name="password" formgroup="LoginForm_Data" placeholder="Password" required="">
+                </div>
+                <div class="form-group mb-10 clearfix">
+                    <p class="float-left">No account? <a class="ml-0" href="">Sign Up</a></p>
+                    <a class="float-right" href="">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-10 waves-effect waves-classic">Sign in</button>
+            </form> 
+            
+            <p></p>
+            <footer class="page-copyright mb-10 text-secondary">
+                
+                <div class="social" style="margin-top:3rem">
+                    <a class="mx-5" href="https://drive.google.com/file/d/1H6DzrxhfjMdY0wh9NiCpfuq5_hdbgc5H/view?usp=sharing" target="_blank">SYSTEM Guide</a>
+                    <a class="mx-5" href="https://drive.google.com/file/d/1H6DzrxhfjMdY0wh9NiCpfuq5_hdbgc5H/view?usp=sharing" target="_blank">Downloads</a>
+                    <a class="mx-5" href="https://drive.google.com/file/d/1H6DzrxhfjMdY0wh9NiCpfuq5_hdbgc5H/view?usp=sharing" target="_blank">Contact Us</a>
+                </div>
+                
+                <p class="mt-10">Version 2.0.0</p>
+
+
+                <p class="mt-10 company_title">DEPARTMENT OF HEALTH</p>
+                <p>© <?php echo date('Y'); ?>. All RIGHT RESERVED.</p>
+            
+            </footer>
+        </div>  
+
+      </div>
     </div>
     <script src="sweetalert-master/dist/sweetalert.min.js"></script>
     <script src="js/jquery-3.1.1.min.js"></script>
@@ -91,11 +139,12 @@ if(isset($_SESSION["username"])){
             url: "php/php_load_config.php",
             dataType: "JSON",
             success: function(data){
-                $("#login_logo").attr("src", "../archives/img/"+data["company_logo"]);
-                $("#company_title").html(data["company_title"]);
+                $(".brand-img").attr("src", "../archives/img/"+data["company_logo"]);
+                $(".company_title").html(data["company_title"]);
             }
           });
         });
     </script>
-</body>
-</html>
+  
+  </body>
+  </html>

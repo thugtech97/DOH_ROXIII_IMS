@@ -1,0 +1,117 @@
+.dataTables_info  {
+  position: relative !important;
+  z-index: auto !important;
+}
+
+.dataTable thead  tr th,.dataTable tfoot  tr td{
+	font-size: 12px !important;
+	font-weight: normal ;
+}
+
+.selected > .itemfocused{
+	border-top:1px solid #868e96  !important;
+	border-left:0px !important;
+	border-right:0px !important;
+	border-bottom:2px solid #000 !important;
+}
+.itemfocused{
+	border-top:1px solid #e0e0e0 !important;
+	border-left:0px !important;
+	border-right:0px !important;
+	border-bottom:2px solid #868e96 !important;
+}
+.dataTable tbody  tr td{
+	font-size: 12px !important;
+	font-weight: normal ;
+}
+
+.form-material select.form-control > option {
+  /*  font-weight: normal !important;
+    display: block !important;
+    white-space: pre !important;
+    min-height: 1.2em !important;*/
+    padding: 0px 5px !important;
+}
+
+.grecaptcha-badge {
+width: 70px !important;
+overflow: hidden !important;
+transition: all 0.3s ease !important;
+left: 4px !important;
+}
+
+.grecaptcha-badge:hover {
+width: 256px !important;
+}
+
+.scroll-to-top {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  text-align: center;
+  color: #fff;
+  background: rgba(90, 92, 105, 0.5);
+  line-height: 46px;
+}
+
+.scroll-to-top:focus, .scroll-to-top:hover {
+  color: white;
+}
+
+.scroll-to-top:hover {
+  background: #5a5c69;
+}
+
+.scroll-to-top i {
+  font-weight: 800;
+}
+
+.select2-container--default .select2-selection--single {
+    height: 2.573rem;
+    padding: 0px 5px;
+    background-color: #fff;
+    border: 0px solid #e0e0e0 !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+    border-radius: 0px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 3;
+    color:#757575 !important;
+}
+
+.select2-container--default .select2-dropdown {
+    margin-top: -1px;
+    overflow-x: hidden;
+    border-color: #e0e0e0;
+    box-shadow: 0 6px 12px rgb(0 0 0 / 18%);
+    color:#757575 !important;
+}
+/*
+.select2 .select2-container .select2-container--default .select2-container--below .select2-container--open>.select2-selection .select2-selection--single{
+    background-image: linear-gradient(#4caf50, #4caf50), linear-gradient(#e0e0e0, #e0e0e0);
+    border: 0;
+    box-shadow: none;
+    background-repeat: no-repeat;
+    background-position: center bottom, center calc(100% - 1px);
+    background-size: 0 2px, 100% 1px;
+    transition: background 0s ease-out;
+}*/
+
+.rotate-90 {
+-moz-transform: rotate(-90.0deg);  /* FF3.5+ */
+-o-transform: rotate(-90.0deg);  /* Opera 10.5 */
+-webkit-transform: rotate(-90.0deg);  /* Saf3.1+, Chrome */
+filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);  /* IE6,IE7 */
+-ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)"; /* IE8 */
+}
+
+.rotate-90-span {
+  -ms-writing-mode: tb-rl;
+  -webkit-writing-mode: vertical-rl;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
