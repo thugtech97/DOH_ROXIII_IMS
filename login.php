@@ -49,20 +49,14 @@ if(isset($_SESSION["username"])){
       <div class="page-content ">
         <div class="page-brand-info" style="margin:5px 100px 0 90px">
             
-            <div class="brand mb-5">
-                <img class="brand-img" src="" alt="..." style="height: 171px">
-                <h1 class="brand-text font-size-60" style="font-size: 77px !important;margin-top: -16px">
-                    DOH-ROXIII-IMS</h1>
-                
-            </div>
-            <h5 class="brand-text font-size-60" style="font-size: 20px !important;margin-left: 193px;margin-top: -90px;">
-            Inventory Management System </h5>       
-            <h5 class="brand-text font-size-60" style="font-size: 16px !important;margin-left: 193px;
-            margin-top: -362px;color: #fdec09;">
-            DOH-CHD-CARAGA MATERIAL MANAGEMENT UNIT
-            </h5>   
+            <table>
+                <tr>
+                    <td><img class="brand-img" src="" alt="..." style="height: 180px"></td>
+                    <td><span style="font-size: 20px;">DOH-CHD-CARAGA MATERIAL MANAGEMENT UNIT</span><br><span style="font-size: 70px; font-weight: bold;">DOH-ROXIII-IMS</span><br><span style="font-size: 20px;">Inventory Management System</span></td>
+                </tr>
+            </table> 
             <p class="font-size-20"></p>
-            <div style="color: #fdec09;font-size: 18px;border-top: 1PX SOLID #BEBEBE;margin-top: -40px;">
+            <div style="color: #fdec09;font-size: 18px;border-top: 1PX SOLID #BEBEBE;">
                 <br>
                 <b>NEW SYSTEM UPDATES:</b><br>
                 <br>

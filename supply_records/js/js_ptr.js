@@ -778,7 +778,7 @@ function insertAlloc(){
                 inventory_id: items_alloc[i][6],
                 quantity: items_alloc[i][7],
                 property_no: items_alloc[i][8],
-                lot_serial: items_alloc[i][9],
+                lot_serial: items_alloc[i][9]
                 },
             success: function(data){
                 counter++;
