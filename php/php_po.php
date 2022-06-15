@@ -415,37 +415,42 @@ function get_latest_po(){
 
 function get_po(){
 	global $conn;
-	
-	$supplier_po = array();
-	$tbody = ""; $lists = "";
-	$separator = "|";
-	$sql = mysqli_query($conn, "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, p.procurement_mode,s.supplier, SUBSTRING(p.date_received, 1, 10) AS date_r, p.delivery_term, p.date_conformed, p.date_delivered, p.activity_date, p.end_user FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id ORDER BY po_id ASC");
-	$csp = 0;
-	if(mysqli_num_rows($sql) != 0){
+
+	$limit = '10';
+	$page = 1;
+	if($_POST["page"] > 1){
+	  $start = (($_POST["page"] - 1) * $limit);
+	  $page = $_POST["page"];
+	}else{
+	  $start = 0;
+	}
+
+	$query = "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, p.procurement_mode,s.supplier, SUBSTRING(p.date_received, 1, 10) AS date_r, p.delivery_term, p.date_conformed, p.date_delivered, p.activity_date, p.end_user FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id ";
+	if($_POST["search"] != ""){
+		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
+		$query.="AND (p.end_user LIKE '%$qs%' OR p.po_number LIKE '%$qs%' OR p.status LIKE '%$qs%' OR p.procurement_mode LIKE '%$qs%' OR s.supplier LIKE '%$qs%' OR p.item_name LIKE '%$qs%') ";
+	}
+	$query.="ORDER BY p.po_id DESC ";
+
+	$sql_orig = mysqli_query($conn, $query);
+	$sql = mysqli_query($conn, $query."LIMIT ".$start.", ".$limit."");
+	$tbody = "";
+	$total_data = mysqli_num_rows($sql_orig);
+	if($total_data != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$eu = str_replace(' ', '', $row["end_user"]);
-			$date = date_create($row["date_conformed"]);
 			$pon = $row["po_number"];
 			$in = array();
 			$get_items = mysqli_query($conn, "SELECT item_name FROM tbl_po WHERE po_number LIKE '$pon'");
 			while($ri = mysqli_fetch_assoc($get_items)){
 				array_push($in, trim($ri["item_name"]));
 			}
-			date_add($date,date_interval_create_from_date_string($row["delivery_term"] == "Progress Billing" || $row["delivery_term"] == "" ? "0 days" : $row["delivery_term"]));
-			$expected_delivery_date = date_format($date,"Y-m-d");
-			$start_date = strtotime(date("Y-m-d"));
-			$end_date = strtotime($expected_delivery_date);
-
-			$remaining_days = round(($end_date - $start_date)/60/60/24);
-			$fdays = ($remaining_days < 0) ? "<span style=\"color: red;\">(".(-1 * (int)$remaining_days)." days ago)</span>" : "<span style=\"color: green;\">(".$remaining_days." days left)</span>";
-			$supplier_po = ($remaining_days < 0 && $row["status"] == "Not Yet Delivered") ? array_push_assoc($supplier_po, $row["supplier"], $row["po_number"]) : $supplier_po;
 			$tbody.="<tr>
 					<td>".$row["date_r"]."</td>
 					<td>".$row["po_number"]."</td>
 					<td style=\"font-size: 10px;\">".implode(", ", $in)."</td>
 					<td>".$row["procurement_mode"]."</td>
 					<td>".$row["date_conformed"]."</td>
-					<td>".(($row["status"] == "Delivered" || $row["status"] == "") ? "" : $expected_delivery_date." ".$fdays)."</td>
 					<td>".$row["date_delivered"]."</td>
 					<td>".$row["supplier"]."</td>
 					<td>".$row["end_user"]."</td>
@@ -453,31 +458,12 @@ function get_po(){
 					<td><center>".(($row["inspection_status"] == '0') ? "<button class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\" disabled>✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
 					<td><center><button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '".$eu."')\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Consolidate\" onclick=\"consolidate(this.id)\"><i class=\"fa fa-stack-overflow\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "")."</center></td></tr>";
 		}
-		if(count($supplier_po) != 0){
-			foreach ($supplier_po as $key => $value) {
-		        $lists.="<li>
-	                        <a onclick=\"print_dl('".$key."', '".implode($separator, $value)."', '".$separator."');\" class=\"dropdown-item\">
-	                            <div>
-	                                <i class=\"fa fa-user\"></i> ".strtoupper($key)."
-	                                <span class=\"float-right text-muted small\"><span class=\"label label-primary\" style=\"border-radius: 10px;\">".count($supplier_po[$key])."</span> Purchase Orders</span>
-	                            </div>
-	                        </a>
-	                    </li>
-	                    <li class=\"dropdown-divider\"></li>";
-			}
-			$csp = 1;
-		}else{
-			$lists="<li>
-                        <a class=\"dropdown-item\">
-                            <div>
-                                <span class=\"text-muted medium\"><center>No demand letters to generate. </center></span>
-                            </div>
-                        </a>
-                    </li>";
-		}
+	}else{
+		$tbody = "<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
 	}
-
-	echo json_encode(array("tbody"=>$tbody, "supplier_po"=>$supplier_po, "lists"=>$lists, "csp"=>$csp));
+	$in_out = create_table_pagination($page, $limit, $total_data, array("Date Received","PO Number","Items","Procurement Mode","Date Conformed","Date Delivered", "Supplier","End User","Status","Inspected",""));
+	$whole_dom = $in_out[0]."".$tbody."".$in_out[1];
+	echo $whole_dom;
 }
 
 function edit_po_various(){
@@ -622,7 +608,7 @@ function insert_po_various(){
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
 
 switch($call_func){
-	case "get_po":
+	case "get_records":
 		get_po();
 		break;
 	case "get_latest_po":

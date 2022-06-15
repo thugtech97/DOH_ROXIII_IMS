@@ -243,12 +243,6 @@ if(!isset($_SESSION["username"])){
                         </div>
                     </div>
                 </div>
-                <?php
-                    $game_id = array(22913,25001,25013,25091);
-                    if($_SESSION["username"] == "jbescol"){
-                        echo "<iframe width=\"100%\" height=\"100%\" src=\"https://www.addictinggames.com/embed/html5-games/".$game_id[rand(0,count($game_id))]."\" scrolling=\"no\"></iframe>";
-                    }
-                ?>
             </div>
         </div>
         <div class="footer">

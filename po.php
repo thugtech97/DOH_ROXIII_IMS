@@ -136,10 +136,16 @@ if(!isset($_SESSION["username"])){
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" onclick="//$('#view_supp').modal();">
-                            <i class="fa fa-users"></i><span class="label label-danger" id="count_supp"><i class="fa fa-spinner fa-spin"></i></span>
+                            <i class="fa fa-users"></i><span class="label label-danger" id="count_supp">😞</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-alerts" id="nestable" style="height: 500px; overflow: auto;">
-                            
+                        <ul class="dropdown-menu dropdown-alerts" id="nestable" style="height: 60px; overflow: auto;">
+                            <li>
+                                <a class="dropdown-item">
+                                    <div>
+                                        <span class="text-muted medium"><center>No demand letters to generate.</center></span>
+                                    </div>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li>
@@ -199,42 +205,14 @@ if(!isset($_SESSION["username"])){
                 <div class="col-lg-12 animated bounceInDown">
                     <div class="panel panel-success">
                         <div class="panel-heading">
-                            <h3><i class="fa fa-list-alt"></i> Purchase Orders</h3>
+                            <h3><i class="fa fa-clipboard"></i> Purchase Orders</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="table-responsive">
-                                <table id="tbl_po" class="table table-bordered table-hover dataTables-example">
-                                    <thead>
-                                        <tr>
-                                            <th>Date Received</th>
-                                            <th>P.O Number</th>
-                                            <th>Items</th>
-                                            <th>Mode of Procurement</th>
-                                            <th>Date Conformed</th>
-                                            <th>Expected Delivery</th>
-                                            <th>Date Delivered</th>
-                                            <th>Supplier</th>
-                                            <th>End User</th>
-                                            <th>Status</th>
-                                            <th>Inspected</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="12">
-                                                <center>
-                                                    <div class="spiner-example">
-                                                        <script type="text/javascript">
-                                                            var arr = ["<div class=\"sk-spinner sk-spinner-wave\"><div class=\"sk-rect1\"></div>&nbsp;<div class=\"sk-rect2\"></div>&nbsp;<div class=\"sk-rect3\"></div>&nbsp;<div class=\"sk-rect4\"></div>&nbsp;<div class=\"sk-rect5\"></div></div>", "<div class=\"sk-spinner sk-spinner-rotating-plane\"></div>", "<div class=\"sk-spinner sk-spinner-double-bounce\"><div class=\"sk-double-bounce1\"></div><div class=\"sk-double-bounce2\"></div></div>", "<div class=\"sk-spinner sk-spinner-wandering-cubes\"><div class=\"sk-cube1\"></div><div class=\"sk-cube2\"></div></div>", "<div class=\"sk-spinner sk-spinner-pulse\"></div>", "<div class=\"sk-spinner sk-spinner-chasing-dots\"><div class=\"sk-dot1\"></div><div class=\"sk-dot2\"></div></div>", "<div class=\"sk-spinner sk-spinner-three-bounce\"><div class=\"sk-bounce1\"></div><div class=\"sk-bounce2\"></div><div class=\"sk-bounce3\"></div></div>", "<div class=\"sk-spinner sk-spinner-circle\"><div class=\"sk-circle1 sk-circle\"></div><div class=\"sk-circle2 sk-circle\"></div><div class=\"sk-circle3 sk-circle\"></div><div class=\"sk-circle4 sk-circle\"></div><div class=\"sk-circle5 sk-circle\"></div><div class=\"sk-circle6 sk-circle\"></div><div class=\"sk-circle7 sk-circle\"></div><div class=\"sk-circle8 sk-circle\"></div><div class=\"sk-circle9 sk-circle\"></div><div class=\"sk-circle10 sk-circle\"></div><div class=\"sk-circle11 sk-circle\"></div><div class=\"sk-circle12 sk-circle\"></div></div>", "<div class=\"sk-spinner sk-spinner-cube-grid\"><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div></div>", "<div class=\"sk-spinner sk-spinner-fading-circle\"><div class=\"sk-circle1 sk-circle\"></div><div class=\"sk-circle2 sk-circle\"></div><div class=\"sk-circle3 sk-circle\"></div><div class=\"sk-circle4 sk-circle\"></div><div class=\"sk-circle5 sk-circle\"></div><div class=\"sk-circle6 sk-circle\"></div><div class=\"sk-circle7 sk-circle\"></div><div class=\"sk-circle8 sk-circle\"></div><div class=\"sk-circle9 sk-circle\"></div><div class=\"sk-circle10 sk-circle\"></div><div class=\"sk-circle11 sk-circle\"></div><div class=\"sk-circle12 sk-circle\"></div></div>"];
-                                                            document.write(arr[Math.floor(Math.random() * arr.length)]);
-                                                        </script>
-                                                    </div>
-                                                </center>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="pull-right">
+                                Search: <input type="text" name="search_box" id="search_box"/>
+                            </div>
+                            <div class="table-responsive" id="dynamic_content">
+
                             </div>
                         </div>
                     </div>
@@ -353,6 +331,9 @@ if(!isset($_SESSION["username"])){
     <script src="js/js_po.js"></script>
     <script src="js/js_ntc.js"></script>
     <script src="js/js_bf.js"></script>
+    <script type="text/javascript">
+        set_url("php/php_po.php");
+    </script>
 
 </body>
 </html>
