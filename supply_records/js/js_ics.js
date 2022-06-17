@@ -190,43 +190,39 @@ function validate(){
 				if($("#date").val() != ""){
 					if($("#reference_no").val() != ""){
 						if($("#received_by").val() != null){
-							if($("#ics_area").val() != null){
-								if(get_rows() != 0){
-									$("#save_changes").attr("disabled", true);
-									$.ajax({
-										type: "POST",
-										data: {
-											call_func: "insert_ics",
-											ics_no: $("#ics_no").val(),
-											entity_name: $("#entity_name").val(),
-											fund_cluster: $("#fund_cluster").val(),
-											reference_no: $("#reference_no option:selected").text(),
-											received_from_id: $("#received_from").val(),
-											received_from: $("#received_from option:selected").text(),
-											received_by_id: $("#received_by").val(),
-											received_by: $("#received_by option:selected").text(),
-											date_released: $("#date").val(),
-											area: $("#ics_area option:selected").text(),
-											items: items
-										},
-										url: "php/php_ics.php",
-										success: function(data){
-											if(data == "0"){
-		                                        swal("Inserted!", "Saved successfully to the database.", "success");
-		                                        setTimeout(function () {
-		                                            location.reload();
-		                                          }, 1500);
-		                                    }else{
-		                                        $("#save_changes").attr("disabled", false);
-		                                        swal("ICS Number already existed!", "Please enter another ICS number!", "warning");
-		                                    }
-										}
-									});
-								}else{
-									swal("No items!", "Please add an item", "warning");
-								}
+							if(get_rows() != 0){
+								$("#save_changes").attr("disabled", true);
+								$.ajax({
+									type: "POST",
+									data: {
+										call_func: "insert_ics",
+										ics_no: $("#ics_no").val(),
+										entity_name: $("#entity_name").val(),
+										fund_cluster: $("#fund_cluster").val(),
+										reference_no: $("#reference_no option:selected").text(),
+										received_from_id: $("#received_from").val(),
+										received_from: $("#received_from option:selected").text(),
+										received_by_id: $("#received_by").val(),
+										received_by: $("#received_by option:selected").text(),
+										date_released: $("#date").val(),
+										area: $("#ics_area option:selected").text(),
+										items: items
+									},
+									url: "php/php_ics.php",
+									success: function(data){
+										if(data == "0"){
+	                                        swal("Inserted!", "Saved successfully to the database.", "success");
+	                                        setTimeout(function () {
+	                                            location.reload();
+	                                          }, 1500);
+	                                    }else{
+	                                        $("#save_changes").attr("disabled", false);
+	                                        swal("ICS Number already existed!", "Please enter another ICS number!", "warning");
+	                                    }
+									}
+								});
 							}else{
-								swal("Please fill in!", "ICS Area", "warning");
+								swal("No items!", "Please add an item", "warning");
 							}
 						}else{
 							swal("Please fill in!", "Received By", "warning");

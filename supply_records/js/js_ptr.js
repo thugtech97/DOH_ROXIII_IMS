@@ -52,77 +52,73 @@ function validate(){
         if($("#from").val() != ""){
             if($("#entity_name").val() != ""){
                 if($("#approved_by").val() != null){
-                        if($("#date").val() != ""){
-                            if(ttype != null){
-                                if($("#reference_no").val() != null){
-                                    if($("#to").val() != ""){
-                                        if($("#received_from").val() != null){
-                                            if($("#area").val() != null){
-                                                if($("#reason").val() != ""){
-                                                    if(get_rows() != 0){
-                                                        $("#save_changes").attr("disabled", true);
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            data: 
-                                                                { 
-                                                                    call_func: "insert_ptr",
-                                                                    ptr_no: $("#ptr_no").val(),
-                                                                    from: $("#from").val(),
-                                                                    entity_name: $("#entity_name").val(),
-                                                                    approved_by_id: $("#approved_by").val(),
-                                                                    approved_by: $("#approved_by option:selected").text(),
-                                                                    date_released: $("#date").val(),
-                                                                    transfer_type:ttype,
-                                                                    reference_no: $("#reference_no option:selected").text(),
-                                                                    fund_cluster: $("#fund_cluster").val(),
-                                                                    to: $("#to").val(),
-                                                                    received_from_id: $("#received_from").val(),
-                                                                    received_from: $("#received_from option:selected").text(),
-                                                                    area: $("#area option:selected").text(),
-                                                                    reason: $("#reason").val(),
-                                                                    address: $("#address").val(),
-                                                                    items: items,
-                                                                    alloc_num: $("#alloc_num").val(),
-                                                                    storage_temp: $("#storage_temp option:selected").text(),
-                                                                    transport_temp: $("#transport_temp option:selected").text()
-                                                                },
-                                                            url: "php/php_ptr.php",
-                                                            success: function(data){
-                                                                if(data == "0"){
-                                                                    swal("Inserted!", "Saved successfully to the database.", "success");
-                                                                    setTimeout(function () {
-                                                                        location.reload();
-                                                                      }, 1500);
-                                                                }else{
-                                                                    $("#save_changes").attr("disabled", false);
-                                                                    swal("PTR Number already existed!", "Please enter another PTR number!", "warning");
-                                                                }
-                                                            }
-                                                        });
-                                                    }else{
-                                                        swal("Please fill in!", "Please add an item!", "warning");
+                    if($("#date").val() != ""){
+                        if(ttype != null){
+                            if($("#reference_no").val() != null){
+                                if($("#to").val() != ""){
+                                    if($("#received_from").val() != null){
+                                        if($("#reason").val() != ""){
+                                            if(get_rows() != 0){
+                                                $("#save_changes").attr("disabled", true);
+                                                $.ajax({
+                                                    type: "POST",
+                                                    data: 
+                                                        { 
+                                                            call_func: "insert_ptr",
+                                                            ptr_no: $("#ptr_no").val(),
+                                                            from: $("#from").val(),
+                                                            entity_name: $("#entity_name").val(),
+                                                            approved_by_id: $("#approved_by").val(),
+                                                            approved_by: $("#approved_by option:selected").text(),
+                                                            date_released: $("#date").val(),
+                                                            transfer_type:ttype,
+                                                            reference_no: $("#reference_no option:selected").text(),
+                                                            fund_cluster: $("#fund_cluster").val(),
+                                                            to: $("#to").val(),
+                                                            received_from_id: $("#received_from").val(),
+                                                            received_from: $("#received_from option:selected").text(),
+                                                            area: $("#area option:selected").text(),
+                                                            reason: $("#reason").val(),
+                                                            address: $("#address").val(),
+                                                            items: items,
+                                                            alloc_num: $("#alloc_num").val(),
+                                                            storage_temp: $("#storage_temp option:selected").text(),
+                                                            transport_temp: $("#transport_temp option:selected").text()
+                                                        },
+                                                    url: "php/php_ptr.php",
+                                                    success: function(data){
+                                                        if(data == "0"){
+                                                            swal("Inserted!", "Saved successfully to the database.", "success");
+                                                            setTimeout(function () {
+                                                                location.reload();
+                                                              }, 1500);
+                                                        }else{
+                                                            $("#save_changes").attr("disabled", false);
+                                                            swal("PTR Number already existed!", "Please enter another PTR number!", "warning");
+                                                        }
                                                     }
-                                                }else{
-                                                    swal("Please fill in!", "Reason", "warning");
-                                                }
+                                                });
                                             }else{
-                                                swal("Please fill in!", "Address", "warning");
+                                                swal("Please fill in!", "Please add an item!", "warning");
                                             }
                                         }else{
-                                            swal("Please fill in!", "Received from", "warning");
+                                            swal("Please fill in!", "Reason", "warning");
                                         }
                                     }else{
-                                        swal("Please fill in!", "To", "warning");
+                                        swal("Please fill in!", "Received from", "warning");
                                     }
                                 }else{
-                                    swal("Please fill in!", "Reference number", "warning");
+                                    swal("Please fill in!", "To", "warning");
                                 }
                             }else{
-                                swal("Please fill in!", "Transfer Type", "warning");
+                                swal("Please fill in!", "Reference number", "warning");
                             }
                         }else{
-                            swal("Please fill in!", "Date released", "warning");
+                            swal("Please fill in!", "Transfer Type", "warning");
                         }
+                    }else{
+                        swal("Please fill in!", "Date released", "warning");
+                    }
                 }else{
                     swal("Please fill in!", "Approved by", "warning");
                 }

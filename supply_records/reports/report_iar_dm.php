@@ -1,4 +1,4 @@
-<div id="report_iar_dm" style="display: none;">
+<div id="report_iar_dm" style="/*display: none;*/">
 <table style="border-collapse: collapse;" cellspacing="0">
   <tbody>
     <tr>
@@ -153,23 +153,27 @@
     </tr>
     <!-- inspectors start !-->
     <tr>
-      <td colspan="3" style="width: 73.2px; height: 25px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp1">_______________________</span></td>
+      <td colspan="1" style="width: 73.2px; height: 25px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="insp1">_______________________</span></td>
+      <td colspan="2" style="width: 73.2px; height: 25px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp2">_______________________</span></td>
       <td colspan="4" style="width: 72.6px; height: 19.5px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span style="display: none;">End-user Acceptance</span></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 73.2px; height: 17.25px; font-size: 11px; text-align: center; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Inspector</td>
+      <td colspan="1" style="width: 73.2px; height: 17.25px; font-size: 11px; text-align: center; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Inspector</td>
+      <td colspan="2" style="width: 73.2px; height: 17.25px; font-size: 11px; text-align: center; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Inspector</td>
       <td colspan="4" style="width: 72.6px; height: 17.25px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 73.2px; height: 25px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp2">_______________________</span></td>
+      <td colspan="1" style="width: 73.2px; height: 25px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="insp3">_______________________</span></td>
+      <td colspan="2" style="width: 73.2px; height: 25px; text-align: center; font-weight: bold; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp4">_______________________</span></td>
       <td colspan="4" style="width: 72.6px; height: 19.5px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span style="display: none;">End-user Acceptance</span></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 73.2px; height: 17.25px; font-size: 11px; text-align: center; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Inspector</td>
+      <td colspan="1" style="width: 73.2px; height: 17.25px; font-size: 11px; text-align: center; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Inspector</td>
+      <td colspan="2" style="width: 73.2px; height: 17.25px; font-size: 11px; text-align: center; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Inspector</td>
       <td colspan="4" style="width: 72.6px; height: 17.25px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 73.2px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp3">_______________________</span></td>
+      <td colspan="3" style="width: 73.2px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="insp5">_______________________</span></td>
       <td colspan="4" style="width: 72.6px; height: 19.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="dprint_pc"></span></td>
     </tr>
     <tr>
