@@ -5,12 +5,40 @@ require "php_general_functions.php";
 
 session_start();
 
+function get_billing_history(){
+	global $conn;
+	$index = 0;
+	$tbody = "";
+	$arr_order = array("1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th");
+	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+	$sql = mysqli_query($conn, "SELECT DISTINCT iar_number FROM tbl_iar WHERE po_number LIKE '$po_number'");
+	if(mysqli_num_rows($sql) != 0){
+		while($rows = mysqli_fetch_assoc($sql)){
+			$iarn = $rows["iar_number"];
+			$total_amount = 0.000;
+			$sql2 = mysqli_query($conn, "SELECT main_stocks, unit_cost FROM tbl_po WHERE iar_no LIKE '$iarn'");
+			while($row = mysqli_fetch_assoc($sql2)){
+				$total_amount+=(float)$row["main_stocks"] * (float)$row["unit_cost"];
+			}
+			$tbody.="<tr>
+						<td>".$arr_order[$index]."</td>
+						<td>".$iarn."</td>
+						<td>".number_format((float)$total_amount, 3)."</td>
+						<td>".mysqli_fetch_assoc(mysqli_query($conn, "SELECT SUBSTRING(dt, 1, 10) AS dtm FROM tbl_logs WHERE description LIKE '%created an IAR No. $iarn%'"))["dtm"]."</td>
+					</tr>";
+			$index+=1;
+		}
+	}
+
+	echo $tbody;
+}
+
 function item_name_search(){
 	global $conn;
 
 	$item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
 	$tbody = "";
-	$sql = mysqli_query($conn, "SELECT po_number, item_name, description, main_stocks, unit_cost, quantity FROM tbl_po WHERE item_name LIKE '$item_name'");
+	$sql = mysqli_query($conn, "SELECT po_number, item_name, description, main_stocks, unit_cost, quantity, end_user FROM tbl_po WHERE item_name LIKE '$item_name'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$quantity = (explode(" ", $row["quantity"]))[0];
 		$tbody.="<tr>
@@ -22,6 +50,7 @@ function item_name_search(){
                     <td>₱ ".number_format((float)$row["main_stocks"] * (float)$row["unit_cost"], 2)."</td>
                     <td>".number_format((float)$quantity, 0)."</td>
                     <td>₱ ".number_format((float)$quantity * (float)$row["unit_cost"], 2)."</td>
+                    <td>".$row["end_user"]."</td>
                 </tr>";
 	}
 	echo $tbody;
@@ -456,7 +485,7 @@ function get_po(){
 					<td>".$row["end_user"]."</td>
 					<td>".$row["status"]."</td>
 					<td><center>".(($row["inspection_status"] == '0') ? "<button class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\" disabled>✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>")."</center></td>
-					<td><center><button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '".$eu."')\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Consolidate\" onclick=\"consolidate(this.id)\"><i class=\"fa fa-stack-overflow\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-default\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Billing History\"><i class=\"fa fa-history\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "")."</center></td></tr>";
+					<td><center><button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '".$eu."')\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Consolidate\" onclick=\"consolidate(this.id)\"><i class=\"fa fa-stack-overflow\"></i></button>&nbsp;<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-default\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Billing History\" onclick=\"billing_history(this.id)\"><i class=\"fa fa-history\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button id=\"".$row["po_number"]."\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "")."</center></td></tr>";
 		}
 	}else{
 		$tbody = "<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
@@ -676,6 +705,9 @@ switch($call_func){
 		break;
 	case "item_name_search":
 		item_name_search();
+		break;
+	case "get_billing_history":
+		get_billing_history();
 		break;
 }
 

@@ -788,6 +788,22 @@ function consolidate(_po){
 	});
 }
 
+function billing_history(_po){
+	$("#billing_history").modal();
+	$.ajax({
+		type: "POST",
+		url: "php/php_po.php",
+		data: {call_func: "get_billing_history", po_number: _po},
+		success: function(data){
+			if(data != ""){
+				$("table#billing_table tbody").html(data);
+			}else{
+				$("table#billing_table tbody").html("<tr><td colspan=\"4\">No data.</td></tr>");
+			}
+		}
+	});
+}
+
 function ready_all(){
 	$(".select2_demo_1").select2({
         theme: 'bootstrap4',

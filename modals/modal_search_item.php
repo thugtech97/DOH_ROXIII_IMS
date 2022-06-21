@@ -35,11 +35,12 @@
                                     <th>Total Amount (IN)</th>
                                     <th>Remaining</th>
                                     <th>Total Amount (Remaining)</th>
+                                    <th>End-user</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td colspan="8"><center>Select item name first.</center></td>
+                                    <td colspan="9"><center>Select item name first.</center></td>
                                 </tr>
                             </tbody>
                         </table>
