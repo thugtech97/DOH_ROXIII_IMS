@@ -326,6 +326,7 @@ function validate_various(){
                                         date_received: $("#var_dr").val(),
                                         inspector: $("#var_inspector option:selected").text(),
                                         inspected: ($('#var_chk').is(':checked')) ? 1 : 0,
+                                        inspector_designation: $("#var_inspector").val(),
                                         property_custodian: $("#var_pc").val(),
                                         status: $("#var_as option:selected").text(),
                                         partial_specify: partial_specify,
@@ -396,22 +397,13 @@ function print_iar(iar_number){
             $("#gprint_eu").html("<u>"+data["end_user"].toUpperCase()+"</u>");
             $("#gprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
             var inspc = data["inspector"].split("|");
+            var inspcd = data["inspector_designation"].split(",");
 
             for(var i = 0; i < inspc.length; i++){
                 $("#g_insp"+(i+1)).html("<u>"+inspc[i].toUpperCase()+"</u>");
+                $("#g_insp_d"+(i+1)).html((data["inspector_designation"]) == "" ? "Inspector" : inspcd[i]);
             }
 
-            /*
-            if(data["inspected"] == 1){
-                $("input#inspected").attr("checked", "checked");
-            }
-            if(data["status"] == "Complete"){
-                $("input#Complete").attr("checked", "checked");
-            }else{
-                $("input#Partial").attr("checked", "checked");
-                $("#gprint_psq").html(data["partial_specify"]);
-            }
-            */
             var divContents = $("#report_iar_gen").html(); 
             var a = window.open('', '_blank', 'height=1500, width=800'); 
             a.document.write('<html>'); 
@@ -450,22 +442,13 @@ function download_xls(iar_number){
             $("#gprint_eu").html("<u>"+data["end_user"].toUpperCase()+"</u>");
             $("#gprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
             var inspc = data["inspector"].split("|");
+            var inspcd = data["inspector_designation"].split(",");
 
             for(var i = 0; i < inspc.length; i++){
                 $("#g_insp"+(i+1)).html("<u>"+inspc[i].toUpperCase()+"</u>");
+                $("#g_insp_d"+(i+1)).html((data["inspector_designation"]) == "" ? "Inspector" : inspcd[i]);
             }
-
-            /*
-            if(data["inspected"] == 1){
-                $("input#inspected").attr("checked", "checked");
-            }
-            if(data["status"] == "Complete"){
-                $("input#Complete").attr("checked", "checked");
-            }else{
-                $("input#Partial").attr("checked", "checked");
-                $("#gprint_psq").html(data["partial_specify"]);
-            }
-            */
+            
             exportTableToExcel("report_iar_gen", "IAR No. "+iar_number);
         }
     });
@@ -496,22 +479,12 @@ function print_iar_dm(iar_number){
             $("#dprint_eu").html("<u>"+data["end_user"].toUpperCase()+"</u>");
             $("#dprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
             var inspc = data["inspector"].split("|");
+            var inspcd = data["inspector_designation"].split(",");
 
             for(var i = 0; i < inspc.length; i++){
                 $("#insp"+(i+1)).html("<u>"+inspc[i].toUpperCase()+"</u>");
+                $("#insp_d"+(i+1)).html((data["inspector_designation"]) == "" ? "Inspector" : inspcd[i]);
             }
-
-            /*
-            if(data["inspected"] == 1){
-                $("input#dinspected").attr("checked", "checked");
-            }
-            if(data["status"] == "Complete"){
-                $("input#dComplete").attr("checked", "checked");
-            }else{
-                $("input#dPartial").attr("checked", "checked");
-                $("#gprint_psq").html(data["partial_specify"]);
-            }
-            */
 
             var divContents = $("#report_iar_dm").html(); 
             var a = window.open('', '_blank', 'height=1500, width=800'); 
@@ -552,22 +525,13 @@ function download_xls_dm(iar_number){
             $("#dprint_eu").html("<u>"+data["end_user"].toUpperCase()+"</u>");
             $("#dprint_pc").html("<u>"+data["property_custodian"].toUpperCase()+"</u>");
             var inspc = data["inspector"].split("|");
+            var inspcd = data["inspector_designation"].split(",");
 
             for(var i = 0; i < inspc.length; i++){
                 $("#insp"+(i+1)).html("<u>"+inspc[i].toUpperCase()+"</u>");
+                $("#insp_d"+(i+1)).html((data["inspector_designation"]) == "" ? "Inspector" : inspcd[i]);
             }
 
-            /*
-            if(data["inspected"] == 1){
-                $("input#dinspected").attr("checked", "checked");
-            }
-            if(data["status"] == "Complete"){
-                $("input#dComplete").attr("checked", "checked");
-            }else{
-                $("input#dPartial").attr("checked", "checked");
-                $("#gprint_psq").html(data["partial_specify"]);
-            }
-            */
             exportTableToExcel("report_iar_dm", "IAR No. "+iar_number);
         }
     });

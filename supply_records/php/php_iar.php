@@ -157,13 +157,13 @@ function print_iar_dm(){
 
 	$rows_limit = 30; $rows_occupied = 0;
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
-	$entity_name = "";$fund_cluster = "";$po_number = "";$req_office = "";$res_cc = "";$invoice = "";$date_inspected = "";$inspector = "";$inspected = "";
-	$date_received = "";$property_custodian = "";$status = "";$partial_specify = "";$supplier = "";$date_conformed = "";$date_delivered = "";$end_user = "";
-	$tbody = "";$total_amount = 0.00;$manufactured_by="";
-	$sql = mysqli_query($conn, "SELECT po_number, entity_name, fund_cluster, req_office, res_cc, charge_invoice, inspector, inspected, property_custodian, partial_specify FROM tbl_iar WHERE iar_number LIKE '$iar_number'");
+	$entity_name = "";$fund_cluster = "";$po_number = "";$req_office = "";$res_cc = "";$invoice = "";$date_inspected = "";$inspector = ""; $inspector_designation = ""; 
+	$inspected = ""; $date_received = "";$property_custodian = "";$status = "";$partial_specify = "";$supplier = "";$date_conformed = "";$date_delivered = "";
+	$end_user = ""; $tbody = "";$total_amount = 0.00;$manufactured_by="";
+	$sql = mysqli_query($conn, "SELECT po_number, entity_name, fund_cluster, req_office, res_cc, charge_invoice, inspector, inspector_designation, inspected, property_custodian, partial_specify FROM tbl_iar WHERE iar_number LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$po_number = $row["po_number"];$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$req_office = $row["req_office"];
-		$res_cc = $row["res_cc"];$invoice = $row["charge_invoice"];$date_inspected = "";$inspector = $row["inspector"];
+		$res_cc = $row["res_cc"];$invoice = $row["charge_invoice"];$date_inspected = "";$inspector = $row["inspector"]; $inspector_designation = $row["inspector_designation"];
 		$inspected = $row["inspected"];$date_received = "";$property_custodian = $row["property_custodian"];$status = "";
 		$partial_specify = "";
 	}
@@ -251,6 +251,7 @@ function print_iar_dm(){
 		"tbody"=>$tbody,
 		"date_inspected"=>$date_inspected,
 		"inspector"=>$inspector,
+		"inspector_designation"=>$inspector_designation,
 		"inspected"=>$inspected,
 		"date_received"=>$date_received,
 		"property_custodian"=>$property_custodian,
@@ -270,13 +271,13 @@ function print_iar_gen(){
 
 	$rows_limit = 30; $rows_occupied = 0;
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
-	$entity_name = "";$fund_cluster = "";$po_number = "";$req_office = "";$res_cc = "";$invoice = "";$date_inspected = "";$inspector = "";$inspected = "";
-	$date_received = "";$property_custodian = "";$status = "";$partial_specify = "";$supplier = "";$date_conformed = "";$date_delivered = "";$end_user = "";
+	$entity_name = "";$fund_cluster = "";$po_number = "";$req_office = "";$res_cc = "";$invoice = "";$date_inspected = "";$inspector = ""; $inspector_designation = ""; 
+	$inspected = ""; $date_received = "";$property_custodian = "";$status = "";$partial_specify = "";$supplier = "";$date_conformed = "";$date_delivered = "";$end_user = "";
 	$tbody = "";$total_amount = 0.00;
-	$sql = mysqli_query($conn, "SELECT po_number, entity_name, fund_cluster, req_office, res_cc, charge_invoice, inspector, inspected, property_custodian, partial_specify FROM tbl_iar WHERE iar_number LIKE '$iar_number'");
+	$sql = mysqli_query($conn, "SELECT po_number, entity_name, fund_cluster, req_office, res_cc, charge_invoice, inspector, inspector_designation, inspected, property_custodian, partial_specify FROM tbl_iar WHERE iar_number LIKE '$iar_number'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$po_number = $row["po_number"];$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$req_office = $row["req_office"];
-		$res_cc = $row["res_cc"];$invoice = $row["charge_invoice"];$date_inspected = "";$inspector = $row["inspector"];
+		$res_cc = $row["res_cc"];$invoice = $row["charge_invoice"];$date_inspected = "";$inspector = $row["inspector"]; $inspector_designation = $row["inspector_designation"];
 		$inspected = $row["inspected"];$date_received = "";$property_custodian = $row["property_custodian"];$status = "";
 		$partial_specify = $row["partial_specify"];
 	}
@@ -323,6 +324,7 @@ function print_iar_gen(){
 		"tbody"=>$tbody,
 		"date_inspected"=>$date_inspected,
 		"inspector"=>$inspector,
+		"inspector_designation"=>$inspector_designation,
 		"inspected"=>$inspected,
 		"date_received"=>$date_received,
 		"property_custodian"=>$property_custodian,
@@ -456,6 +458,7 @@ function insert_various(){
 	$charge_invoice = mysqli_real_escape_string($conn, $_POST["charge_invoice"]);
 	$date_inspected = mysqli_real_escape_string($conn, $_POST["date_inspected"]);
 	$inspector = mysqli_real_escape_string($conn, $_POST["inspector"]);
+	$inspector_designation = mysqli_real_escape_string($conn, $_POST["inspector_designation"]);
 	$inspected = mysqli_real_escape_string($conn, $_POST["inspected"]);
 	$date_received = mysqli_real_escape_string($conn, $_POST["date_received"]);
 	$property_custodian = mysqli_real_escape_string($conn, $_POST["property_custodian"]);
@@ -469,7 +472,7 @@ function insert_various(){
 	$spvs_designation = mysqli_fetch_assoc($quer1)["designation"];
 
 	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT iar_number FROM tbl_iar WHERE iar_number = '$iar_number'"))==0){
-		mysqli_query($conn, "INSERT INTO tbl_iar(entity_name,fund_cluster,po_number,iar_number,iar_type,req_office,res_cc,charge_invoice,date_inspected,inspector,inspected,date_received,property_custodian,status,partial_specify,spvs,spvs_designation) VALUES('$entity_name','$fund_cluster','$po_number','$iar_number','$iar_type','$req_office','$res_cc','$charge_invoice','$date_inspected','$inspector','$inspected','$date_received','$property_custodian','$status','$partial_specify','$spvs','$spvs_designation')");
+		mysqli_query($conn, "INSERT INTO tbl_iar(entity_name,fund_cluster,po_number,iar_number,iar_type,req_office,res_cc,charge_invoice,date_inspected,inspector,inspector_designation,inspected,date_received,property_custodian,status,partial_specify,spvs,spvs_designation) VALUES('$entity_name','$fund_cluster','$po_number','$iar_number','$iar_type','$req_office','$res_cc','$charge_invoice','$date_inspected','$inspector','$inspector_designation','$inspected','$date_received','$property_custodian','$status','$partial_specify','$spvs','$spvs_designation')");
 		for($i = 0; $i < count($items); $i++){
 			$id = $items[$i][0];
 			$item_name = mysqli_real_escape_string($conn, $items[$i][1]);

@@ -125,11 +125,11 @@
                                                     <div class="col-lg-8">
                                                         <select id="var_inspector" class="select2_demo_1 form-control">
                                                             <option disabled selected></option>
-                                                            <option>Ma. Dorothy C. Hornido, RN|Diana L. Ebay|Gina Urbiztondo|Nhyrma Fe C. Tabugoc|Lavern Lyn B. Odchigue, RN</option>
-                                                            <option>Gladys D. Buladaco, RN|Fernando L. Mina|Daryl A. Estrella|Liezel S. Lopez</option>
-                                                            <option>Cheryl Mary L. Plaza, RN|Dorcas Ga-Dinhayan|Rossie Mae O. Tagudin|Sharon S. Coja, RN|Phoebie Rhanie Demata-Buque, RN</option>
-                                                            <option>Emmi Marie J. Cabahug, RN|Joy Dyana V. Cervantes, RN|Nadine Joyce C. Torres, RMT|Engr. Leore Ann M. Bagulor|Engr. Dioscoro M. Navarro</option>
-                                                            <option>Neil H. Nituda, RMT|Marlon A. Cahayon|Daryl A. Estrella|Fernando L. Mina</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Ma. Dorothy C. Hornido, RN|Diana L. Ebay|Gina Urbiztondo|Nhyrma Fe C. Tabugoc|Lavern Lyn B. Odchigue, RN</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member">Gladys D. Buladaco, RN|Fernando L. Mina|Daryl A. Estrella|Liezel S. Lopez</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Cheryl Mary L. Plaza, RN|Dorcas Ga-Dinhayan|Rossie Mae O. Tagudin|Sharon S. Coja, RN|Phoebie Rhanie Demata-Buque, RN</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Emmi Marie J. Cabahug, RN|Joy Dyana V. Cervantes, RN|Nadine Joyce C. Torres, RMT|Engr. Leore Ann M. Bagulor|Engr. Dioscoro M. Navarro</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member">Neil H. Nituda, RMT|Marlon A. Cahayon|Daryl A. Estrella|Fernando L. Mina</option>
                                                         </select>
                                                     </div>
                                                 </div>
