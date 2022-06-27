@@ -104,9 +104,9 @@ function print_sc(){
   	a.document.write('<table><tr>');
 	a.document.write('<td>'+divContents+'</td>'); 
 	a.document.write('</tr></table>');
-  	a.document.write('</center></body></html>'); 
-	a.document.close(); 
-	a.print();
+  	a.document.write('</center></body></html>');
+  	a.document.close();
+  	a.print();
 }
 
 function excel_rsmi(){
