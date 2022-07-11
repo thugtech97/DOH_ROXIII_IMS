@@ -263,16 +263,16 @@ function add_item(){
 						swal("Invalid input!", "Quantity is greater than remaining stocks", "warning");	
 					}
 				}else{
-					swal("Please fill in!", "Quantity", "warning");	
+					swal("Please fill in!", "Quantity", "warning");
 				}
 			}else{
-				swal("Please fill in!", "Property Number", "warning");	
+				swal("Please fill in!", "Property Number", "warning");
 			}
 		}else{
-			swal("Please fill in!", "Category", "warning");	
+			swal("Please fill in!", "Category", "warning");
 		}
 	}else{
-		swal("Please fill in!", "Item Name", "warning");	
+		swal("Please fill in!", "Item Name", "warning");
 	}
 }
 

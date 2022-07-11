@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary">
+                <div class="panel panel-primary" style="display: none;">
                     <div class="panel-heading">
                         <i class="fa fa-info-circle"></i> Item Information
                     </div>
@@ -221,6 +221,16 @@
                         <i class="fa fa-list"></i> Item Lists
                     </div>
                     <div class="panel-body" style="height: 220px; overflow: auto;">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">Reference/PO Number:</label>
+                                    <div class="col-lg-8">
+                                        <select id="ris_po_multiple" class="form-control select2_demo_1" multiple="multiple"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <table id="ris_items" class="table table-bordered">
                             <thead>
                                 <tr>

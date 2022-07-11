@@ -83,8 +83,15 @@ function ready_all(){
                 $("#po_no option").each(function(){
                     po_details[this.text] = {};
                 });
+                $("#ris_po_multiple").append(data);
             }
         });
+    });
+
+    $("#ris_po_multiple").change(function(){
+        if($("#ris_po_multiple").val() == undefined){
+
+        }
     });
 
     $("#po_no").change(function(){

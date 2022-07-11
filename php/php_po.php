@@ -184,7 +184,7 @@ function edit_description(){
 	$sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po'");
 	while($row = mysqli_fetch_assoc($sql)){
 		echo "<tr>
-				<td><button class=\"btn btn-xs btn-default\" onclick=\"navigator.clipboard.writeText('".$row["po_id"]."');\">GetID</button></td>
+				<td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
 				<td>".$row["item_name"]."</td>
 				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 				<td>".number_format((float)$row["unit_cost"], 3)."</td>
@@ -220,7 +220,7 @@ function update_quantity(){
 	$tot_amt = 0.00;
 	while($row = mysqli_fetch_assoc($sql)){
 		$tbody.="<tr>
-				<td><button class=\"btn btn-xs btn-default\" onclick=\"navigator.clipboard.writeText('".$row["po_id"]."');\">GetID</button></td>
+				<td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
 				<td>".$row["item_name"]."</td>
 				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 				<td>".number_format((float)$row["unit_cost"], 3)."</td>
@@ -256,7 +256,7 @@ function add_serials(){
 	$sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
 	while($row = mysqli_fetch_assoc($sql)){
 		echo "<tr>
-				<td><button class=\"btn btn-xs btn-default\" onclick=\"navigator.clipboard.writeText('".$row["po_id"]."');\">GetID</button></td>
+				<td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
 				<td>".$row["item_name"]."</td>
 				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 				<td>".number_format((float)$row["unit_cost"], 3)."</td>
@@ -531,7 +531,7 @@ function edit_po_various(){
 		$procurement_mode = $row["procurement_mode"];
 
 		$tbody.="<tr>
-					<td><button class=\"btn btn-xs btn-default\" onclick=\"navigator.clipboard.writeText('".$row["po_id"]."');\">GetID</button></td>
+					<td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
 					<td>".$row["item_name"]."</td>
 					<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn,$row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 					<td>".number_format((float)$row["unit_cost"], 3)."</td>
