@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary" style="display: none;">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <i class="fa fa-info-circle"></i> Item Information
                     </div>
@@ -221,7 +221,7 @@
                         <i class="fa fa-list"></i> Item Lists
                     </div>
                     <div class="panel-body" style="height: 220px; overflow: auto;">
-                        <div class="row">
+                        <div class="row" style="display: none;">
                             <div class="col-lg-6">
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Reference/PO Number:</label>
