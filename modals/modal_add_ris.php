@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary">
+                <div class="panel panel-primary" style="display: none;">
                     <div class="panel-heading">
                         <i class="fa fa-info-circle"></i> Item Information
                     </div>
@@ -220,8 +220,8 @@
                     <div class="panel-heading">
                         <i class="fa fa-list"></i> Item Lists
                     </div>
-                    <div class="panel-body" style="height: 220px; overflow: auto;">
-                        <div class="row" style="display: none;">
+                    <div class="panel-body" style="height: 300px; overflow: scroll;">
+                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Reference/PO Number:</label>
@@ -234,20 +234,19 @@
                         <table id="ris_items" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>PO#</th>
-                                    <th>Item</th>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th>Lot#</th>
-                                    <th>Exp. Date</th>
-                                    <th>Quantity</th>
-                                    <th>Unit</th>
-                                    <th>Cost</th>
-                                    <th>Total</th>
-                                    <th>Stocks</th>
-                                    <th>Remarks</th>
-                                    <th></th>
+                                    <th style="border: thin solid black;"></th>
+                                    <th style="border: thin solid black;">PO#</th>
+                                    <th style="border: thin solid black;">Item</th>
+                                    <th style="border: thin solid black;">Description</th>
+                                    <th style="border: thin solid black;">Category</th>
+                                    <th style="border: thin solid black;">Lot#</th>
+                                    <th style="border: thin solid black;">Exp. Date</th>
+                                    <th style="border: thin solid black;">Stocks</th>
+                                    <th style="border: thin solid black;">Quantity</th>
+                                    <th style="border: thin solid black;">Unit</th>
+                                    <th style="border: thin solid black;">Cost</th>
+                                    <th style="border: thin solid black;">Total</th>
+                                    <th style="border: thin solid black;">Remarks</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -89,9 +89,14 @@ function ready_all(){
     });
 
     $("#ris_po_multiple").change(function(){
-        if($("#ris_po_multiple").val() == undefined){
-
-        }
+        $.ajax({
+            type: "POST",
+            data: {call_func: "get_items_all", po_numbers: $("#ris_po_multiple").val()},
+            url: "php/php_ris.php",
+            success: function(data){
+                $("table#ris_items tbody").html(data);
+            }
+        });
     });
 
     $("#po_no").change(function(){
@@ -181,11 +186,11 @@ function validate(){
                         if($("#issued_by").val() != null){
                             if($("#approved_by").val() != null){
                                 if($("#purpose").val() != ""){
-                                    if(get_rows() != 0){
+                                    if(get_rows1() != 0){
                                         $("#save_changes").attr("disabled", true);
                                         $.ajax({
                                             type: "POST",
-                                            data: {call_func: "insert_ris",
+                                            data: {call_func: "insert_ris2",
                                                     ris_no: $("#ris_no").val(),
                                                     entity_name: $("#entity_name").val(),
                                                     fund_cluster: $("#fund_cluster").val(),
@@ -306,6 +311,20 @@ function get_rows(){
         var $tds = $(this).find('td');
         items.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).text(),$tds.eq(5).text(),$tds.eq(6).text(),$tds.eq(7).text(),origNumber($tds.eq(8).text()),origNumber($tds.eq(9).text()),$tds.eq(10).text(),$tds.eq(11).text(),$tds.eq(12).text()]);
         rows++;
+    });
+    return rows;
+}
+
+function get_rows1(){
+    items = [];
+    var table = $("table#ris_items tbody");
+    var rows = 0;
+    table.find('tr').each(function (i) {
+        var $tds = $(this).find('td');
+        if(parseInt($tds.eq(8).find('input').val()) > 0){
+            items.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).text(),$tds.eq(5).text(),$tds.eq(6).text(),$tds.eq(7).text(),$tds.eq(8).find('input').val(),$tds.eq(9).text(),$tds.eq(10).text(),$tds.eq(11).text(),$tds.eq(12).text()]);
+            rows++;
+        }
     });
     return rows;
 }
@@ -431,6 +450,14 @@ function delete_control(ris_no){
             }
         });
     });
+}
+function validate_input_quantity(element, stocks, i, uc){
+    if(parseInt(element.value) > stocks){    
+        element.value = "";
+        $("#totid"+i).html("");
+        return
+    }
+    $("#totid"+i).html(parseInt(element.value) * parseInt(uc));
 }
 
 function print_ris(ris_no){
