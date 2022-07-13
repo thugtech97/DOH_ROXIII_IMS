@@ -22,14 +22,13 @@ function get_nod_dv(){
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
 	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
 	$supplier = ""; $charge_invoice = ""; $item_description = ""; $item_name = "";
-	$inspector = "";
-	$spvs = ""; $spvs_designation = ""; $res_cc = ""; $inspector = "";
+	$spvs = ""; $spvs_designation = ""; $res_cc = ""; $inspector = ""; $inspector_designation = "";
 	$date_received = ""; $date_delivered = ""; $delivery_term = ""; $payment_term = "";
 	$end_user = ""; $procurement_mode = ""; $date_conformed = "";
 
 	$total_amount = 0.00;
 
-	$sql = mysqli_query($conn, "SELECT s.supplier, i.charge_invoice, i.inspector, i.spvs, i.spvs_designation, i.res_cc, p.item_name, p.description, p.date_received, p.date_delivered, p.date_conformed, p.delivery_term, p.payment_term, p.end_user, p.procurement_mode FROM tbl_po AS p, tbl_iar AS i, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.po_number = '$po_number' AND p.iar_no = '$iar_number' AND i.po_number = '$po_number'");
+	$sql = mysqli_query($conn, "SELECT s.supplier, i.charge_invoice, i.inspector, i.inspector_designation, i.spvs, i.spvs_designation, i.res_cc, p.item_name, p.description, p.date_received, p.date_delivered, p.date_conformed, p.delivery_term, p.payment_term, p.end_user, p.procurement_mode FROM tbl_po AS p, tbl_iar AS i, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.po_number = '$po_number' AND p.iar_no = '$iar_number' AND i.iar_number = '$iar_number' AND i.po_number = '$po_number'");
 	$rows = mysqli_num_rows($sql);
 
 	if($rows != 0){
@@ -42,7 +41,8 @@ function get_nod_dv(){
 		$date_received = $row["date_received"]; $date_delivered = $row["date_delivered"];
 		$delivery_term =$row["delivery_term"]; $payment_term = $row["payment_term"];
 		$end_user = $row["end_user"]; $procurement_mode = $row["procurement_mode"];
-		$inspector = $row["inspector"]; 
+		$inspector = $row["inspector"];
+		$inspector_designation = $row["inspector_designation"];
 		$date_conformed = $row["date_conformed"];
 		if($rows > 1){
 			$item_name = $row["item_name"]." and etc.";
@@ -74,6 +74,7 @@ function get_nod_dv(){
 		"end_user"=>$end_user,
 		"procurement_mode"=>$procurement_mode,
 		"inspector"=>$inspector,
+		"inspector_designation"=>$inspector_designation,
 		"total_amount"=>number_format((float)$total_amount, 2)
 	));
 }

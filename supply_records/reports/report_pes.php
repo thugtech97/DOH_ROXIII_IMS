@@ -219,7 +219,7 @@
         <td style="width: 202.8px; height: 14.5px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><u><?php echo strtoupper($_SESSION["property_custodian"]); ?></u></td>
       </tr>
       <tr>
-        <td colspan="7" style="width: 133.8px; height: 17.5px; text-align: left; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Inspector</td>
+        <td colspan="7" style="width: 133.8px; height: 17.5px; text-align: left; font-size: 11px; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;">Member</td>
         <td colspan="2" style="width: 180px; height: 17.5px; text-align: left; font-size: 11px; vertical-align: bottom;">End-user</td>
         <td style="width: 202.8px; height: 17.5px; text-align: left; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><?php echo $_SESSION["property_custodian_designation"]; ?></td>
       </tr>

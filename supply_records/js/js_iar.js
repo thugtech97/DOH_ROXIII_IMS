@@ -604,8 +604,9 @@ function print_pe(iar_number, po_number){
 
             $("#pe_inspector").html("");
             var pe_insp = data["inspector"].toUpperCase().split('|');
+            var pe_insp_d = data["inspector_designation"].split(',');
             for(var i = 0; i < pe_insp.length; i++){
-                $("#pe_inspector").html($("#pe_inspector").html()+"<u><b>"+pe_insp[i]+"</b></u>"+((i == pe_insp.length-1) ? "" : "<br>Inspector<br><br>"));
+                $("#pe_inspector").html($("#pe_inspector").html()+"<u><b>"+pe_insp[i]+"</b></u>"+((i == pe_insp.length-1) ? "" : "<br>"+pe_insp_d[i]+"<br><br>"));
             }
 
             $("#pe_eu").html(data["end_user"].toUpperCase());
