@@ -134,7 +134,7 @@ if(!isset($_SESSION["username"])){
             <div class="col-lg-12 animated bounceInDown">
                 <div class="row wrapper border-bottom white-bg page-heading">
                     <div class="col-lg-10">
-                        <h2>Stock Availability Inquiry (SAI)</h2>
+                        <h2>Supplies Availability Inquiry (SAI)</h2>
                         <?php
                         if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                             <ol class="breadcrumb">
@@ -157,7 +157,7 @@ if(!isset($_SESSION["username"])){
             <div class="col-lg-12 animated bounceInDown">
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <h3><i class="fa fa-clipboard"></i> Purchase Requests</h3>
+                        <h3><i class="fa fa-clipboard"></i> Purchase Requests - Retrieved from E-Planning System</h3>
                     </div>
                     <div class="panel-body">
                         <div class="pull-right">
