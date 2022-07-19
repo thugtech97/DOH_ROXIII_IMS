@@ -387,7 +387,7 @@ function get_item(){
 
 	$category = mysqli_real_escape_string($conn, $_POST["category"]);
 	$searchkw = mysqli_real_escape_string($conn, $_POST["searchkw"]);
-	$sql = mysqli_query($conn, "SELECT DISTINCT description, item_name FROM tbl_po WHERE category = '$category' ORDER BY item_name ASC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT description, item_name FROM tbl_po WHERE category = '$category' AND (status LIKE 'Delivered' OR status LIKE '') ORDER BY item_name ASC");
 	$list_items = "";
 	$num_items = mysqli_num_rows($sql);
 	if($num_items != 0){

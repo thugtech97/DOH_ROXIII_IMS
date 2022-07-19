@@ -94,6 +94,9 @@ if(!isset($_SESSION["username"])){
                         <a href="stockcard.php"><i class="fa fa-bars"></i> <span class="nav-label">Stock Card</span></a>
                     </li>
                     <li>
+                        <a href="sai.php"><i class="fa fa-search"></i> <span class="nav-label">For SAI</span></a>
+                    </li>
+                    <li>
                         <a href="archives.php"><i class="fa fa-archive"></i> <span class="nav-label">Archive</span></a>
                     </li>
                     <li>

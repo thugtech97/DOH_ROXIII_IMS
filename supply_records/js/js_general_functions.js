@@ -136,13 +136,13 @@ function get_records(page, url, query = ""){
         url: url,
         success: function(data){
             $('#dynamic_content').html(data);
-            ready_all();
         }
     });
 }
 
 function set_url(url){
     _url = url;
+    ready_all();
     get_records(1, _url);
 }
 

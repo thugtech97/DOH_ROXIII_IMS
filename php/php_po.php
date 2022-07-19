@@ -36,11 +36,23 @@ function get_billing_history(){
 function item_name_search(){
 	global $conn;
 
+	$filter = "";$tbody = "";
+	$po_numbers = array();
 	$item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
-	$tbody = "";
-	$sql = mysqli_query($conn, "SELECT po_number, item_name, description, main_stocks, unit_cost, quantity, end_user FROM tbl_po WHERE item_name LIKE '$item_name'");
+	$po_search = mysqli_real_escape_string($conn, $_POST["po_search"]);
+	if($po_search != ""){
+		$filter.=" AND po_number LIKE '$po_search'";
+	}
+	$po_option = "<option disabled selected></option>";
+	$query = "SELECT po_number, item_name, description, main_stocks, unit_cost, quantity, end_user FROM tbl_po WHERE item_name LIKE '$item_name'";
+
+	$sql = mysqli_query($conn, $query.$filter);
 	while($row = mysqli_fetch_assoc($sql)){
 		$quantity = (explode(" ", $row["quantity"]))[0];
+		if(!in_array($row["po_number"], $po_numbers)){
+			array_push($po_numbers, $row["po_number"]);
+			$po_option.="<option>".$row["po_number"]."</option>";
+		}
 		$tbody.="<tr>
 					<td>".$row["po_number"]."</td>
                     <td>".$row["item_name"]."</td>
@@ -53,7 +65,8 @@ function item_name_search(){
                     <td>".$row["end_user"]."</td>
                 </tr>";
 	}
-	echo $tbody;
+
+	echo json_encode(array("tbody"=>$tbody, "po_option"=>$po_option));
 }
 
 function generate_dl(){

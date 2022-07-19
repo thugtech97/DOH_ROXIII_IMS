@@ -843,7 +843,7 @@ function ready_all(){
 			url: "php/php_po.php",
 			success: function(data){
 				$("#item_name").html("<option disabled selected></option>").append(data);
-				$("#item_name_search").html("<option disabled selected></option>").append(data);
+				$("#item_name_search").html("<option selected disabled></option>").append(data);
 				loadLocal();
 			}
 		});
@@ -926,15 +926,33 @@ function ready_all(){
 	});
 
 	$("#item_name_search").on("change", function(event){
+		$("#reference_search").html('').select2({theme: 'bootstrap4', width: '100%'});
 		$("table#item_search_table tbody").html("<tr>"+
                             "<td colspan=\"8\"><center><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></center></td>"+
                         "</tr>");
 		$.ajax({
 			type: "POST",
+			dataType: "JSON",
 			data: {call_func: "item_name_search", item_name: $("#item_name_search option:selected").text()},
 			url: "php/php_po.php",
 			success: function(data){
-				$("table#item_search_table tbody").html(data);
+				$("table#item_search_table tbody").html(data["tbody"]);
+				$("#reference_search").html(data["po_option"]);
+			}
+		});
+	});
+
+	$("#reference_search").on("change", function(event){
+		$("table#item_search_table tbody").html("<tr>"+
+                            "<td colspan=\"8\"><center><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></center></td>"+
+                        "</tr>");
+		$.ajax({
+			type: "POST",
+			dataType: "JSON",
+			data: {call_func: "item_name_search", item_name: $("#item_name_search option:selected").text(), po_search: $("#reference_search option:selected").text()},
+			url: "php/php_po.php",
+			success: function(data){
+				$("table#item_search_table tbody").html(data["tbody"]);
 			}
 		});
 	});

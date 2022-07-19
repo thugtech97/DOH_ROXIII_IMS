@@ -97,7 +97,7 @@ function create_table_pagination($page, $limit, $total_data, $columns){
 	          <table class="table table-bordered">
 	            <tr>';
 	foreach($columns as $c){
-		$input.='<th>'.$c.'</th>';
+		$input.='<th style=\'border: 2px solid black;\'>'.$c.'</th>';
 	}	            
 	$input.='</tr>';
 	$output ='</table>
