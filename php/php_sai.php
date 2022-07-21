@@ -18,10 +18,10 @@ function get_pr(){
 			$start = 0;
 		}
 
-		$query = "SELECT DISTINCT pr_code, division, office, pr_no, prepared_user_name, pr_purpose FROM tbl_pr ";
+		$query = "SELECT DISTINCT pr_code, division, office, pr_no, prepared_user_name, pr_purpose FROM tbl_pr WHERE pr_no <> '' ";
 		if($_POST["search"] != ""){
 			$qs = mysqli_real_escape_string($conn_epabs, $_POST["search"]);
-			$query.="WHERE pr_code LIKE '$qs' OR division LIKE '$qs' OR office LIKE '$qs' OR pr_no LIKE '$qs' OR prepared_user_name LIKE '$qs' OR pr_purpose LIKE '$qs' ";
+			$query.="AND (pr_code LIKE '%$qs%' OR division LIKE '%$qs%' OR office LIKE '%$qs%' OR pr_no LIKE '%$qs%' OR prepared_user_name LIKE '%$qs%' OR pr_purpose LIKE '%$qs%') ";
 		}
 		$query.="ORDER BY created_at ASC ";
 
@@ -46,7 +46,7 @@ function get_pr(){
 							<td style=\"border: thin solid black;\">".$row["pr_no"]."</td>
 							<td style=\"border: thin solid black;\">".$row["prepared_user_name"]."</td>
 							<td style=\"border: thin solid black;\">".$row["pr_purpose"]."</td>
-							<td style=\"border: thin solid black;\"><center><button id=\"".$row["pr_code"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\"><i class=\"fa fa-picture-o\"></i></button></center></td>
+							<td style=\"border: thin solid black;\"><center><button id=\"".$row["pr_code"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"get_pr_items(this.id);\"><i class=\"fa fa-eye\"></i></button></center></td>
 						</tr>";
 				}
 			}
@@ -68,15 +68,28 @@ function get_pr(){
 function get_items(){
 	global $conn_epabs;
 
-
+	$pr_code = mysqli_real_escape_string($conn_epabs, $_POST["pr_code"]);
+	$sql = mysqli_query($conn_epabs, "SELECT wfp_code, item_description, item_price, item_qty, item_unit FROM tbl_pr_details WHERE pr_code LIKE '$pr_code'");
+	
+	while($row = mysqli_fetch_assoc($sql)){
+		echo 	"<tr>
+					<td>".$row["wfp_code"]."</td>
+					<td>".$row["item_description"]."</td>
+					<td>".$row["item_price"]."</td>
+					<td>".$row["item_qty"]."</td>
+					<td>".$row["item_unit"]."</td>
+					<td><label class=\"col-form-label\"><input type=\"checkbox\" class=\"i-checks\" style=\"height: 15px; width: 15px;\"></label></td>
+				</tr>";
+	}
 }
-
-
 
 $call_func = mysqli_real_escape_string($conn_epabs, $_POST["call_func"]);
 switch($call_func){
 	case "get_pr":
 		get_pr();
+		break;
+	case "get_items":
+		get_items();
 		break;
 }
 

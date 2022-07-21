@@ -205,59 +205,63 @@ function validate_po_various(){
 	items = [];
 	if($("#vdate_received").val() != ""){
 		if($("#vpo_number").val() != ""){
-			if($("#vprocurement_mode").val() != null){
-				if($("#po_supplier").val() != null){
-					if(get_item_rows() != 0){
-						if($("#po_enduser").val() != null){
-							if($("#status").val() != null){
-								var inspect = 0;
-								$("#save_changes").attr("disabled", true);
-								$.ajax({
-									type: "POST",
-									url: "php/php_po.php",
-									data: {	call_func: "insert_po_various",
-											date_received: $("#vdate_received").val(),
-											po_number: $("#vpo_number").val(),
-											procurement_mode: ($("#vprocurement_mode option:selected").text() == "Others") ? proc_mode : $("#vprocurement_mode option:selected").text(),
-											delivery_term: $("#po_deliveryterm option:selected").text(),
-											payment_term: $("#po_paymentterm option:selected").text(),
-											pr_no: $("#vpr_number").val(),
-											//reso_no: $("#reso_number").val(),
-											//abstract_no: $("#abstract_number").val(),
-											supplier_id: ($("#po_supplier").val().split("┼"))[0],
-											inspect: inspect,
-											items: items,
-											end_user: $("#po_enduser option:selected").text(),
-											date_conformed: $("#date_conformed").val(),
-											date_delivered: $("#date_delivered").val(),
-											status: $("#status option:selected").text()
-											},
-									success: function(data){
-										localStorage.setItem("po_details", JSON.stringify(["","","","","","","","","","","","<thead>"+
-                                        "<tr><th></th><th>Item Name</th><th>Description</th><th>Category</th><th>SN / LN</th><th>Expiry Date</th>"+
-                                        "<th>Unit Cost</th><th>Quantity</th><th>Total Amount</th><th></th></tr></thead><tbody></tbody><tfoot>"+
-                                        "<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>TOTAL</th><th>₱ <span id=\"all_total_amount\"></span></th>"+
-                                        "<th></th></tr></tfoot>"]));
-										swal("Inserted!", "Saved successfully to the database.", "success");
-								        setTimeout(function () {
-									        location.reload();
-									      }, 1500);
-									}
-								});
+			if($("#vpr_number").val() != ""){
+				if($("#vprocurement_mode").val() != null){
+					if($("#po_supplier").val() != null){
+						if(get_item_rows() != 0){
+							if($("#po_enduser").val() != null){
+								if($("#status").val() != null){
+									var inspect = 0;
+									$("#save_changes").attr("disabled", true);
+									$.ajax({
+										type: "POST",
+										url: "php/php_po.php",
+										data: {	call_func: "insert_po_various",
+												date_received: $("#vdate_received").val(),
+												po_number: $("#vpo_number").val(),
+												procurement_mode: ($("#vprocurement_mode option:selected").text() == "Others") ? proc_mode : $("#vprocurement_mode option:selected").text(),
+												delivery_term: $("#po_deliveryterm option:selected").text(),
+												payment_term: $("#po_paymentterm option:selected").text(),
+												pr_no: $("#vpr_number").val(),
+												//reso_no: $("#reso_number").val(),
+												//abstract_no: $("#abstract_number").val(),
+												supplier_id: ($("#po_supplier").val().split("┼"))[0],
+												inspect: inspect,
+												items: items,
+												end_user: $("#po_enduser option:selected").text(),
+												date_conformed: $("#date_conformed").val(),
+												date_delivered: $("#date_delivered").val(),
+												status: $("#status option:selected").text()
+												},
+										success: function(data){
+											localStorage.setItem("po_details", JSON.stringify(["","","","","","","","","","","","<thead>"+
+	                                        "<tr><th></th><th>Item Name</th><th>Description</th><th>Category</th><th>SN / LN</th><th>Expiry Date</th>"+
+	                                        "<th>Unit Cost</th><th>Quantity</th><th>Total Amount</th><th></th></tr></thead><tbody></tbody><tfoot>"+
+	                                        "<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th>TOTAL</th><th>₱ <span id=\"all_total_amount\"></span></th>"+
+	                                        "<th></th></tr></tfoot>"]));
+											swal("Inserted!", "Saved successfully to the database.", "success");
+									        setTimeout(function () {
+										        location.reload();
+										      }, 1500);
+										}
+									});
+								}else{
+									swal("Please fill in!", "Status", "warning");
+								}
 							}else{
-								swal("Please fill in!", "Status", "warning");
+								swal("Please fill in!", "End User", "warning");	
 							}
 						}else{
-							swal("Please fill in!", "End User", "warning");	
+							swal("No items!", "Please add an item", "warning");
 						}
 					}else{
-						swal("No items!", "Please add an item", "warning");
+						swal("Please fill in!", "Supplier", "warning");
 					}
 				}else{
-					swal("Please fill in!", "Supplier", "warning");
+					swal("Please fill in!", "Mode of Procurement", "warning");
 				}
 			}else{
-				swal("Please fill in!", "Mode of Procurement", "warning");
+				swal("Please fill in!", "Purchase Request Number", "warning");
 			}
 		}else{
 			swal("Invalid PO Number!", "Invalid PO Number", "warning");

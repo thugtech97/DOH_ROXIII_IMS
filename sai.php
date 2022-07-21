@@ -30,6 +30,11 @@ if(!isset($_SESSION["username"])){
     <!-- c3 Charts -->
     <link href="css/plugins/c3/c3.min.css" rel="stylesheet">
 
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
     <title>INVENTORY MS | For SAI</title>
 
 </head>
@@ -170,7 +175,11 @@ if(!isset($_SESSION["username"])){
                 </div>
             </div>
         </div>
-        <br>
+
+        <?php
+            require "reports/report_sai.php";
+            require "modals/modal_sai_items.php";
+        ?>
 
         <div class="footer">
             <div>

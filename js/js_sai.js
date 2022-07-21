@@ -30,6 +30,15 @@ function set_url(url){
     get_records(1, _url);
 }
 
-function get_pr_items(){
-    
+function get_pr_items(id){
+    $("#modal_pr_code").html(id);
+    $.ajax({
+        type: "POST",
+        url: "php/php_sai.php",
+        data: {call_func: "get_items", pr_code: id},
+        success: function(data){
+            $("#sai_items").modal();
+            $("table#for_sai_table tbody").html(data);
+        }
+    });
 }

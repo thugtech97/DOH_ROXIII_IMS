@@ -3,29 +3,24 @@
         <div class="modal-content animated slideInDown">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                <h5 class="modal-title"><i class="fa fa-clipboard"></i></h5>
+                <h5 class="modal-title"><i class="fa fa-clipboard"></i> PR Code: <span id="modal_pr_code"></span></h5>
             </div>
             <div class="modal-body">
                 <div class="panel panel-primary">
                     <div class="panel-body" style="height: 300px; overflow: auto;">
-                        <table id="item_search_table" class="table table-bordered">
+                        <table id="for_sai_table" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Reference No.</th>
-                                    <th>Item Name</th>
-                                    <th>Description</th>
+                                    <th>WFP Code</th>
+                                    <th>Item Description</th>
                                     <th>Unit Cost</th>
-                                    <th>Quantity (IN)</th>
-                                    <th>Total Amount (IN)</th>
-                                    <th>Remaining</th>
-                                    <th>Total Amount (Remaining)</th>
-                                    <th>End-user</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="9"><center>Select item name first.</center></td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>

@@ -1,8 +1,8 @@
 <?php
 
 $DBHOST = "128.199.78.112:3306";
-$DBUSER = "djan";
-$DBPASS = "!Q2w3e!";
+$DBUSER = "jude";
+$DBPASS = "jude_Admin123!";
 $DBNAME = "epabs";
 
 /*
