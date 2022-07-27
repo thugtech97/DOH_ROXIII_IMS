@@ -338,7 +338,6 @@ function get_po(){
 	$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE inspection_status = '1' ORDER BY po_id DESC");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
-			//$sql2 = mysqli_query($conn, "SELECT po");
 			echo "<option id=".$row["po_number"].">".$row["po_number"]."</option>";
 		}
 	}

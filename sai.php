@@ -27,6 +27,9 @@ if(!isset($_SESSION["username"])){
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
+    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
+
     <!-- c3 Charts -->
     <link href="css/plugins/c3/c3.min.css" rel="stylesheet">
 
@@ -134,6 +137,11 @@ if(!isset($_SESSION["username"])){
         </nav>
         </div>
 
+<?php
+
+if($_SESSION["username"] == "jbescol") {
+
+?>
         <br>
         <div class="row">
             <div class="col-lg-12 animated bounceInDown">
@@ -144,8 +152,13 @@ if(!isset($_SESSION["username"])){
                         if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-primary" onclick="print_sai();">
                                         <i class="fa fa-get-pocket"></i> Fetch Purchase Requests for SAI
+                                    </button>
+                                </li>
+                                <li class="breadcrumb-item">
+                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#sai_reports">
+                                        <span class="label label-danger" style="border-radius: 10px;" id="count_sai">0</span>&nbsp;View SAI Reports
                                     </button>
                                 </li>
                             </ol>
@@ -175,6 +188,12 @@ if(!isset($_SESSION["username"])){
                 </div>
             </div>
         </div>
+
+<?php
+
+}
+
+?>
 
         <?php
             require "reports/report_sai.php";

@@ -1,4 +1,6 @@
 var _url = "";
+var prep_id = "";
+var pr_no = "";
 
 $(document).on('click', '.page-link', function(){
     var page = $(this).data('page_number');
@@ -27,6 +29,7 @@ function get_records(page, url, query = ""){
 
 function set_url(url){
     _url = url;
+    view_sai_reports();
     get_records(1, _url);
 }
 
@@ -36,9 +39,67 @@ function get_pr_items(id){
         type: "POST",
         url: "php/php_sai.php",
         data: {call_func: "get_items", pr_code: id},
+        dataType: "JSON",
         success: function(data){
             $("#sai_items").modal();
-            $("table#for_sai_table tbody").html(data);
+            $("table#for_sai_table tbody").html(data["tbody"]);
+            $("#pr_purpose").html(data["pr_purpose"]);
+            $("#prep_by").html(data["prep_name"]);
         }
     });
+}
+
+function create_sai(){
+    if($("#sai_no").val() != ""){
+        items = [];
+        var table = $("table#for_sai_table tbody");
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td');
+            items.push([$tds.eq(0).text(), $tds.eq(1).text(), $tds.eq(2).text(), $tds.eq(3).text(), $tds.eq(4).text(), $tds.eq(5).text(), ($tds.eq(6).find('input').is(":checked") ? 'Available' : 'Not Available')]);
+        });
+        $.ajax({
+            type: "POST",
+            data: {
+                call_func: "insert_sai",
+                sai_no: $("#sai_no").val(),
+                pr_code: $("#modal_pr_code").html(),
+                items: items
+            },
+            url: "php/php_sai.php",
+            success: function(data){
+                swal("Inserted!", "Saved successfully to the database.", "success");
+                $("#sai_no").val("");
+                $("#sai_items .close").click();
+                view_sai_reports();
+            }
+        });
+    }else{
+        swal("Please fill in!", "SAI Number", "warning");
+    }
+}
+
+function view_sai_reports(){
+    $.ajax({
+        type: "POST",
+        dataType: "JSON",
+        url: "php/php_sai.php",
+        data: {call_func: "get_sai_reports"},
+        success: function(data){
+            $("table#sai_table tbody").html(data["tbody"]);
+            $("#count_sai").html(data["count"]);
+        }
+    });
+}
+
+function print_sai(){
+    var divContents = $("#report_sai").html(); 
+    var a = window.open('', '', 'height=1500, width=800');
+    a.document.write('<html>');
+    a.document.write('<body><center>');
+    a.document.write('<table><tr>');
+    a.document.write('<td>'+divContents+'</td>');
+    a.document.write('</tr></table>');
+    a.document.write('</center></body></html>');
+    a.document.close();
+    a.print();
 }

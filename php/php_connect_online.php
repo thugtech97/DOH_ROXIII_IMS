@@ -1,23 +1,31 @@
 <?php
 
-$DBHOST = "128.199.78.112:3306";
+$DBHOST = "eprocurement.dohcaraga.org";
 $DBUSER = "jude";
 $DBPASS = "jude_Admin123!";
-$DBNAME = "epabs";
+$DBNAME = "eprocurement";
+
+$conn_eprocurement = mysqli_connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
+
+$DBHOST_ = "128.199.78.112:3306";
+$DBUSER_ = "jude";
+$DBPASS_ = "jude_Admin123!";
+$DBNAME_ = "epabs";
+
+$conn_epabs = mysqli_connect($DBHOST_, $DBUSER_, $DBPASS_, $DBNAME_);
 
 /*
 
-$connect_epabs = mysqli_connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
+$query = "SELECT DISTINCT pr_code, division, office, pr_no, prepared_user_name, pr_purpose FROM tbl_pr WHERE pr_no <> '' ";
+$query.="ORDER BY created_at ASC ";
 
-if($connect_epabs){
-	echo "connected";
-}else{
-	echo "not connected";
+$sql_orig = mysqli_query($conn_epabs, $query);
+
+while($row = mysqli_fetch_assoc($sql_orig)){
+	echo $row["pr_code"]."</br>";
 }
 
 */
-
-$conn_epabs = mysqli_connect($DBHOST, $DBUSER, $DBPASS, $DBNAME);
 
 /*
 
