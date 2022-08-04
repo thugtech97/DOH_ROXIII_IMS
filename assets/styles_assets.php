@@ -33,3 +33,4 @@
     <link href="../css/selectize.bootstrap3.css" rel="stylesheet">
     <link href="../css/selectize.default.css" rel="stylesheet">
     <link href="../css/selectize.legacy.css" rel="stylesheet">
+    <link href="../css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">

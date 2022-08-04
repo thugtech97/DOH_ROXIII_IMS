@@ -19,7 +19,7 @@ function get_pr(){
 			$start = 0;
 		}
 
-		$query = "SELECT DISTINCT pr_no, division, office, pr_code, prepared_user_name, pr_purpose FROM tbl_pr WHERE pr_no <> '' ";
+		$query = "SELECT pr_code, division, office, pr_no, prepared_user_name, pr_purpose FROM tbl_pr ";
 		if($_POST["search"] != ""){
 			$qs = mysqli_real_escape_string($conn_epabs, $_POST["search"]);
 			$query.="AND (pr_code LIKE '%$qs%' OR division LIKE '%$qs%' OR office LIKE '%$qs%' OR pr_no LIKE '%$qs%' OR prepared_user_name LIKE '%$qs%' OR pr_purpose LIKE '%$qs%') ";
@@ -32,7 +32,7 @@ function get_pr(){
 		$total_data = mysqli_num_rows($sql_orig);
 		if($total_data != 0){
 			while($row = mysqli_fetch_assoc($sql)){
-				$pr_code = $row["pr_code"];
+				$pr_code = mysqli_real_escape_string($conn_epabs, $row["pr_code"]);
 				$in = array();
 				$get_items = mysqli_query($conn_epabs, "SELECT item_description FROM tbl_pr_details WHERE pr_code LIKE '$pr_code' AND item_classification <> 'CATERING SERVICES'");
 				while($ri = mysqli_fetch_assoc($get_items)){
@@ -83,10 +83,10 @@ function get_items(){
 						<td><center><label class=\"col-form-label\"><input type=\"checkbox\" class=\"i-checks\" style=\"height: 18px; width: 18px;\"></label></center></td>
 					</tr>";
 	}
-	$sql = mysqli_query($conn_epabs, "SELECT pr_purpose, prepared_user_name, prepared_user_id FROM tbl_pr WHERE pr_code LIKE '$pr_code'");
+	$sql = mysqli_query($conn_epabs, "SELECT p.division, p.office, p.pr_purpose, p.prepared_user_name, p.prepared_user_id, u.designation FROM tbl_pr AS p, users_profile AS u WHERE p.pr_code LIKE '$pr_code' AND p.prepared_user_id = u.user_id");
 	$row = mysqli_fetch_assoc($sql);
 
-	echo json_encode(array("tbody"=>$tbody, "pr_purpose"=>$row["pr_purpose"], "prep_name"=>$row["prepared_user_name"], "prep_id"=>$row["prepared_user_id"]));
+	echo json_encode(array("tbody"=>$tbody, "pr_purpose"=>$row["pr_purpose"], "prep_name"=>$row["prepared_user_name"], "prep_id"=>$row["prepared_user_id"], "division"=>$row["division"], "office"=>$row["office"], "designation"=>$row["designation"]));
 
 }
 
@@ -95,6 +95,11 @@ function insert_sai(){
 
 	$sai_no = mysqli_real_escape_string($conn, $_POST["sai_no"]);
 	$pr_code = mysqli_real_escape_string($conn, $_POST["pr_code"]);
+	$division = mysqli_real_escape_string($conn, $_POST["division"]);
+	$office = mysqli_real_escape_string($conn, $_POST["office"]);
+	$purpose = mysqli_real_escape_string($conn, $_POST["purpose"]);
+	$prep_by = mysqli_real_escape_string($conn, $_POST["prep_by"]);
+	$prep_des = mysqli_real_escape_string($conn, $_POST["prep_des"]);
 	$items = $_POST["items"];
 
 	for($i = 0; $i < count($items); $i++){
@@ -105,14 +110,14 @@ function insert_sai(){
 		$item_quantity = $items[$i][4];
 		$item_unit = $items[$i][5];
 		$stock_status = $items[$i][6];
-		mysqli_query($conn, "INSERT INTO tbl_sai(sai_no, pr_code, wfp_code, wfp_act, item_description, unit, quantity, stock_status) VALUES('$sai_no', '$pr_code', '$wfp_code', '$wfp_act', '$item_description', '$item_unit', '$item_quantity', '$stock_status')");
+		mysqli_query($conn, "INSERT INTO tbl_sai(sai_no, pr_code, division, office, purpose, inquired_by, inquired_by_designation, wfp_code, wfp_act, item_description, unit, quantity, stock_status) VALUES('$sai_no', '$pr_code', '$division', '$office', '$purpose', '$prep_by', '$prep_des', '$wfp_code', '$wfp_act', '$item_description', '$item_unit', '$item_quantity', '$stock_status')");
 	}
 }
 
 function get_sai_reports(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT sai_no FROM tbl_sai ORDER BY sai_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT sai_no, division, office FROM tbl_sai ORDER BY sai_id DESC");
 	$tbody = "";
 	$count = mysqli_num_rows($sql);
 	if($count != 0){
@@ -125,17 +130,59 @@ function get_sai_reports(){
 			}
 			$tbody.=	"<tr>
 							<td>".$sai_no."</td>
+							<td>".$row["division"]."</td>
+							<td>".$row["office"]."</td>
 							<td style=\"font-size: 10px;\">".implode(", ", $in)."</td>
-							<td><center><button class=\"btn btn-xs btn-info\"><i class=\"fa fa-print\"></i></button></center></td>
+							<td><center><button class=\"btn btn-xs btn-info\" onclick=\"print_sai('".$sai_no."');\"><i class=\"fa fa-print\"></i></button>&nbsp;<button class=\"btn btn-xs btn-danger\" onclick=\"delete_sai('".$sai_no."');\"><i class=\"fa fa-trash\"></i></button></center></td>
 						</tr>";
 		}
 	}else{
 		$tbody.=	"<tr>
-						<td colspan=\"3\"><center>No SAI Report.</center></td>
+						<td colspan=\"5\"><center>No SAI Report.</center></td>
 					</tr>";	
 	}
 
 	echo json_encode(array("tbody"=>$tbody, "count"=>$count));
+}
+
+function print_sai(){
+	global $conn;
+
+	$sai_no = mysqli_real_escape_string($conn, $_POST["sai_no"]);
+	$tbody = ""; $division = ""; $office = ""; $purpose = ""; $inquired_by = ""; $inquired_by_designation = "";
+	$rows = 0;
+	$sql = mysqli_query($conn, "SELECT division, office, inquired_by, inquired_by_designation, item_description, unit, quantity, stock_status, purpose FROM tbl_sai WHERE sai_no LIKE '$sai_no'");
+	while($row = mysqli_fetch_assoc($sql)){
+		$division = $row["division"]; $office = $row["office"]; $purpose = $row["purpose"]; $inquired_by = $row["inquired_by"]; $inquired_by_designation = $row["inquired_by_designation"];
+		$tbody.=	"<tr>
+		                <td style=\"font-size: 12px;; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">-</td>
+		                <td colspan=\"3\" style=\"font-size: 12px;text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black;border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["item_description"]."</td>
+		                <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;\">".$row["unit"]."</td>
+		                <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["quantity"]."</td>
+		                <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".($row["stock_status"] == "Available" ? "✔️ ".$row["stock_status"] : "❌ ".$row["stock_status"])."</td>
+		              </tr>";
+		              $rows+=round((float)strlen($row["item_description"]) / 30.00);
+	}
+
+	for($i = 0; $i < (40 - $rows); $i++){
+		$tbody.=	"<tr>
+		                <td style=\"font-size: 12px;; text-align: center; height: 9px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">-</td>
+		                <td colspan=\"3\" style=\"font-size: 12px;text-align: center; height: 9px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black;border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
+		                <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: bottom; border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;\"></td>
+		                <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
+		                <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
+		              </tr>";
+	}
+
+	echo json_encode(array("tbody"=>$tbody, "division"=>$division, "office"=>$office, "purpose"=>$purpose, "inquired_by"=>$inquired_by, "inquired_by_designation"=>$inquired_by_designation));
+}
+
+function delete_sai(){
+	global $conn;
+
+	$sai_no = mysqli_real_escape_string($conn, $_POST["sai_no"]);
+
+	echo $sai_no." - hehehehehe";
 }
 
 $call_func = mysqli_real_escape_string($conn_epabs, $_POST["call_func"]);
@@ -151,6 +198,12 @@ switch($call_func){
 		break;
 	case "get_sai_reports":
 		get_sai_reports();
+		break;
+	case "print_sai":
+		print_sai();
+		break;
+	case "delete_sai":
+		delete_sai();
 		break;
 }
 

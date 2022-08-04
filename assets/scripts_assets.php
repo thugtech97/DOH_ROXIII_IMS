@@ -50,4 +50,6 @@
     <script src="../js/plugins/ladda/ladda.min.js"></script>
     <script src="../js/plugins/ladda/ladda.jquery.min.js"></script>
 
+    <!-- Tags Input -->
+    <script src="../js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
     <script src="../js/selectize.js"></script>

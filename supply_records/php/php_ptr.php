@@ -5,6 +5,42 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function get_items_all(){
+	global $conn;
+
+	$j = 1;
+	$tbody = "";
+	$po_numbers = $_POST["po_numbers"];
+	for($i = 0; $i < count((is_countable($po_numbers)?$po_numbers:[])); $i++){
+		$sql = mysqli_query($conn, "SELECT po_id, category, item_name, description, unit_cost, quantity, sn_ln, exp_date FROM tbl_po WHERE po_number LIKE '".$po_numbers[$i]."'");
+		while($row = mysqli_fetch_assoc($sql)){
+			$quan_unit = explode(" ", $row["quantity"]);
+			if($quan_unit[0] != 0){
+				$tbody.="<tr>
+						<td style=\"border: thin solid black;\">".$row["po_id"]."</td>
+		                <td style=\"border: thin solid black;\">".$po_numbers[$i]."</td>
+		                <td style=\"border: thin solid black;\">".$row["item_name"]."</td>
+		                <td style=\"border: thin solid black;\">".$row["description"]."</td>
+		                <td style=\"border: thin solid black;\">".$row["sn_ln"]."</td>
+		                <td style=\"border: thin solid black;\">".$row["exp_date"]."</td>
+		                <td style=\"border: thin solid black;\">".$row["category"]."</td>
+		                <td style=\"border: thin solid black;\"><input id=\"property_no\" type=\"text\" class=\"form-control\"></td>
+		                <td style=\"border: thin solid black;\"><input type=\"number\" onkeyup=\"validate_input_quantity(this, '".$quan_unit[0]."', '".$j."', '".$row["unit_cost"]."')\"></td>
+		                <td style=\"border: thin solid black;\">".$quan_unit[0]."</td>
+		                <td style=\"border: thin solid black;\">".$quan_unit[1]."</td>
+		                <td style=\"border: thin solid black;\">".$row["unit_cost"]."</td>
+		                <td style=\"border: thin solid black;\"><span id=\"totid".$j."\"></span></td>
+		                <td style=\"border: thin solid black;\"><input type=\"text\"></td>
+		                <td style=\"border: thin solid black;\"><input type=\"text\"></td>
+		                <td style=\"border: thin solid black;\"></td>
+	                </tr>";
+	                $j++;
+			}
+		}
+	}
+	echo $tbody;
+}
+
 function iss_validator(){
 	global $conn;
 
@@ -481,6 +517,9 @@ switch($call_func){
 		break;
 	case "iss_validator":
 		iss_validator();
+		break;
+	case "get_items_all":
+		get_items_all();
 		break;
 }
 

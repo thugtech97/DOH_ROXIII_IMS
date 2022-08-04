@@ -455,6 +455,51 @@ function get_latest_po(){
 	}
 }
 
+function get_delayed_po(){
+	global $conn;
+
+	$supplier_po = array();
+	$lists = "";
+	$separator = "|";
+	$sql = mysqli_query($conn, "SELECT DISTINCT p.po_number, p.status, p.procurement_mode, s.supplier, p.delivery_term, p.date_conformed FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id ORDER BY po_id ASC");
+	$csp = 0;
+
+	while($row = mysqli_fetch_assoc($sql)){
+		$date = date_create($row["date_conformed"]);
+		date_add($date,date_interval_create_from_date_string($row["delivery_term"] == "Progress Billing" || $row["delivery_term"] == "" ? "0 days" : $row["delivery_term"]));
+		$expected_delivery_date = date_format($date,"Y-m-d");
+		$start_date = strtotime(date("Y-m-d"));
+		$end_date = strtotime($expected_delivery_date);
+
+		$remaining_days = round(($end_date - $start_date)/60/60/24);
+		$supplier_po = ($remaining_days < 0 && $row["status"] == "Not Yet Delivered") ? array_push_assoc($supplier_po, $row["supplier"], $row["po_number"]) : $supplier_po;
+	}
+
+	if(count($supplier_po) != 0){
+		foreach ($supplier_po as $key => $value) {
+	        $lists.="<li>
+                        <a onclick=\"print_dl('".$key."', '".implode($separator, $value)."', '".$separator."');\" class=\"dropdown-item\">
+                            <div>
+                                <i class=\"fa fa-user\"></i> ".strtoupper($key)."
+                                <span class=\"float-right text-muted small\"><span class=\"label label-primary\" style=\"border-radius: 10px;\">".count($supplier_po[$key])."</span> Purchase Orders</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class=\"dropdown-divider\"></li>";
+		}
+		$csp = 1;
+	}else{
+		$lists="<li>
+                    <a class=\"dropdown-item\">
+                        <div>
+                            <span class=\"text-muted medium\"><center>No demand letters to generate. </center></span>
+                        </div>
+                    </a>
+                </li>";
+	}
+
+}
+
 function get_po(){
 	global $conn;
 
@@ -721,6 +766,9 @@ switch($call_func){
 		break;
 	case "get_billing_history":
 		get_billing_history();
+		break;
+	case "get_delayed_po":
+		get_delayed_po();
 		break;
 }
 

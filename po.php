@@ -231,9 +231,10 @@ if(!isset($_SESSION["username"])){
                 require "modals/modal_view_po.php";
                 require "modals/modal_add_bf.php";
                 require "modals/modal_view_conso.php";
-                require "modals/modal_dl.php";
+                //require "modals/modal_dl.php";
                 require "modals/modal_billing_history.php";
-                require "reports/report_dl.php";
+                //require "reports/report_dl.php";
+                require "reports/report_notc.php";
             ?>
 
             <div class="footer">

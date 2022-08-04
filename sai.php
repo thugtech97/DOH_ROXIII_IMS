@@ -152,7 +152,7 @@ if($_SESSION["username"] == "jbescol") {
                         if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-primary" onclick="print_sai();">
+                                    <button type="button" class="btn btn-primary" onclick="//print_sai();">
                                         <i class="fa fa-get-pocket"></i> Fetch Purchase Requests for SAI
                                     </button>
                                 </li>

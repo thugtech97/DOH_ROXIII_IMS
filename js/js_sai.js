@@ -45,6 +45,9 @@ function get_pr_items(id){
             $("table#for_sai_table tbody").html(data["tbody"]);
             $("#pr_purpose").html(data["pr_purpose"]);
             $("#prep_by").html(data["prep_name"]);
+            $("#prep_des").html(data["designation"]);
+            $("#pr_division").html(data["division"]);
+            $("#pr_office").html(data["office"]);
         }
     });
 }
@@ -63,6 +66,11 @@ function create_sai(){
                 call_func: "insert_sai",
                 sai_no: $("#sai_no").val(),
                 pr_code: $("#modal_pr_code").html(),
+                division: $("#pr_division").html(),
+                office: $("#pr_office").html(),
+                purpose: $("#pr_purpose").html(),
+                prep_by: $("#prep_by").html(),
+                prep_des: $("#prep_des").html(),
                 items: items
             },
             url: "php/php_sai.php",
@@ -91,15 +99,52 @@ function view_sai_reports(){
     });
 }
 
-function print_sai(){
-    var divContents = $("#report_sai").html(); 
-    var a = window.open('', '', 'height=1500, width=800');
-    a.document.write('<html>');
-    a.document.write('<body><center>');
-    a.document.write('<table><tr>');
-    a.document.write('<td>'+divContents+'</td>');
-    a.document.write('</tr></table>');
-    a.document.write('</center></body></html>');
-    a.document.close();
-    a.print();
+function print_sai(sai_no){
+    $.ajax({
+        type: "POST",
+        url: "php/php_sai.php",
+        dataType: "JSON",
+        data: {call_func: "print_sai", sai_no: sai_no},
+        success: function(data){
+            $("#sai_details").html(data["tbody"]);
+            $("#rep_div").html(data["division"]);
+            $("#rep_off").html(data["office"]);
+            $("#rep_sai_no").html(sai_no);
+            $("#rep_purpose").html(data["purpose"]);
+            $("#sai_rep_name").html(data["inquired_by"]);
+            $("#sai_rep_des").html(data["inquired_by_designation"]);
+
+            var divContents = $("#report_sai").html(); 
+            var a = window.open('', '', 'height=1500, width=800');
+            a.document.write('<html>');
+            a.document.write('<body><center>');
+            a.document.write('<table><tr>');
+            a.document.write('<td>'+divContents+'</td>');
+            a.document.write('</tr></table>');
+            a.document.write('</center></body></html>');
+            a.document.close();
+            a.print();
+        }
+    });
+}
+
+function delete_sai(sai_no){
+    swal({
+        title: "Are you sure?",
+        text: "This SAI record will be removed from the database.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: false
+    }, function () {
+        $.ajax({
+            type: "POST",
+            data: {call_func: "delete_sai", sai_no: sai_no},
+            url: "php/php_sai.php",
+            success: function(data){
+                alert(data);
+            }
+        });
+    });
 }

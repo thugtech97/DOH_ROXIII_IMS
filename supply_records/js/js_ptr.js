@@ -644,7 +644,7 @@ function print_ptr_gen(ptr_no){
             $("#gprint_abd").html(data["ptr_details"][9]);
             $("#gprint_rb").html("<u>"+data["ptr_details"][10].toUpperCase()+"</u>");
             $("#gprint_rbd").html(data["ptr_details"][11]);
-			$("#addr").html(data["ptr_details"][12]);
+            $("#addr").html(data["ptr_details"][12]);
             $(".gdate").html(data["ptr_details"][4]);
             if(data["ptr_details"][5] != "Donation" && data["ptr_details"][5] != "Relocate" && data["ptr_details"][5] != "Reassignment"){
                 $("input#gOthers").attr("checked", "checked");

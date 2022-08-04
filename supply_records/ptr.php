@@ -182,7 +182,7 @@ if(!isset($_SESSION["username"])){
 
     </div>
 
-<!--end of wrapper !-->
+    <!--end of wrapper !-->
 
     <?php
         require "../assets/small_chat.php";
@@ -192,6 +192,7 @@ if(!isset($_SESSION["username"])){
 
     <script src="../js/plugins/bs-custom-file/bs-custom-file-input.min.js"></script>
     <script src="js/js_general_functions.js"></script>
+
     <script src="js/js_ptr.js"></script>
     <script type="text/javascript">
         set_url("php/php_ptr.php");

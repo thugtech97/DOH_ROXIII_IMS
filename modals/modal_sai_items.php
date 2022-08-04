@@ -7,11 +7,27 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group row">
-                            <label class="col-lg-2 col-form-label"><b>SAI No:</b></label>
-                            <div class="col-lg-8">
+                            <label class="col-lg-3 col-form-label"><b>SAI No:</b></label>
+                            <div class="col-lg-9">
                                 <input id="sai_no" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label"><b>Division:</b></label>
+                                    <label id="pr_division" class="col-lg-9 col-form-label"></label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label"><b>Office:</b></label>
+                                    <label id="pr_office" class="col-lg-9 col-form-label"></label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -47,7 +63,10 @@
                     <div class="col-lg-6">
                         <div class="form-group row">
                             <label class="col-lg-2 col-form-label"><b>Prepared by:</b></label>
-                            <label id="prep_by" class="col-lg-10 col-form-label"></label>
+                            <div class="col-lg-10">
+                                <p id="prep_by" class="col-form-label" style="text-decoration: underline;"></p>
+                                <p id="prep_des" class="col-form-label"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,13 +89,15 @@
             </div>
             <div class="modal-body">
                 <div class="panel panel-primary">
-                    <div class="panel-body" style="height: 300px; overflow: auto;">
+                    <div class="panel-body" style="height: 400px; overflow: auto;">
                         <table id="sai_table" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>SAI No</th>
-                                    <th>Items</th>
-                                    <th></th>
+                                    <th style="border: thin solid black;">SAI No</th>
+                                    <th style="border: thin solid black;">Division</th>
+                                    <th style="border: thin solid black;">Office</th>
+                                    <th style="border: thin solid black;">Items</th>
+                                    <th style="border: thin solid black;"></th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -1,6 +1,7 @@
 <?php
 
 require "php_conn.php";
+session_start();
 
 if(isset($_GET['files'])) {
 	$iss_number = mysqli_real_escape_string($conn, $_GET["iss_number"]);
@@ -30,6 +31,10 @@ if(isset($_GET['files'])) {
 		    $error = true;
 		}
 		
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." uploaded a PDF Preview for ".$iss." No. ".$iss_number;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+
 		rename($uploaddir."/".$file['name'], $uploaddir."/".str_replace(' ', '', $file['name']));
 		echo str_replace(' ', '', $file['name']);
 	}
