@@ -149,7 +149,7 @@
                         <i class="fa fa-list"></i> Item Lists
                     </div>
                     <div class="panel-body" style="height: 220px; overflow: auto;">
-                        <div class="ibox ">
+                        <div class="ibox">
                             <div class="ibox-content">
                                 <table id="eptr_items" class="table table-bordered">
                                     <thead>

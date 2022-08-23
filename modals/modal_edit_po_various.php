@@ -126,7 +126,7 @@
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <i class="fa fa-list"></i> Item Lists
+                                <i class="fa fa-list"></i> Item Lists <button class="pull-right btn btn-xs" onclick="add_item_po($('#epo_number').val());"><i class="fa fa-plus"></i> Add item</button>
                             </div>
                             <div class="panel-body" style="height: 235px; overflow: auto;">
                                 <table id="eitem_various" class="table table-bordered">
@@ -206,6 +206,109 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" onclick="$('#modal_snln').modal('hide'); $('body').addClass('modal-open');">Close</button>
                 <button type="button" class="btn btn-primary" onclick="save_snln();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal modal-child" id="modal_add_item_po" tabindex="1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
+    <div class="modal-dialog modal-lg" style="width: 800px;">
+    <div class="modal-content animated fadeInDown">
+            <div class="modal-header">
+                <button type="button" class="close" onclick="$('#modal_add_item_po').modal('hide'); $('body').addClass('modal-open');"><span aria-hidden="true">&times;</span></button>
+                <h2><b><i class="fa fa-plus"></i> Add new item (PO#<span id="apo"></span>)</b></h2>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label">Item:</label>
+                                    <div class="col-lg-10">
+                                        <select id="e_item_name" class="select2_demo_1 form-control">
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Quantity:</label>
+                                    <div class="col-lg-9">
+                                        <input id="e_quantity" type="number" class="form-control e-input-amount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label">Description:</label>
+                                    <div class="col-lg-10">
+                                        <textarea id="e_description" class="tdesc" style="width:100%;height:90px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Category:</label>
+                                    <div class="col-lg-9">
+                                        <input id="e_category" type="text" class="form-control" disabled="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label">Unit Cost:</label>
+                                    <div class="input-group m-b col-lg-9">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-addon">₱</span>
+                                        </div>
+                                        <input id="e_unit_cost" type="text" class="form-control" onfocus="(this.type='number');" onblur="(this.type='text'); $(this).val(formatNumber($(this).val())); e_calculate_total_amount();">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Exp. Date:</label>
+                                    <div class="col-lg-9">
+                                        <input class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" id="e_exp_date" disabled="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <label class="col-lg-3 col-form-label">Total:</label>
+                                    <div class="input-group m-b col-lg-9">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-addon">₱</span>
+                                        </div>
+                                        <input id="e_total_amount" type="text" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Unit:</label>
+                                    <div class="col-lg-9">
+                                        <select id="e_unit" class="select2_demo_1 form-control">
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" onclick="$('#modal_add_item_po').modal('hide'); $('body').addClass('modal-open');">Close</button>
+                <button type="button" class="btn btn-primary" onclick="save_item_po();">Save</button>
             </div>
         </div>
     </div>

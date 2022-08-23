@@ -57,21 +57,6 @@
             <p class="dl_date"></p>
             <p style="font-weight: bold;">THE MANAGER<br><span class="dl_supp_name"></span><br><span class="dl_address" style="cursor: pointer;" onclick="edit_text(this.className);"></span><br><span>Butuan City</span>
             <p>Dear Ma'am/Sir:</p><p>Greetings!</p><p style="text-align: justify;">This is in reference to the DOH-Center for Health Development-Caraga approved Purchase Order No. 2021-12-1717 for the Procurement Emergency Kits was conformed last March 16, 2022, that is beyond the delivery term of Ninety-Three (93) calendar days.</p>
-            <table style="border-collapse: collapse;" cellspacing="0" width="100%;">
-            	<thead>
-            		<tr>
-            			<td style="border-style: solid; border-width: 1px; text-align: center; font-weight: bold;">Purchase Order No.</td>
-            			<td style="border-style: solid; border-width: 1px; text-align: center; font-weight: bold;">Unit</td>
-            			<td style="border-style: solid; border-width: 1px; text-align: center; font-weight: bold;">Item Description</td>
-            			<td style="border-style: solid; border-width: 1px; text-align: center; font-weight: bold;">QTY</td>
-            			<td style="border-style: solid; border-width: 1px; text-align: center; font-weight: bold;">Unit Cost</td>
-            			<td style="border-style: solid; border-width: 1px; text-align: center; font-weight: bold;">Amount</td>
-            		</tr>
-            	</thead>
-            	<tbody class="dl_tbody">
-            		
-            	</tbody>
-            </table>
             <p style="text-align: justify;">Please be informed that as per inspection of our Supply Officer, we found out that the P.O is already expired and despite our several verbal demands, your firm has not done any remedial measures to deliver the above-mentioned item/s.
             </p>
             <p style="text-align: justify;">Hence, this <b>Notice of Termination</b> is made upon you to proceed with the delivery of the said P.O expeditiously and without any further delay. Otherwise, we have no other recourse but to terminate the purchase order on such ground(s) which may be available on our favor. Such other administrative and civil remedies shall likewise be made against you.

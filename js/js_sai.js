@@ -58,8 +58,9 @@ function create_sai(){
         var table = $("table#for_sai_table tbody");
         table.find('tr').each(function (i) {
             var $tds = $(this).find('td');
-            items.push([$tds.eq(0).text(), $tds.eq(1).text(), $tds.eq(2).text(), $tds.eq(3).text(), $tds.eq(4).text(), $tds.eq(5).text(), ($tds.eq(6).find('input').is(":checked") ? 'Available' : 'Not Available')]);
+            items.push([$tds.eq(0).text(), $tds.eq(1).text(), $tds.eq(2).text(), $tds.eq(3).text(), $tds.eq(4).text(), $tds.eq(5).text(), ($tds.eq(6).find('input').is(":checked") ? 'Available' : 'Not Available'), $(this).data("id")]);
         });
+        
         $.ajax({
             type: "POST",
             data: {
@@ -81,6 +82,7 @@ function create_sai(){
                 view_sai_reports();
             }
         });
+        
     }else{
         swal("Please fill in!", "SAI Number", "warning");
     }

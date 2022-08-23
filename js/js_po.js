@@ -14,7 +14,7 @@ var files;
 var _url, active_page;
 
 $(document).ready(function(){
-
+	get_delayed_po();
 });
 
 function loadLocal() {
@@ -53,6 +53,22 @@ Date.prototype.toDateInputValue = (function() {
     local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
     return local.toJSON().slice(0,10);
 });
+
+function get_delayed_po(){
+	$.ajax({
+		type: "POST",
+		url:"php/php_po.php",
+		data: {call_func: "get_delayed_po"},
+		dataType: "JSON",
+		success: function(data){
+			$("#count_supp").html(Object.keys(data["supplier_po"]).length);
+			$("#num_supp").html(Object.keys(data["supplier_po"]).length);
+			$("#nestable").html(data["lists"]);
+			supplier_po = data["supplier_po"];
+			if(data["csp"]=="0"){ $("#nestable").removeAttr("style"); }
+		}
+	});
+}
 
 function insert_po(){
 	switch(getActiveState()){
@@ -410,9 +426,10 @@ function update(){
 		},
 		success: function(data){
 			swal("Updated!", "PO details successfully updated.", "success");
-	        setTimeout(function () {
-		        location.reload();
-		      }, 1500);
+			$("#edit_po_various .close").click();
+			var query = $('#search_box').val();
+			get_records(active_page, _url, query);
+			get_delayed_po();
 		}
 	});
 }
@@ -421,6 +438,11 @@ function add_sl(po_id,quan, ctgry){
 	quant = quan; ctgr = ctgry;
 	$("#po_id").html(po_id);
 	$("#modal_snln").modal();
+}
+
+function add_item_po(po_n){
+	$("#apo").html(po_n);
+	$("#modal_add_item_po").modal();
 }
 
 function save_snln(){
@@ -432,7 +454,7 @@ function save_snln(){
 		snlns+=$tds.eq(0).text()+"|";
 		rows++;
 	});
-	if(ctgr != "Drugs and Medicines" && ctgr != "Medical Supplies"){
+	if(ctgr != "Drugs and Medicines" && ctgr != "Medical Supplies" && ctgr != "Various Supplies"){
 		if(rows == quant){
 			$.ajax({
 				type: "POST",
@@ -587,7 +609,7 @@ function add_item(){
 
 
 function validate_with_snln(){
-	if($("#category").val() != "Drugs and Medicines" && $("#category").val() != "Medical Supplies"){
+	if($("#category").val() != "Drugs and Medicines" && $("#category").val() != "Medical Supplies" && $("#category").val() != "Various Supplies"){
 		if(get_snln_rows()[0] == parseInt($("#quantity").val())){
 			$("table#item_various tbody").append("<tr>"+
 											"<td>"+($("#item_name").val().split("┼"))[0]+"</td>"+
@@ -671,6 +693,14 @@ function calculate_total_amount(){
 
 	var total_amount = unit_cost * quantity;
 	$("#total_amount").val(formatNumber(total_amount.toFixed(3)));
+}
+
+function e_calculate_total_amount(){
+	var unit_cost = ($("#e_unit_cost").val() != "") ? parseFloat(origNumber($("#e_unit_cost").val())) : 0.00;
+	var quantity = ($("#e_quantity").val() != "") ? parseFloat($("#e_quantity").val()) : 0.00;
+
+	var total_amount = unit_cost * quantity;
+	$("#e_total_amount").val(formatNumber(total_amount.toFixed(3)));
 }
 
 function get_snln_rows(){
@@ -847,6 +877,7 @@ function ready_all(){
 			url: "php/php_po.php",
 			success: function(data){
 				$("#item_name").html("<option disabled selected></option>").append(data);
+				$("#e_item_name").html("<option disabled selected></option>").append(data);
 				$("#item_name_search").html("<option selected disabled></option>").append(data);
 				loadLocal();
 			}
@@ -856,10 +887,19 @@ function ready_all(){
 	$("#item_name").on("change", function(e){
 		$("#category").val($("#item_name option:selected").data("cat"));
 		account_code = $("#item_name option:selected").data("ac");
-		if($("#category").val()=="Drugs and Medicines" || $("#category").val()=="Medical Supplies"){
+		if($("#category").val()=="Drugs and Medicines" || $("#category").val()=="Medical Supplies" || $("#category").val()=="Various Supplies"){
 			$('#exp_date').prop('disabled',false);	
 		}else{
 			$('#exp_date').prop('disabled',true);
+		}
+	});
+
+	$("#e_item_name").on("change", function(e){
+		$("#e_category").val($("#e_item_name option:selected").data("cat"));
+		if($("#e_category").val()=="Drugs and Medicines" || $("#e_category").val()=="Medical Supplies" || $("#e_category").val()=="Various Supplies"){
+			$('#e_exp_date').prop('disabled',false);	
+		}else{
+			$('#e_exp_date').prop('disabled',true);
 		}
 	});
 
@@ -870,6 +910,7 @@ function ready_all(){
 			url: "php/php_po.php",
 			success: function(data){
 				$("#unit").html("<option disabled selected></option>").append(data);
+				$("#e_unit").html("<option disabled selected></option>").append(data);
 				loadLocal();
 			}
 		});
@@ -962,6 +1003,74 @@ function ready_all(){
 	});
 }
 
+function save_item_po(){
+	if($("#e_item_name").val() != null){
+		if($("#e_description").val() != ""){
+			if($("#e_category").val() != ""){
+				if($("#e_unit_cost").val() != ""){
+					if($("#e_quantity").val() != ""){
+						if(parseInt($("#e_quantity").val()) > 0){
+							if($("#e_unit").val() != null){
+								if($("#e_total_amount").val() != ""){
+									$.ajax({
+										type: "POST",
+										dataType: "JSON",
+										data: {
+											call_func: "add_item",
+											edate_received: $("#edate_received").val(),
+											epo_number: $("#epo_number").val(),
+											epr_no: $("#epr_no").val(),
+											eprocurement_mode: $("#eprocurement_mode option:selected").text(),
+											edelivery_term: $("#edelivery_term option:selected").text(),
+											epayment_term: $("#epayment_term option:selected").text(),
+											esupplier: ($("#esupplier").val().split("┼"))[0],
+											epo_enduser: $("#epo_enduser").val(),
+											edate_conformed: $("#edate_conformed").val(),
+											edate_delivered: $("#edate_delivered").val(),
+											estatus: $("#estatus option:selected").text(),
+											einspection_status: ($('#ins_chk').is(':checked')) ? 1 : 0,
+											e_item_name: $("#e_item_name option:selected").text(),
+											e_description: $("#e_description").val(),
+											e_category: $("#e_category").val(),
+											e_unit_cost: origNumber($("#e_unit_cost").val()),
+											e_exp_date: $("#e_exp_date").val(),
+											e_quantity: $("#e_quantity").val(),
+											e_unit: $("#e_unit option:selected").text()
+										},
+										url: "php/php_po.php",
+										success: function(data){
+											$("#modal_add_item_po .close").click();	
+											$("table#eitem_various tbody").html(data["tbody"]);
+											$("#tot_amt").html(formatNumber(data["tot_amt"].toFixed(3)));
+											get_records(active_page, _url);
+										}
+									});
+								}else{
+									
+								}
+							}else{
+								swal("Please fill in!", "Unit", "warning");
+							}
+						}else{
+							swal("Quantity can't be negative or zero","","warning");
+						}
+					}else{
+						swal("Please fill in!", "Quantity", "warning");
+					}
+				}else{
+					swal("Please fill in!", "Unit Cost", "warning");
+				}
+			}else{
+				swal("Please fill in!", "Category", "warning");
+			}
+		}else{
+			swal("Please fill in!", "Description", "warning");
+		}
+	}else{
+		swal("Please fill in!", "Item name", "warning");
+	}
+}
+
 function add_snln(){
 	if($("#sn_ln").val() != ""){
 		$("table#serial_numbers tbody").append("<tr>"+
@@ -1010,15 +1119,11 @@ function print_dl(supplier,po_list,separator){
     	success: function(data){
     		$("#modal_dl_title").html(supplier.toUpperCase());
     		$(".dl_supp_name").html(supplier.toUpperCase());
-    		$(".dl_tbody").html(data["tbody"]);
     		$(".dl_date").html(data["date_today"]);
     		$(".dl_address").html("<u>(CLICK TO EDIT ADDRESS)</u>");
 
-    		$(".linking_verb").html(((po_list.split(separator)).length > 1) ? "are" : "is");
-    		$(".copy_verb").html(((po_list.split(separator)).length > 1) ? "the copies" : "a copy");
-
-    		$(".modal_dl_content").html($(".dl_content").html());
-    		$("#print_mdl").modal();
+    		$(".modal_notc_content").html($(".dl_content").html());
+    		$("#print_notc_").modal();
 		    
     	}
     });
@@ -1026,8 +1131,8 @@ function print_dl(supplier,po_list,separator){
 
 function print_prev_dl(){
 	var title = supp.toUpperCase()+" - Demand Letter";
-	$(".dl_content").html($(".modal_dl_content").html());
-    var divElements = document.getElementById('report_dl').innerHTML;
+	$(".dl_content").html($(".modal_notc_content").html());
+    var divElements = document.getElementById('report_notc').innerHTML;
     var printWindow = window.open("", "_blank", "");
     
     printWindow.document.open();
@@ -1070,6 +1175,10 @@ $("#ntc_year").change(function(){
 
 $(".input-amount").keyup(function(){
 	calculate_total_amount();
+});
+
+$(".e-input-amount").keyup(function(){
+	e_calculate_total_amount();
 });
 
 $(".form-control").focusout(function(){

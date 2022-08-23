@@ -125,10 +125,10 @@ if(!isset($_SESSION["username"])){
                             if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_ics">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_ics">
                                             <i class="fa fa-plus"></i> Add ICS
                                         </button>
-                                        <button type="button" class="btn btn-info" id="upload_alloc" onclick="upload_alloc();">
+                                        <button type="button" class="btn btn-default" id="upload_alloc" onclick="upload_alloc();">
                                             <i class="fa fa-upload"></i> Upload Allocation List
                                         </button>
                                     </li>
@@ -146,7 +146,7 @@ if(!isset($_SESSION["username"])){
             <br>
             <div class="row">
                 <div class="col-lg-12 animated bounceInDown">
-                    <div class="panel panel-success">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3><i class="fa fa-clipboard"></i> Inventory Custodian Slip</h3>
                         </div>

@@ -47,7 +47,7 @@ function get_pr(){
 							<td style=\"border: thin solid black;\">".$row["pr_no"]."</td>
 							<td style=\"border: thin solid black;\">".$row["prepared_user_name"]."</td>
 							<td style=\"border: thin solid black;\">".$row["pr_purpose"]."</td>
-							<td style=\"border: thin solid black;\"><center><button id=\"".$row["pr_code"]."\" class=\"btn btn-xs btn-warning\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"get_pr_items(this.id);\"><i class=\"fa fa-eye\"></i></button></center></td>
+							<td style=\"border: thin solid black;\"><center><button id=\"".$row["pr_code"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"get_pr_items(this.id);\"><i class=\"fa fa-eye\"></i></button></center></td>
 						</tr>";
 				}
 			}
@@ -70,10 +70,10 @@ function get_items(){
 	global $conn_epabs;
 
 	$pr_code = mysqli_real_escape_string($conn_epabs, $_POST["pr_code"]);
-	$sql = mysqli_query($conn_epabs, "SELECT wfp_code, wfp_act, item_description, item_price, item_qty, item_unit FROM tbl_pr_details WHERE pr_code LIKE '$pr_code'");
+	$sql = mysqli_query($conn_epabs, "SELECT id, wfp_code, wfp_act, item_description, item_price, item_qty, item_unit FROM tbl_pr_details WHERE pr_code LIKE '$pr_code'");
 	$tbody = "";
 	while($row = mysqli_fetch_assoc($sql)){
-		 	$tbody.="<tr>
+		 	$tbody.="<tr data-id=\"".$row["id"]."\"> 
 						<td style=\"vertical-align: center;\">".$row["wfp_code"]."</td>
 						<td style=\"vertical-align: center;\">".$row["wfp_act"]."</td>
 						<td style=\"vertical-align: center;\">".$row["item_description"]."</td>
@@ -110,7 +110,8 @@ function insert_sai(){
 		$item_quantity = $items[$i][4];
 		$item_unit = $items[$i][5];
 		$stock_status = $items[$i][6];
-		mysqli_query($conn, "INSERT INTO tbl_sai(sai_no, pr_code, division, office, purpose, inquired_by, inquired_by_designation, wfp_code, wfp_act, item_description, unit, quantity, stock_status) VALUES('$sai_no', '$pr_code', '$division', '$office', '$purpose', '$prep_by', '$prep_des', '$wfp_code', '$wfp_act', '$item_description', '$item_unit', '$item_quantity', '$stock_status')");
+		$pr_details_id = $items[$i][7];
+		mysqli_query($conn, "INSERT INTO tbl_sai(sai_no, pr_code, division, office, purpose, inquired_by, inquired_by_designation, wfp_code, wfp_act, item_description, unit, quantity, stock_status, pr_details_id) VALUES('$sai_no', '$pr_code', '$division', '$office', '$purpose', '$prep_by', '$prep_des', '$wfp_code', '$wfp_act', '$item_description', '$item_unit', '$item_quantity', '$stock_status', '$pr_details_id')");
 	}
 }
 
@@ -181,8 +182,7 @@ function delete_sai(){
 	global $conn;
 
 	$sai_no = mysqli_real_escape_string($conn, $_POST["sai_no"]);
-
-	echo $sai_no." - hehehehehe";
+	mysqli_query($conn, "DELETE FROM tbl_sai WHERE sai_no LIKE '$sai_no'");
 }
 
 $call_func = mysqli_real_escape_string($conn_epabs, $_POST["call_func"]);

@@ -1,4 +1,4 @@
-<div class="modal inmodal" id="print_mdl" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
+<div class="modal inmodal" id="print_notc_" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
     <div class="modal-dialog modal-lg">
     <div class="modal-content animated slideInDown">
             <div class="modal-header">
@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div class="ibox">
-                    <div class="ibox-content modal_dl_content">
+                    <div class="ibox-content modal_notc_content">
 
                     </div>
                 </div>

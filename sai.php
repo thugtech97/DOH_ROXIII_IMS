@@ -152,12 +152,12 @@ if($_SESSION["username"] == "jbescol") {
                         if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-primary" onclick="//print_sai();">
+                                    <button type="button" class="btn btn-default" onclick="//print_sai();">
                                         <i class="fa fa-get-pocket"></i> Fetch Purchase Requests for SAI
                                     </button>
                                 </li>
                                 <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#sai_reports">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#sai_reports">
                                         <span class="label label-danger" style="border-radius: 10px;" id="count_sai">0</span>&nbsp;View SAI Reports
                                     </button>
                                 </li>
@@ -173,7 +173,7 @@ if($_SESSION["username"] == "jbescol") {
 
         <div class="row">
             <div class="col-lg-12 animated bounceInDown">
-                <div class="panel panel-success">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3><i class="fa fa-clipboard"></i> Purchase Requests - Retrieved from E-Planning System</h3>
                     </div>

@@ -61,10 +61,22 @@ if(isset($_SESSION["username"])){
                 <b>NEW SYSTEM UPDATES:</b><br>
                 <br>
                 <div class="row">
+                    
                     <div class="col-sm-12">
-                        <u>UPLOAD ALLOCATION LIST (PTR ISSUANCES) MODULE</u><br>
-                        - System users can now upload an allocation list containing all the recipients with their corresponding allocated items and quantities filled up by the end-users, in an excel file format (XLSX). The allocation list template is downloadable in the PTR section or click <a style="color: cyan;" href="supply_records/alloc/DOH_ROXIII_IMS_PTR_ALLOCATION_LIST_FORMAT.xlsx" download>here.</a>
+                        - Bugs fixed
                     </div>
+                    <div class="col-sm-12">
+                        - New UI changes
+                    </div>
+                    <div class="col-sm-12">
+                        - Can now add items on existing PO records<br>
+                        <img src="imgsys/add_item_po.png" width="700">
+                    </div>
+                    <div class="col-sm-12">
+                        - Can now generate NOTC (Notice of Termination of Contract)<br>
+                        <img src="imgsys/notc.png" width="500">
+                    </div>
+    
                 </div>
             </div>
        </div>

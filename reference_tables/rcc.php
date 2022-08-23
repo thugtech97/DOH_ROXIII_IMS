@@ -124,8 +124,8 @@ if(!isset($_SESSION["username"])){
                             <h2>Responsibility Center Codes</h2>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-primary">
-                                        Add
+                                    <button type="button" class="btn btn-default">
+                                        <i class="fa fa-plus"></i> Add
                                     </button>
                                 </li>
                             </ol>
@@ -139,7 +139,7 @@ if(!isset($_SESSION["username"])){
             <br>
             <div class="row">
                 <div class="col-lg-12 animated bounceInDown">
-                    <div class="panel panel-success">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3><i class="fa fa-code-fork"></i> Responsibility Center Codes</h3>
                         </div>

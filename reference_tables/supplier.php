@@ -126,7 +126,7 @@ if(!isset($_SESSION["username"])){
                             if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <button type="button" class="btn btn-primary" onclick="add_supplier();">
+                                        <button type="button" class="btn btn-default" onclick="add_supplier();">
                                             <i class="fa  fa-plus"></i> Add
                                         </button>
                                     </li>
@@ -144,7 +144,7 @@ if(!isset($_SESSION["username"])){
             <br>
             <div class="row">
                 <div class="col-lg-12 animated bounceInDown">
-                    <div class="panel panel-success">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3><i class="fa fa-users"></i> Supplier</h3>
                         </div>

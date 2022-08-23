@@ -139,13 +139,13 @@ if(!isset($_SESSION["username"])){
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" onclick="//$('#view_supp').modal();">
-                            <i class="fa fa-users"></i><span class="label label-danger" id="count_supp">😞</span>
+                            <i class="fa fa-users"></i><span class="label label-danger" id="count_supp"><i class="fa fa-refresh fa-spin"></i> </span>
                         </a>
-                        <ul class="dropdown-menu dropdown-alerts" id="nestable" style="height: 60px; overflow: auto;">
+                        <ul class="dropdown-menu dropdown-alerts" id="nestable" style="height: 460px; overflow: auto;">
                             <li>
                                 <a class="dropdown-item">
                                     <div>
-                                        <span class="text-muted medium"><center>No demand letters to generate.</center></span>
+                                        <span class="text-muted medium"><center>No NOTC to generate.</center></span>
                                     </div>
                                 </a>
                             </li>
@@ -175,7 +175,7 @@ if(!isset($_SESSION["username"])){
                             if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_po">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_po">
                                             <i class="fa fa-plus"></i> New Purchase Order
                                         </button>
                                     </li>
@@ -185,7 +185,7 @@ if(!isset($_SESSION["username"])){
                                         </button>
                                     </li>!-->
                                     <li class="breadcrumb-item">
-                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#bal_fwd">
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bal_fwd">
                                             <i class="fa fa-plus"></i> New Balance Forward
                                         </button>
                                     </li>
@@ -206,7 +206,7 @@ if(!isset($_SESSION["username"])){
             <br>
             <div class="row">
                 <div class="col-lg-12 animated bounceInDown">
-                    <div class="panel panel-success">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3><i class="fa fa-clipboard"></i> Purchase Orders</h3>
                         </div>
@@ -231,7 +231,7 @@ if(!isset($_SESSION["username"])){
                 require "modals/modal_view_po.php";
                 require "modals/modal_add_bf.php";
                 require "modals/modal_view_conso.php";
-                //require "modals/modal_dl.php";
+                require "modals/modal_dl.php";
                 require "modals/modal_billing_history.php";
                 //require "reports/report_dl.php";
                 require "reports/report_notc.php";

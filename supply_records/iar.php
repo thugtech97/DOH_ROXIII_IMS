@@ -125,7 +125,7 @@ if(!isset($_SESSION["username"])){
                             if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <button id="niar" type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_iar">
+                                        <button id="niar" type="button" class="btn btn-default" data-toggle="modal" data-target="#add_iar">
                                             <i class="fa fa-plus"></i> New IAR 
                                         </button>
                                     </li>
@@ -143,7 +143,7 @@ if(!isset($_SESSION["username"])){
             <br>
             <div class="row">
                 <div class="col-lg-12 animated bounceInDown">
-                    <div class="panel panel-success">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3><i class="fa fa-clipboard"></i> Inspection and Acceptance Report</h3>
                         </div>
