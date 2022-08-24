@@ -361,12 +361,15 @@ function update_po(){
 	$estatus = mysqli_real_escape_string($conn, $_POST["estatus"]);
 	$einspection_status = mysqli_real_escape_string($conn, $_POST["einspection_status"]);
 
-	mysqli_query($conn, "UPDATE tbl_po SET date_received='$edate_received', pr_no='$epr_no', procurement_mode='$eprocurement_mode', delivery_term='$edelivery_term', payment_term='$epayment_term', date_conformed='$edate_conformed', date_delivered='$edate_delivered', status='$estatus', inspection_status='$einspection_status', supplier_id='$esupplier', end_user='$epo_enduser' WHERE po_number LIKE '$epo_number'");
-
-	$emp_id = $_SESSION["emp_id"];
-	$description = $_SESSION["username"]." edited the details of PO#".$epo_number;
-	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
-
+	if(strtolower($epo_number) === "bal-fwd"){
+		echo "1";
+	}else{
+		mysqli_query($conn, "UPDATE tbl_po SET date_received='$edate_received', pr_no='$epr_no', procurement_mode='$eprocurement_mode', delivery_term='$edelivery_term', payment_term='$epayment_term', date_conformed='$edate_conformed', date_delivered='$edate_delivered', status='$estatus', inspection_status='$einspection_status', supplier_id='$esupplier', end_user='$epo_enduser' WHERE po_number LIKE '$epo_number'");
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." edited the details of PO#".$epo_number;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+		echo "0";
+	}
 }
 
 function get_po_pic(){

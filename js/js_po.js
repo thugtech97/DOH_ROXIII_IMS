@@ -425,11 +425,15 @@ function update(){
 			einspection_status: ($('#ins_chk').is(':checked')) ? 1 : 0,
 		},
 		success: function(data){
-			swal("Updated!", "PO details successfully updated.", "success");
-			$("#edit_po_various .close").click();
-			var query = $('#search_box').val();
-			get_records(active_page, _url, query);
-			get_delayed_po();
+			if(data == "1"){
+				swal("Can't be updated!", "", "error");
+			}else{
+				swal("Updated!", "PO details successfully updated.", "success");
+				$("#edit_po_various .close").click();
+				var query = $('#search_box').val();
+				get_records(active_page, _url, query);
+				get_delayed_po();
+			}
 		}
 	});
 }

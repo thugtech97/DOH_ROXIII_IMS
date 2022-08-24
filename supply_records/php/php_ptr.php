@@ -340,7 +340,7 @@ function get_records(){
 	  $start = 0;
 	}
 
-	$query = "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, SUBSTRING(date_supply_received,1,10) AS date_s, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, transfer_type FROM tbl_ptr ";
+	$query = "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, transfer_type FROM tbl_ptr ";
 	if($_POST["search"] != ""){
 		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
 		$query.="WHERE ptr_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR tbl_ptr.from LIKE '%$qs%' OR tbl_ptr.to LIKE '%$qs%' OR transfer_type LIKE '%$qs%' OR reason LIKE '%$qs%' OR item LIKE '%$qs%' ";
@@ -377,7 +377,6 @@ function get_records(){
 					<td>".$row["from"]."</td>
 					<td>".$row["to"]."</td>
 					<td>".$row["date_r"]."</td>
-					<td>".$row["date_s"]."</td>
 					<td>".$row["transfer_type"]."</td>
 					<td>".$row["reason"]."</td>
 					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["ptr_no"]."\" onclick=\"view_iss(this.value,'tbl_ptr','view_ptr','PTR','ptr_no','".$to."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" value=\"".$row["ptr_no"]."\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button value=\"".$row["ptr_no"]."\" onclick=\"".$func_call."\" class=\"btn btn-xs btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ptr_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ptr_no"]."\" onclick=\"".$dl_xls."\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
@@ -386,7 +385,7 @@ function get_records(){
 	}else{
 		$tbody="<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
 	}
-	$in_out = create_table_pagination($page, $limit, $total_data, array("","PTR No.","PO No.","Items","From","To","Date Released","Date Received", "Transfer Type", "Reason", ""));
+	$in_out = create_table_pagination($page, $limit, $total_data, array("","PTR No.","PO No.","Items","From","To","Date Released", "Transfer Type", "Reason", ""));
 	$whole_dom = $in_out[0]."".$tbody."".$in_out[1];
 	echo $whole_dom;
 }
