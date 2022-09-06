@@ -5,6 +5,22 @@ require "php_general_functions.php";
 
 session_start();
 
+function get_notc_details(){
+	global $conn;
+
+	$items = ""; $date_conformed = ""; $delivery_term = "";
+
+	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+	$sql = mysqli_query($conn, "SELECT item_name, date_conformed, delivery_term FROM tbl_po WHERE po_number LIKE '$po_number'");
+	$row = mysqli_fetch_assoc($sql);
+	$items = (mysqli_num_rows($sql) > 1) ? $row["item_name"]." & etc." : $row["item_name"];
+	$date_conformed = _m_d_yyyy_($row["date_conformed"]);
+	$delivery_term = $row["delivery_term"];
+
+	echo json_encode(array("items"=>$items, "date_conformed"=>$date_conformed, "delivery_term"=>$delivery_term));
+	
+}
+
 function add_item(){
 	global $conn;
 
@@ -31,6 +47,10 @@ function add_item(){
 	$qu = $e_quantity." ".$e_unit;
 
 	mysqli_query($conn, "INSERT INTO tbl_po(po_number,date_received,procurement_mode,delivery_term,payment_term,pr_no, supplier_id,inspection_status,item_name,description,category,exp_date,unit_cost,main_stocks,quantity,end_user,date_conformed,date_delivered,status, po_type) VALUES('$epo_number','$edate_received','$eprocurement_mode','$edelivery_term','$epayment_term','$epr_no','$esupplier','$einspection_status','$e_item_name','$e_description','$e_category','$e_exp_date','$e_unit_cost','$e_quantity','$qu','$epo_enduser','$edate_conformed','$edate_delivered','$estatus','$e_category')");
+
+	$emp_id = $_SESSION["emp_id"];
+	$description = $_SESSION["username"]." added an item (".$e_item_name.") to PO No.".$epo_number;
+	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 	
 	$sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$epo_number'");
 	$tbody = "";
@@ -822,6 +842,9 @@ switch($call_func){
 		break;
 	case "add_item":
 		add_item();
+		break;
+	case "get_notc_details":
+		get_notc_details();
 		break;
 }
 

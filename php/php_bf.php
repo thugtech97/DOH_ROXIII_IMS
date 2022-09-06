@@ -34,7 +34,7 @@ function save_bf(){
 		}
 	}
 	$emp_id = $_SESSION["emp_id"];
-	$description = $_SESSION["username"]." forwarded the remaining stocks of items";
+	$description = $_SESSION["username"]." forwarded new stocks of items (RefNumber: ".$po_number.")";
 	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 

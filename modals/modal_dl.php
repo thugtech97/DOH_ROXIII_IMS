@@ -6,6 +6,18 @@
                 <h5 class="modal-title"><i class="fa fa-users"></i> <span id="modal_dl_title"></span></h5>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group row">
+                            <label class="col-lg-3 col-form-label">PO Number:</label>
+                            <div class="col-lg-9">
+                                <select id="notc_po_number" class="form-control select2_demo_1">
+                                    <option disabled></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="ibox">
                     <div class="ibox-content modal_notc_content">
 

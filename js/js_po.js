@@ -1109,6 +1109,7 @@ function setLocalStorage(){
 }
 
 function print_dl(supplier,po_list,separator){
+	$("#notc_po_number").html("<option disabled selected></option>");var arr_po = po_list.split("|"); for(var i = 0; i < arr_po.length; i++){ $("#notc_po_number").append("<option>"+arr_po[i]+"</option>"); }
 	supp = supplier;
     $.ajax({
     	type: "POST",
@@ -1134,7 +1135,7 @@ function print_dl(supplier,po_list,separator){
 }
 
 function print_prev_dl(){
-	var title = supp.toUpperCase()+" - Demand Letter";
+	var title = supp.toUpperCase()+" - NOTC";
 	$(".dl_content").html($(".modal_notc_content").html());
     var divElements = document.getElementById('report_notc').innerHTML;
     var printWindow = window.open("", "_blank", "");
@@ -1187,6 +1188,23 @@ $(".e-input-amount").keyup(function(){
 
 $(".form-control").focusout(function(){
 	setLocalStorage();
+});
+
+$("#notc_po_number").on("change", function(event){
+	$.ajax({
+		type: "POST",
+		url: "php/php_po.php",
+		dataType: "JSON",
+		data: {call_func: "get_notc_details",
+				po_number: $("#notc_po_number option:selected").text()
+			},
+		success: function(data){
+			$("#notc-po").html($("#notc_po_number option:selected").text());
+			$("#notc-items").html(data["items"]);
+			$("#notc-dc").html(data["date_conformed"]);
+			$("#notc-dt").html(data["delivery_term"]);
+		}
+	});
 });
 
 $(document).on('click', '.page-link', function(){
