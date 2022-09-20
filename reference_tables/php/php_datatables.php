@@ -36,6 +36,7 @@ function get_data(){
 	global $conn;
 	$query = mysqli_real_escape_string($conn, $_POST["query"]);
 	$fields = $_POST["fields"];
+	$title = mysqli_real_escape_string($conn, $_POST["title"]);
 	$tbody = "";
 	$sql = mysqli_query($conn, $query);
 

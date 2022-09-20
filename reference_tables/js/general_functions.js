@@ -19,7 +19,7 @@ $(document).ready(function(){
 
 function loadData(query, fields, title, table) {
 	$.ajax({
-		data: {call_func: "get_data", query: query, fields: fields},
+		data: {call_func: "get_data", query: query, fields: fields, title: title},
 		type: 'POST',
 		url: 'php/php_datatables.php',
 		success: function (data) {
@@ -40,14 +40,13 @@ function create_datatable(title){
             {extend: 'excel', title: title},
             {extend: 'pdf', title: title},
             {extend: 'print',
-             customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-            }
+                customize: function (win){
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+                        $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                }
             }
         ]
     });
