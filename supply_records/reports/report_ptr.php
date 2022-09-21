@@ -225,7 +225,9 @@
     <tr>
       <td colspan="2" style="width: 24.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom;border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px;border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Printed Name:</td>
       <td colspan="5" style="width: 24.6px; height: 15px; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
-       <td colspan="3" style="width: 24.6px; height: 15px; font-weight: bold; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">ROCHIE RAMOS,RPh</td>
+       <td colspan="3" style="width: 24.6px; height: 15px; font-weight: bold; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">
+        <?php  if($_SESSION["warehouse_name"] == "Doongan Warehouse") { echo "ROCHIE RAMOS,RPh"; }else{ echo "JEAN FRANCES CABARRUBIAS"; }  ?>
+       </td>
        <td colspan="3" style="width: 24.6px; height: 15px; font-weight: bold; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">LESLIE C. CORTES,RPh</td>
       <td colspan="4" style="width: 24.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;">Transport Temperature Requirement</td>
     </tr>
