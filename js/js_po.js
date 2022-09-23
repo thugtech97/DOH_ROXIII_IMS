@@ -1033,6 +1033,7 @@ function save_item_po(){
 											edate_delivered: $("#edate_delivered").val(),
 											estatus: $("#estatus option:selected").text(),
 											einspection_status: ($('#ins_chk').is(':checked')) ? 1 : 0,
+											e_item_id: ($("#e_item_name").val().split("┼"))[0],
 											e_item_name: $("#e_item_name option:selected").text(),
 											e_description: $("#e_description").val(),
 											e_category: $("#e_category").val(),
