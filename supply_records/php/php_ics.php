@@ -210,7 +210,7 @@ function get_item(){
 	global $conn;
 
 	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-	$sql = mysqli_query($conn, "SELECT p.quantity, p.po_id, p.item_id, i.item FROM tbl_po AS p, ref_item AS i WHERE p.po_number LIKE '$po_number' AND p.inspection_status = '1'");
+	$sql = mysqli_query($conn, "SELECT p.quantity, p.po_id, p.item_id, i.item FROM tbl_po AS p, ref_item AS i WHERE p.item_id = i.item_id AND p.po_number LIKE '$po_number' AND p.inspection_status = '1'");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$quan = explode(" ", $row["quantity"]);
