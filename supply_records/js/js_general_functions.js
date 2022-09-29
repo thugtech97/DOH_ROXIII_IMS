@@ -178,3 +178,7 @@ function set_dr(){
 function upload_alloc(){
     swal("Coming soon!", "The developer is currently working on this feature.", "warning");
 }
+
+function update_remarks(id, value){
+    alert(id+" - "+value);
+}

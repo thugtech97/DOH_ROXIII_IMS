@@ -134,7 +134,7 @@ function get_sai_reports(){
 							<td>".$row["division"]."</td>
 							<td>".$row["office"]."</td>
 							<td style=\"font-size: 10px;\">".implode(", ", $in)."</td>
-							<td><center><button class=\"btn btn-xs btn-info\" onclick=\"print_sai('".$sai_no."');\"><i class=\"fa fa-print\"></i></button>&nbsp;<button class=\"btn btn-xs btn-danger\" onclick=\"delete_sai('".$sai_no."');\"><i class=\"fa fa-trash\"></i></button></center></td>
+							<td><center><button class=\"btn btn-xs btn-info\" onclick=\"print_sai('".$sai_no."');\"><i class=\"fa fa-print\"></i></button>&nbsp;<button class=\"btn btn-xs btn-warning\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;<button class=\"btn btn-xs btn-danger\" onclick=\"delete_sai('".$sai_no."');\"><i class=\"fa fa-trash\"></i></button></center></td>
 						</tr>";
 		}
 	}else{

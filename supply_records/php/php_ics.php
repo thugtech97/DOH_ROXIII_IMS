@@ -131,7 +131,7 @@ function modify(){
 					<td>".$row["unit"]."</td>
 					<td>".number_format((float)$row["cost"], 3)."</td>
 					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
-					<td>".$row["remarks"]."</td>
+					<td><input onblur=\"update_remarks('".$row[$field_id]."', this.value);\" type=\"text\" value=\"".$row["remarks"]."\"></td>
 					</tr>";
 					$tot_amt+=(float)$row["cost"] * (float)$row["quantity"];
 	}
