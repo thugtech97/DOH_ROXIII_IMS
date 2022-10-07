@@ -220,16 +220,16 @@ function get_rsmi_details(){
 	$sql = mysqli_query($conn, "SELECT SUBSTRING(date_released,1,10) AS date_r,control_no,rcc,account_code,item,unit,quantity,recipients,unit_cost FROM tbl_rsmi ORDER BY date_released ASC");
 	while($row = mysqli_fetch_assoc($sql)){
 		$tbody .= "<tr>
-		      <td style=\"width: 61.8px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\">".$row["date_r"]."</td>
-		      <td style=\"width: 63px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["control_no"]."</td>
-		      <td style=\"width: 49.8px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["rcc"]."</td>
-		      <td style=\"width: 48px; height: 18px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["account_code"]."</td>
-		      <td style=\"width: 190.2px; height: 16px; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["item"]."</td>
-		      <td style=\"width: 52.2px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
-		      <td style=\"width: 46.8px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity"]."</td>
-		      <td style=\"width: 118.8px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["recipients"]."</td>
-		      <td style=\"width: 103.2px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 2)."</td>
-		      <td style=\"width: 62.4px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["unit_cost"], 2)."</td>
+		      <td style=\"width: 61.8px; height: 16px; text-align: center; font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\">".$row["date_r"]."</td>
+		      <td style=\"width: 63px; height: 16px; text-align: center; font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["control_no"]."</td>
+		      <td style=\"width: 49.8px; height: 16px; text-align: center;font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["rcc"]."</td>
+		      <td style=\"width: 48px; height: 18px; text-align: center; font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["account_code"]."</td>
+		      <td style=\"width: 190.2px; height: 16px; font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["item"]."</td>
+		      <td style=\"width: 52.2px; height: 16px; text-align: center;font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["unit"]."</td>
+		      <td style=\"width: 46.8px; height: 16px; text-align: center; font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["quantity"]."</td>
+		      <td style=\"width: 118.8px; height: 16px; text-align: center;font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$row["recipients"]."</td>
+		      <td style=\"width: 103.2px; height: 16px; text-align: center; font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 2)."</td>
+		      <td style=\"width: 62.4px; height: 16px; text-align: center;font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * (float)$row["unit_cost"], 2)."</td>
 		    </tr>";
 		    $total_rsmi+=((float)$row["quantity"] * (float)$row["unit_cost"]);
 	}
@@ -242,8 +242,8 @@ function get_rsmi_details(){
 		      <td style=\"width: 52.2px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 		      <td style=\"width: 46.8px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 		      <td style=\"width: 118.8px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
-		      <td style=\"width: 103.2px; height: 16px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>TOTAL</b></td>
-		      <td style=\"width: 62.4px; height: 16px; text-align: center;font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>₱ ".number_format((float)$total_rsmi, 2)."</b></td>
+		      <td style=\"width: 103.2px; height: 16px; text-align: center; font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>TOTAL</b></td>
+		      <td style=\"width: 62.4px; height: 16px; text-align: center;font-size: 12px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"><b>₱ ".number_format((float)$total_rsmi, 2)."</b></td>
 		    </tr>";
 
 	echo $tbody;
@@ -325,7 +325,7 @@ function get_ppe_details(){
 	$ptr_total = 0.00;
 	$overall = 0.00;
 	while($row = mysqli_fetch_assoc($sql)){
-	 	$tbody.="<tr style=\"font-size: 9px;\">
+	 	$tbody.="<tr style=\"font-size: 12px;\">
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["date_r"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["program"]."</td>
                     <td style=\"padding-left: 10px; padding-right: 10px;\">".$row["particular"]."</td>
@@ -362,7 +362,7 @@ function get_ppe_details(){
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
             </tr>
-			<tr style=\"font-size: 9px;\">
+			<tr style=\"font-size: 12px;\">
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>
                 <td style=\"padding-left: 10px; padding-right: 10px;\"></td>

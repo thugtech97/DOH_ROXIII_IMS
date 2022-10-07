@@ -83,17 +83,17 @@
       <td colspan="2" style="width: 103.2px; height: 26.25px; text-align: center; font-size: 9px; font-style: italic; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0);border-right-style: solid;border-right-width: 2px;">To be filled up by the Accounting Division/Unit</td>
     </tr>
     <tr>
-      <td style="width: 61.8px; height: 17.25px; text-align: center; font-size: 10px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-left-width: 2px; border-right-style: solid; border-left-style: solid;">Date</td>
-      <td style="width: 63px; height: 17.25px; text-align: center; font-size: 8px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">RIS No.</td>
-      <td style="width: 49.8px; height: 17.25px; text-align: center; font-size: 8px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Responsibility Center Code </td>
-      <td style="width: 48px; height: 17.25px; text-align: center; font-size: 8px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Account Code</td>
-      <td style="width: 190.2px; height: 17.25px; text-align: center; font-size: 9px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Item</td>
-      <td style="width: 52.2px; height: 17.25px; text-align: center; font-size: 10px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Unit</td>
-      <td style="width: 46.8px; height: 17.25px; text-align: center; font-size: 10px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Quantity 
+      <td style="width: 61.8px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-left-width: 2px; border-right-style: solid; border-left-style: solid;">Date</td>
+      <td style="width: 63px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">RIS No.</td>
+      <td style="width: 49.8px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Responsibility Center Code </td>
+      <td style="width: 48px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Account Code</td>
+      <td style="width: 190.2px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Item</td>
+      <td style="width: 52.2px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Unit</td>
+      <td style="width: 46.8px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Quantity 
 Issued</td>
-      <td style="width: 40.8px; height: 17.25px; text-align: center; font-size: 10px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Recipients</td>
-      <td style="width: 103.2px; height: 17.25px; text-align: center; font-size: 10px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"> Unit Cost </td>
-      <td style="width: 62.4px; height: 17.25px; text-align: center; font-size: 10px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Amount</td>
+      <td style="width: 40.8px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Recipients</td>
+      <td style="width: 103.2px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"> Unit Cost </td>
+      <td style="width: 62.4px; height: 17.25px; text-align: center; font-size: 12px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Amount</td>
     </tr>
     <tr>
       <td style="width: 61.8px; height: 19.5px; text-align: center; font-size: 10px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;"></td>
