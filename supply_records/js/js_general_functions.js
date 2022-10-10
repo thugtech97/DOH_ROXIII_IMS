@@ -2,6 +2,10 @@ var iss_numbers, tables, fields, isss, iss_fields, rbs;
 var _url, active_page;
 
 var control_no, text, table, control;
+var prop_no = []; var serial_no = [];
+var un_prop_no = []; var un_serial_no = [];
+
+var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
 
 function exportTableToExcel(tableID, filename = ''){
     var downloadLink;
@@ -179,6 +183,86 @@ function upload_alloc(){
     swal("Coming soon!", "The developer is currently working on this feature.", "warning");
 }
 
-function update_remarks(id, value){
-    alert(id+" - "+value);
+function update_remarks(id, value, table, field_id){
+    $.ajax({
+        type: "POST",
+        url: "php/php_ics.php",
+        data: {call_func: "set_remarks", id: id, value: value, table: table, field_id: field_id},
+        success: function(data){
+            var query = $('#search_box').val();
+            get_records(active_page, _url, query);
+        }
+    });
+}
+
+function get_item_trans(id, table, field_id, field){
+    var po_value = (new Date().toDateInputValue()).split("-");
+    $.ajax({
+        type: "POST",
+        url: "php/php_ics.php",
+        dataType: "JSON",
+        data: {call_func: "get_item_trans", id: id, table: table, field_id: field_id, field: field, yy_mm: po_value[0]+"-"+po_value[1]},
+        success: function(data){
+            $("#modal_transfer_item").modal();
+            $("#trans_item_id").html(id);
+            $("#trans_ics").val(po_value[0]+"-"+po_value[1]+"-"+data["latest_icspar"]);
+            $("table#trans_items tbody").html(data["tbody"]);
+        }
+    });
+}
+
+function get_checked_items(){
+    prop_no = []; serial_no = [];
+    un_prop_no = []; un_serial_no = [];
+    var table = $("table#trans_items tbody");
+    var rows = 0;
+    table.find('tr').each(function (i) {
+        var $tds = $(this).find('td');
+        if($tds.eq(2).find('input').is(":checked")){
+            prop_no.push($tds.eq(0).text());
+            serial_no.push($tds.eq(1).text());
+            rows++;
+        }else{
+            un_prop_no.push($tds.eq(0).text());
+            un_serial_no.push($tds.eq(1).text());
+        }
+    });
+
+    return rows;
+}
+
+function trans_now(){
+    if($("#trans_ics").val().match($po_regex)){
+        if($("#trans_name").val() != null){
+            if(get_checked_items() != 0){
+                $.ajax({
+                    type: "POST",
+                    url: _url,
+                    data: {call_func: "create_trans",
+                            id: $("#trans_item_id").html(),
+                            trans_ics: $("#trans_ics").val(),
+                            trans_name: $("#trans_name option:selected").text(),
+                            trans_id: $("#trans_name").val(),
+                            prop_no: prop_no,
+                            serial_no: serial_no,
+                            un_prop_no: un_prop_no,
+                            un_serial_no: un_serial_no,
+                            date_released: new Date().toDateInputValue()
+                        },
+                    success: function(data){
+                        $("#modal_transfer_item .close").click();
+                        $("#edit_ics_par .close").click();
+                        var query = $('#search_box').val();
+                        get_records(active_page, _url, query);
+                    }
+                });
+            }else{
+                swal("No checked items!", "Kindly check at least one item for ICS/PAR transfer.", "warning");
+            }
+        }else{
+            swal("Please fill in!", "Transfer To (New End-User).", "warning");
+        }
+    }else{
+        swal("Invalid!", "ICS/PAR Number is not valid.", "warning");
+    }
 }

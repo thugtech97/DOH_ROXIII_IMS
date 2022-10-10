@@ -81,6 +81,7 @@ function ready_all(){
     		data: {call_func: "get_employee"},
     		success: function(data){
     			$("#received_by").html("<option disabled selected></option>").append(data);
+    			$("#trans_name").html("<option disabled selected></option>").append(data);
     		}
     	});
     });

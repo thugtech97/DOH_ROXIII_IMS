@@ -167,6 +167,7 @@ if(!isset($_SESSION["username"])){
                 require "../modals/modal_edit_ics_par.php";
                 require "../modals/modal_view_iss.php";
                 require "../modals/modal_edit_dr.php";
+                require "../modals/modal_transfer_item.php";
             ?>
             <div class="footer">
                 <div>

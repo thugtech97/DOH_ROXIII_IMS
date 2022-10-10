@@ -5,6 +5,82 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function create_trans(){
+	global $conn; global $connhr;
+
+	$id = mysqli_real_escape_string($conn, $_POST["id"]);
+	$trans_ics = mysqli_real_escape_string($conn, $_POST["trans_ics"]);
+	$received_by = mysqli_real_escape_string($conn, $_POST["trans_name"]);
+	$trans_id = mysqli_real_escape_string($conn, $_POST["trans_id"]);
+	$prop_no = implode(",",(array) $_POST["prop_no"]);
+	$serial_no = implode(",",(array) $_POST["serial_no"]);
+	$un_prop_no = implode(",",(array) $_POST["un_prop_no"]);
+	$un_serial_no = implode(",",(array) $_POST["un_serial_no"]);
+	$date_released = mysqli_real_escape_string($conn, $_POST["date_released"]);
+
+	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$trans_id'");
+	$received_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer1)["designation"]);
+
+	$sql = mysqli_query($conn, "SELECT * FROM tbl_ics WHERE ics_id = '$id'");
+	if($row = mysqli_fetch_assoc($sql)){
+		$quantity_trans = count(explode(",", $prop_no));
+		$remarks = "This cancels ICS issued to ".$row["received_by"]." (".$row["par_no"].")";
+		mysqli_query($conn, "INSERT INTO tbl_ics(ics_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
+		
+		$quantity_new = (int)$row["quantity"] - $quantity_trans;
+		mysqli_query($conn, "UPDATE tbl_ics SET property_no = '$un_prop_no', serial_no = '$un_serial_no', quantity = '$quantity_new' WHERE ics_id = '$id'");
+
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." created an ICS transfer (".$trans_ics.") to ".$received_by." with a remarks - ".$remarks;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+	}
+}
+
+function get_item_trans(){
+	global $conn; $latest_icspar = ""; $tbody = "";
+
+	$id = mysqli_real_escape_string($conn, $_POST["id"]);
+	$table = mysqli_real_escape_string($conn, $_POST["table"]);
+	$field_id = mysqli_real_escape_string($conn, $_POST["field_id"]);
+	$yy_mm = substr(mysqli_real_escape_string($conn, $_POST["yy_mm"]), 0, 4);
+	$field = mysqli_real_escape_string($conn, $_POST["field"]);
+
+	$sql = mysqli_query($conn, "SELECT DISTINCT ".$field." FROM ".$table." WHERE ".$field." LIKE '%$yy_mm%' ORDER BY ".$field_id." DESC LIMIT 1");
+	if(mysqli_num_rows($sql) != 0){
+		$row = mysqli_fetch_assoc($sql);
+		$latest_icspar = str_pad(((int)explode("-", $row[$field])[2]) + 1, 4, '0', STR_PAD_LEFT);
+	}else{
+		$latest_icspar = "0001";
+	}
+
+	$sql = mysqli_query($conn, "SELECT property_no, serial_no FROM ".$table." WHERE ".$field_id." = ".$id);
+	while($row = mysqli_fetch_assoc($sql)){
+		$props = explode(",", $row["property_no"]); $sers = explode(",", $row["serial_no"]);
+		for($i = 0; $i < count($props); $i++){
+			$tbody.="<tr>
+									<td>".$props[$i]."</td>
+									<td>".$sers[$i]."</td>
+									<td><center><label class=\"col-form-label\"><input type=\"checkbox\" class=\"i-checks\" style=\"height: 18px; width: 18px;\"></label></center></td>
+							</tr>";
+		}
+	}
+
+	echo json_encode(array("latest_icspar"=>$latest_icspar, "tbody"=>$tbody));
+
+}
+
+function set_remarks(){
+	global $conn;
+
+	$id = mysqli_real_escape_string($conn, $_POST["id"]);
+	$value = mysqli_real_escape_string($conn, $_POST["value"]);
+	$table = mysqli_real_escape_string($conn, $_POST["table"]);
+	$field_id = mysqli_real_escape_string($conn, $_POST["field_id"]);
+
+	mysqli_query($conn, "UPDATE ".$table." SET remarks = '".$value."' WHERE ".$field_id." = '".$id."'");
+
+}
+
 function set_dr(){
 	global $conn;
 
@@ -131,7 +207,8 @@ function modify(){
 					<td>".$row["unit"]."</td>
 					<td>".number_format((float)$row["cost"], 3)."</td>
 					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
-					<td><input onblur=\"update_remarks('".$row[$field_id]."', this.value);\" type=\"text\" value=\"".$row["remarks"]."\"></td>
+					<td><input onblur=\"update_remarks('".$row[$field_id]."', this.value, '".$table."', '".$field_id."');\" type=\"text\" value=\"".$row["remarks"]."\"></td>
+					<td><button class=\"btn btn-xs btn-info\" onclick=\"get_item_trans('".$row[$field_id]."', '".$table."', '".$field_id."', '".$field."');\"><i class=\"fa fa-exchange\"></i></button></td>
 					</tr>";
 					$tot_amt+=(float)$row["cost"] * (float)$row["quantity"];
 	}
@@ -367,7 +444,7 @@ function get_records(){
 	  $start = 0;
 	}
 
-	$query = "SELECT DISTINCT ics_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued FROM tbl_ics ";
+	$query = "SELECT DISTINCT ics_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, remarks, issued FROM tbl_ics ";
 	if($_POST["search"] != ""){
 		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
 		$query.="WHERE ics_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR area LIKE '%$qs%' OR received_from LIKE '%$qs%' OR received_by LIKE '%$qs%' OR item LIKE '%$qs%' ";
@@ -401,7 +478,6 @@ function get_records(){
 					<td>".$row["date_r"]."</td>
 					<td>".$row["received_from"]."</td>
 					<td>".$row["received_by"]."</td>
-					<td>".$row["date_s"]."</td>
 					<td>".$row["remarks"]."</td>
 					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["ics_no"]."\" onclick=\"view_iss(this.value,'tbl_ics','view_ics','ICS','ics_no','".$rb."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" value=\"".$row["ics_no"]."\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["ics_no"]."\" onclick=\"print_ics(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ics_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" value=\"".$row["ics_no"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
@@ -409,7 +485,7 @@ function get_records(){
 	}else{
 		$tbody = "<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
 	}
-	$in_out = create_table_pagination($page, $limit, $total_data, array("","Area","ICS No.","PO No.","Items","Date Released","Received From", "Received By", "Date Supply Received", "Remarks", ""));
+	$in_out = create_table_pagination($page, $limit, $total_data, array("","Area","ICS No.","PO No.","Items","Date Released","Received From", "Received By", "Remarks", ""));
 	$whole_dom = $in_out[0]."".$tbody."".$in_out[1];
 	echo $whole_dom;
 }
@@ -557,6 +633,15 @@ switch($call_func){
 		break;
 	case "set_dr":
 		set_dr();
+		break;
+	case "set_remarks":
+		set_remarks();
+		break;
+	case "get_item_trans":
+		get_item_trans();
+		break;
+	case "create_trans":
+		create_trans();
 		break;
 }
 

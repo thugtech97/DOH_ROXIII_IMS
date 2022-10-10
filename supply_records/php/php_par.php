@@ -5,6 +5,37 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function create_trans(){
+	global $conn; global $connhr;
+
+	$id = mysqli_real_escape_string($conn, $_POST["id"]);
+	$trans_ics = mysqli_real_escape_string($conn, $_POST["trans_ics"]);
+	$received_by = mysqli_real_escape_string($conn, $_POST["trans_name"]);
+	$trans_id = mysqli_real_escape_string($conn, $_POST["trans_id"]);
+	$prop_no = implode(",",(array) $_POST["prop_no"]);
+	$serial_no = implode(",",(array) $_POST["serial_no"]);
+	$un_prop_no = implode(",",(array) $_POST["un_prop_no"]);
+	$un_serial_no = implode(",",(array) $_POST["un_serial_no"]);
+	$date_released = mysqli_real_escape_string($conn, $_POST["date_released"]);
+
+	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$trans_id'");
+	$received_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer1)["designation"]);
+	
+	$sql = mysqli_query($conn, "SELECT * FROM tbl_par WHERE par_id = '$id'");
+	if($row = mysqli_fetch_assoc($sql)){
+		$quantity_trans = count(explode(",", $prop_no));
+		$remarks = "This cancels PAR issued to ".$row["received_by"]." (".$row["par_no"].")";
+		mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
+		
+		$quantity_new = (int)$row["quantity"] - $quantity_trans;
+		mysqli_query($conn, "UPDATE tbl_par SET property_no = '$un_prop_no', serial_no = '$un_serial_no', quantity = '$quantity_new' WHERE par_id = '$id'");
+
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." created a PAR transfer (".$trans_ics.") to ".$received_by." with a remarks - ".$remarks;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+	}
+}
+
 function iss_validator(){
 	global $conn;
 
@@ -139,7 +170,7 @@ function get_records(){
 	  $start = 0;
 	}
 
-	$query = "SELECT DISTINCT par_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, SUBSTRING(date_supply_received, 1, 10) AS date_s, remarks, issued FROM tbl_par ";
+	$query = "SELECT DISTINCT par_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, remarks, issued FROM tbl_par ";
 	if($_POST["search"] != ""){
 		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
 		$query.="WHERE par_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR area LIKE '%$qs%' OR received_from LIKE '%$qs%' OR received_by LIKE '%$qs%' OR item LIKE '%$qs%' ";
@@ -173,7 +204,6 @@ function get_records(){
 					<td>".$row["date_r"]."</td>
 					<td>".utf8_encode($row["received_from"])."</td>
 					<td>".utf8_encode($row["received_by"])."</td>
-					<td>".$row["date_s"]."</td>
 					<td>".$row["remarks"]."</td>
 					<td><center><button class=\"btn btn-xs btn-primary\" value=\"".$row["par_no"]."\" onclick=\"view_iss(this.value,'tbl_par','view_par','PAR','par_no','".$rb."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"modify('".$parn."');\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success\" value=\"".$row["par_no"]."\" onclick=\"print_par(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\"><i class=\"fa fa-trash\" onclick=\"delete_control('".$parn."');\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning\" onclick=\"download_xls('".$parn."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
@@ -181,7 +211,7 @@ function get_records(){
 	}else{
 		$tbody = "<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
 	}
-	$in_out = create_table_pagination($page, $limit, $total_data, array("","Area","PAR No.","PO No.","Items","Date Released","Received From", "Received By", "Date Supply Received", "Remarks", ""));
+	$in_out = create_table_pagination($page, $limit, $total_data, array("","Area","PAR No.","PO No.","Items","Date Released","Received From", "Received By", "Remarks", ""));
 	$whole_dom = $in_out[0]."".$tbody."".$in_out[1];
 	echo $whole_dom;
 }
@@ -287,6 +317,9 @@ switch($call_func){
 		break;
 	case "iss_validator":
 		iss_validator();
+		break;
+	case "create_trans":
+		create_trans();
 		break;
 }
 

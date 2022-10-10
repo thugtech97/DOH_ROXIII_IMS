@@ -99,6 +99,7 @@
                                     <th>Cost</th>
                                     <th>Total</th>
                                     <th>Remarks</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -115,6 +116,7 @@
                                     <th></th>
                                     <th><b>Total</b></th>
                                     <th>₱ <span id="tot_amt">0</span></th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </tfoot>
