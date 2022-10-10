@@ -61,22 +61,16 @@ if(isset($_SESSION["username"])){
                 <b>NEW SYSTEM UPDATES:</b><br>
                 <br>
                 <div class="row">
-                    
+                    <div class="col-sm-12">
+                        - ICS/PAR Transfer<br>
+                        <img src="imgsys/ics-par-trans.png" width="700">
+                    </div>
                     <div class="col-sm-12">
                         - Bugs fixed
                     </div>
                     <div class="col-sm-12">
                         - New UI changes
                     </div>
-                    <div class="col-sm-12">
-                        - Can now add items on existing PO records<br>
-                        <img src="imgsys/add_item_po.png" width="700">
-                    </div>
-                    <div class="col-sm-12">
-                        - Can now generate NOTC (Notice of Termination of Contract)<br>
-                        <img src="imgsys/notc.png" width="500">
-                    </div>
-    
                 </div>
             </div>
        </div>
