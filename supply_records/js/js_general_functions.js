@@ -250,6 +250,7 @@ function trans_now(){
                             date_released: new Date().toDateInputValue()
                         },
                     success: function(data){
+                        swal("Transferred successfully!", "", "success");
                         $("#modal_transfer_item .close").click();
                         $("#edit_ics_par .close").click();
                         var query = $('#search_box').val();

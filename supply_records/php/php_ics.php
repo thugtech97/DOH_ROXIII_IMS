@@ -24,7 +24,7 @@ function create_trans(){
 	$sql = mysqli_query($conn, "SELECT * FROM tbl_ics WHERE ics_id = '$id'");
 	if($row = mysqli_fetch_assoc($sql)){
 		$quantity_trans = count(explode(",", $prop_no));
-		$remarks = "This cancels ICS issued to ".$row["received_by"]." (".$row["par_no"].")";
+		$remarks = "This cancels previous ICS issued to ".$row["received_by"]." (".$row["ics_no"].")";
 		mysqli_query($conn, "INSERT INTO tbl_ics(ics_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
 		
 		$quantity_new = (int)$row["quantity"] - $quantity_trans;
@@ -337,10 +337,10 @@ function get_ics_details(){
   $ics_tbody = "";
   $total_cost = 0.00; $reference_no = ""; $supplier = ""; $date_released = "";
   $received_from = ""; $received_by = "";
-  $received_from_designation = ""; $received_by_designation = "";
+  $received_from_designation = ""; $received_by_designation = ""; $remarks = "";
   $rows_limit = 43; $rows_occupied = 0;
   $ics_no = mysqli_real_escape_string($conn, $_POST["ics_no"]);
-  $sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, quantity, unit, cost, total, item, description, property_no, serial_no, reference_no, supplier, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_from_designation, received_by, received_by_designation FROM tbl_ics WHERE ics_no LIKE '$ics_no'");
+  $sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, quantity, unit, cost, total, item, description, property_no, serial_no, reference_no, supplier, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_from_designation, received_by, received_by_designation, remarks FROM tbl_ics WHERE ics_no LIKE '$ics_no'");
   if(mysqli_num_rows($sql) != 0){
     while($row = mysqli_fetch_assoc($sql)) {
       $entity_name = $row["entity_name"];
@@ -349,6 +349,7 @@ function get_ics_details(){
       $reference_no = $row["reference_no"]; $supplier = $row["supplier"]; $date_released = $row["date_r"];
       $received_from = $row["received_from"]; $received_by = $row["received_by"];
       $received_from_designation = $row["received_from_designation"]; $received_by_designation = $row["received_by_designation"];
+      $remarks = $row["remarks"];
       $pn = explode(",", $row["property_no"]);
       $ics_tbody.="<tr>
                   <td style=\"width: 75.6px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\">".$row["quantity"]."</td>
@@ -403,7 +404,7 @@ function get_ics_details(){
                 }
                }
     }
-    $the_rest = array("*Nothing Follows*", "", "", "PO No. ".$reference_no, $supplier);
+    $the_rest = array("*Nothing Follows*", "", "", "PO No. ".$reference_no, $supplier, "", "", "", "", "<p style=\"font-size: 14px;\">".$remarks."</p>");
     for($i = 0; $i < count($the_rest); $i++){
       $ics_tbody.="<tr>
                 <td style=\"width: 75.6px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
@@ -414,7 +415,7 @@ function get_ics_details(){
                 <td style=\"width: 86.4px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
                 <td style=\"width: 89.4px; height: 14.5px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
              </tr>";
-             $rows_occupied++;
+             $rows_occupied = $rows_occupied + ($i == count($the_rest) - 1 ? 3 : 1);
     }
     for($i = 0; $i < ($rows_limit - $rows_occupied); $i++){
       $ics_tbody.="<tr>

@@ -24,7 +24,7 @@ function create_trans(){
 	$sql = mysqli_query($conn, "SELECT * FROM tbl_par WHERE par_id = '$id'");
 	if($row = mysqli_fetch_assoc($sql)){
 		$quantity_trans = count(explode(",", $prop_no));
-		$remarks = "This cancels PAR issued to ".$row["received_by"]." (".$row["par_no"].")";
+		$remarks = "This cancels previous PAR issued to ".$row["received_by"]." (".$row["par_no"].")";
 		mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
 		
 		$quantity_new = (int)$row["quantity"] - $quantity_trans;
@@ -64,17 +64,18 @@ function get_par_details(){
 	$received_by = ""; $received_by_designation = "";
 	$date_released = ""; $par_tbody = "";
 	$supplier = ""; $reference_no = "";
-	$entity_name = "";
+	$entity_name = ""; $remarks = "";
 	$total_cost = 0.00;
 	$rows_limit = 45; $rows_occupied = 0;
 	$par_no = mysqli_real_escape_string($conn, $_POST["par_no"]);
-	$sql = mysqli_query($conn, "SELECT entity_name, quantity, item, unit, description, serial_no, property_no, cost, total, received_from, received_from_designation, received_by, received_by_designation, SUBSTRING(date_released, 1, 10) AS date_r, reference_no, supplier FROM tbl_par WHERE par_no LIKE '$par_no'");
+	$sql = mysqli_query($conn, "SELECT entity_name, quantity, item, unit, description, serial_no, property_no, cost, total, received_from, received_from_designation, received_by, received_by_designation, SUBSTRING(date_released, 1, 10) AS date_r, reference_no, supplier, remarks FROM tbl_par WHERE par_no LIKE '$par_no'");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$received_from = utf8_encode($row["received_from"]); $received_by = utf8_encode($row["received_by"]);
 			$received_from_designation = utf8_encode($row["received_from_designation"]); $received_by_designation = utf8_encode($row["received_by_designation"]);
 			$date_released = $row["date_r"]; $supplier = $row["supplier"]; $reference_no = $row["reference_no"];
 			$entity_name = $row["entity_name"];
+			$remarks = $row["remarks"];
 			$total_cost += (float)($row["cost"] * $row["quantity"]);
 			$pn = explode(",", $row["property_no"]);
 			$par_tbody .= "<tr id=\"1\">
@@ -129,7 +130,7 @@ function get_par_details(){
 				}
 			}
 		}
-		$the_rest = array("*Nothing Follows*", "", "PO No. ".$reference_no, $supplier, "", "", "", "", "", "", "", "", "", "Approved by:", "", "<center><b>".strtoupper($_SESSION["company_head"])."</b></center>", "<center>".$_SESSION["company_head_designation"]."</center>");
+		$the_rest = array("*Nothing Follows*", "", "PO No. ".$reference_no, $supplier, "", "", "", "", "", "", "", "", "", "Approved by:", "", "<center><b>".strtoupper($_SESSION["company_head"])."</b></center>", "<center>".$_SESSION["company_head_designation"]."</center>", "", "", "", "", "<p style=\"font-size: 14px;\">".$remarks."</p>");
 		for($i = 0; $i < count($the_rest); $i++){
 			$par_tbody .= "<tr>
 		  	      <td style=\"width: 75.6px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
@@ -140,7 +141,7 @@ function get_par_details(){
 		  	      <td style=\"width: 85.2px; height: 14.5px; text-align: left; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 		  	      <td style=\"width: 86.4px; height: 14.5px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 		      </tr>";
-			$rows_occupied++;
+			$rows_occupied = $rows_occupied + ($i == count($the_rest) - 1 ? 3 : 1);
 		}
 		for($i = 0; $i < ($rows_limit - $rows_occupied); $i++){
 			$par_tbody .= "<tr>
