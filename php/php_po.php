@@ -384,7 +384,7 @@ function update_po(){
 	$estatus = mysqli_real_escape_string($conn, $_POST["estatus"]);
 	$einspection_status = mysqli_real_escape_string($conn, $_POST["einspection_status"]);
 
-	if(strtolower($epo_number) === "bal-fwd"){
+	if($esupplier == "0"){
 		echo "1";
 	}else{
 		mysqli_query($conn, "UPDATE tbl_po SET date_received='$edate_received', pr_no='$epr_no', procurement_mode='$eprocurement_mode', delivery_term='$edelivery_term', payment_term='$epayment_term', date_conformed='$edate_conformed', date_delivered='$edate_delivered', status='$estatus', inspection_status='$einspection_status', supplier_id='$esupplier', end_user='$epo_enduser' WHERE po_number LIKE '$epo_number'");

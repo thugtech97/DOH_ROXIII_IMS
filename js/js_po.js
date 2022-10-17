@@ -371,7 +371,7 @@ function edit_po_various(po_number){
 			$("#edate_delivered").val(data["date_delivered"]);
 			$("#estatus").val(data["status"]).change();
 			$("table#eitem_various tbody").html(data["tbody"]);
-			$("#tot_amt").html(formatNumber(data["tot_amt"].toFixed(3)));
+			$("#tot_amt").html(formatNumber(data["tot_amt"].toFixed(2)));
 		}
 	});
 	
