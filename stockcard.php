@@ -123,19 +123,19 @@ if(!isset($_SESSION["username"])){
         </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <button class="btn btn-xs btn-success" onclick="$('#print_idr').modal();"><i class="fa fa-print"></i> Incoming Delivery Report</button>
+                    <button class="btn btn-xs btn-default" onclick="$('#print_idr').modal();"><i class="fa fa-print"></i> Incoming Delivery Report</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-primary" onclick="$('#print_ppe').modal();"><i class="fa fa-print"></i> PPE (ICT/Various Supplies)</button>
+                    <button class="btn btn-xs btn-default" onclick="$('#print_ppe').modal();"><i class="fa fa-print"></i> PPE (ICT/Various Supplies)</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-danger" onclick="$('#print_rsmi').modal();"><i class="fa fa-print"></i> RSMI (RIS-Consumables)</button>
+                    <button class="btn btn-xs btn-default" onclick="$('#print_rsmi').modal();"><i class="fa fa-print"></i> RSMI (RIS-Consumables)</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-warning" onclick="generate_wi();"><i class="fa fa-print"></i> Warehouse Inventory</button>
+                    <button class="btn btn-xs btn-default" onclick="generate_wi();"><i class="fa fa-print"></i> Warehouse Inventory</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-info" onclick="get_rpci();"><i class="fa fa-print"></i> RPCI (All Categories)</button>
+                    <button class="btn btn-xs btn-default" onclick="get_rpci();"><i class="fa fa-print"></i> RPCI (All Categories)</button>
                 </li>&nbsp;&nbsp;
                 <li>
                     <a href="php/php_logout.php">
@@ -167,6 +167,9 @@ if(!isset($_SESSION["username"])){
                         </div>
                     </div>
                     <div class="col-lg-7">
+                        <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#gen_ics_par">
+                            <i class="fa fa-print"></i> ICS/PAR
+                        </button>
                     </div>
                 </div>
             </div>
@@ -208,6 +211,7 @@ if(!isset($_SESSION["username"])){
             <?php require "modals/modal_ppe.php"; ?>
             <?php require "modals/modal_rsmi.php"; ?>
             <?php require "modals/modal_rpci.php"; ?>
+            <?php require "modals/modal_gen_ics_par.php"; ?>
         </div>
         <br>
         <br>

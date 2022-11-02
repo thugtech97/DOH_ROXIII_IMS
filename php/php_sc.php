@@ -3,6 +3,25 @@
 require "php_conn.php";
 require "php_general_functions.php";
 
+function get_ics_par(){
+	global $conn;
+
+	$tbody = "";
+
+	$sql = mysqli_query($conn, "SELECT item, description, category, property_no, serial_no, quantity, cost, received_by FROM tbl_par WHERE category LIKE 'ICT Equipments' AND date_released BETWEEN '2022-01-01' AND '2022-09-30'");
+	while($row = mysqli_fetch_assoc($sql)){
+		$tbody.="<tr style=\"font-size: 8px;\">
+					<td><b>".$row["item"]."</b>-".$row["description"]."</td>
+					<td>'".(($row["property_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["property_no"]))."</td>
+					<td>'".(($row["serial_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["serial_no"]))."</td>
+					<td>".$row["quantity"]."</td>
+					<td>".$row["cost"]."</td>
+					<td>".$row["received_by"]."</td>
+				</tr>";
+	}
+	echo $tbody;
+}
+
 function get_idr(){
 	global $conn;
 
@@ -594,6 +613,9 @@ switch($call_func){
 		break;
 	case "get_sc_ref":
 		get_sc_ref();
+		break;
+	case "get_ics_par":
+		get_ics_par();
 		break;
 }
 

@@ -335,7 +335,7 @@ function print_iar_gen(){
 		"date_delivered"=>_m_d_yyyy_($date_delivered),
 		"end_user"=>$end_user,
 		"supplier"=>$supplier,
-		"total_amount"=>number_format((float)$total_amount, 2)
+		"total_amount"=>number_format((float)$total_amount, 3)
 		)
 	);
 }

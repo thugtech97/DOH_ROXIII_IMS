@@ -1,6 +1,6 @@
 <div id="report_ris_dm" style="display: none;">  
   <table style="border-collapse: collapse;" cellspacing="0">
-    <tbody>
+    <thead style="display: table-header-group;">
       <tr>
         <td colspan="4" style="width: 50.4px; height: 24.75px; font-size: 11px; vertical-align: bottom;"><?php echo $_SESSION["warehouse_name"]; ?></td>
         <td style="width: 37.2px; height: 24.75px; font-size: 10px; vertical-align: bottom;"></td>
@@ -104,7 +104,7 @@
         <td style="width: 50.4px; height: 16px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;">Unit Cost</td>
         <td style="width: 109.8px; height: 16px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;">Total Cost</td>
       </tr>
-      </tbody>
+      </thead>
       <tbody id="dris_body">
         
       </tbody>

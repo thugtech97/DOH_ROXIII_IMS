@@ -1,7 +1,7 @@
 <div id="report_ics" style="display: none;">
 
 <table style="border-collapse: collapse;" cellspacing="0">
-  <tbody>
+  <thead style="display: table-header-group;">
     <tr>
       <td style="width: 20px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 20px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
@@ -59,6 +59,8 @@
       <td style="width: 86.4px; height: 15px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 89.4px; height: 15px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
     </tr>
+  </thead>
+  <tbody>
     <tr>
       <td style="width: 75.6px; height: 16.25px; text-align: center; font-size: 12px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-left-width: 2px; border-right-style: solid; border-left-style: solid;"></td>
       <td style="width: 70.8px; height: 16.25px; text-align: center; font-size: 12px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>

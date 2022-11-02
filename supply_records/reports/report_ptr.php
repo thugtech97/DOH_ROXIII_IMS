@@ -1,6 +1,6 @@
 <div id="report_ptr" style="display: none;">
   <table style="border-collapse: collapse;" cellspacing="0">
-  <tbody>
+  <thead style="display: table-header-group;">
     <tr>
       <td style="width: 20.5px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 80.8px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
@@ -107,6 +107,8 @@
       <td style="width: 57.6px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 72.6px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid; border-right-color: black; border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
+    </thead>
+    <tbody>
     <tr>
       <td colspan="15" style="width: 24.6px; height: 15px; text-align: center; font-weight: bold; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid; bottom;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">Issuing Facility's Action</td>
       <td colspan="2" style="width: 19.8px; height: 15px; text-align: center; font-weight: bold; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid; bottom;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">Receiving Facility's Action:</td>
@@ -139,6 +141,7 @@
       <td style="width: 24.6px; height: 13.75px; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 24.6px; height: 13.75px; font-size: 8px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
+    </tbody>
     <tbody id="ptr_tbody">
       
     </tbody>

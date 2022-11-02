@@ -1,6 +1,6 @@
 <div id="report_ris" style="display: none;">
 <table style="border-collapse: collapse;" cellspacing="0">
-  <tbody>
+  <thead style="display: table-header-group;">
     <tr>
       <td style="width: 64px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
       <td style="width: 50px; height: 18.75px; font-size: 10px; vertical-align: bottom;"></td>
@@ -54,6 +54,8 @@
       <td colspan="3" style="width: 40.2px; height: 15px; text-align: left; font-size: 14px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;">RIS No.: <span id="print_risno"></span></td>
       <td colspan="2" style="width: 40.2px; height: 15px; text-align: left; font-size: 14px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Date: <span class="print_date"></span></td>
     </tr>
+  </thead>
+  <tbody>
     <tr>
       <td style="width: 64.8px; height: 15px; text-align: center; font-size: 14px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;"></td>
       <td style="width: 35.4px; height: 15px; text-align: center; font-size: 14px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>

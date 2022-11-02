@@ -9,6 +9,41 @@ $(document).ready(function(){
     });
 });
 
+function print_ics_par(){
+	var divContents = $("#ics-par-rep").html(); 
+	var a = window.open('', '', 'height=800, width=1500');
+	a.document.write('<html>');
+  	a.document.write('<body><center>');
+  	a.document.write('<table><tr>');
+	a.document.write('<td>'+divContents+'</td>');
+	a.document.write('</tr></table>');
+  	a.document.write('</center></body></html>');
+	a.document.close();
+	a.print();
+}
+
+function excel_ics_par(){
+	let file = new Blob([$('#ics-par-rep').html()], {type:"application/vnd.ms-excel"});
+	let url = URL.createObjectURL(file);
+	let a = $("<a />", {
+	  href: url,
+	  download: "ICS-PAR.xls"}).appendTo("body").get(0).click();
+}
+
+function get_ics_par(){
+	$("table#ics-par-tbl tbody").html("<tr>"+
+                                    "<td colspan=\"8\"><h2><span><i class=\"fa fa-refresh fa-spin loader_ppe\" style=\"color: black;\"></i></span></h2></td>"+
+                                "</tr>");
+	$.ajax({
+		type: "POST",
+		data: {call_func: "get_ics_par"},
+		url: "php/php_sc.php",
+		success: function(data){
+			$("table#ics-par-tbl tbody").html(data);
+		}
+	});
+}
+
 function get_ppe_details(month,year){
 	var year_month = year+"-"+month;
 	$("#lbl_month").html($("#ppe_month option:selected").text());$("#lbl_year").html($("#ppe_year option:selected").text());
@@ -398,6 +433,17 @@ $("#wi_month").change(function(){
 $("#wi_year").change(function(){
 	$("#mwi").html($("#wi_month option:selected").text());
 	$("#ywi").html($("#wi_year option:selected").text());
+});
+
+$("#ics-par-cat").ready(function(){
+	$.ajax({
+		type: "POST",
+		url: "php/php_po.php",
+		data: {call_func: "get_category"},
+		success: function(data){
+			$("#ics-par-cat").html(data);
+		}
+	});
 });
 
 $("#sc_refn").change(function(){

@@ -1,7 +1,6 @@
 <div id="report_par" style="display: none;">
-
 <table style="border-collapse: collapse;" cellspacing="0">
-  <tbody>
+  <thead style="display: table-header-group;">
     <tr>
       <td style="width: 10px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 10px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
@@ -34,6 +33,8 @@
       <td colspan="6" style="width: 86.4px; height: 15px; text-align: right; font-size: 11px; font-weight: bold; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid; border-left-color: black; border-left-width: 2px; border-left-style: solid;">PAR No.</td>
       <td style="width: 86.4px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;"><span id="print_parno"></span></td>
     </tr>
+  </thead>
+  <tbody>
     <tr>
       <td style="width: 75.6px; height: 16.25px; text-align: center; font-size: 12px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-left-width: 2px; border-right-style: solid; border-left-style: solid;">QTY</td>
       <td style="width: 70.8px; height: 16.25px; text-align: center; font-size: 12px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Unit</td>

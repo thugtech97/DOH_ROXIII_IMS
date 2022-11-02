@@ -30,7 +30,7 @@
 	    	</tbody>
 	    </table>
 	    <hr>
-	</center>
+	   </center>
   </div>
 
   <div class="dl-footer" style="font-size: 11px;">

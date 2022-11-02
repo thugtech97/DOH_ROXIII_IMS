@@ -1,6 +1,6 @@
 <div id="report_ptr_gen" style="display: none;">
 <table style="border-collapse: collapse;" cellspacing="0">
-  <tbody>
+  <thead style="display: table-header-group;">
     <tr>
       <td style="width: 73.2px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
       <td style="width: 23.4px; height: 18px; font-size: 11px; vertical-align: bottom;"></td>
@@ -113,6 +113,8 @@
       <td style="width: 72px; height: 16.75px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 72.6px; height: 16.75px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;"></td>
     </tr>
+    </thead>
+    <tbody>
     <tr>
       <td colspan="10" style="width: 73.2px; height: 18px; text-align: center; font-size: 11px; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;border-right-color: rgb(0, 0, 0);border-right-width: 2px;border-right-style: solid;">Issuing Facility's Action</td>
       <td style="width: 72.6px; height: 18px; text-align: center; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;"></td>
