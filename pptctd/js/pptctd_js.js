@@ -14,15 +14,22 @@ function set_state(s){
 }
 
 $(".warehouse_link").on('click', function(){
+	$("#lbl_end_user").html("");
+	$("table#item_eu tbody").html("");
+    $("#all_total_amount").html("");
+
+	$("#btn_show_end_users").removeAttr("disabled");
 	$(".warehouse_link").removeClass('active');
 	$(this).addClass('active');
 	warehouse_name = $(this).data('name');
+	$("#wh_name").html(warehouse_name);
 	$("#warehouse_name").hide().html("<i class='fas'>&#xf494;</i> "+warehouse_name).fadeIn('fast');
 	$.ajax({
 		url: 	"php/pptctd_php.php",
 		type: 	"POST",
 		data: 	{call_func: "connect", warehouse: warehouse_name},
 		success: function(data){
+			get_distinct_users();
 			get_records(state, 1, "");
 		}
 	});
@@ -35,6 +42,17 @@ function get_data(call_func, page, query = ""){
 		url: 	"php/pptctd_php.php",
 		success: function(data){
 			$('.table-responsive').html(data);
+		}
+	});
+}
+
+function get_distinct_users(){
+	$.ajax({
+		type: "POST",
+		url: "php/pptctd_php.php",
+		data: {call_func: "get_distinct_users", warehouse: warehouse_name},
+		success: function(data){
+			$("#nestable").html(data);
 		}
 	});
 }
@@ -170,6 +188,40 @@ $("#lookup").keyup(function () {
             $(this).closest('tr').toggle(!not_found);
             return not_found;
         });
+    });
+});
+
+$("#searchkw").keyup(function(){
+	var num_count = 0;
+	var value = $("#searchkw").val().toLowerCase();
+	$("div#nestable ol li div").each(function(){
+		var text = $(this).text().toLowerCase();
+		if(text.indexOf(value) >= 0){
+			$(this).parent().parent().show();
+			num_count++;
+		}else{
+			$(this).parent().parent().hide();
+		}
+    });
+});
+
+$("#nestable").on('click','li .dd-handle',function (){
+	$("li .dd-handle").css("background-color", "");
+	var element = $(this);
+	element.removeClass("dd-handle");
+    var end_user = $(this).text();
+    $.ajax({
+    	type: "POST",
+    	data: {call_func: "get_user_items", end_user: end_user, warehouse: warehouse_name},
+    	url: "php/pptctd_php.php",
+    	dataType: "JSON",
+    	success: function(data){
+    		$("#lbl_end_user").html("of "+end_user);
+    		element.addClass("dd-handle");
+    		element.css("background-color", "cyan");
+    		$("table#item_eu tbody").html(data["tbody"]);
+    		$("#all_total_amount").html(data["grand_total"]);
+    	}
     });
 });
 

@@ -24,6 +24,7 @@ if(!isset($_SESSION["uname"])){
     <link href="../css/style.css" rel="stylesheet">
 
     <script src="../js/jquery-3.1.1.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="../imgsys/img_avatar2.png">
 
     <link href="../css/plugins/select2/select2.min.css" rel="stylesheet">
     <link href="../css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
@@ -78,6 +79,11 @@ if(!isset($_SESSION["uname"])){
                 </div>
             </div>
         <div class="wrapper wrapper-content animated fadeInRightBig">
+            <div class="row">
+                <div class="col-lg-12">
+                    <button id="btn_show_end_users" disabled class="pull-right btn btn-md btn-default" data-toggle="modal" data-target="#show_end_users"><i class="fa fa-users"></i> End-Users</button>
+                </div>
+            </div>
             <div class="row m-t-lg">
                 <div class="col-lg-12">
                     <div class="tabs-container">
@@ -261,6 +267,9 @@ if(!isset($_SESSION["uname"])){
                 </div>
             </div>
         </div>
+        <?php
+            require "modals/modal_show_end_users.php";
+        ?>
         <div class="footer">
             <div>
                 <strong>Copyright</strong> DEPARTMENT OF HEALTH - CHD - CARAGA &copy; <?php echo date("Y"); ?>
@@ -269,7 +278,6 @@ if(!isset($_SESSION["uname"])){
 
         </div>
     </div>
-
 
     <!-- Mainly scripts -->
     <script src="../js/popper.min.js"></script>
@@ -286,5 +294,4 @@ if(!isset($_SESSION["uname"])){
     <script src="../js/plugins/select2/select2.full.min.js"></script>
 
 </body>
-
 </html>

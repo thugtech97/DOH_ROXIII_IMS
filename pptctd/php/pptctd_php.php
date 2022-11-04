@@ -28,6 +28,84 @@ function connect(){
 	$conn = mysqli_connect("localhost", "root", "", $db_name);
 }
 
+function get_user_items(){
+	global $conn;
+	connect();
+
+	$tbody_eu = "";
+	$grand_total = 0.00;
+
+	$end_user = mysqli_real_escape_string($conn, $_POST["end_user"]);
+	$sql = mysqli_query($conn, "SELECT ics_no, item, description, category, property_no, serial_no, cost, quantity, unit FROM tbl_ics WHERE received_by LIKE '$end_user' ORDER BY date_released ASC");
+
+	while($row = mysqli_fetch_assoc($sql)){
+		$tbody_eu.="<tr style=\"font-size: 10px;\">
+						<td>ICS#".$row["ics_no"]."</td>
+						<td>".$row["item"]."</td>
+						<td>".$row["description"]."</td>
+						<td>".$row["category"]."</td>
+						<td>'".(($row["property_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["property_no"]))."</td>
+						<td>'".(($row["serial_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["serial_no"]))."</td>
+						<td>".$row["cost"]."</td>
+						<td>".$row["quantity"]." ".$row["unit"]."</td>
+						<td>".number_format((float)$row["quantity"] * (float)$row["cost"], 2)."</td>
+					</tr>";
+					$grand_total+=((float)$row["quantity"] * (float)$row["cost"]);
+	}
+
+	$sql = mysqli_query($conn, "SELECT par_no, item, description, category, property_no, serial_no, cost, quantity, unit FROM tbl_par WHERE received_by LIKE '$end_user' ORDER BY date_released ASC");
+
+	while($row = mysqli_fetch_assoc($sql)){
+		$tbody_eu.="<tr style=\"font-size: 10px;\">
+						<td>PAR#".$row["par_no"]."</td>
+						<td>".$row["item"]."</td>
+						<td>".$row["description"]."</td>
+						<td>".$row["category"]."</td>
+						<td>'".(($row["property_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["property_no"]))."</td>
+						<td>'".(($row["serial_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["serial_no"]))."</td>
+						<td>".$row["cost"]."</td>
+						<td>".$row["quantity"]." ".$row["unit"]."</td>
+						<td>".number_format((float)$row["quantity"] * (float)$row["cost"], 2)."</td>
+					</tr>";
+					$grand_total+=((float)$row["quantity"] * (float)$row["cost"]);
+	}
+
+	echo json_encode(array("tbody"=>$tbody_eu, "grand_total"=>number_format($grand_total, 2)));
+}
+
+function get_distinct_users(){
+	global $conn;
+	connect();
+
+	$end_users = array();
+	$list_users = "";
+	$sql = mysqli_query($conn, "SELECT DISTINCT received_by FROM tbl_ics");
+	while($row = mysqli_fetch_assoc($sql)){
+		if($row["received_by"] != ""){
+			array_push($end_users, $row["received_by"]);
+		}
+	}
+	$sql = mysqli_query($conn, "SELECT DISTINCT received_by FROM tbl_par");
+	while($row = mysqli_fetch_assoc($sql)){
+		if($row["received_by"] != ""){
+			if(!in_array($row["received_by"], $end_users)){
+				array_push($end_users, $row["received_by"]);
+			}
+		}
+	}
+
+	sort($end_users);
+
+	foreach($end_users AS $end_user){
+		$list_users.="<ol class=\"dd-list\">
+                    <li class=\"dd-item\">
+                        <div class=\"dd-handle\">".$end_user."</div>
+                    </li>
+                </ol>";
+	}
+	echo $list_users;
+}
+
 function get_purchase_orders(){
 	global $conn;
 	connect();
@@ -602,6 +680,12 @@ switch($call_func){
 		break;
 	case "login":
 		login();
+		break;
+	case "get_distinct_users":
+		get_distinct_users();
+		break;
+	case "get_user_items":
+		get_user_items();
 		break;
 }
 
