@@ -13,6 +13,20 @@ function set_state(s){
 	state = s;
 }
 
+function print_items(eu){
+	var divContents = $("#div_item_eu").html(); 
+	var a = window.open('', '', 'height=800, width=1500'); 
+	a.document.write('<html>'); 
+  	a.document.write('<body><center>');
+  	a.document.write(eu+'<br>');
+  	a.document.write('<table><tr>');
+	a.document.write('<td>'+divContents+'</td>'); 
+	a.document.write('</tr></table>');
+  	a.document.write('</center></body></html>'); 
+	a.document.close(); 
+	a.print();
+}
+
 $(".warehouse_link").on('click', function(){
 	$("#lbl_end_user").html("");
 	$("table#item_eu tbody").html("");

@@ -2,6 +2,7 @@
 
 require "../../php/php_general_functions.php";
 $conn;
+$grand_total = 0.00;
 
 session_start();
 
@@ -29,48 +30,43 @@ function connect(){
 }
 
 function get_user_items(){
+	global $grand_total;
 	global $conn;
 	connect();
 
-	$tbody_eu = "";
-	$grand_total = 0.00;
-
 	$end_user = mysqli_real_escape_string($conn, $_POST["end_user"]);
-	$sql = mysqli_query($conn, "SELECT ics_no, item, description, category, property_no, serial_no, cost, quantity, unit FROM tbl_ics WHERE received_by LIKE '$end_user' ORDER BY date_released ASC");
-
-	while($row = mysqli_fetch_assoc($sql)){
-		$tbody_eu.="<tr style=\"font-size: 10px;\">
-						<td>ICS#".$row["ics_no"]."</td>
-						<td>".$row["item"]."</td>
-						<td>".$row["description"]."</td>
-						<td>".$row["category"]."</td>
-						<td>'".(($row["property_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["property_no"]))."</td>
-						<td>'".(($row["serial_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["serial_no"]))."</td>
-						<td>".$row["cost"]."</td>
-						<td>".$row["quantity"]." ".$row["unit"]."</td>
-						<td>".number_format((float)$row["quantity"] * (float)$row["cost"], 2)."</td>
-					</tr>";
-					$grand_total+=((float)$row["quantity"] * (float)$row["cost"]);
-	}
-
-	$sql = mysqli_query($conn, "SELECT par_no, item, description, category, property_no, serial_no, cost, quantity, unit FROM tbl_par WHERE received_by LIKE '$end_user' ORDER BY date_released ASC");
-
-	while($row = mysqli_fetch_assoc($sql)){
-		$tbody_eu.="<tr style=\"font-size: 10px;\">
-						<td>PAR#".$row["par_no"]."</td>
-						<td>".$row["item"]."</td>
-						<td>".$row["description"]."</td>
-						<td>".$row["category"]."</td>
-						<td>'".(($row["property_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["property_no"]))."</td>
-						<td>'".(($row["serial_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["serial_no"]))."</td>
-						<td>".$row["cost"]."</td>
-						<td>".$row["quantity"]." ".$row["unit"]."</td>
-						<td>".number_format((float)$row["quantity"] * (float)$row["cost"], 2)."</td>
-					</tr>";
-					$grand_total+=((float)$row["quantity"] * (float)$row["cost"]);
-	}
+	$tbody_eu = get_get_awhh("supply", "ICS", "tbl_ics", "ics_no", $end_user);
+	$tbody_eu.= get_get_awhh("supply", "PAR", "tbl_par", "par_no", $end_user);
+	$tbody_eu.= get_get_awhh("supply1", "ICS", "tbl_ics", "ics_no", $end_user);
+	$tbody_eu.= get_get_awhh("supply1", "PAR", "tbl_par", "par_no", $end_user);
 
 	echo json_encode(array("tbody"=>$tbody_eu, "grand_total"=>number_format($grand_total, 2)));
+}
+
+function get_get_awhh($db, $doc, $table, $field, $user){
+	global $grand_total;
+	$tbody = "";
+	$connection = mysqli_connect("localhost", "root", "", $db);
+
+	$sql = mysqli_query($connection, "SELECT ".$field.", item, description, category, property_no, serial_no, cost, quantity, unit, remarks FROM ".$table." WHERE received_by LIKE '$user' ORDER BY date_released ASC");	
+	while($row = mysqli_fetch_assoc($sql)){
+		$tbody.="<tr contenteditable=\"true\" style=\"font-size: 9px;\">
+						<td>".$doc."#".$row[$field]."</td>
+						<td>".$row["item"]."</td>
+						<td>".$row["description"]."</td>
+						<td>".$row["category"]."</td>
+						<td>'".(($row["property_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["property_no"]))."</td>
+						<td>'".(($row["serial_no"] == "") ? "N/A" : str_replace(",", "<br>'", $row["serial_no"]))."</td>
+						<td>".$row["remarks"]."</td>
+						<td>".$row["cost"]."</td>
+						<td>".$row["quantity"]." ".$row["unit"]."</td>
+						<td>".number_format((float)$row["quantity"] * (float)$row["cost"], 2)."</td>
+						<td>".(($db == "supply") ? "Doongan Warehouse" : "Villa Kananga Warehouse")."</td>
+					</tr>";
+					$grand_total+=((float)$row["quantity"] * (float)$row["cost"]);
+	}
+	return $tbody;
+
 }
 
 function get_distinct_users(){
