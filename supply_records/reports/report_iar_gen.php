@@ -177,7 +177,7 @@ Delivered/Travel</td>
     <tr>
       <td colspan="2" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp5">_________________________________________</span></td>
       <td colspan="1" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp6">_________________________________________</span></td>
-      <td colspan="4" style="width: 61.8px; height: 15px; font-weight: bold; font-size: 11px; text-align: center; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="gprint_pc"></td>
+      <td colspan="4" style="width: 61.8px; height: 15px; font-weight: bold; font-size: 11px; text-align: center; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="gprint_pc"></span></td>
     </tr>
     <tr>
       <td colspan="2" style="width: 84.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp_d5"></span></td>
