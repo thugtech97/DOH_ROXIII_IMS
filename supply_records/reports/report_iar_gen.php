@@ -155,32 +155,34 @@ Delivered/Travel</td>
       <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">END-USER</td>
     </tr>
     <tr>
-      <td colspan="2" style="width: 84.6px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp1">_________________________________________</span></td>
-      <td colspan="1" style="width: 84.6px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp2">_________________________________________</span></td>
+      <td colspan="2" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp1">_________________________________________</span></td>
+      <td colspan="1" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp2">_________________________________________</span></td>
       <td colspan="4" style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="2" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp_d1"></span></td>
-      <td colspan="1" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp_d2"></span></td>
+      <td colspan="2" style="width: 84.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp_d1"></span></td>
+      <td colspan="1" style="width: 84.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp_d2"></span></td>
       <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="2" style="width: 84.6px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp3">_________________________________________</span></td>
-      <td colspan="1" style="width: 84.6px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp4">_________________________________________</span></td>
+      <td colspan="2" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp3">_________________________________________</span></td>
+      <td colspan="1" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp4">_________________________________________</span></td>
       <td colspan="4" style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="2" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp_d3"></span></td>
-      <td colspan="1" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp_d4"></span></td>
-      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+      <td colspan="2" style="width: 84.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp_d3"></span></td>
+      <td colspan="1" style="width: 84.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp_d4"></span></td>
+      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 84.6px; height: 25px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp5">_________________________________________</span></td>
-      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="gprint_pc"></span></td>
+      <td colspan="2" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp5">_________________________________________</span></td>
+      <td colspan="1" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp6">_________________________________________</span></td>
+      <td colspan="4" style="width: 61.8px; height: 15px; font-weight: bold; font-size: 11px; text-align: center; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="gprint_pc"></td>
     </tr>
     <tr>
-      <td colspan="3" style="width: 84.6px; height: 15px; text-align: center; font-size: 11px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp_d5"></span></td>
-      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Supply and/or Property Custodian</td>
+      <td colspan="2" style="width: 84.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp_d5"></span></td>
+      <td colspan="1" style="width: 84.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp_d6"></span></td>
+      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Supply and/or Property Custodian</td>
     </tr>
     <tr>
       <td style="width: 84.6px; height: 16.5px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;">  </td>
