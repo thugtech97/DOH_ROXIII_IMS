@@ -156,7 +156,7 @@ function get_iar_details(){
 function print_iar_dm(){
 	global $conn;
 
-	$rows_limit = 30; $rows_occupied = 0;
+	$rows_limit = 26; $rows_occupied = 0;
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
 	$entity_name = "";$fund_cluster = "";$po_number = "";$req_office = "";$res_cc = "";$invoice = "";$date_inspected = "";$inspector = ""; $inspector_designation = ""; 
 	$inspected = ""; $date_received = "";$property_custodian = "";$status = "";$partial_specify = "";$supplier = "";$date_conformed = "";$date_delivered = "";
@@ -270,7 +270,7 @@ function print_iar_dm(){
 function print_iar_gen(){
 	global $conn;
 
-	$rows_limit = 30; $rows_occupied = 0;
+	$rows_limit = 26; $rows_occupied = 0;
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
 	$entity_name = "";$fund_cluster = "";$po_number = "";$req_office = "";$res_cc = "";$invoice = "";$date_inspected = "";$inspector = ""; $inspector_designation = ""; 
 	$inspected = ""; $date_received = "";$property_custodian = "";$status = "";$partial_specify = "";$supplier = "";$date_conformed = "";$date_delivered = "";$end_user = "";

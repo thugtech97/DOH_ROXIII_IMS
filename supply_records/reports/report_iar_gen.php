@@ -1,6 +1,6 @@
 <div id="report_iar_gen" style="display: none;">
 <table style="border-collapse: collapse;" cellspacing="0">
-  <tbody>
+  <thead style="display: table-header-group;">
     <tr>
       <td style="width: 84.6px; height: 22.5px; font-size: 10px; vertical-align: bottom;"></td>
       <td style="width: 148.8px; height: 22.5px; font-size: 10px; vertical-align: bottom;"></td>
@@ -78,6 +78,8 @@
       <td style="width: 57.6px; height: 7.25px; font-size: 11px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
       <td style="width: 29.4px; height: 7.25px; font-size: 11px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-right-style: solid; border-bottom-style: solid;"></td>
     </tr>
+  </thead>
+  <tbody>
     <tr>
       <td style="width: 84.6px; height: 29.5px; text-align: center; font-size: 11px; font-style: italic; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;">Date
 Delivered/Travel</td>
@@ -155,6 +157,14 @@ Delivered/Travel</td>
       <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 11px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">END-USER</td>
     </tr>
     <tr>
+      <td colspan="3" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><u>SUSAN M. VALENCIA, CPA</u></td>
+      <td colspan="4" style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Overall Chairperson</td>
+      <td colspan="4" style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
+    </tr>
+    <tr>
       <td colspan="2" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp1">_________________________________________</span></td>
       <td colspan="1" style="width: 84.6px; height: 25px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp2">_________________________________________</span></td>
       <td colspan="4" style="width: 61.8px; height: 15px; font-size: 10px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"></td>
@@ -182,7 +192,7 @@ Delivered/Travel</td>
     <tr>
       <td colspan="2" style="width: 84.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: top; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;"><span id="g_insp_d5"></span></td>
       <td colspan="1" style="width: 84.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;"><span id="g_insp_d6"></span></td>
-      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Supply and/or Property Custodian</td>
+      <td colspan="4" style="width: 61.8px; height: 15px; text-align: center; font-size: 9px; font-weight: bold; vertical-align: top; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Supply and/or Property Custodian</td>
     </tr>
     <tr>
       <td style="width: 84.6px; height: 16.5px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 2px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid;">  </td>
