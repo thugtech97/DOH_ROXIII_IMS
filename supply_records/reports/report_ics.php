@@ -121,16 +121,16 @@
         <td colspan="3" style="width: 75.6px; height: 10px; text-align: center; font-size: 12px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"></td>
       </tr>
       <tr>
-        <td colspan="5" style="width: 75.6px; height: 15.5px; text-align: center; font-size: 12px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><span id="print_received_from"></span></td>
-        <td colspan="3" style="width: 75.6px; height: 15.5px; text-align: center; font-size: 12px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><span id="print_received_by"></span></td>
+        <td colspan="5" style="width: 75.6px; height: 15.5px; text-align: center; font-size: 16px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><span id="print_received_from"></span></td>
+        <td colspan="3" style="width: 75.6px; height: 15.5px; text-align: center; font-size: 16px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><span id="print_received_by"></span></td>
       </tr>
       <tr>
         <td colspan="5" style="width: 75.6px; height: 15.5px; text-align: center; font-size: 12px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;">Signature Over Printed Name</td>
         <td colspan="3" style="width: 75.6px; height: 15.5px; text-align: center; font-size: 12px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;">Signature Over Printed Name</td>
       </tr>
       <tr>
-        <td colspan="5" style="width: 75.6px; height: 15.5px; font-weight: bold; text-align: center; font-size: 12px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><span id="print_received_from_designation"></span></td>
-        <td colspan="3" style="width: 75.6px; height: 15.5px; font-weight: bold; text-align: center; font-size: 12px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><span id="print_received_by_designation"></span></td>
+        <td colspan="5" style="width: 75.6px; height: 15.5px; font-weight: bold; text-align: center; font-size: 16px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><span id="print_received_from_designation"></span></td>
+        <td colspan="3" style="width: 75.6px; height: 15.5px; font-weight: bold; text-align: center; font-size: 16px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;"><span id="print_received_by_designation"></span></td>
       </tr>
       <tr>
         <td colspan="5" style="width: 75.6px; height: 15.5px; text-align: center; font-size: 12px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;">Position/Office</td>

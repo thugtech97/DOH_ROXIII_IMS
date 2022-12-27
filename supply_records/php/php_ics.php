@@ -18,17 +18,22 @@ function create_trans(){
 	$un_serial_no = implode(",",(array) $_POST["un_serial_no"]);
 	$date_released = mysqli_real_escape_string($conn, $_POST["date_released"]);
 
+	$type 		= mysqli_real_escape_string($conn, $_POST["type"]);
+	$table 		= mysqli_real_escape_string($conn, $_POST["table"]);
+	$table_id 	= mysqli_real_escape_string($conn, $_POST["table_id"]);
+	$table_no 	= mysqli_real_escape_string($conn, $_POST["table_no"]);
+
 	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$trans_id'");
 	$received_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer1)["designation"]);
 
-	$sql = mysqli_query($conn, "SELECT * FROM tbl_ics WHERE ics_id = '$id'");
+	$sql = mysqli_query($conn, "SELECT * FROM ".$table." WHERE ".$table_id." = '$id'");
 	if($row = mysqli_fetch_assoc($sql)){
 		$quantity_trans = count(explode(",", $prop_no));
-		$remarks = "This cancels previous ICS issued to ".$row["received_by"]." (".$row["ics_no"].")";
+		$remarks = "This cancels previous ".$type." issued to ".$row["received_by"]." (".$row[$table_no].")";
 		mysqli_query($conn, "INSERT INTO tbl_ics(ics_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
 		
 		$quantity_new = (int)$row["quantity"] - $quantity_trans;
-		mysqli_query($conn, "UPDATE tbl_ics SET property_no = '$un_prop_no', serial_no = '$un_serial_no', quantity = '$quantity_new' WHERE ics_id = '$id'");
+		mysqli_query($conn, "UPDATE ".$table." SET property_no = '$un_prop_no', serial_no = '$un_serial_no', quantity = '$quantity_new' WHERE ".$table_id." = '$id'");
 
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created an ICS transfer (".$trans_ics.") to ".$received_by." with a remarks - ".$remarks;
@@ -45,14 +50,6 @@ function get_item_trans(){
 	$yy_mm = substr(mysqli_real_escape_string($conn, $_POST["yy_mm"]), 0, 4);
 	$field = mysqli_real_escape_string($conn, $_POST["field"]);
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT ".$field." FROM ".$table." WHERE ".$field." LIKE '%$yy_mm%' ORDER BY ".$field_id." DESC LIMIT 1");
-	if(mysqli_num_rows($sql) != 0){
-		$row = mysqli_fetch_assoc($sql);
-		$latest_icspar = str_pad(((int)explode("-", $row[$field])[2]) + 1, 4, '0', STR_PAD_LEFT);
-	}else{
-		$latest_icspar = "0001";
-	}
-
 	$sql = mysqli_query($conn, "SELECT property_no, serial_no FROM ".$table." WHERE ".$field_id." = ".$id);
 	while($row = mysqli_fetch_assoc($sql)){
 		$props = explode(",", $row["property_no"]); $sers = explode(",", $row["serial_no"]);
@@ -65,8 +62,27 @@ function get_item_trans(){
 		}
 	}
 
-	echo json_encode(array("latest_icspar"=>$latest_icspar, "tbody"=>$tbody));
+	echo json_encode(array("tbody"=>$tbody));
+}
 
+function get_ics_par_no(){
+	global $conn;
+
+	$table = mysqli_real_escape_string($conn, $_POST["table"]);
+	$field_id = mysqli_real_escape_string($conn, $_POST["field_id"]);
+	$yy_mm = substr(mysqli_real_escape_string($conn, $_POST["yy_mm"]), 0, 4);
+	$field = mysqli_real_escape_string($conn, $_POST["field"]);
+	$latest_icspar = "";
+
+	$sql = mysqli_query($conn, "SELECT DISTINCT ".$field." FROM ".$table." WHERE ".$field." LIKE '%$yy_mm%' ORDER BY ".$field_id." DESC LIMIT 1");
+	if(mysqli_num_rows($sql) != 0){
+		$row = mysqli_fetch_assoc($sql);
+		$latest_icspar = str_pad(((int)explode("-", $row[$field])[2]) + 1, 4, '0', STR_PAD_LEFT);
+	}else{
+		$latest_icspar = "0001";
+	}
+
+	echo $latest_icspar;
 }
 
 function set_remarks(){
@@ -643,6 +659,9 @@ switch($call_func){
 		break;
 	case "create_trans":
 		create_trans();
+		break;
+	case "get_ics_par_no":
+		get_ics_par_no();
 		break;
 }
 

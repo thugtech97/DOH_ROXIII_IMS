@@ -205,11 +205,30 @@ function get_item_trans(id, table, field_id, field){
         success: function(data){
             $("#modal_transfer_item").modal();
             $("#trans_item_id").html(id);
-            $("#trans_ics").val(po_value[0]+"-"+po_value[1]+"-"+data["latest_icspar"]);
+            //$("#trans_ics").val(po_value[0]+"-"+po_value[1]+"-"+data["latest_icspar"]);
             $("table#trans_items tbody").html(data["tbody"]);
         }
     });
 }
+
+$("#trans_type").change(function(){
+    var po_value = (new Date().toDateInputValue()).split("-");
+    var arr_data = $("#trans_type").val() == "ICS" ? ["ics_id","ics_no","tbl_ics"] : ["par_id","par_no","tbl_par"];
+    $.ajax({
+        type: "POST",
+        url: "php/php_ics.php",
+        data: {
+            call_func: "get_ics_par_no",
+            yy_mm: po_value[0]+"-"+po_value[1],
+            table: arr_data[2],
+            field: arr_data[1],
+            field_id: arr_data[0]
+        },
+        success: function(data){
+            $("#trans_ics").val(po_value[0]+"-"+po_value[1]+"-"+data);
+        }
+    });
+});
 
 function get_checked_items(){
     prop_no = []; serial_no = [];
@@ -232,12 +251,14 @@ function get_checked_items(){
 }
 
 function trans_now(){
+    var temp_url = $("#trans_type").val() == "ICS" ? "php/php_ics.php" : "php/php_par.php";
+    var arr_data = _url == "php/php_ics.php" ? ["ICS", "tbl_ics", "ics_id", "ics_no"] : ["PAR", "tbl_par", "par_id", "par_no"];
     if($("#trans_ics").val().match($po_regex)){
         if($("#trans_name").val() != null){
             if(get_checked_items() != 0){
                 $.ajax({
                     type: "POST",
-                    url: _url,
+                    url: temp_url,
                     data: {call_func: "create_trans",
                             id: $("#trans_item_id").html(),
                             trans_ics: $("#trans_ics").val(),
@@ -247,7 +268,11 @@ function trans_now(){
                             serial_no: serial_no,
                             un_prop_no: un_prop_no,
                             un_serial_no: un_serial_no,
-                            date_released: new Date().toDateInputValue()
+                            date_released: new Date().toDateInputValue(),
+                            type: arr_data[0],
+                            table: arr_data[1],
+                            table_id: arr_data[2],
+                            table_no: arr_data[3]
                         },
                     success: function(data){
                         swal("Transferred successfully!", "", "success");

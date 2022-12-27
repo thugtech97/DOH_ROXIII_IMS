@@ -17,6 +17,9 @@ if(!isset($_SESSION["username"])){
         require "../assets/styles_assets.php";
     ?>
     <title>INVENTORY MS | Supply Records - Inventory Custodian Slip</title>
+    <link href="../css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="../css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="../css/plugins/iCheck/custom.css" rel="stylesheet">
 
 </head>
 <body style="color: black;">
@@ -183,6 +186,7 @@ if(!isset($_SESSION["username"])){
         require "../assets/small_chat.php";
     ?>
     <script src="js/js_general_functions.js"></script>
+    <script src="../js/plugins/iCheck/icheck.min.js"></script>
     <script src="js/js_ics.js"></script>
     <script type="text/javascript">
         set_url("php/php_ics.php");

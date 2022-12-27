@@ -7,27 +7,21 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-5">
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label">ICS No.:</label>
-                                    <div class="col-lg-9">
-                                        <input id="trans_ics" type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label">Transfer To:</label>
-                                    <div class="col-lg-9">
-                                        <select id="trans_name" class="select2_demo_1 form-control">
-                                            <option value="" disabled selected></option>
-                                        </select>
-                                    </div>
-                                </div>
+                    <div class="col-lg-8">
+                        <div class="form-group row">
+                            <label class="col-lg-4 col-form-label">Select Document Type:</label>
+                            <div class="col-lg-8">
+                                <select id="trans_type" class="select2_demo_1 form-control">
+                                    <option value="" disabled selected></option>
+                                    <option value="ICS">Inventory Custodian Slip (ICS)</option>
+                                    <option value="PAR">Property Acknowledgement Receipt (PAR)</option>
+                                </select>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <i class="fa fa-list"></i> Item Lists
@@ -45,6 +39,26 @@
 
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label">ICS/PAR No.:</label>
+                                    <div class="col-lg-8">
+                                        <input id="trans_ics" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label">Transfer To:</label>
+                                    <div class="col-lg-9">
+                                        <select id="trans_name" class="select2_demo_1 form-control">
+                                            <option value="" disabled selected></option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

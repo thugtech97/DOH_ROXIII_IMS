@@ -5,7 +5,10 @@ var po_details = {};
 var property_nos = "";
 
 $(document).ready(function(){
-	
+	$('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
 });
 
 Date.prototype.toDateInputValue = (function() {
