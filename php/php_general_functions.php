@@ -20,6 +20,26 @@ function get_complete_name($name){
 	return (array_key_exists($name,$fnwd)) ? $fnwd[$name] : $name;
 }
 
+function get_estimated_life($category){
+	$account_codes = array(
+		"ICT Equipments"=>5,
+		"Communication Equipments"=>10,
+		"Drugs and Medicines"=>"",
+		"Furniture"=>10,
+		"Housekeeping Supplies"=>"",
+		"ICT Supplies"=>"",
+		"Library"=>5,
+		"Medical Equipment"=>10,
+		"Medical Supplies"=>"",
+		"Office Equipment"=>5,
+		"Office Supplies"=>"",
+		"Other Supplies"=>"",
+		"Software Application"=>"",
+		"Various Supplies"=>5
+	);
+	return (array_key_exists($category,$account_codes)) ? $account_codes[$category] : "";
+}
+
 function get_account_code($type, $category,$index){
 	$acc_code = "";
 	$account_codes = array(
