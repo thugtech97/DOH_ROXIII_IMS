@@ -8,7 +8,7 @@ function get_ics_par(){
 
 	$tbody = "";
 
-	$sql = mysqli_query($conn, "SELECT item, description, category, property_no, serial_no, quantity, cost, received_by FROM tbl_par WHERE category LIKE 'ICT Equipments' AND date_released BETWEEN '2022-01-01' AND '2022-09-30'");
+	$sql = mysqli_query($conn, "SELECT item, description, category, property_no, serial_no, quantity, cost, received_by, SUBSTRING(date_released, 1, 10) AS drdr FROM tbl_ics WHERE category LIKE 'ICT Equipments' AND date_released BETWEEN '2023-01-01' AND '2023-01-11'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$tbody.="<tr style=\"font-size: 8px;\">
 					<td><b>".$row["item"]."</b>-".$row["description"]."</td>
@@ -17,6 +17,7 @@ function get_ics_par(){
 					<td>".$row["quantity"]."</td>
 					<td>".$row["cost"]."</td>
 					<td>".$row["received_by"]."</td>
+					<td>".$row["drdr"]."</td>
 				</tr>";
 	}
 	echo $tbody;

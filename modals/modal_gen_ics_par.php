@@ -36,7 +36,7 @@
                             <div class="col-lg-8">
                                 <select id="ics-par-yea" class="form-control select2_demo_1">
                                     <?php
-                                        for($i = 2022; $i >= 2010; $i--){
+                                        for($i = date("Y"); $i >= 2015; $i--){
                                             echo "<option>".$i."</option>";
                                         }
                                     ?>
@@ -61,6 +61,7 @@
                                             <th style="padding: 5px;">QUANTITY</th>
                                             <th style="padding: 5px;">UNIT COST</th>
                                             <th style="padding: 5px;">END-USER</th>
+                                            <th style="padding: 5px;">DATE RELEASED</th>
                                         </tr>
                                     </thead>
                                     <tbody>
