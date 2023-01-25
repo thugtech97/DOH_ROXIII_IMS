@@ -276,6 +276,9 @@ function trans_now(){
                         },
                     success: function(data){
                         swal("Transferred successfully!", "", "success");
+                        $("#trans_ics").val("");
+                        $("#trans_name").val(null).change();
+                        $("#trans_type").val(null).change();
                         $("#modal_transfer_item .close").click();
                         $("#edit_ics_par .close").click();
                         var query = $('#search_box').val();
