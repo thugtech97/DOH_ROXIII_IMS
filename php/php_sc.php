@@ -542,7 +542,12 @@ function print_stock_card(){
 function get_sc_ref(){
 	global $conn;
 	$refn = mysqli_real_escape_string($conn, $_POST["refn"]);
-	$read_sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_stockcard.date, 1, 10) AS date_r,quantity,reference_no,office,remarks,status FROM tbl_stockcard WHERE po_ref LIKE '$refn' ORDER BY tbl_stockcard.date ASC");
+	if($refn != ""){
+		$read_sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_stockcard.date, 1, 10) AS date_r,quantity,reference_no,office,remarks,status FROM tbl_stockcard WHERE po_ref LIKE '$refn' ORDER BY tbl_stockcard.date ASC");
+	}else{
+		$read_sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_stockcard.date, 1, 10) AS date_r,quantity,reference_no,office,remarks,status FROM tbl_stockcard ORDER BY tbl_stockcard.date ASC");
+	}
+
 	while($row = mysqli_fetch_assoc($read_sql)){
 		$remarks = ($row["remarks"] == "1") ? "✔️" : "❌";
 		if($row["status"] == "IN"){
