@@ -572,18 +572,26 @@ function print_ptr(ptr_no){
             $("#palloc_num").html(data["alloc_num"]);
             $("#pstorage_temp").html(data["storage_temp"]);
             $("#ptransport_temp").html(data["transport_temp"]);
-            var divContents = $("#report_ptr").html(); 
-            var a = window.open('', '_blank', 'height=1500, width=800'); 
-            a.document.write('<html>'); 
-            a.document.write('<body><center>');
-            a.document.write('<table><tr>');
-            a.document.write('<td>'+divContents+'</td>'); 
-            a.document.write('</tr></table>');
-            a.document.write('</center></body></html>'); 
-            a.document.close(); 
-            a.print();
+            $("#ptr_preview").modal();   
         }
     });
+}
+
+function add_ptr_rows(){
+    $("#ptr_tbody").append("<tr>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td colspan=\"2\" style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td colspan=\"5\" style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\"></td>"+
+                    "<td style=\"width: 24.6px; height: 13.75px; font-size: 10px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;\"></td>"+
+                  "</tr>");
 }
 
 function download_xls(ptr_no){
@@ -652,17 +660,7 @@ function print_ptr_gen(ptr_no){
             }else{
                 $("input#g"+data["ptr_details"][5]).attr("checked", "checked");
             }
-
-            var divContents = $("#report_ptr_gen").html(); 
-            var a = window.open('', '_blank', 'height=1500, width=800'); 
-            a.document.write('<html>'); 
-            a.document.write('<body><center>');
-            a.document.write('<table><tr>');
-            a.document.write('<td>'+divContents+'</td>'); 
-            a.document.write('</tr></table>');
-            a.document.write('</center></body></html>'); 
-            a.document.close(); 
-            a.print();
+            print_all("#report_ptr_gen","1500","800");
         }
     });
 }

@@ -240,7 +240,7 @@ function get_ptr_details(){
 	$total_cost = 0.00; $reason = ""; $approved_by = ""; $approved_by_designation = ""; $received_from = "";$received_from_designation = "";
 	$alloc_num = ""; $storage_temp = ""; $transport_temp = ""; $reference_no = ""; $supplier = "";
 
-	$rows_limit = 35; $rows_occupied = 0;
+	$rows_limit = 20; $rows_occupied = 0;
 	$ptr_body = "";
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
 	$item = "";

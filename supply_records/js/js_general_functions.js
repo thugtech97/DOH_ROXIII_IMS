@@ -295,3 +295,16 @@ function trans_now(){
         swal("Invalid!", "ICS/PAR Number is not valid.", "warning");
     }
 }
+
+function print_all(div, height, width){
+    var divContents = $(div).html(); 
+    var a = window.open('', '_blank', 'height='+height+', width='+width); 
+    a.document.write('<html>'); 
+    a.document.write('<body><center>');
+    a.document.write('<table><tr>');
+    a.document.write('<td>'+divContents+'</td>'); 
+    a.document.write('</tr></table>');
+    a.document.write('</center></body></html>'); 
+    a.document.close(); 
+    a.print();
+}

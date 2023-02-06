@@ -1,0 +1,28 @@
+<div class="modal inmodal" id="ptr_preview" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
+    <div class="modal-dialog modal-lg" style="width: 90%;">
+    <div class="modal-content animated slideInDown">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title"><i class="fa fa-print"></i> PTR Preview</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <button type="button" class="btn btn-info dim" onclick="add_ptr_rows();"><i class="fa fa-plus"></i> Add rows</button>
+                        <button type="button" class="btn btn-danger dim" onclick="print_ptr($('#print_ptrno').html());"><i class="fa fa-refresh"></i> Reset</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary dim pull-right" onclick="print_all('#report_ptr','1500','800')"><i class="fa fa-print"></i> Print</button>
+                    </div>
+                </div>
+                <hr>
+                    <center>
+                        <?php require "reports/report_ptr.php"; ?>
+                    </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

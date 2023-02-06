@@ -62,14 +62,10 @@ if(isset($_SESSION["username"])){
                 <br>
                 <div class="row">
                     <div class="col-sm-12">
-                        - ICS/PAR Transfer<br>
-                        <img src="imgsys/ics-par-trans.png" width="700">
-                    </div>
-                    <div class="col-sm-12">
                         - Bugs fixed
                     </div>
                     <div class="col-sm-12">
-                        - New UI changes
+                        - New UI changes (PTR Section)
                     </div>
                 </div>
             </div>

@@ -162,7 +162,6 @@ if(!isset($_SESSION["username"])){
                         </div>
                     </div>
                     <?php require "reports/report_ptr_gen.php"; ?>
-                    <?php require "reports/report_ptr.php"; ?>
                 </div>
             </div>
             <div class="footer">
@@ -177,6 +176,7 @@ if(!isset($_SESSION["username"])){
             require "../modals/modal_edit_ptr.php";
             require "../modals/modal_view_iss.php";
             require "../modals/modal_edit_dr.php";
+            require "modals/modal_ptr_preview.php";
             require "modals/modal_ptr_alloc.php";
         ?>
 
