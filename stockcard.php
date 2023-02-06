@@ -123,19 +123,19 @@ if(!isset($_SESSION["username"])){
         </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <button class="btn btn-xs btn-default" onclick="$('#print_idr').modal();"><i class="fa fa-print"></i> Incoming Delivery Report</button>
+                    <button class="btn btn-xs btn-default dim" onclick="$('#print_idr').modal();"><i class="fa fa-print"></i> Incoming Delivery Report</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-default" onclick="$('#print_ppe').modal();"><i class="fa fa-print"></i> PPE (ICT/Various Supplies)</button>
+                    <button class="btn btn-xs btn-default dim" onclick="$('#print_ppe').modal();"><i class="fa fa-print"></i> PPE (ICT/Various Supplies)</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-default" onclick="$('#print_rsmi').modal();"><i class="fa fa-print"></i> RSMI (RIS-Consumables)</button>
+                    <button class="btn btn-xs btn-default dim" onclick="$('#print_rsmi').modal();"><i class="fa fa-print"></i> RSMI (RIS-Consumables)</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-default" onclick="generate_wi();"><i class="fa fa-print"></i> Warehouse Inventory</button>
+                    <button class="btn btn-xs btn-default dim" onclick="generate_wi();"><i class="fa fa-print"></i> Warehouse Inventory</button>
                 </li>&nbsp;&nbsp;
                 <li>
-                    <button class="btn btn-xs btn-default" onclick="get_rpci();"><i class="fa fa-print"></i> RPCI (All Categories)</button>
+                    <button class="btn btn-xs btn-default dim" onclick="get_rpci();"><i class="fa fa-print"></i> RPCI (All Categories)</button>
                 </li>&nbsp;&nbsp;
                 <li>
                     <a href="php/php_logout.php">
@@ -167,7 +167,7 @@ if(!isset($_SESSION["username"])){
                         </div>
                     </div>
                     <div class="col-lg-7">
-                        <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#gen_ics_par">
+                        <button type="button" class="btn btn-default pull-right dim" data-toggle="modal" data-target="#gen_ics_par">
                             <i class="fa fa-print"></i> ICS/PAR
                         </button>
                     </div>
@@ -194,9 +194,9 @@ if(!isset($_SESSION["username"])){
                     <div class="ibox-title">
                         <h5>Stockcard Preview&nbsp;&nbsp;&nbsp;<span id="loader" style="display: none;"><i class="fa fa-refresh fa-spin" style="color: black;"></i></span></h5>
                         <div class="pull-right">
-                            <span><a class="btn btn-default btn-xs" onclick="load_sc_spec('1');" title="Show Released">✔️</a></span>
-                            <span><a class="btn btn-default btn-xs" onclick="load_sc_spec('0');" title="Show Unreleased">❌</a></span>
-                            <span><a class="btn btn-default btn-xs" onclick="print_sc();"><i class="fa fa-print"></i> Print</a></span>
+                            <span><button class="btn btn-default btn-xs dim" onclick="load_sc_spec('1');" title="Show Released">✔️</button></span>
+                            <span><button class="btn btn-default btn-xs dim" onclick="load_sc_spec('0');" title="Show Unreleased">❌</button></span>
+                            <span><button class="btn btn-default btn-xs dim" onclick="print_sc();"><i class="fa fa-print"></i> Print</button></span>
                         </div>
                     </div>
                     <div class="ibox-content" style="color: black;">
@@ -234,8 +234,7 @@ if(!isset($_SESSION["username"])){
             <div class="form-chat">
                 <div class="input-group input-group-sm">
                     <input type="text" class="form-control">
-                    <span class="input-group-btn"> <button
-                        class="btn btn-primary" type="button">Send
+                    <span class="input-group-btn"> <button class="btn btn-primary dim" type="button">Send
                 </button> </span></div>
             </div>
 

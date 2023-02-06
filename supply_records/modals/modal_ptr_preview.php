@@ -17,7 +17,9 @@
                 </div>
                 <hr>
                     <center>
-                        <?php require "reports/report_ptr.php"; ?>
+                        <div style="font-size: 5px;">
+                            <?php require "reports/report_ptr.php"; ?>
+                        </div>
                     </center>
             </div>
             <div class="modal-footer">

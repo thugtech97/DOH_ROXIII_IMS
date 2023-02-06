@@ -127,10 +127,10 @@ if(!isset($_SESSION["username"])){
                             if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_ris">
+                                        <button type="button" class="btn btn-default dim" data-toggle="modal" data-target="#add_ris">
                                             <i class="fa fa-plus"></i> Add RIS
                                         </button>
-                                        <button type="button" class="btn btn-default" id="upload_alloc" onclick="upload_alloc();">
+                                        <button type="button" class="btn btn-default dim" id="upload_alloc" onclick="upload_alloc();">
                                             <i class="fa fa-upload"></i> Upload Allocation List
                                         </button>
                                     </li>

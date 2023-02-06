@@ -125,7 +125,7 @@ if(!isset($_SESSION["username"])){
                             if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <button id="niar" type="button" class="btn btn-default" data-toggle="modal" data-target="#add_iar">
+                                        <button id="niar" type="button" class="btn btn-default dim" data-toggle="modal" data-target="#add_iar">
                                             <i class="fa fa-plus"></i> New IAR 
                                         </button>
                                     </li>

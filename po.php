@@ -175,7 +175,7 @@ if(!isset($_SESSION["username"])){
                             if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add_po">
+                                        <button type="button" class="btn btn-default dim" data-toggle="modal" data-target="#add_po">
                                             <i class="fa fa-plus"></i> New Purchase Order
                                         </button>
                                     </li>
@@ -185,7 +185,7 @@ if(!isset($_SESSION["username"])){
                                         </button>
                                     </li>!-->
                                     <li class="breadcrumb-item">
-                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#bal_fwd">
+                                        <button type="button" class="btn btn-default dim" data-toggle="modal" data-target="#bal_fwd">
                                             <i class="fa fa-plus"></i> New Balance Forward
                                         </button>
                                     </li>
@@ -196,7 +196,7 @@ if(!isset($_SESSION["username"])){
                         </div>
                         <div class="col-lg-2">
                             <h2 style="visibility: hidden;">hehehe</h2>
-                            <button type="button" class="btn btn-default pull-right" data-toggle="modal" data-target="#search_item">
+                            <button type="button" class="btn btn-default pull-right dim" data-toggle="modal" data-target="#search_item">
                                 <i class="fa fa-search"></i> Search Item
                             </button>
                         </div>
