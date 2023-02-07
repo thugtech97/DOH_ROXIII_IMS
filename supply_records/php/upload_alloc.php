@@ -25,7 +25,7 @@ if(isset($_GET['files'])) {
 						$count = 0;
 						foreach($xlsx->rows(0) as $elt){
 							$i++;
-							if($i == 8){
+							if($i == 9){
 								if($elt[0] == "FROM" && $elt[1] == "TO" && $elt[2] == "ADDRESS" && $elt[3] == "TRANSFER REASON" && $elt[4] == "STORAGE TEMP" && $elt[5] == "TRANSPORT TEMP" && $elt[6] == "INVENTORY ID" && $elt[7] == "QUANTITY" && $elt[8] == "PROPERTY NO" && $elt[9] == "LOT/SERIAL"){
 									$error = false;
 								}else{

@@ -162,7 +162,6 @@ if(!isset($_SESSION["username"])){
                         </div>
                     </div>
                     <?php require "reports/report_ris.php"; ?>
-                    <?php require "reports/report_ris_dm.php"; ?>
                 </div>
             </div>
             <div class="footer">
@@ -177,6 +176,7 @@ if(!isset($_SESSION["username"])){
             require "../modals/modal_edit_ris.php";
             require "../modals/modal_view_iss.php";
             require "../modals/modal_edit_dr.php";
+            require "modals/modal_ris_preview.php";
         ?>
 
     </div>

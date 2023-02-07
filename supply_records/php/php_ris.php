@@ -146,7 +146,7 @@ function delete_control(){
 function print_ris_dm(){
 	global $conn;
 
-	$rows_limit = 28;
+	$rows_limit = 20;
 	$rows_allocate = 0;
 	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);$reference_no = "";
 	$entity_name = "";$fund_cluster = "";$division = "";$office = "";$rcc = "";$supplier = "";$all_total = 0.00;

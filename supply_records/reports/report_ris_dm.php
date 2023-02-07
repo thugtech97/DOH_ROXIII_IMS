@@ -1,4 +1,4 @@
-<div id="report_ris_dm" style="display: none;">  
+<div id="report_ris_dm">  
   <table style="border-collapse: collapse;" cellspacing="0">
     <thead style="display: table-header-group;">
       <tr>

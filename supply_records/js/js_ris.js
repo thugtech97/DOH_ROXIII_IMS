@@ -549,18 +549,26 @@ function print_ris_dm(ris_no){
             $("#dprint_tc").html(data["total_cost"]);
             $(".dprint_date").html(data["date"]);
 
-            var divContents = $("#report_ris_dm").html(); 
-            var a = window.open('', '_blank', 'height=1500, width=800'); 
-            a.document.write('<html>');
-            a.document.write('<body><center>');
-            a.document.write('<table><tr>');
-            a.document.write('<td>'+divContents+'</td>'); 
-            a.document.write('</tr></table>');
-            a.document.write('</center></body></html>'); 
-            a.document.close(); 
-            a.print();
+            $("#ris_preview").modal();
         }
     });
+}
+
+function add_ris_rows(){
+    $("#dris_body").append("<tr>"+
+          "<td style=\"width: 50.4px; height: 18px; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>"+
+          "<td style=\"width: 35.4px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 153.6px; height: 18px; text-align: left; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 54.6px; height: 18px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 37.2px; height: 18px; text-align: center; font-size: 8px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 34.2px; height: 18px; font-size: 9px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 37.8px; height: 18px; font-size: 9px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 45.6px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 52.2px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 78.6px; height: 18px; text-align: center; font-size: 10px; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 50.4px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+          "<td style=\"width: 109.8px; height: 18px; text-align: center; font-size: 10px;vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>"+
+        "</tr>");
 }
 
 function download_xls_dm(ris_no){

@@ -145,7 +145,7 @@
     <tbody id="ptr_tbody">
       
     </tbody>
-    <tbody>
+    <tfoot style="display:table-row-group;">
     <tr>
       <td style="width: 24.6px; height: 13.75px; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
       <td style="width: 24.6px; height: 13.75px; font-size: 11px; vertical-align: bottom; border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
@@ -249,7 +249,7 @@
       <td colspan="4" style="width: 24.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
     </tr>
 
-  </tbody>
+  </tfoot>
 </table>
 
 </div>
