@@ -43,29 +43,59 @@
                     <div class="ibox-title">
                         <h5>Number of recipients: <span class="label label-info" style="border-radius: 15px;" id="count">0</span><span id="loader_upload" class="pull-right" style="display: none; color: green;"><i class="fa fa-refresh fa-spin"></i> Inserting to database...</span></h5>
                     </div>
-                    <div class="ibox-content" style="height: 300px; overflow: auto;">
-                        <table class="table table-bordered" id="upload_alloc">
-                            <thead>
-                                <tr>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Address</th>
-                                    <th>Transfer Reason</th>
-                                    <th>Storage Temp</th>
-                                    <th>Transport Temp</th>
-                                    <th>Inventory ID</th>
-                                    <th>Quantity</th>
-                                    <th>Property No</th>
-                                    <th>Lot/Serial</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="11" style="text-align: center;">No data uploaded.</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="ibox-content" style="height: 400px; overflow: auto;">
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs">
+                                <li><a class="nav-link active" data-toggle="tab" href="#tab-3"> <i class="fa fa-upload"></i></a></li>
+                                <li><a class="nav-link" data-toggle="tab" href="#tab-4"><i class="fa fa-print"></i></a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-3" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <table class="table table-bordered" id="upload_alloc">
+                                            <thead>
+                                                <tr>
+                                                    <th>From</th>
+                                                    <th>To</th>
+                                                    <th>Address</th>
+                                                    <th>Transfer Reason</th>
+                                                    <th>Storage Temp</th>
+                                                    <th>Transport Temp</th>
+                                                    <th>Inventory ID</th>
+                                                    <th>Quantity</th>
+                                                    <th>Property No</th>
+                                                    <th>Lot/Serial</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="11" style="text-align: center;">No data uploaded.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="tab-4" class="tab-pane">
+                                    <div class="panel-body">
+                                        <table class="table table-bordered" id="uploaded_alloc">
+                                            <thead>
+                                                <tr>
+                                                    <th>PTR No</th>
+                                                    <th>Recipient</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="3" style="text-align: center;">No PTRs generated.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

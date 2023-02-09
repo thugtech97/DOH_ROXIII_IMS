@@ -7,7 +7,7 @@ session_start();
 
 if(isset($_GET['files'])) {
 	$type_iss = mysqli_real_escape_string($conn, $_GET["type_iss"]);
-	$uploaddir = ""; $tbody_upload = "";
+	$uploaddir = ""; $tbody_upload = ""; $program = "";
 	$error = false;
 	$uploaddir = "../../../archives/alloc/".$type_iss."/";
 	
@@ -25,6 +25,9 @@ if(isset($_GET['files'])) {
 						$count = 0;
 						foreach($xlsx->rows(0) as $elt){
 							$i++;
+							if($i == 7){
+								$program = explode(":", $elt[0])[1];
+							}
 							if($i == 9){
 								if($elt[0] == "FROM" && $elt[1] == "TO" && $elt[2] == "ADDRESS" && $elt[3] == "TRANSFER REASON" && $elt[4] == "STORAGE TEMP" && $elt[5] == "TRANSPORT TEMP" && $elt[6] == "INVENTORY ID" && $elt[7] == "QUANTITY" && $elt[8] == "PROPERTY NO" && $elt[9] == "LOT/SERIAL"){
 									$error = false;
@@ -33,7 +36,7 @@ if(isset($_GET['files'])) {
 									break;
 								}
 							}
-							if($i >= 9){
+							if($i >= 10){
 								$count++;
 								$tbody_upload.="<tr>
 													<td>".$elt[0]."</td>
@@ -58,7 +61,7 @@ if(isset($_GET['files'])) {
 			break;
 	}
 
-	echo json_encode(array("tbody"=>$tbody_upload, "count"=>$count, "error"=>$error));
+	echo json_encode(array("tbody"=>$tbody_upload, "count"=>$count, "error"=>$error, "program"=>$program));
 }
 
 function insert_ptr(){
@@ -118,7 +121,7 @@ function insert_ptr(){
 					mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
 				}
 			}
-			echo json_encode(array("response"=>1,"message"=>""));
+			echo json_encode(array("response"=>1,"message"=>"","ptr_no"=>$ptr_no,"recipient"=>$to,"category"=>$category));
 		}else{
 			echo json_encode(array("response"=>0,"message"=>"Quantity is greater than the remaining balance."));
 		}

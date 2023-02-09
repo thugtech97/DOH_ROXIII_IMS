@@ -540,7 +540,7 @@ function reset_paper(){
     $("#gprint_specify").html("");
 }
 
-function print_ptr(ptr_no){
+function print_ptr(ptr_no,pp=''){
     reset_paper();
     $.ajax({
         type: "POST",
@@ -572,7 +572,11 @@ function print_ptr(ptr_no){
             $("#palloc_num").html(data["alloc_num"]);
             $("#pstorage_temp").html(data["storage_temp"]);
             $("#ptransport_temp").html(data["transport_temp"]);
-            $("#ptr_preview").modal();   
+            if(pp == ''){
+                $("#ptr_preview").modal();
+            }else{
+                print_all("#report_ptr","1500","800");
+            }
         }
     });
 }
@@ -739,6 +743,7 @@ function uploadAlloc(event) {
                 $("#btn_insert").prop('disabled', (data["tbody"] != "") ? false : true);
                 $("#count").html(data["count"]);
                 $("table#upload_alloc tbody").html((data["tbody"] != "")?data["tbody"]:"<tr><td colspan=\"11\" style=\"text-align: center;\">No data uploaded.</td></tr>");
+                $("#alloc_entity").val(data["program"]);
             }
         }
     });
@@ -775,6 +780,11 @@ function insertAlloc(){
                 lot_serial: items_alloc[i][9]
                 },
             success: function(data){
+                if(counter == 0){
+                    $("table#uploaded_alloc tbody").html("<tr><td>"+data["ptr_no"]+"</td><td>"+data["recipient"]+"</td><td><center><button class=\"btn btn-xs btn-info\" onclick=\""+((data["category"]=="Drugs and Medicines" || data["category"]=="Medical Supplies") ? "print_ptr('"+data["ptr_no"]+"','1')" : "print_ptr_gen('"+data["ptr_no"]+"')")+"\"><i class=\"fa fa-print\"></i></button></center></td></tr>");
+                }else{
+                    $("table#uploaded_alloc tbody").append("<tr><td>"+data["ptr_no"]+"</td><td>"+data["recipient"]+"</td><td><center><button class=\"btn btn-xs btn-info\" onclick=\""+((data["category"]=="Drugs and Medicines" || data["category"]=="Medical Supplies") ? "print_ptr('"+data["ptr_no"]+"','1')" : "print_ptr_gen('"+data["ptr_no"]+"')")+"\"><i class=\"fa fa-print\"></i></button></center></td></tr>");
+                }
                 counter++;
                 get_records(1, _url);
                 $("#remarks-row-"+counter).html((data["response"] == 1) ? "✔️" : "❌");
