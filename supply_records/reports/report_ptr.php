@@ -237,7 +237,9 @@
     <tr>
       <td colspan="2" style="width: 24.6px; height: 15px; text-align: left; font-size: 9px; vertical-align: bottom;border-left-color: rgb(0, 0, 0); border-left-width: 1px; border-left-style: solid;border-right-color: rgb(0, 0, 0); border-right-width: 1px;border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Designation:</td>
       <td colspan="5" style="width: 24.6px; height: 15px; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Warehouse Staff</td>
-       <td colspan="3" style="width: 24.6px; height: 15px; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Pharmacist I</td>
+       <td colspan="3" style="width: 24.6px; height: 15px; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">
+        <?php  if($_SESSION["warehouse_name"] == "Doongan Warehouse") { echo "Pharmacist II"; }else{ echo "Pharmacist I"; }  ?>
+        </td>
        <td colspan="3" style="width: 24.6px; height: 15px; text-align: center;font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;">Pharmacist III</td>
       <td id="ptransport_temp" colspan="4" style="width: 24.6px; height: 15px; text-align: center; font-size: 9px; vertical-align: bottom;border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;"></td>
     </tr>

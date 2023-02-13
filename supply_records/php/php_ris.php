@@ -233,7 +233,7 @@ function print_ris_dm(){
 function print_ris(){
 	global $conn;
 
-	$rows_limit = 45;
+	$rows_limit = 35;
 	$rows_allocate = 0;
 	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);$reference_no = "";
 	$entity_name = "";$fund_cluster = "";$division = "";$office = "";$rcc = "";$supplier = "";$all_total = 0.00;
