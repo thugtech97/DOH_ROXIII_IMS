@@ -146,7 +146,7 @@
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <i class="fa fa-list"></i> Item Lists
+                        <i class="fa fa-list"></i> Item Lists <button class="btn btn-xs btn-info pull-right" onclick="show_add_item($('#eptr_no').val());"><i class="fa fa-plus"></i> Add Item</button>
                     </div>
                     <div class="panel-body" style="height: 220px; overflow: auto;">
                         <div class="ibox">

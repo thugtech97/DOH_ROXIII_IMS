@@ -5,6 +5,62 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function new_add_item(){
+
+	global $conn;
+
+	$table = "";
+	$num_iss = mysqli_real_escape_string($conn, $_POST["num_iss"]);
+    $item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
+    $item_id = mysqli_real_escape_string($conn, $_POST["item_id"]);
+    $description = mysqli_real_escape_string($conn, $_POST["description"]);
+    $category = mysqli_real_escape_string($conn, $_POST["category"]);
+    $stock = mysqli_real_escape_string($conn, $_POST["stock"]);
+    $quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
+    $reference_no = mysqli_real_escape_string($conn, $_POST["reference_no"]);
+    $serial_no = mysqli_real_escape_string($conn, $_POST["serial_no"]);
+    $exp_date = mysqli_real_escape_string($conn, $_POST["exp_date"]);
+    $unit = mysqli_real_escape_string($conn, $_POST["unit"]);
+    $unit_value = mysqli_real_escape_string($conn, $_POST["unit_value"]);
+
+    $sql = mysqli_query($conn, "SELECT entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,view_ptr FROM tbl_ptr WHERE ptr_no LIKE '$num_iss'");
+	$supplier = mysqli_real_escape_string($conn, mysqli_fetch_assoc(mysqli_query($conn, "SELECT s.supplier, p.supplier_id FROM tbl_po AS p, ref_supplier AS s WHERE s.supplier_id = p.supplier_id AND p.po_number LIKE '$reference_no'"))["supplier"]);
+	$row = mysqli_fetch_assoc($sql); $entity_name = $row["entity_name"]; $fund_cluster = $row["fund_cluster"]; $from = $row["from"]; $to = $row["to"]; $transfer_type = $row["transfer_type"]; $reason = $row["reason"]; $approved_by = $row["approved_by"]; $approved_by_designation = $row["approved_by_designation"]; $received_from = $row["received_from"]; $received_from_designation = $row["received_from_designation"]; $date_released = $row["date_released"]; $area = $row["area"]; $address = $row["address"]; $alloc_num = $row["alloc_num"]; $storage_temp = $row["storage_temp"]; $transport_temp = $row["transport_temp"]; $view_ptr = $row["view_ptr"];
+
+	mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,po_id) VALUES('$num_iss','$entity_name','$fund_cluster','$from','$to','$transfer_type','$reference_no','$item_name','$description','$unit','$supplier','$serial_no','$exp_date','$category','','$quantity','$unit_value','0.000','','','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address','$alloc_num','$storage_temp','$transport_temp','$item_id')");
+	$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$item_id'");
+	$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
+	$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
+	mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$item_id'");
+	if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
+		$serials = explode(",", $serial_no);
+		for($j = 0; $j < count($serials); $j++){
+			$sn = $serials[$j];
+			mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
+		}
+	}
+
+	$sql = mysqli_query($conn, "SELECT item, description, serial_no, exp_date, category, property_no, quantity, unit, cost, total, conditions, remarks FROM tbl_ptr WHERE ptr_no LIKE '$num_iss'");
+	while($row = mysqli_fetch_assoc($sql)){
+		$table.="<tr>
+			<td>".$row["item"]."</td>
+			<td>".$row["description"]."</td>
+			<td>".$row["serial_no"]."</td>
+			<td>".$row["exp_date"]."</td>
+			<td>".$row["category"]."</td>
+			<td>".$row["property_no"]."</td>
+			<td onclick=\"edit_quantity('".$row["ptr_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".mysqli_real_escape_string($conn, $row["item"])."','".mysqli_real_escape_string($conn, $row["description"])."', 'tbl_ptr', 'ptr_id', '".$row["po_id"]."');\"><a><u>".$row["quantity"]."</u></a></td>
+			<td>".$row["unit"]."</td>
+			<td>".number_format((float)$row["cost"], 3)."</td>
+			<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
+			<td>".$row["conditions"]."</td>
+			<td>".$row["remarks"]."</td>
+		</tr>";
+	}
+
+	echo $table;
+}
+
 function get_items_all(){
 	global $conn;
 
@@ -519,6 +575,9 @@ switch($call_func){
 		break;
 	case "get_items_all":
 		get_items_all();
+		break;
+	case "new_add_item":
+		new_add_item();
 		break;
 }
 

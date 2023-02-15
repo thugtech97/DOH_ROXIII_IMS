@@ -1,5 +1,5 @@
 var iss_numbers, tables, fields, isss, iss_fields, rbs;
-var _url, active_page;
+var _url, active_page, a_exp_date;
 
 var control_no, text, table, control;
 var prop_no = []; var serial_no = [];
@@ -307,4 +307,130 @@ function print_all(div, height, width){
     a.document.write('</center></body></html>'); 
     a.document.close(); 
     a.print();
+}
+
+function a_total_amount(){
+    $("#a_total_amount").val(formatNumber((parseFloat($("#a_quantity").val() == "" ? 0.00 : $("#a_quantity").val()) * parseFloat(origNumber($("#a_unit_value").val()))).toFixed(2)));
+}
+
+$("#a_reference_no").ready(function(){
+    $.ajax({
+        type: "POST",
+        data: {call_func: "get_po", action: "get_number", po_type: "ictvar"},
+        url: "php/php_iar.php",
+        success: function(data){
+            $("#a_reference_no").html("<option disabled selected></option>").append(data);
+        }
+    });
+});
+
+$("#a_reference_no").change(function(){
+    $("#a_item_name").val(null).change();
+    $("#a_stock").val("");
+    $("#a_unit").val("");
+    $("#a_description").val("");
+    $("#a_unit_value").val("");
+    $("#a_category").val("");
+    $("#a_serial_no").val(null).change();
+    $.ajax({
+        type: "POST",
+        data: {call_func: "get_item", po_number: $("#a_reference_no option:selected").text()},
+        url: "php/php_ics.php",
+        success: function(data){
+            if(data!=""){
+                $("#a_item_name").html("<option disabled selected></option>").append(data);
+                
+            }else{
+                swal("Items are not available!", "Items of this PO are not inspected or maybe out of stocks!", "warning");
+                $("#a_item_name").html("<option disabled selected></option>").append(data);
+            }
+        }
+    });
+});
+
+$("#a_item_name").change(function(){
+    $.ajax({
+        type: "POST",
+        data: {call_func: "get_item_details", item_id: $("#a_item_name").val(), po_number: $("#a_reference_no option:selected").text()},
+        url: "php/php_ics.php",
+        dataType: "JSON",
+        success: function(data){
+            a_exp_date = data["exp_date"];
+            $("#a_stock").val(data["stocks"]);
+            $("#a_unit").val(data["unit"]);
+            $("#a_description").val(data["description"]);
+            $("#a_unit_value").val(formatNumber(data["unit_cost"]));
+            $("#a_category").val(data["category"]);
+            $("#a_serial_no").html("<option disabled selected></option>").append(data["sn_ln"]);
+        }
+    });
+});
+
+function show_add_item(num_iss){
+    $("#add_item_num").html(num_iss);
+    $("#modal_add_item_issuances").modal();
+}
+
+function save_new_item(){
+    if($("#a_reference_no option:selected").text() != ""){
+        if($("#a_item_name option:selected").text() != ""){
+            if($("#a_quantity").val() != ""){
+                if(parseInt($("#a_quantity").val()) <= parseInt($("#a_stock").val())){
+                    if(parseInt($("#a_quantity").val()) > 0){
+                        $.ajax({
+                            type: "POST",
+                            url: _url,
+                            data: {
+                                call_func: "new_add_item",
+                                num_iss: $("#add_item_num").html(),
+                                item_name: $("#a_item_name option:selected").text(),
+                                item_id: $("#a_item_name").val(),
+                                description: $("#a_description").val(),
+                                category: $("#a_category").val(),
+                                stock: $("#a_stock").val(),
+                                quantity: $("#a_quantity").val(),
+                                reference_no: $("#a_reference_no option:selected").text(),
+                                serial_no: $("#a_serial_no option:selected").text(),
+                                exp_date: a_exp_date,
+                                unit: $("#a_unit").val(),
+                                unit_value: $("#a_unit_value").val()
+                                },
+                            success: function(data){
+                                $("#modal_add_item_issuances .close").click();
+                                $("#a_reference_no").val(null).change();
+                                $("#a_item_name").val(null).change();
+                                $("#a_stock").val("");
+                                $("#a_unit").val("");
+                                $("#a_description").val("");
+                                $("#a_unit_value").val("");
+                                $("#a_category").val("");
+                                $("#a_serial_no").html("<option disabled selected></option>");
+
+                                if(_url == "php/php_ris.php"){
+                                    $("table#eris_items tbody").html(data);
+                                }
+
+                                if(_url == "php/php_ptr.php"){
+                                    $("table#eptr_items tbody").html(data);
+                                }
+
+                                var query = $('#search_box').val();
+                                get_records(active_page, _url, query);
+                            }
+                        });
+                    }else{
+                        swal("Invalid input!", "Quantity cannot be zero", "warning");
+                    }
+                }else{
+                    swal("Invalid input!", "Quantity is greater than remaining stocks", "warning");
+                }
+            }else{
+                swal("Please fill in!", "Quantity", "warning");
+            }
+        }else{
+            swal("Please fill in!", "Select an item Name", "warning");
+        }
+    }else{
+        swal("Please fill in!", "Select a reference/PO Number", "warning");
+    }
 }

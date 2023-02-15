@@ -5,6 +5,54 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function new_add_item(){
+	global $conn;
+
+	$table = "";
+	$num_iss = mysqli_real_escape_string($conn, $_POST["num_iss"]);
+    $item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
+    $item_id = mysqli_real_escape_string($conn, $_POST["item_id"]);
+    $description = mysqli_real_escape_string($conn, $_POST["description"]);
+    $category = mysqli_real_escape_string($conn, $_POST["category"]);
+    $stock = mysqli_real_escape_string($conn, $_POST["stock"]);
+    $quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
+    $reference_no = mysqli_real_escape_string($conn, $_POST["reference_no"]);
+    $serial_no = mysqli_real_escape_string($conn, $_POST["serial_no"]);
+    $exp_date = mysqli_real_escape_string($conn, $_POST["exp_date"]);
+    $unit = mysqli_real_escape_string($conn, $_POST["unit"]);
+    $unit_value = mysqli_real_escape_string($conn, $_POST["unit_value"]);
+
+    $sql = mysqli_query($conn, "SELECT entity_name,fund_cluster,division,office,rcc,reference_no,requested_by,requested_by_designation,issued_by,issued_by_designation,approved_by,approved_by_designation,tbl_ris.date,view_ris,purpose FROM tbl_ris WHERE ris_no LIKE '$num_iss'");
+	$supplier = mysqli_real_escape_string($conn, mysqli_fetch_assoc(mysqli_query($conn, "SELECT s.supplier, p.supplier_id FROM tbl_po AS p, ref_supplier AS s WHERE s.supplier_id = p.supplier_id AND p.po_number LIKE '$reference_no'"))["supplier"]);
+   	$row = mysqli_fetch_assoc($sql); $entity_name = $row["entity_name"]; $fund_cluster = $row["fund_cluster"]; $division = $row["division"]; $office = $row["office"]; $rcc = $row["rcc"]; $requested_by = $row["requested_by"]; $requested_by_designation = $row["requested_by_designation"]; $issued_by = $row["issued_by"]; $issued_by_designation = $row["issued_by_designation"]; $approved_by = $row["approved_by"]; $approved_by_designation = $row["approved_by_designation"]; $date = $row["date"]; $view_ris = $row["view_ris"]; $purpose = $row["purpose"];
+
+	mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,approved_by,approved_by_designation,tbl_ris.date,supplier,lot_no,exp_date,po_id) VALUES ('$num_iss','$entity_name','$fund_cluster','$division','$office','$rcc','$item_name','$unit','$description','$category','$quantity','$unit_value','0.000','1','$stock','','$reference_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$approved_by','$approved_by_designation','$date','$supplier','$serial_no','$exp_date','$item_id')");
+	$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$item_id' AND item_name LIKE '$item_name'");
+	$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
+	$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
+	mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$item_id' AND item_name LIKE '$item_name'");
+
+
+	$sql = mysqli_query($conn, "SELECT reference_no, item, description, category, quantity, unit, unit_cost, total, quantity_stocks, remarks FROM tbl_ris WHERE ris_no LIKE '$num_iss'");
+	while($row = mysqli_fetch_assoc($sql)){
+		$table.="<tr>
+					<td>".$row["reference_no"]."</td>
+					<td>".$row["item"]."</td>
+					<td>".$row["description"]."</td>
+					<td>".$row["category"]."</td>
+					<td onclick=\"edit_quantity('".$row["ris_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".mysqli_real_escape_string($conn, $row["item"])."','".mysqli_real_escape_string($conn, $row["description"])."', 'tbl_ris', 'ris_id', '".$row["po_id"]."');\"><a><u>".$row["quantity"]."</u></a></td>
+					<td>".$row["unit"]."</td>
+					<td>".number_format((float)$row["unit_cost"],3)."</td>
+					<td>".number_format((float)$row["unit_cost"] * $row["quantity"],3)."</td>
+					<td>".$row["quantity_stocks"]."</td>
+					<td>".$row["remarks"]."</td>
+				</tr>";
+	}
+
+	echo $table;
+}
+
+
 function get_items_all(){
 	global $conn;
 
@@ -129,13 +177,13 @@ function delete_control(){
 	$field = mysqli_real_escape_string($conn, $_POST["field"]);
 	$table = mysqli_real_escape_string($conn, $_POST["table"]);
 	$number=mysqli_real_escape_string($conn, $_POST["number"]);
-	$sql = mysqli_query($conn, "SELECT item, description, quantity, reference_no FROM ".$table." WHERE ".$field." LIKE '".$number."'");
+	$sql = mysqli_query($conn, "SELECT po_id, item, description, quantity, reference_no FROM ".$table." WHERE ".$field." LIKE '".$number."'");
 	while($row = mysqli_fetch_assoc($sql)){
-		$item = mysqli_real_escape_string($conn, $row["item"]); $description = mysqli_real_escape_string($conn, $row["description"]); $reference_no = mysqli_real_escape_string($conn, $row["reference_no"]); $quantity = $row["quantity"];
-		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description'");
+		$item = mysqli_real_escape_string($conn, $row["item"]); $description = mysqli_real_escape_string($conn, $row["description"]); $reference_no = mysqli_real_escape_string($conn, $row["reference_no"]); $quantity = $row["quantity"]; $po_id = $row["po_id"];
+		$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$po_id'");
 		$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 		$newrstocks = ((int)$rstocks[0] + (int)$quantity)." ".$rstocks[1];
-		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$reference_no' AND item_name = '$item' AND description = '$description'");
+		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$po_id'");
 	}
 	mysqli_query($conn, "DELETE FROM ".$table." WHERE ".$field." LIKE '".$number."'");
 	$emp_id = $_SESSION["emp_id"];
@@ -613,6 +661,9 @@ switch($call_func){
 		break;
 	case "insert_ris2":
 		insert_ris2();
+		break;
+	case "new_add_item":
+		new_add_item();
 		break;
 }
 
