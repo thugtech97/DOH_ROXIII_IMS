@@ -5,10 +5,26 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function delete_existing(){
+	global $conn;
+
+	$po_id = mysqli_real_escape_string($conn, $_POST["po_id"]);
+	$iss_id = mysqli_real_escape_string($conn, $_POST["iss_id"]);
+	$iss_no = mysqli_real_escape_string($conn, $_POST["iss_no"]);
+	$quan = mysqli_real_escape_string($conn, $_POST["quan"]);
+
+	$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$po_id'");
+	$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
+	$newrstocks = ((int)$rstocks[0] + (int)$quan)." ".$rstocks[1];
+	mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$po_id'");
+	mysqli_query($conn, "DELETE FROM tbl_ris WHERE ris_id LIKE '".$iss_id."'");
+
+	reload_item($iss_no);
+}
+
 function new_add_item(){
 	global $conn;
 
-	$table = "";
 	$num_iss = mysqli_real_escape_string($conn, $_POST["num_iss"]);
     $item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
     $item_id = mysqli_real_escape_string($conn, $_POST["item_id"]);
@@ -31,9 +47,14 @@ function new_add_item(){
 	$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 	$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
 	mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$item_id' AND item_name LIKE '$item_name'");
+	reload_item($num_iss);
+}
 
 
-	$sql = mysqli_query($conn, "SELECT reference_no, item, description, category, quantity, unit, unit_cost, total, quantity_stocks, remarks FROM tbl_ris WHERE ris_no LIKE '$num_iss'");
+function reload_item($num_iss){
+	global $conn;
+	$table = "";
+	$sql = mysqli_query($conn, "SELECT ris_id, po_id, reference_no, item, description, category, quantity, unit, unit_cost, total, quantity_stocks, remarks FROM tbl_ris WHERE ris_no LIKE '$num_iss'");
 	while($row = mysqli_fetch_assoc($sql)){
 		$table.="<tr>
 					<td>".$row["reference_no"]."</td>
@@ -46,12 +67,12 @@ function new_add_item(){
 					<td>".number_format((float)$row["unit_cost"] * $row["quantity"],3)."</td>
 					<td>".$row["quantity_stocks"]."</td>
 					<td>".$row["remarks"]."</td>
+					<td><center><button class=\"btn btn-xs btn-danger\" onclick=\"delete_existing('".$row["po_id"]."','".$row["ris_id"]."','".$num_iss."','".$row["quantity"]."')\"><i class=\"fa fa-trash\"></i></button></center></td>
 				</tr>";
 	}
 
 	echo $table;
 }
-
 
 function get_items_all(){
 	global $conn;
@@ -145,6 +166,7 @@ function modify(){
 					<td>".number_format((float)$row["unit_cost"] * $row["quantity"],3)."</td>
 					<td>".$row["quantity_stocks"]."</td>
 					<td>".$row["remarks"]."</td>
+					<td><center><button class=\"btn btn-xs btn-danger\" onclick=\"delete_existing('".$row["po_id"]."','".$row["ris_id"]."','".$ris_no."','".$row["quantity"]."')\"><i class=\"fa fa-trash\"></i></button></center></td>
 				</tr>";
 	}
 	echo json_encode(array(
@@ -664,6 +686,9 @@ switch($call_func){
 		break;
 	case "new_add_item":
 		new_add_item();
+		break;
+	case "delete_existing":
+		delete_existing();
 		break;
 }
 

@@ -62,7 +62,7 @@ if(isset($_SESSION["username"])){
                 <br>
                 <div class="row">
                     <div class="col-sm-12">
-                        - Can now add items on existing RIS/PTR records.
+                        - Can now add/delete items on existing RIS/PTR records.
                     </div>
                     <div class="col-sm-12">
                         - ICS/PAR item-transfer feature enabled.
@@ -105,7 +105,7 @@ if(isset($_SESSION["username"])){
                     <a class="mx-5" href="https://drive.google.com/file/d/1H6DzrxhfjMdY0wh9NiCpfuq5_hdbgc5H/view?usp=sharing" target="_blank">Downloads</a>
                     <a class="mx-5" href="https://drive.google.com/file/d/1H6DzrxhfjMdY0wh9NiCpfuq5_hdbgc5H/view?usp=sharing" target="_blank">Contact Us</a>
                 </div>
-                
+
                 <p class="mt-10 company_title">DEPARTMENT OF HEALTH</p>
                 <p>© <?php echo date('Y'); ?>. All RIGHT RESERVED.</p>
             

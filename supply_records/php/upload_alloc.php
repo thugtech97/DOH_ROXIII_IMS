@@ -83,50 +83,56 @@ function insert_ptr(){
 	$property_no = mysqli_real_escape_string($conn, $_POST["property_no"]);
 	$lot_serial = mysqli_real_escape_string($conn, $_POST["lot_serial"]);
 
-	$sql = mysqli_query($conn, "SELECT p.po_number, p.item_name, p.description, p.category, p.quantity, p.unit_cost, p.exp_date, s.supplier FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.po_id = '$inventory_id'");
-	if(mysqli_num_rows($sql) != 0){
-		while(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT ptr_no FROM tbl_ptr WHERE ptr_no = '$ptr_no'")) != 0) {
-			$ptr_no = $yy_mm."-".get_latest_ptr($yy_mm);		
-		}
-		$row = mysqli_fetch_assoc($sql);
-		$reference_no = mysqli_real_escape_string($conn, $row["po_number"]);
-		$item = mysqli_real_escape_string($conn, $row["item_name"]);
-		$description = mysqli_real_escape_string($conn, $row["description"]);
-		$quan_unit = explode(" ", mysqli_real_escape_string($conn, $row["quantity"]));
-		$category = mysqli_real_escape_string($conn, $row["category"]);
-		$cost = mysqli_real_escape_string($conn, $row["unit_cost"]);
-		$exp_date = mysqli_real_escape_string($conn, $row["exp_date"]);
-		$supplier = mysqli_real_escape_string($conn, $row["supplier"]);
-		$total = (float)$cost * (float)$quan_unit[0];
-		$approved_by = $_SESSION["company_head"];
-		$approved_by_designation = $_SESSION["company_head_designation"];
-		$received_from = $_SESSION["property_custodian"];
-		$received_from_designation = $_SESSION["property_custodian_designation"];
+	$iids = explode(",", $inventory_id); $qtys = explode(",", $quantity);
 
-		if((int)$quantity <= (int)$quan_unit[0]){
-			mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,po_id) VALUES('$ptr_no','$alloc_entity','','$from','$to','Allocation','$reference_no','$item','$description','".$quan_unit[1]."','$supplier','$lot_serial','$exp_date','$category','$property_no','$quantity','$cost','$total','','','$transfer_reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','','$address','$alloc_number','$storage_temp','$transport_temp','$inventory_id')");
-			$newrstocks = ((int)$quan_unit[0] - (int)$quantity)." ".$quan_unit[1];
-			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$inventory_id'");
-			if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
-				$serials = explode(",", $lot_serial);
-				for($j = 0; $j < count($serials); $j++){
-					$sn = $serials[$j];
-					mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$inventory_id' AND serial_no = '$sn'");
-				}
+	if(count($iids) == count($qtys)){
+		$sql = mysqli_query($conn, "SELECT p.po_number, p.item_name, p.description, p.category, p.quantity, p.unit_cost, p.exp_date, s.supplier FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id AND p.po_id = '$inventory_id'");
+		if(mysqli_num_rows($sql) != 0){
+			while(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT ptr_no FROM tbl_ptr WHERE ptr_no = '$ptr_no'")) != 0) {
+				$ptr_no = $yy_mm."-".get_latest_ptr($yy_mm);		
 			}
-			if($property_no != ""){
+			$row = mysqli_fetch_assoc($sql);
+			$reference_no = mysqli_real_escape_string($conn, $row["po_number"]);
+			$item = mysqli_real_escape_string($conn, $row["item_name"]);
+			$description = mysqli_real_escape_string($conn, $row["description"]);
+			$quan_unit = explode(" ", mysqli_real_escape_string($conn, $row["quantity"]));
+			$category = mysqli_real_escape_string($conn, $row["category"]);
+			$cost = mysqli_real_escape_string($conn, $row["unit_cost"]);
+			$exp_date = mysqli_real_escape_string($conn, $row["exp_date"]);
+			$supplier = mysqli_real_escape_string($conn, $row["supplier"]);
+			$total = (float)$cost * (float)$quan_unit[0];
+			$approved_by = $_SESSION["company_head"];
+			$approved_by_designation = $_SESSION["company_head_designation"];
+			$received_from = $_SESSION["property_custodian"];
+			$received_from_designation = $_SESSION["property_custodian_designation"];
+
+			if((int)$quantity <= (int)$quan_unit[0]){
+				mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,po_id) VALUES('$ptr_no','$alloc_entity','','$from','$to','Allocation','$reference_no','$item','$description','".$quan_unit[1]."','$supplier','$lot_serial','$exp_date','$category','$property_no','$quantity','$cost','$total','','','$transfer_reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','','$address','$alloc_number','$storage_temp','$transport_temp','$inventory_id')");
+				$newrstocks = ((int)$quan_unit[0] - (int)$quantity)." ".$quan_unit[1];
+				mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$inventory_id'");
 				if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
-					$pns = explode(",", $property_no);
-					$pn = end($pns);
-					mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+					$serials = explode(",", $lot_serial);
+					for($j = 0; $j < count($serials); $j++){
+						$sn = $serials[$j];
+						mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$inventory_id' AND serial_no = '$sn'");
+					}
 				}
+				if($property_no != ""){
+					if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
+						$pns = explode(",", $property_no);
+						$pn = end($pns);
+						mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+					}
+				}
+				echo json_encode(array("response"=>1,"message"=>"","ptr_no"=>$ptr_no,"recipient"=>$to,"category"=>$category));
+			}else{
+				echo json_encode(array("response"=>0,"message"=>"Quantity is greater than the remaining balance."));
 			}
-			echo json_encode(array("response"=>1,"message"=>"","ptr_no"=>$ptr_no,"recipient"=>$to,"category"=>$category));
 		}else{
-			echo json_encode(array("response"=>0,"message"=>"Quantity is greater than the remaining balance."));
+			echo json_encode(array("response"=>0,"message"=>"Inventory ID not found."));
 		}
 	}else{
-		echo json_encode(array("response"=>0,"message"=>"Inventory ID not found."));
+		echo json_encode(array("response"=>0,"message"=>"Error."));
 	}
 }
 

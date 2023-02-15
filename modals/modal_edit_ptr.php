@@ -166,6 +166,7 @@
                                             <th>Total</th>
                                             <th>Condition</th>
                                             <th>Remarks</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>

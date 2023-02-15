@@ -124,6 +124,7 @@
                                     <th>Total</th>
                                     <th>Stocks</th>
                                     <th>Remarks</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>

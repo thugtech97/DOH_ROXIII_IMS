@@ -341,7 +341,6 @@ $("#a_reference_no").change(function(){
                 $("#a_item_name").html("<option disabled selected></option>").append(data);
                 
             }else{
-                swal("Items are not available!", "Items of this PO are not inspected or maybe out of stocks!", "warning");
                 $("#a_item_name").html("<option disabled selected></option>").append(data);
             }
         }
@@ -404,6 +403,7 @@ function save_new_item(){
                                 $("#a_description").val("");
                                 $("#a_unit_value").val("");
                                 $("#a_category").val("");
+                                $("#a_quantity").val("");
                                 $("#a_serial_no").html("<option disabled selected></option>");
 
                                 if(_url == "php/php_ris.php"){
@@ -433,4 +433,29 @@ function save_new_item(){
     }else{
         swal("Please fill in!", "Select a reference/PO Number", "warning");
     }
+}
+function delete_existing(po_id, iss_id, iss_no, quan){
+    $.ajax({
+        type: "POST",
+        url: _url,
+        data: {
+            call_func: "delete_existing",
+            po_id: po_id,
+            iss_id: iss_id,
+            iss_no: iss_no,
+            quan: quan
+        },
+        success: function(data){
+            if(_url == "php/php_ris.php"){
+                $("table#eris_items tbody").html(data);
+            }
+
+            if(_url == "php/php_ptr.php"){
+                $("table#eptr_items tbody").html(data);
+            }
+
+            var query = $('#search_box').val();
+            get_records(active_page, _url, query);
+        }
+    });
 }
