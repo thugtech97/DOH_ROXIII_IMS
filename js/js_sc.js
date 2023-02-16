@@ -7,6 +7,7 @@ $(document).ready(function(){
         theme: 'bootstrap4',
         width: '100%'
     });
+    load_item();
 });
 
 function print_ics_par(){
@@ -256,7 +257,7 @@ function print_rpci(){
 	a.print();
 }
 
-function load_item(c,s){
+function load_item(c="",s=""){
 	$("#print_itemname").html("");
 	$("#desc").html("");
 	$("#sc_drugs").html("");
@@ -267,7 +268,7 @@ function load_item(c,s){
 		url: "php/php_sc.php",
 		dataType: "JSON",
 		success: function(data){
-			$("#cat").html(c);
+			//$("#cat").html(c);
 			$("#nestable").html(data["list_items"]);
 			$("#num_items").html(data["num_items"]);
 		}
@@ -280,6 +281,7 @@ $("#nestable").on('click','li .dd-handle',function (){
 	element.removeClass("dd-handle");
     item_name = $(this).find('b').text();
     item_desc = $(this).data("desc");
+    $("#cat").html($(this).data("ctgry"));
     $("#loader").show();
     $("#print_itemname").html("");
 	$("#desc").html("");

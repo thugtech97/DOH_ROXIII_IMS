@@ -157,6 +157,7 @@ if(!isset($_SESSION["username"])){
                 <br>
                 <div class="row">
                     <div class="col-lg-5">
+                        <!---
                         <div class="form-group row">
                             <label class="col-lg-4 col-form-label"><b>Select a category:</b></label>
                             <div class="col-lg-8">
@@ -165,6 +166,7 @@ if(!isset($_SESSION["username"])){
                                 </select>
                             </div>
                         </div>
+                        !-->
                     </div>
                     <div class="col-lg-7">
                         <button type="button" class="btn btn-default pull-right dim" data-toggle="modal" data-target="#gen_ics_par">
