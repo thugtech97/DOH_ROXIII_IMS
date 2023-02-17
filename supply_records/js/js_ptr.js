@@ -47,6 +47,20 @@ function get_rows(){
     return rows;
 }
 
+function get_rows1(){
+    items = [];
+    var table = $("table#ptr_items tbody");
+    var rows = 0;
+    table.find('tr').each(function (i) {
+        var $tds = $(this).find('td');
+        if(parseInt($tds.eq(9).find('input').val()) > 0){
+            items.push([$tds.eq(0).text(),$tds.eq(1).text(),$tds.eq(2).text(),$tds.eq(3).text(),$tds.eq(4).find('select').find('option:selected').text(),$tds.eq(5).text(),$tds.eq(6).text(),$tds.eq(7).text(),$tds.eq(8).find('input').val(),$tds.eq(9).find('input').val(),$tds.eq(10).text(),$tds.eq(11).text(),$tds.eq(12).text(),$tds.eq(13).find('input').val(),$tds.eq(14).find('input').val()]);
+            rows++;
+        }
+    });
+    return rows;
+}
+
 function validate(){
     if($("#ptr_no").val().match($po_regex)){
         if($("#from").val() != ""){
@@ -58,7 +72,7 @@ function validate(){
                                 if($("#to").val() != ""){
                                     if($("#received_from").val() != null){
                                         if($("#reason").val() != ""){
-                                            if(get_rows() != 0){
+                                            if(get_rows1() != 0){
                                                 $("#save_changes").attr("disabled", true);
                                                 $.ajax({
                                                     type: "POST",
@@ -98,6 +112,7 @@ function validate(){
                                                         }
                                                     }
                                                 });
+
                                             }else{
                                                 swal("Please fill in!", "Please add an item!", "warning");
                                             }
@@ -131,6 +146,15 @@ function validate(){
     }else{
         swal("Invalid input!", "PTR Number not valid", "warning");
     }
+}
+
+function validate_input_quantity(element, stocks, i, uc){
+    if(parseInt(element.value) > stocks){    
+        element.value = "";
+        $("#totid"+i).html("");
+        return
+    }
+    $("#totid"+i).html(parseInt(element.value) * parseInt(uc));
 }
 
 function add_item(){
@@ -293,61 +317,18 @@ function ready_all(){
             data: {call_func: "get_po", action: "get_number", po_type: "gen"},
             url: "php/php_iar.php",
             success: function(data){
-                $("#reference_no").html("<option disabled selected></option>").append(data);
-                $("#reference_no option").each(function() {
-                    po_details[this.text] = {};
-                });
+                $("#reference_no").append(data);
             }
         });
     });
 
     $("#reference_no").change(function(){
-        $("#item_name").val(null).change();
-        $("#stock").val("");
-        $("#category").val("");
-        $("#unit").val("");
-        $("#description").val("");
-        $("#unit_value").val("");
-        $("#conditions").val("");
-        $("#serial_no").val(null).change();
         $.ajax({
             type: "POST",
-            data: {call_func: "get_item", po_number: $("#reference_no option:selected").text()},
-            url: "php/php_ics.php",
+            data: {call_func: "get_items_all", po_numbers: $("#reference_no").val()},
+            url: "php/php_ptr.php",
             success: function(data){
-                if(data!=""){
-                    $("#item_name").html("<option disabled selected></option>").append(data);
-                    $("#item_name option").each(function() {
-                        if(!po_details[$("#reference_no option:selected").text()].hasOwnProperty(this.value)) {
-                            po_details[$("#reference_no option:selected").text()][this.value] = [this.text, 0, false];
-                        }
-                    });
-                }else{
-                    swal("Items are not available!", "Items of this PO are not inspected or maybe out of stocks!", "warning");
-                    $("#item_name").html("<option disabled selected></option>").append(data);
-                }
-            }
-        });
-    });
-    
-    $("#item_name").change(function(){
-        $.ajax({
-            type: "POST",
-            data: {call_func: "get_item_details", item_id: $("#item_name").val(), po_number: $("#reference_no option:selected").text()},
-            url: "php/php_ics.php",
-            dataType: "JSON",
-            success: function(data){
-                if(po_details[$("#reference_no option:selected").text()][$("#item_name").val()][2] == false){
-                    po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1] = data["stocks"];
-                    po_details[$("#reference_no option:selected").text()][$("#item_name").val()][2] = true;
-                }
-                $("#stock").val(po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1]);
-                $("#unit").val(data["unit"]);
-                $("#description").val(data["description"]);
-                $("#unit_value").val(formatNumber(data["unit_cost"]));
-                $("#category").val(data["category"]);
-                $("#serial_no").html("").append(data["sn_ln"]);
-                exp_date = data["exp_date"];
+                $("table#ptr_items tbody").html(data);
             }
         });
     });

@@ -86,16 +86,16 @@ function get_items_all(){
 			$quan_unit = explode(" ", $row["quantity"]);
 			if($quan_unit[0] != 0){
 				$tbody.="<tr>
-						<td style=\"border: thin solid black;\">".$row["po_id"]."</td>
+						<td hidden style=\"border: thin solid black;\">".$row["po_id"]."</td>
 		                <td style=\"border: thin solid black;\">".$po_numbers[$i]."</td>
 		                <td style=\"border: thin solid black;\">".$row["item_name"]."</td>
 		                <td style=\"border: thin solid black;\">".$row["description"]."</td>
-		                <td style=\"border: thin solid black;\">".$row["category"]."</td>
+		                <td hidden style=\"border: thin solid black;\">".$row["category"]."</td>
 		                <td style=\"border: thin solid black;\">".$row["sn_ln"]."</td>
 		                <td style=\"border: thin solid black;\">".$row["exp_date"]."</td>
 		                <td style=\"border: thin solid black;\">".$quan_unit[0]."</td>
 		                <td style=\"border: thin solid black;\"><input type=\"number\" onkeyup=\"validate_input_quantity(this, '".$quan_unit[0]."', '".$j."', '".$row["unit_cost"]."')\"></td>
-		                <td style=\"border: thin solid black;\">".$quan_unit[1]."</td>
+		                <td hidden style=\"border: thin solid black;\">".$quan_unit[1]."</td>
 		                <td style=\"border: thin solid black;\">".$row["unit_cost"]."</td>
 		                <td style=\"border: thin solid black;\"><span id=\"totid".$j."\"></span></td>
 		                <td style=\"border: thin solid black;\"></td>
@@ -570,72 +570,8 @@ function insert_ris2(){
 	}
 }
 
-function insert_ris(){
-	global $conn;
-	global $connhr;
-	date_default_timezone_set("Asia/Shanghai");
-	$time_now = date("H:i:s");
-	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);
-	$entity_name = mysqli_real_escape_string($conn, $_POST["entity_name"]);
-	$fund_cluster = mysqli_real_escape_string($conn, $_POST["fund_cluster"]);
-	$division = mysqli_real_escape_string($conn, $_POST["division"]);
-	$office = mysqli_real_escape_string($conn, $_POST["office"]);
-	$date = mysqli_real_escape_string($conn, $_POST["date"])." ".$time_now;
-	$rcc = mysqli_real_escape_string($conn, $_POST["rcc"]);
-	$requested_by_id = mysqli_real_escape_string($conn, $_POST["requested_by_id"]);
-	$requested_by = mysqli_real_escape_string($conn, $_POST["requested_by"]);
-	$issued_by_id = mysqli_real_escape_string($conn, $_POST["issued_by_id"]);
-	$issued_by = mysqli_real_escape_string($conn, $_POST["issued_by"]);
-	$approved_by_id = mysqli_real_escape_string($conn, $_POST["approved_by_id"]);
-	$approved_by = mysqli_real_escape_string($conn, $_POST["approved_by"]);
-	$purpose = mysqli_real_escape_string($conn, $_POST["purpose"]);
-	$items = $_POST["items"];
-	$reference_no = $items[0][1];
-
-	$query = mysqli_query($conn, "SELECT s.supplier, p.supplier_id FROM tbl_po AS p, ref_supplier AS s WHERE s.supplier_id = p.supplier_id AND p.po_number LIKE '$reference_no'");
-	$quer1 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$requested_by_id'");
-	$quer2 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$issued_by_id'");
-	$quer3 = mysqli_query($connhr, "SELECT d.designation, e.designation_fid FROM tbl_employee AS e, ref_designation AS d WHERE d.designation_id = e.designation_fid AND e.emp_id = '$approved_by_id'");
-
-	$supplier = mysqli_real_escape_string($conn, mysqli_fetch_assoc($query)["supplier"]);
-	$requested_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer1)["designation"]);
-	$issued_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer2)["designation"]);
-	$approved_by_designation = mysqli_real_escape_string($conn, mysqli_fetch_assoc($quer3)["designation"]);
-	if(mysqli_num_rows(mysqli_query($conn, "SELECT DISTINCT ris_no FROM tbl_ris WHERE ris_no = '$ris_no'"))==0){
-		$emp_id = $_SESSION["emp_id"];
-		$description = $_SESSION["username"]." created an RIS No. ".$ris_no;
-		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
-		echo "0";
-		for($i = 0; $i < count($items); $i++){
-			$po_id = $items[$i][0];
-			$ref_no = $items[$i][1];
-			$item = mysqli_real_escape_string($conn, $items[$i][2]);
-			$description = mysqli_real_escape_string($conn, $items[$i][3]);
-			$category = $items[$i][4];
-			$lot_no = $items[$i][5];
-			$exp_date = $items[$i][6];
-			$quantity = $items[$i][7];
-			$unit = $items[$i][8];
-			$cost = $items[$i][9];
-			$total = $items[$i][10];
-			$stock = $items[$i][11];
-			$remarks = $items[$i][12];
-			mysqli_query($conn, "INSERT INTO tbl_ris(ris_no,entity_name,fund_cluster,division,office,rcc,item,unit,description,category,quantity,unit_cost,total,available,quantity_stocks,remarks,reference_no,purpose,requested_by,requested_by_designation,issued_by,issued_by_designation,approved_by,approved_by_designation,tbl_ris.date,supplier,lot_no,exp_date,po_id) VALUES ('$ris_no','$entity_name','$fund_cluster','$division','$office','$rcc','$item','$unit','$description','$category','$quantity','$cost','$total','1','$stock','$remarks','$ref_no','$purpose','$requested_by','$requested_by_designation','$issued_by','$issued_by_designation','$approved_by','$approved_by_designation','$date','$supplier','$lot_no','$exp_date','$po_id')");
-			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$po_id' AND item_name LIKE '$item'");
-			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
-			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
-			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$po_id' AND item_name LIKE '$item'");
-		}
-	}else{
-		echo "1";
-	}
-}
-
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
 switch($call_func){
-	case "insert_ris":
-		insert_ris();
-		break;
 	case "get_records":
 		get_records();
 		break;

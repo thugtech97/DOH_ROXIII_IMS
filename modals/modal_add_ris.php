@@ -234,16 +234,16 @@
                         <table id="ris_items" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="border: thin solid black;"></th>
+                                    <th hidden style="border: thin solid black;"></th>
                                     <th style="border: thin solid black;">PO#</th>
                                     <th style="border: thin solid black;">Item</th>
                                     <th style="border: thin solid black;">Description</th>
-                                    <th style="border: thin solid black;">Category</th>
+                                    <th hidden style="border: thin solid black;">Category</th>
                                     <th style="border: thin solid black;">Lot#</th>
                                     <th style="border: thin solid black;">Exp. Date</th>
                                     <th style="border: thin solid black;">Stocks</th>
                                     <th style="border: thin solid black;">Quantity</th>
-                                    <th style="border: thin solid black;">Unit</th>
+                                    <th hidden style="border: thin solid black;">Unit</th>
                                     <th style="border: thin solid black;">Cost</th>
                                     <th style="border: thin solid black;">Total</th>
                                     <th style="border: thin solid black;">Remarks</th>

@@ -79,9 +79,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">PO Number:</label>
                                     <div class="col-lg-9">
-                                        <select id="reference_no" class="form-control select2_demo_1">
-                                            <option disabled selected></option>
-                                        </select>
+                                        <select id="reference_no" class="form-control select2_demo_1" multiple="multiple"></select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -138,6 +136,9 @@
                         </div>
                     </div>
                 </div>
+                
+                <!--
+
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <i class="fa fa-info-circle"></i> Item Information
@@ -257,6 +258,8 @@
                         </center>
                     </div>
                 </div>
+                !-->
+
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <i class="fa fa-list"></i> Item Lists
@@ -267,21 +270,21 @@
                                 <table id="ptr_items" class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th></th>
-                                            <th>PO Number</th>
-                                            <th>Item</th>
-                                            <th>Description</th>
-                                            <th>SN/LN</th>
-                                            <th>Expiry Date</th>
-                                            <th>Category</th>
-                                            <th>Property No</th>
-                                            <th>Quantity</th>
-                                            <th>Unit</th>
-                                            <th>Cost</th>
-                                            <th>Total</th>
-                                            <th>Condition</th>
-                                            <th>Remarks</th>
-                                            <th></th>
+                                            <th hidden style="border: thin solid black;"></th>
+                                            <th style="border: thin solid black;">PO Number</th>
+                                            <th style="border: thin solid black;">Item</th>
+                                            <th style="border: thin solid black;">Description</th>
+                                            <th style="border: thin solid black;">SN/LN</th>
+                                            <th style="border: thin solid black;">Expiry Date</th>
+                                            <th style="border: thin solid black;">Stocks</th>
+                                            <th hidden style="border: thin solid black;">Category</th>
+                                            <th style="border: thin solid black;">Property No</th>
+                                            <th style="border: thin solid black;">Quantity</th>
+                                            <th hidden style="border: thin solid black;">Unit</th>
+                                            <th style="border: thin solid black;">Cost</th>
+                                            <th style="border: thin solid black;">Total</th>
+                                            <th hidden style="border: thin solid black;">Condition</th>
+                                            <th style="border: thin solid black;">Remarks</th>
                                         </tr>
                                     </thead>
                                     <tbody>
