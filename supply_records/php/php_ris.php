@@ -326,7 +326,7 @@ function print_ris(){
 	        <td style=\"width: 108.6px; height: 15px; font-size: 12px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 3)."</td>
 	        <td style=\"width: 108.6px; height: 15px; font-size: 12px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * $row["unit_cost"], 3)."</td>
 	      </tr>";
-	      $rows_allocate+=round((float)strlen($row["item"]) + strlen($row["description"]) / 10.00);
+	      $rows_allocate++;
 		}
 	}
 	$the_rest = array("***Nothing Follows***","","","","PO #".$reference_no,$supplier);
