@@ -303,7 +303,7 @@ function print_ris_dm(){
 function print_ris(){
 	global $conn;
 
-	$rows_limit = 40;
+	$rows_limit = 45;
 	$rows_allocate = 0;
 	$ris_no = mysqli_real_escape_string($conn, $_POST["ris_no"]);$reference_no = "";
 	$entity_name = "";$fund_cluster = "";$division = "";$office = "";$rcc = "";$supplier = "";$all_total = 0.00;
@@ -326,7 +326,7 @@ function print_ris(){
 	        <td style=\"width: 108.6px; height: 15px; font-size: 12px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["unit_cost"], 3)."</td>
 	        <td style=\"width: 108.6px; height: 15px; font-size: 12px; text-align: center; vertical-align: center; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".number_format((float)$row["quantity"] * $row["unit_cost"], 3)."</td>
 	      </tr>";
-	      $rows_allocate+=round((float)strlen($row["item"]) + strlen($row["description"]) / 40.00);
+	      $rows_allocate+=round((float)strlen($row["item"]) + strlen($row["description"]) / 50.00);
 		}
 	}
 	$the_rest = array("***Nothing Follows***","","","","PO #".$reference_no,$supplier);
@@ -342,7 +342,7 @@ function print_ris(){
 	        <td style=\"width: 108.6px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 1px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	        <td style=\"width: 108.6px; height: 15px; text-align: left; font-size: 11px; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
 	      </tr>";
-	      $rows_allocate+=round((float)strlen($supplier) / 45.00);
+	      $rows_allocate++;
 	}
 	for($i = 0; $i < ($rows_limit - $rows_allocate); $i++){
 		$tbody.="<tr>
