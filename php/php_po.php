@@ -114,7 +114,7 @@ function item_name_search(){
 		$filter.=" AND po_number LIKE '$po_search'";
 	}
 	$po_option = "<option disabled selected></option>";
-	$query = "SELECT po_number, item_name, description, main_stocks, unit_cost, quantity, end_user FROM tbl_po WHERE item_name LIKE '$item_name'";
+	$query = "SELECT po_number, item_name, description, main_stocks, unit_cost, quantity, end_user FROM tbl_po WHERE item_name LIKE '$item_name' AND status LIKE 'Delivered'";
 
 	$sql = mysqli_query($conn, $query.$filter);
 	while($row = mysqli_fetch_assoc($sql)){
