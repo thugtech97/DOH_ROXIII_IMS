@@ -7,7 +7,7 @@ session_start();
 $username = mysqli_real_escape_string($connhr, $_POST["username"]);
 $password = mysqli_real_escape_string($connhr, $_POST["password"]);
 
-$sql = mysqli_query($connhr, "SELECT * FROM tbl_employee WHERE username = '$username' AND password = AES_ENCRYPT('$password', 'pass') AND (role = 'FINANCE' OR role = 'SUPPLY' OR role = 'SUPPLY_SU')");
+$sql = mysqli_query($connhr, "SELECT * FROM tbl_employee WHERE username = '$username' AND password = AES_ENCRYPT('$password', 'pass') AND (role = 'CMT - III' OR role = 'FINANCE' OR role = 'SUPPLY' OR role = 'SUPPLY_SU')");
 
 if(mysqli_num_rows($sql) != 0){
 	$row = mysqli_fetch_assoc($sql);
