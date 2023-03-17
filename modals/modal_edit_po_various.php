@@ -126,9 +126,13 @@
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <i class="fa fa-list"></i> Item Lists <button class="pull-right btn btn-xs" onclick="add_item_po($('#epo_number').val());"><i class="fa fa-plus"></i> Add item</button>
+                                <i class="fa fa-list"></i> Item Lists 
+                                <?php if($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU"){ ?>
+                                    <button class="pull-right btn btn-xs" onclick="add_item_po($('#epo_number').val());"><i class="fa fa-plus"></i> Add item</button>
+                                <?php } ?>
+                                
                             </div>
-                            <div class="panel-body" style="height: 235px; overflow: auto;">
+                            <div class="panel-body" style="height: 310px; overflow: auto;">
                                 <table id="eitem_various" class="table table-bordered">
                                     <thead>
                                         <tr>
