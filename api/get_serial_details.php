@@ -3,13 +3,15 @@
 require "../php/php_conn.php";
 
 $serial = mysqli_real_escape_string($conn, $_GET["serial"]);
-$sql = mysqli_query($conn, "SELECT * FROM tbl_ics WHERE serial_no LIKE '%$serial%'");
+$property_no = mysqli_real_escape_string($conn, $_GET["prop_no"]);
+
+$sql = mysqli_query($conn, "SELECT * FROM tbl_ics WHERE serial_no LIKE '%$serial%' OR property_no LIKE '%$property_no%'");
 
 if(mysqli_num_rows($sql) != 0){
 	$row = mysqli_fetch_assoc($sql);
 	echo json_encode(array(
 		"success"=>true,
-		"serial_no"=>$serial,
+		"serial_no"=>$row["serial_no"],
 		"ics_no"=>$row["ics_no"], 
 		"item"=>$row["item"], 
 		"description"=>$row["description"],
@@ -21,12 +23,12 @@ if(mysqli_num_rows($sql) != 0){
 		"quantity"=>$row["quantity"],
 		"cost"=>$row["cost"]));
 }else{
-	$sql = mysqli_query($conn, "SELECT * FROM tbl_par WHERE serial_no LIKE '%$serial%'");
+	$sql = mysqli_query($conn, "SELECT * FROM tbl_par WHERE serial_no LIKE '%$serial%' OR property_no LIKE '%$property_no%'");
 	if(mysqli_num_rows($sql) != 0){
 		$row = mysqli_fetch_assoc($sql);
 		echo json_encode(array(
 			"success"=>true,
-			"serial_no"=>$serial,
+			"serial_no"=>$row["serial_no"],
 			"par_no"=>$row["par_no"], 
 			"item"=>$row["item"], 
 			"description"=>$row["description"],
