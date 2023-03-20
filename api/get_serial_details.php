@@ -2,10 +2,9 @@
 
 require "../php/php_conn.php";
 
-$serial = mysqli_real_escape_string($conn, $_GET["serial"]);
-$property_no = mysqli_real_escape_string($conn, $_GET["prop_no"]);
 
-if($serial != null && $property_no != null){
+function api_process($serial, $property_no){
+	global $conn;
 	$sql_str = ($serial != null && $property_no == null ? "serial_no LIKE '%$serial%'" : "property_no LIKE '%$property_no%'");
 	$sql = mysqli_query($conn, "SELECT * FROM tbl_ics WHERE ".$sql_str."");
 
@@ -46,10 +45,19 @@ if($serial != null && $property_no != null){
 			echo json_encode(array("success"=>false,"serial_no"=>$serial));
 		}
 	}
+}
+
+
+$serial = mysqli_real_escape_string($conn, $_GET["serial"]);
+$property_no = mysqli_real_escape_string($conn, $_GET["prop_no"]);
+
+if(($serial != null && $property_no != null) || ($serial == null && $property_no != null) || ($serial != null && $property_no == null)){
+	api_process($serial, $property_no);
 }else{
 	http_response_code(402);
 	echo json_encode(array("success"=>false,"response_desc"=>"Please input both."));
 }
+	
 
 
 ?>
