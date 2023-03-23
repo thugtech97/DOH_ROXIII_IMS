@@ -2,6 +2,8 @@
 
 require "../php/php_conn.php";
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Origin, Cache-Control, Pragma, Authorization, Accept, Accept-Encoding");
 
 function api_process($serial, $property_no){
 	global $conn;
@@ -42,7 +44,7 @@ function api_process($serial, $property_no){
 				"cost"=>$row["cost"]));
 		}else{
 			http_response_code(404);
-			echo json_encode(array("success"=>false,"serial_no"=>$serial));
+			echo json_encode(array("success"=>false,"serial_no"=>$serial,"property_no"=>$property_no));
 		}
 	}
 }
