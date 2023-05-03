@@ -148,33 +148,11 @@ if(!isset($_SESSION["username"])){
                             <h3><i class="fa fa-clipboard"></i> Inspection and Acceptance Report</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="table-responsive">
-                                <table id="tbl_iar" class="table table-bordered table-hover dataTables-example" >
-                                    <thead>
-                                    <tr>
-                                        <th class="first_col"></th>
-                                        <th>PO No.</th>
-                                        <th>IAR No.</th>
-                                        <th>Requisitioning Office</th>
-                                        <th>Responsibility Center Code</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th colspan="7">
-                                                <center>
-                                                    <div class="spiner-example">
-                                                        <script type="text/javascript">
-                                                            var arr = ["<div class=\"sk-spinner sk-spinner-wave\"><div class=\"sk-rect1\"></div>&nbsp;<div class=\"sk-rect2\"></div>&nbsp;<div class=\"sk-rect3\"></div>&nbsp;<div class=\"sk-rect4\"></div>&nbsp;<div class=\"sk-rect5\"></div></div>", "<div class=\"sk-spinner sk-spinner-rotating-plane\"></div>", "<div class=\"sk-spinner sk-spinner-double-bounce\"><div class=\"sk-double-bounce1\"></div><div class=\"sk-double-bounce2\"></div></div>", "<div class=\"sk-spinner sk-spinner-wandering-cubes\"><div class=\"sk-cube1\"></div><div class=\"sk-cube2\"></div></div>", "<div class=\"sk-spinner sk-spinner-pulse\"></div>", "<div class=\"sk-spinner sk-spinner-chasing-dots\"><div class=\"sk-dot1\"></div><div class=\"sk-dot2\"></div></div>", "<div class=\"sk-spinner sk-spinner-three-bounce\"><div class=\"sk-bounce1\"></div><div class=\"sk-bounce2\"></div><div class=\"sk-bounce3\"></div></div>", "<div class=\"sk-spinner sk-spinner-circle\"><div class=\"sk-circle1 sk-circle\"></div><div class=\"sk-circle2 sk-circle\"></div><div class=\"sk-circle3 sk-circle\"></div><div class=\"sk-circle4 sk-circle\"></div><div class=\"sk-circle5 sk-circle\"></div><div class=\"sk-circle6 sk-circle\"></div><div class=\"sk-circle7 sk-circle\"></div><div class=\"sk-circle8 sk-circle\"></div><div class=\"sk-circle9 sk-circle\"></div><div class=\"sk-circle10 sk-circle\"></div><div class=\"sk-circle11 sk-circle\"></div><div class=\"sk-circle12 sk-circle\"></div></div>", "<div class=\"sk-spinner sk-spinner-cube-grid\"><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div><div class=\"sk-cube\"></div></div>", "<div class=\"sk-spinner sk-spinner-fading-circle\"><div class=\"sk-circle1 sk-circle\"></div><div class=\"sk-circle2 sk-circle\"></div><div class=\"sk-circle3 sk-circle\"></div><div class=\"sk-circle4 sk-circle\"></div><div class=\"sk-circle5 sk-circle\"></div><div class=\"sk-circle6 sk-circle\"></div><div class=\"sk-circle7 sk-circle\"></div><div class=\"sk-circle8 sk-circle\"></div><div class=\"sk-circle9 sk-circle\"></div><div class=\"sk-circle10 sk-circle\"></div><div class=\"sk-circle11 sk-circle\"></div><div class=\"sk-circle12 sk-circle\"></div></div>"];
-                                                            document.write(arr[Math.floor(Math.random() * arr.length)]);
-                                                        </script>
-                                                    </div>
-                                                </center>
-                                            </th>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                            <div class="pull-right">
+                                Search: <input type="text" name="search_box" id="search_box"/>
+                            </div>
+                            <div class="table-responsive" id="dynamic_content">
+
                             </div>
                         </div>
                     </div>
@@ -203,8 +181,10 @@ if(!isset($_SESSION["username"])){
         require "../assets/scripts_assets.php";
         require "../modals/modal_view_iss.php";
     ?>
-
-    <script src="js/js_iar.js"></script>
     <script src="js/js_general_functions.js"></script>
+    <script src="js/js_iar.js"></script>
+    <script type="text/javascript">
+        set_url("php/php_iar.php");
+    </script>
 </body>
 </html>

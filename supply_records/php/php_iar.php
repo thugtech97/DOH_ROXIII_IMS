@@ -411,15 +411,35 @@ function get_po(){
 	}
 }
 
-function get_iar(){
+function get_records(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT iar_id, iar_number, iar_type, po_number, req_office, res_cc FROM tbl_iar ORDER BY iar_id DESC");
-	if(mysqli_num_rows($sql) != 0){
+	$limit = '10';
+	$page = 1;
+	if($_POST["page"] > 1){
+	  $start = (($_POST["page"] - 1) * $limit);
+	  $page = $_POST["page"];
+	}else{
+	  $start = 0;
+	}
+
+	$query = "SELECT DISTINCT iar_id, iar_number, iar_type, po_number, req_office, res_cc FROM tbl_iar ";
+	if($_POST["search"] != ""){
+		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
+		$query.="WHERE iar_number LIKE '%$qs%' OR po_number LIKE '%$qs%' OR req_office LIKE '%$qs%' OR res_cc LIKE '%$qs%' ";
+	}
+	$query.="ORDER BY iar_id DESC ";
+	
+	$sql_orig = mysqli_query($conn, $query);
+	$sql = mysqli_query($conn, $query."LIMIT ".$start.", ".$limit."");
+	$tbody = "";
+	$total_data = mysqli_num_rows($sql_orig);
+
+	if($total_data != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$pn = $row["po_number"];
 			if($row["iar_type"] != "Drugs and Medicines" && $row["iar_type"] != "Medical Supplies"){
-				echo "<tr>
+				$tbody .= "<tr>
 				<td>".$row["iar_id"]."</td>
 				<td>".$row["po_number"]."</td>
 				<td>".$row["iar_number"]."</td>
@@ -428,7 +448,7 @@ function get_iar(){
 				<td><center><button class=\"btn btn-xs btn-primary dim\" value=\"".$row["iar_number"]."\" onclick=\"view_iss(this.value,'tbl_iar','view_iar','IAR','iar_number','".substr($pn,0,4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"".$row["iar_number"]."\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success ladda-button dim\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"".$row["iar_number"]."\" onclick=\"print_iar(this.value);\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button id=\"".$row["iar_number"]."\" class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning dim\" value=\"".$row["iar_number"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button>&nbsp;|&nbsp;<button class=\"btn btn-xs btn-default dim\" title=\"Notice of Delivery\" onclick=\"print_nod('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-truck\"></i></button>&nbsp;<button class=\"btn btn-xs btn-default dim\" title=\"Disbursement Voucher\" onclick=\"print_dv('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-credit-card\"></i></button>&nbsp;<button class=\"btn btn-xs btn-default dim\" title=\"Performance Evaluation\" onclick=\"print_pe('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-tasks\"></i></button></center></td>
 				</tr>";
 			}else{
-				echo "<tr>
+				$tbody .= "<tr>
 				<td>".$row["iar_id"]."</td>
 				<td>".$row["po_number"]."</td>
 				<td>".$row["iar_number"]."</td>
@@ -438,7 +458,12 @@ function get_iar(){
 				</tr>";
 			}
 		}
+	}else{
+		$tbody = "<tr><td colspan=\"6\" style=\"text-align: center;\">No data found.</td></tr>";
 	}
+	$in_out = create_table_pagination($page, $limit, $total_data, array("","PO No.","IAR No.","Requisitioning Office","Responsibility Center Code",""));
+	$whole_dom = $in_out[0]."".$tbody."".$in_out[1];
+	echo $whole_dom;
 }
 
 function insert_ntc(){
@@ -507,8 +532,8 @@ switch($call_func){
 	case "get_rcc":
 		get_rcc();
 		break;
-	case "get_iar":
-		get_iar();
+	case "get_records":
+		get_records();
 		break;
 	case "print_iar_gen":
 		print_iar_gen();

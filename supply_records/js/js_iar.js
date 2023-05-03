@@ -5,7 +5,7 @@ var po_type = "";
 var partial_specify = null;
 
 $(document).ready(function(){
-    get_iar();
+    
 });
 
 Date.prototype.toDateInputValue = (function() {
@@ -14,40 +14,6 @@ Date.prototype.toDateInputValue = (function() {
     return local.toJSON().slice(0,10);
 });
 
-function get_iar(){
-    $.ajax({
-        type: "POST",
-        url: "php/php_iar.php",
-        data: {call_func: "get_iar"},
-        success: function(data){
-            $("table#tbl_iar tbody").html(data);
-            create_datatable();
-        }
-    });
-}
-
-function create_datatable(){
-    $('.dataTables-example').DataTable({
-        pageLength: 10,
-        responsive: true,
-        dom: '<"html5buttons"B>lTfgitp',
-        buttons: [
-            { extend: 'copy'},
-            {extend: 'csv', title: 'IAR'},
-            {extend: 'excel', title: 'IAR'},
-            {extend: 'pdf', title: 'IAR'},
-            {extend: 'print',
-            customize: function (win){
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-                    $(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
-                }
-            }
-        ]
-    });
-    $(".first_col").click();
-    ready_all();
-}
 
 function save_changes(){
     switch(get_state()){
