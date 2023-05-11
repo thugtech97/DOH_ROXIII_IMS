@@ -1,9 +1,31 @@
+var designations = [];
+var selected = {"designation": "", "id": ""};
+
 $(document).ready(function(){
 	ready_all();
 });
 
 
 function ready_all(){
+	$.ajax({
+		type: "POST",
+		data: {call_func: "load_designation"},
+		dataType: "JSON",
+		url: "php/config.php",
+		success: function(data){
+			for (var i = 0; i < data.length; i++){
+				designations.push({"name": data[i].designation, "code": data[i].id})
+			}
+			$('#add_designation').typeahead({
+		        source: designations,
+		        afterSelect: function(item){
+		        	selected.designation = item.name;
+		        	selected.id          = item.code;
+		        }
+		    });
+		}
+	});
+
 	$(".select2_demo_1").select2({
         theme: 'bootstrap4',
         width: '100%'
@@ -31,6 +53,61 @@ function ready_all(){
     		}
     	});
     });
+    $("#users-list").ready(function(){
+    	$.ajax({
+    		url: "php/config.php",
+    		type: "POST",
+    		data: {call_func: "load_employee"},
+    		success: function(data){
+    			$("#users-list").html(data);
+    		}
+    	})
+    });
+
+}
+
+function capitalizeFirstLetter(element,str) {
+	element.value = (str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()).split('.').join("");
+}
+
+function capitalize(element,str) {
+	element.value = (str.toUpperCase()).split('.').join("");
+}
+
+function save_employee(){
+	if($("#add_fname").val().trim() != ""){
+		if($("#add_lname").val().trim() != ""){
+			if($("#add_designation").val().trim() != ""){
+				var job_id = ($("#add_designation").val() != selected.designation) ? 0 : selected.id;
+				$.ajax({
+					type: "POST",
+					url: "php/config.php",
+					data: {
+						call_func: "save_employee",
+						prefix: $("#add_honor").val().trim(),
+						fname: $("#add_fname").val().trim(),
+						mname: $("#add_mname").val().trim(),
+						lname: $("#add_lname").val().trim(),
+						suffix: $("#add_postn").val().trim(),
+						position: $("#add_designation").val().trim(),
+						position_id: job_id
+					},
+					success: function(data){
+						$("#modal_add_employee .close").click();
+						swal("Saved!", "New employee added.", "success");
+					}
+				})
+
+			}else{
+				swal("Please fill in!", "Designation", "warning");
+			}
+		}else{
+			swal("Please fill in!", "Lastname", "warning");
+		}
+	}else{
+		swal("Please fill in!", "Firstname", "warning");
+	}
+	
 }
 
 function get_data(){

@@ -2,6 +2,57 @@
 
 require "../../php/php_conn.php";
 
+session_start();
+
+function load_employee(){
+	global $connhr;
+
+	$sql = mysqli_query($connhr, "SELECT emp_id, fname, mname, lname, prefix, suffix FROM tbl_employee WHERE status LIKE 'Active' AND (job_status LIKE 'Regular' OR job_status LIKE '') ORDER BY fname ASC");
+	if(mysqli_num_rows($sql) != 0){
+		while($row = mysqli_fetch_assoc($sql)){
+			$name = (($row["prefix"] != null) ? $row["prefix"]." " : "")."".$row["fname"]." ".$row["mname"][0].". ".$row["lname"]."".(($row["suffix"] != null) ? ", ".$row["suffix"] : "");
+			echo "<div class=\"chat-user\">
+                        <span class=\"float-right label label-primary\">Active</span>
+                        <img class=\"chat-avatar\" src=\"../../archives/img/".$_SESSION['company_logo']."\">
+                        <div class=\"chat-user-name\">
+                            <p>".$name."</p>
+                        </div>
+                    </div>";
+		}
+	}
+}
+
+function load_designation(){
+	global $connhr;
+
+	$designations = array();
+	$sql = mysqli_query($connhr, "SELECT designation_id, designation FROM ref_designation");
+	while($row = mysqli_fetch_assoc($sql)){
+		array_push($designations, array("designation" => $row["designation"], "id" => $row["designation_id"]));
+	}
+
+	echo json_encode($designations);
+}
+
+function save_employee(){
+	global $connhr;
+
+	$prefix = mysqli_real_escape_string($connhr, $_POST["prefix"]);
+	$fname = mysqli_real_escape_string($connhr, $_POST["fname"]);
+	$mname = mysqli_real_escape_string($connhr, $_POST["mname"]);
+	$lname = mysqli_real_escape_string($connhr, $_POST["lname"]);
+	$suffix = mysqli_real_escape_string($connhr, $_POST["suffix"]);
+	$position = mysqli_real_escape_string($connhr, $_POST["position"]);
+	$position_id = mysqli_real_escape_string($connhr, $_POST["position_id"]);
+
+	if($position_id == 0){
+		mysqli_query($connhr, "INSERT INTO ref_designation(designation, status) VALUES('$position', '0')");
+		$position_id = mysqli_insert_id($connhr);
+	}
+
+	mysqli_query($connhr, "INSERT INTO tbl_employee(fname, mname, lname, prefix, suffix, designation_fid, status) VALUES('$fname', '$mname', '$lname', '$prefix', '$suffix', '$position_id', 'Active')");
+}
+
 function save_rep(){
 	global $conn;
 
@@ -74,6 +125,15 @@ switch($call_func){
 		break;
 	case "save_rep":
 		save_rep();
+		break;
+	case "load_employee":
+		load_employee();
+		break;
+	case "load_designation":
+		load_designation();
+		break;
+	case "save_employee":
+		save_employee();
 		break;
 }
 

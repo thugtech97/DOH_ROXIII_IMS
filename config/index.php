@@ -62,7 +62,7 @@
             </div>
             <br>
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-8">
                     <div class="ibox" style="border-style: solid; border-color: black; border-width: 1px;">
                         <div class="ibox-title">
                             <h5><i class="fa fa-building-o"></i> Organization Details</h5>
@@ -111,11 +111,7 @@
                             <hr>
                             <button class="btn btn-primary" onclick="save_organizational();">Save</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-9">
+                    </div><hr>
                     <div class="ibox" style="border-style: solid; border-color: black; border-width: 1px;">
                         <div class="ibox-title">
                             <h5><i class="fa fa-file-o"></i> Reporting Details</h5>
@@ -232,6 +228,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-4">
+                    <div class="ibox" style="border-style: solid; border-color: black; border-width: 1px;">
+                        <div class="ibox-title">
+                            <h5><i class="fa fa-users"></i> Active Employee List</h5>
+                            <button class="btn btn-xs btn-default pull-right" data-toggle="modal" data-target="#modal_add_employee"><i class="fa fa-plus"></i> Add Employee</button>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="chat-users" style="margin: 0px;">
+                                <div class="users-list" id="users-list">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <br><br>
             <div class="footer">
@@ -242,9 +253,12 @@
         </div>
     </div>
     <?php
+        require "modals/add_employee.php";
         require "../assets/small_chat.php";
         require "../assets/scripts_assets.php";
     ?>
+    <!-- Typehead -->
+    <script src="../js/plugins/typehead/bootstrap3-typeahead.min.js"></script>
     <script src="js/config.js"></script>
 </body>
 </html>
