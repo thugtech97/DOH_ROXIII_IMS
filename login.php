@@ -58,19 +58,46 @@ if(isset($_SESSION["username"])){
             <p class="font-size-20"></p>
             <div style="color: #fdec09;font-size: 18px;border-top: 1PX SOLID #BEBEBE;">
                 <br>
-                <b>NEW SYSTEM UPDATES:</b><br>
+                <b>NEW SYSTEM UPDATES (10/18/2023):</b><br>
                 <br>
                 <div class="row">
                     <div class="col-sm-12">
-                        - Can now add/delete items on existing RIS/PTR records.
+                        - Designation now appears instead of END USER when generating RIS.
                     </div>
                     <div class="col-sm-12">
-                        - ICS/PAR item-transfer feature enabled.
+                        - Edit Employee Details and change/update their designations.
+                    </div>
+                    <div class="col-sm-12">
+                        - Add and edit, new and existing designations.
                     </div>
                     <div class="col-sm-12">
                         - Minor bugs fixed.
                     </div>
                 </div>
+                <br>
+                <b>NEW SYSTEM UPDATES (12/22/2023):</b><br>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        - Added Warehouse Location in config for gate pass generation.
+                    </div>
+                    <div class="col-sm-12">
+                        - Minor bugs fixed.
+                    </div>
+                </div>
+                <br>
+                <b>Ongoing Development (12/22/2023):</b><br>
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        - Gate Pass Generation
+                    </div>
+                    <div class="col-sm-12">
+                        - Transfer between ICS/PAR/IRS
+                    </div>
+                </div>
+                <br>
+                <b>🎄 ༺𝓜𝓮𝓻𝓻𝔂༻༺𝓒𝓱𝓻𝓲𝓼𝓽𝓶𝓪𝓼༻🎄</b>
             </div>
        </div>
 

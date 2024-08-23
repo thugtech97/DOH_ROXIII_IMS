@@ -270,7 +270,7 @@
           </tr>
           <tr>
             <td colspan="4" style="width: 48px; height: 14.5px; text-align: center; font-size: 12px; border-left-color: rgb(0, 0, 0); border-left-width: 2px; border-left-style: solid;border-right-width: 1px; border-right-style: solid;border-bottom-width: 1px; border-bottom-style: solid;">Printed Name</td>
-            <td colspan="14" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; font-weight: bold;border-right-width: 2px; border-right-style: solid;border-bottom-width: 1px; border-bottom-style: solid;">JAY RYAN F. VILLASURDA, CPA</td>
+            <td colspan="14" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; font-weight: bold;border-right-width: 2px; border-right-style: solid;border-bottom-width: 1px; border-bottom-style: solid;">COURTNEY LOVE MARTIN, CPA</td>
             <td colspan="4" style="width: 48px; height: 14.5px; text-align: center; font-size: 12px;border-right-width: 1px; border-right-style: solid;border-bottom-width: 1px; border-bottom-style: solid;">Printed Name</td>
             <td colspan="11" style="width: 48px; height: 14.5px; text-align: center; font-size: 10px; font-weight: bold;border-right-width: 2px; border-right-style: solid;border-bottom-width: 1px; border-bottom-style: solid;"><?php echo strtoupper($_SESSION["company_head"]); ?></td>
           </tr>
@@ -282,7 +282,7 @@
           </tr>
           <tr>
             <td colspan="4" style="width: 48px; height: 14.5px; text-align: center; font-size: 11px; border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-bottom-width: 1px; border-left-width: 2px; border-bottom-style: solid; border-left-style: solid; border-right-width: 1px; border-right-style: solid;"></td>
-            <td colspan="14" style="width: 48px; height: 14.5px; text-align: center; font-size: 11px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-width: 2px; border-right-style: solid;">Head, Accounting Unit/Authorized Representative</td>
+            <td colspan="14" style="width: 48px; height: 14.5px; text-align: center; font-size: 11px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-width: 2px; border-right-style: solid;">Accountant III</td>
             <td colspan="4" style="width: 48px; height: 14.5px; text-align: center; font-size: 11px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-width: 1px; border-right-style: solid;"></td>
             <td colspan="11" style="width: 48px; height: 14.5px; text-align: center; font-size: 11px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-width: 2px; border-right-style: solid;">Agency Head/Authorized Representative</td>
           </tr>

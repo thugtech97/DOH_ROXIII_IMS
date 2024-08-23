@@ -295,7 +295,9 @@ function get_item_details(){
 				$sl_options.="<option value=\"".$rows["serial_no"]."\"><p style=\"font-color: black;\">".$rows["serial_no"]."</p></option>";
 			}	
 		}
-		echo json_encode(array("stocks"=>$q_u[0],"unit"=>$q_u[1],"description"=>$row["description"],"unit_cost"=>$row["unit_cost"],"exp_date"=>$row["exp_date"],"category"=>$row["category"],"sn_ln"=>$sl_options));
+		$category = $row["category"];
+		$code = mysqli_fetch_assoc(mysqli_query($conn, "SELECT category_code FROM ref_category WHERE category = '$category'"))["category_code"];
+		echo json_encode(array("stocks"=>$q_u[0],"unit"=>$q_u[1],"description"=>$row["description"],"unit_cost"=>$row["unit_cost"],"exp_date"=>$row["exp_date"],"category"=>$row["category"],"sn_ln"=>$sl_options,"code"=>$code));
 	}
 }
 
@@ -561,7 +563,11 @@ function insert_ics(){
 			}
 			$pns = explode(",", $property_no);
 			$pn = end($pns);
-			mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+			$currentDate = date('Y-m');
+			$pnDate = substr($pn, 0, 7);
+			if ($currentDate === $pnDate) {
+				mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+			}
 		}
 	}else{
 		echo "1";

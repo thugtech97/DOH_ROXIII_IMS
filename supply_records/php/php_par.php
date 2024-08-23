@@ -276,7 +276,11 @@ function insert_par(){
 			}
 			$pns = explode(",", $property_no);
 			$pn = end($pns);
-			mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+			$currentDate = date('Y-m');
+			$pnDate = substr($pn, 0, 7);
+			if ($currentDate === $pnDate) {
+				mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+			}
 		}
 	}else{
 		echo "1";

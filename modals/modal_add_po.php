@@ -1,4 +1,4 @@
-<div class="modal inmodal" id="add_po" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
+﻿<div class="modal inmodal" id="add_po" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
     <div class="modal-dialog modal-lg">
     <div class="modal-content animated slideInDown">
             <div class="modal-header">
@@ -82,6 +82,7 @@
                                                                     <option value="45 days">45 days</option>
                                                                     <option value="60 days">60 days</option>
                                                                     <option value="90 days">90 days</option>
+                                                                    <option value="120 days">120 days</option>
                                                                     <option value="Progress Billing">Progress Billing</option>
                                                                 </select>
                                                             </div>
@@ -163,7 +164,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-lg-2 col-form-label">Description:</label>
                                                             <div class="col-lg-10">
-                                                                <textarea id="description" class="tdesc" style="width:100%;height:90px;"></textarea>
+                                                                <textarea id="description" class="form-control tdesc" style="width:100%;height:90px;"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>

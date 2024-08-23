@@ -27,6 +27,29 @@ function formatNumber(num) {
 
 function total_amount(){
     $("#total_amount").val(formatNumber((parseFloat($("#quantity").val() == "" ? 0.00 : $("#quantity").val()) * parseFloat(origNumber($("#unit_value").val()))).toFixed(2)));
+    if($("#category").val()){
+        var quantity = parseInt($("#quantity").val());
+        var starting_property_no = $("#lbl_pn").html();
+
+        var parts = starting_property_no.split('-');
+        var prefix = parts[0] + '-' + parts[1] + '-';
+        var startNumber = parseInt(parts[2]);
+
+        var propertyNumbers = [];
+        for (var i = 0; i < quantity; i++) {
+            var nextNumber = (startNumber + i).toString().padStart(4, '0');
+            propertyNumbers.push(prefix + nextNumber + '-'+ $("#category").attr("data-code"));
+        }
+        var result = propertyNumbers.join(',');
+        //console.log(result);
+        if($("#category").val() != "Drugs and Medicines" && $("#category").val() != "Medical Supplies"){
+            if ($('#property_no')[0].selectize) {
+                $('#property_no')[0].selectize.destroy();
+                $('#property_no').val("")
+                initSelectize(result);
+            }
+        }
+    }
 }
 
 $('#ptr_items').on('click', 'tbody tr button', function(event) {
@@ -72,7 +95,7 @@ function validate(){
                                 if($("#to").val() != ""){
                                     if($("#received_from").val() != null){
                                         if($("#reason").val() != ""){
-                                            if(get_rows1() != 0){
+                                            if(get_rows() != 0){
                                                 $("#save_changes").attr("disabled", true);
                                                 $.ajax({
                                                     type: "POST",
@@ -234,6 +257,7 @@ function check_pn_exist(pn_){
                 $("#quantity").val("");
                 $("#serial_no").val(null).change();
                 $("#property_no")[0].selectize.clear();
+                //var selectize = $("#property_no")[0].selectize; selectize.off('change'); selectize.clear();
                 $("#remarks").val("");
                 $("#category").val("");
                 $("#conditions").val("");
@@ -317,18 +341,64 @@ function ready_all(){
             data: {call_func: "get_po", action: "get_number", po_type: "gen"},
             url: "php/php_iar.php",
             success: function(data){
-                $("#reference_no").append(data);
+                $("#reference_no").html("<option disabled selected></option>").append(data);
+                $("#reference_no option").each(function() {
+                    po_details[this.text] = {};
+                });
+                //$("#reference_no").append(data);
             }
         });
     });
 
     $("#reference_no").change(function(){
+        $("#item_name").val(null).change();
+        $("#stock").val("");
+        $("#category").val("");
+        $("#unit").val("");
+        $("#description").val("");
+        $("#unit_value").val("");
+        $("#conditions").val("");
+        $("#serial_no").val(null).change();
         $.ajax({
             type: "POST",
-            data: {call_func: "get_items_all", po_numbers: $("#reference_no").val()},
-            url: "php/php_ptr.php",
+            data: {call_func: "get_item", po_number: $("#reference_no option:selected").text()},
+            url: "php/php_ics.php",
             success: function(data){
-                $("table#ptr_items tbody").html(data);
+                if(data!=""){
+                    $("#item_name").html("<option disabled selected></option>").append(data);
+                    $("#item_name option").each(function() {
+                        if(!po_details[$("#reference_no option:selected").text()].hasOwnProperty(this.value)) {
+                            po_details[$("#reference_no option:selected").text()][this.value] = [this.text, 0, false];
+                        }
+                    });
+                }else{
+                    swal("Items are not available!", "Items of this PO are not inspected or maybe out of stocks!", "warning");
+                    $("#item_name").html("<option disabled selected></option>").append(data);
+                }
+            }
+        });
+    });
+
+
+    $("#item_name").change(function(){
+        $.ajax({
+            type: "POST",
+            data: {call_func: "get_item_details", item_id: $("#item_name").val(), po_number: $("#reference_no option:selected").text()},
+            url: "php/php_ics.php",
+            dataType: "JSON",
+            success: function(data){
+                if(po_details[$("#reference_no option:selected").text()][$("#item_name").val()][2] == false){
+                    po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1] = data["stocks"];
+                    po_details[$("#reference_no option:selected").text()][$("#item_name").val()][2] = true;
+                }
+                $("#stock").val(po_details[$("#reference_no option:selected").text()][$("#item_name").val()][1]);
+                $("#unit").val(data["unit"]);
+                $("#description").val(data["description"]);
+                $("#unit_value").val(formatNumber(data["unit_cost"]));
+                $("#category").val(data["category"]);
+                $("#category").attr("data-code", data["code"]);
+                $("#serial_no").html("").append(data["sn_ln"]);
+                exp_date = data["exp_date"];
             }
         });
     });
@@ -354,7 +424,11 @@ function ready_all(){
             ettype = $("#etransfer_type option:selected").text();
         }
     });
+    initSelectize("");
+}
 
+function initSelectize(value){
+    $('#property_no').val(value);
     $('#property_no').selectize({
         plugins: ['remove_button'],
         delimiter: ',',
@@ -363,10 +437,26 @@ function ready_all(){
             return {
                 value: input,
                 text: input
+            };
+        },
+        onChange: function(input) {
+            var inputs = input.split(",");
+            var lastInput = inputs.slice(-1)[0];
+            
+            if (!validatePropertyNo(lastInput)) {
+                inputs.pop();
+                
+                var selectize = $('#property_no')[0].selectize;
+                selectize.clearOptions();
+                selectize.addOption(inputs.map(item => ({value: item, text: item})));
+                selectize.setValue(inputs);
+
+                //swal("Please input a valid property number.","", "error");
             }
         }
     });
 }
+
 
 function to_issue(ptr_no, ref_no){
     $.ajax({
@@ -759,7 +849,7 @@ function insertAlloc(){
                 quantity: items_alloc[i][7],
                 property_no: items_alloc[i][8],
                 lot_serial: items_alloc[i][9]
-                },
+            },
             success: function(data){
                 if(counter == 0){
                     $("table#uploaded_alloc tbody").html("<tr><td>"+data["ptr_no"]+"</td><td>"+data["recipient"]+"</td><td><center><button class=\"btn btn-xs btn-info\" onclick=\""+((data["category"]=="Drugs and Medicines" || data["category"]=="Medical Supplies") ? "print_ptr('"+data["ptr_no"]+"','1')" : "print_ptr_gen('"+data["ptr_no"]+"')")+"\"><i class=\"fa fa-print\"></i></button></center></td></tr>");

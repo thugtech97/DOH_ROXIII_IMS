@@ -147,6 +147,7 @@ function ready_all(){
 				$("#description").val(data["description"]);
 				$("#unit_value").val(formatNumber(data["unit_cost"]));
 				$("#category").val(data["category"]);
+				$("#category").attr("data-code", data["code"]);
 				$("#serial_no").html("").append(data["sn_ln"]);
 			}
 		});
@@ -163,21 +164,63 @@ function ready_all(){
 		});
 	});
 	
-	$('#property_no').selectize({
-	    plugins: ['remove_button'],
-	    delimiter: ',',
-	    persist: false,
-	    create: function(input) {
-	        return {
-	            value: input,
-	            text: input
-	        }
-	    }
-	});
+	initSelectize("");
+}
+
+function initSelectize(value){
+    $('#property_no').val(value);
+    $('#property_no').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            };
+        },
+        onChange: function(input) {
+            var inputs = input.split(",");
+            var lastInput = inputs.slice(-1)[0];
+            
+            if (!validatePropertyNo(lastInput)) {
+                inputs.pop();
+                
+                var selectize = $('#property_no')[0].selectize;
+                selectize.clearOptions();
+                selectize.addOption(inputs.map(item => ({value: item, text: item})));
+                selectize.setValue(inputs);
+
+                //swal("Please input a valid property number.","", "error");
+            }
+        }
+    });
 }
 
 function total_amount(){
 	$("#total_amount").val(formatNumber((parseFloat($("#quantity").val() == "" ? 0.00 : $("#quantity").val()) * parseFloat(origNumber($("#unit_value").val()))).toFixed(2)));
+
+	if($("#category").val()){
+        var quantity = parseInt($("#quantity").val());
+        var starting_property_no = $("#lbl_pn").html();
+
+        var parts = starting_property_no.split('-');
+        var prefix = parts[0] + '-' + parts[1] + '-';
+        var startNumber = parseInt(parts[2]);
+
+        var propertyNumbers = [];
+        for (var i = 0; i < quantity; i++) {
+            var nextNumber = (startNumber + i).toString().padStart(4, '0');
+            propertyNumbers.push(prefix + nextNumber + '-'+ $("#category").attr("data-code"));
+        }
+        var result = propertyNumbers.join(',');
+        //console.log(result);
+        if ($('#property_no')[0].selectize) {
+            $('#property_no')[0].selectize.destroy();
+            $('#property_no').val("")
+            initSelectize(result);
+        }
+    }
 }
 
 $('#ics_items').on('click', 'tbody tr button', function(event) {

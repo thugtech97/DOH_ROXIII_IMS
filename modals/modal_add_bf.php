@@ -1,4 +1,4 @@
-<div class="modal inmodal" id="bal_fwd" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
+﻿<div class="modal inmodal" id="bal_fwd" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
     <div class="modal-dialog modal-lg">
     <div class="modal-content animated slideInDown">
             <div class="modal-header">
@@ -77,7 +77,7 @@
                                         <div class="form-group row">
                                             <label class="col-lg-2 col-form-label tdesc">Description:</label>
                                             <div class="col-lg-10">
-                                                <textarea id="bdescription" class="tdesc" style="width:100%;height:90px;"></textarea>
+                                                <textarea id="bdescription" class="form-control tdesc" style="width:100%;height:90px;"></textarea>
                                             </div>
                                         </div>
                                     </div>

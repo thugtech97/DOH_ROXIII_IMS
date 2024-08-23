@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 session_start();
 
@@ -184,7 +184,7 @@ if(!isset($_SESSION["username"])){
                         <h5>Items&nbsp;&nbsp;<span id="num_items" class="label label-success" style="border-radius: 10px;">0</span></h5>
                         <input type="text" id="searchkw" class="pull-right" placeholder="Search...">
                     </div>
-                    <div class="ibox-content" style="height: 450px;overflow:auto;">
+                    <div class="ibox-content" style="height: 100vh;overflow:auto;">
                         <div class="dd" id="nestable">
                             
                         </div>

@@ -188,7 +188,7 @@ if(!isset($_SESSION["username"])){
       </div>
     </div>
     !-->
-    <embed id="img_po" src="../archives/" type="application/pdf" height="1000" width="100%"/>
+    <embed id="img_po" src="php/filemanager.php" height="1000" width="100%"/>
 </div>
 <div class="footer">
     <div>

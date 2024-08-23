@@ -1,4 +1,4 @@
-<div class="modal inmodal" id="add_iar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
+﻿<div class="modal inmodal" id="add_iar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false" data-focus="false">
     <div class="modal-dialog modal-lg">
     <div class="modal-content animated slideInDown">
             <div class="modal-header">
@@ -125,11 +125,12 @@
                                                     <div class="col-lg-8">
                                                         <select id="var_inspector" class="select2_demo_1 form-control">
                                                             <option disabled selected></option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member, Member">Ma. Dorothy C. Hornido, RN|Diana L. Ebay|Claire A. Cañizares|Gina Urbiztondo|Nhyrma Fe C. Tabugoc|Laverne Lyn B. Odchigue</option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Gladys D. Buladaco, RN|Fernando L. Mina|Daryl A. Estrella|Liezel S. Lopez|Claire A. Cañizares</option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member, Member">Cheryl Mary L. Plaza, RN|Dorcas Ga-Dinhayan|Rossie Mae O. Tagudin|Sharon S. Coja, RN|Phoebie Rhanie Demata-Buque, RN|Claire A. Cañizares</option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member, Member">Emmi Marie J. Cabahug, RN|Joy Dyana V. Cervantes, RN|Nadine Joyce C. Torres, RMT|Engr. Leore Ann M. Bagulor|Maryfe N. Rosales, RN|Claire A. Cañizares</option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Neil H. Nituda, RMT|Marlon A. Cahayon|Daryl A. Estrella|Fernando L. Mina|Claire A. Cañizares</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member, Member">Ma. Dorothy C. Hornido, RN|Nhyrma Fe C. Tabugoc|Claire A. Cañizares</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Gladys D. Buladaco, RN|Fernando L. Mina|Daryl A. Estrella|Claire A. Cañizares</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member, Member">Dorcas Ga-Dinhayan|Rossie Mae O. Tagudin|Claire A. Cañizares|Ana Liza Ruñes</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member, Member">Joy Dyana V. Cervantes, RN | Nadine Joyce C. Torres, RMT | Engr. Leore Ann M. Bagulor | Claire A. Cañizares</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Neil H. Nituda | Fernando L. Mina jr. | Daryl A. Estrella | Kevin Brian G. Manlunas | Vincent Lennon V. Catalan</option>
+                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Ma. Antonette A. Fernandez | Liezel S. Lopez | Telesa Shena Dagani-Casaña | Lovelie Joy O. Montañez</option>
                                                         </select>
                                                     </div>
                                                 </div>

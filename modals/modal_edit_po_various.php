@@ -55,6 +55,7 @@
                                             <option value="45 days">45 days</option>
                                             <option value="60 days">60 days</option>
                                             <option value="90 days">90 days</option>
+                                            <option value="120 days">120 days</option>
                                             <option value="Progress Billing">Progress Billing</option>
                                         </select>
                                     </div>

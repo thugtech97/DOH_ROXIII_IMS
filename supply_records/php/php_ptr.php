@@ -96,26 +96,23 @@ function get_items_all(){
 		while($row = mysqli_fetch_assoc($sql)){
 			$quan_unit = explode(" ", $row["quantity"]);
 			if($quan_unit[0] != 0){
-				$option_sn_ln = ""; $sn_ln = explode("|", $row["sn_ln"]);
-				for($k = 0; $k < count($sn_ln) - 1; $k++){
-					$option_sn_ln.="<option>".$sn_ln[$k]."</option>";
-				}
 				$tbody.="<tr>
-						<td hidden style=\"border: thin solid black;\">".$row["po_id"]."</td>
+						<td style=\"border: thin solid black;\">".$row["po_id"]."</td>
 		                <td style=\"border: thin solid black;\">".$po_numbers[$i]."</td>
 		                <td style=\"border: thin solid black;\">".$row["item_name"]."</td>
 		                <td style=\"border: thin solid black;\">".$row["description"]."</td>
-		                <td style=\"border: thin solid black;\"><select>".$option_sn_ln."</select></td>
+		                <td style=\"border: thin solid black;\">".$row["sn_ln"]."</td>
 		                <td style=\"border: thin solid black;\">".$row["exp_date"]."</td>
+						<td style=\"border: thin solid black;\">".$row["category"]."</td>
+		                <td style=\"border: thin solid black;\"><input id=\"property_no\" type=\"text\" class=\"form-control\"></td>
+		                <td style=\"border: thin solid black;\"><input type=\"number\" onkeyup=\"validate_input_quantity(this, '".$quan_unit[0]."', '".$j."', '".$row["unit_cost"]."')\"></td>
 		                <td style=\"border: thin solid black;\">".$quan_unit[0]."</td>
-		                <td hidden style=\"border: thin solid black;\">".$row["category"]."</td>
-		                <td style=\"border: thin solid black;\"><input style=\"width: 120px;\" type=\"text\"></td>
-		                <td style=\"border: thin solid black;\"><input style=\"width: 50px;\" type=\"number\" onkeyup=\"validate_input_quantity(this, '".$quan_unit[0]."', '".$j."', '".$row["unit_cost"]."')\"></td>
-		                <td hidden style=\"border: thin solid black;\">".$quan_unit[1]."</td>
+						<td style=\"border: thin solid black;\">".$quan_unit[1]."</td>
 		                <td style=\"border: thin solid black;\">".$row["unit_cost"]."</td>
 		                <td style=\"border: thin solid black;\"><span id=\"totid".$j."\"></span></td>
-		                <td hidden style=\"border: thin solid black;\"><input type=\"text\"></td>
 		                <td style=\"border: thin solid black;\"><input type=\"text\"></td>
+						<td style=\"border: thin solid black;\"><input type=\"text\"></td>
+		                <td style=\"border: thin solid black;\"></td>
 	                </tr>";
 	                $j++;
 			}
@@ -517,16 +514,15 @@ function insert_ptr(){
 			$description = mysqli_real_escape_string($conn, $items[$i][3]);
 			$serial_no = mysqli_real_escape_string($conn, $items[$i][4]);
 			$exp_date = $items[$i][5];
-			$stocks = $items[$i][6];
-			$category = $items[$i][7];
-			$property_no = $items[$i][8];
-			$quantity = $items[$i][9];
-			$unit = $items[$i][10];
-			$cost = $items[$i][11];
-			$total = $items[$i][12];
-			$conditions = $items[$i][13];
-			$remarks = $items[$i][14];
-			mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,stock,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,po_id) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$ref_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$stocks','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address','$alloc_num','$storage_temp','$transport_temp','$item_id')");
+			$category = $items[$i][6];
+			$property_no = $items[$i][7];
+			$quantity = $items[$i][8];
+			$unit = $items[$i][9];
+			$cost = $items[$i][10];
+			$total = $items[$i][11];
+			$conditions = $items[$i][12];
+			$remarks = $items[$i][13];
+			mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,po_id) VALUES('$ptr_no','$entity_name','$fund_cluster','$from','$to','$transfer_type','$ref_no','$item','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$cost','$total','$conditions','$remarks','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address','$alloc_num','$storage_temp','$transport_temp','$item_id')");
 			$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_number = '$ref_no' AND po_id = '$item_id'");
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
@@ -542,7 +538,11 @@ function insert_ptr(){
 				if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
 					$pns = explode(",", $property_no);
 					$pn = end($pns);
-					mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+					$currentDate = date('Y-m');
+					$pnDate = substr($pn, 0, 7);
+					if ($currentDate === $pnDate) {
+						mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+					}
 				}
 			}
 		}
