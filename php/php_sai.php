@@ -101,6 +101,7 @@ function insert_sai(){
 	$prep_by = mysqli_real_escape_string($conn, $_POST["prep_by"]);
 	$prep_des = mysqli_real_escape_string($conn, $_POST["prep_des"]);
 	$items = $_POST["items"];
+	$currentDateTime = date('Y-m-d H:i:s');
 
 	for($i = 0; $i < count($items); $i++){
 		$wfp_code = $items[$i][0];
@@ -118,7 +119,7 @@ function insert_sai(){
 function get_sai_reports(){
 	global $conn;
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT sai_no, division, office FROM tbl_sai ORDER BY sai_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT sai_no, division, office FROM tbl_sai ORDER BY id DESC");
 	$tbody = "";
 	$count = mysqli_num_rows($sql);
 	if($count != 0){
@@ -175,7 +176,7 @@ function print_sai(){
 		              </tr>";
 	}
 
-	echo json_encode(array("tbody"=>$tbody, "division"=>$division, "office"=>$office, "purpose"=>$purpose, "inquired_by"=>$inquired_by, "inquired_by_designation"=>$inquired_by_designation));
+	echo json_encode(array("tbody"=>$tbody, "division"=>$division, "office"=>$office, "purpose"=>$purpose, "inquired_by"=>strtoupper($inquired_by), "inquired_by_designation"=>$inquired_by_designation));
 }
 
 function delete_sai(){

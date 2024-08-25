@@ -250,7 +250,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-form-label">Description:</label>
                                     <div class="col-lg-10">
-                                        <textarea id="e_description" class="tdesc" style="width:100%;height:90px;"></textarea>
+                                        <textarea id="e_description" class="tdesc form-control" style="width:100%;height:90px;"></textarea>
                                     </div>
                                 </div>
                             </div>

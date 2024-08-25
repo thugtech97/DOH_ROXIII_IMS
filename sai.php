@@ -139,7 +139,7 @@ if(!isset($_SESSION["username"])){
 
 <?php
 
-if($_SESSION["username"] == "jbescol") {
+if(isset($_SESSION["username"])) {
 
 ?>
         <br>

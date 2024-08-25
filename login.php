@@ -58,46 +58,25 @@ if(isset($_SESSION["username"])){
             <p class="font-size-20"></p>
             <div style="color: #fdec09;font-size: 18px;border-top: 1PX SOLID #BEBEBE;">
                 <br>
-                <b>NEW SYSTEM UPDATES (10/18/2023):</b><br>
+                <b>NEW SYSTEM UPDATES (08/22/2024):</b><br>
                 <br>
                 <div class="row">
-                    <div class="col-sm-12">
-                        - Designation now appears instead of END USER when generating RIS.
+                    <div class="col-sm-8">
+                        - PTR issuance now allows the selection of multiple serial numbers, along with the entry of property numbers.
                     </div>
-                    <div class="col-sm-12">
-                        - Edit Employee Details and change/update their designations.
+                    <div class="col-sm-8 mt-4">
+                        - Property numbers are now automatically generated when entering the quantity, applicable to all categories except drugs, medicines, and medical supplies (ICS/PAR/PTR).
                     </div>
-                    <div class="col-sm-12">
-                        - Add and edit, new and existing designations.
-                    </div>
-                    <div class="col-sm-12">
-                        - Minor bugs fixed.
+                    <div class="col-sm-8 mt-4">
+                        - Bugfix on property number sequencing, ensuring that the current sequence remains unaffected  when encoding and backlogging past issuances or transferring items from an old user to a new user (ICS/PAR/PTR).
                     </div>
                 </div>
-                <br>
-                <b>NEW SYSTEM UPDATES (12/22/2023):</b><br>
-                <br>
-                <div class="row">
-                    <div class="col-sm-12">
-                        - Added Warehouse Location in config for gate pass generation.
-                    </div>
-                    <div class="col-sm-12">
-                        - Minor bugs fixed.
-                    </div>
+                <div class="mt-4">
+                    <video width="640" height="360" controls autoplay loop style="border: 2px solid #BEBEBE; border-radius: 10px;">
+                        <source src="imgsys/IMS ‑ Made with FlexClip.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
-                <br>
-                <b>Ongoing Development (12/22/2023):</b><br>
-                <br>
-                <div class="row">
-                    <div class="col-sm-12">
-                        - Gate Pass Generation
-                    </div>
-                    <div class="col-sm-12">
-                        - Transfer between ICS/PAR/IRS
-                    </div>
-                </div>
-                <br>
-                <b>🎄 ༺𝓜𝓮𝓻𝓻𝔂༻༺𝓒𝓱𝓻𝓲𝓼𝓽𝓶𝓪𝓼༻🎄</b>
             </div>
        </div>
 
