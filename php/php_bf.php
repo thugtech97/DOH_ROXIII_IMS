@@ -17,7 +17,7 @@ function save_bf(){
 		$description = mysqli_real_escape_string($conn, $items[$i][2]);
 		$category = $items[$i][3];
 		$sn_ln = $items[$i][4];
-		$exp_date = $items[$i][5];
+		$exp_date = empty($items[$i][5]) ? NULL : $items[$i][5]; // Set to NULL if empty;
 		$unit_cost = $items[$i][6];
 		$quantity = $items[$i][7];
 		$main_stocks = explode(" ", $quantity)[0];
