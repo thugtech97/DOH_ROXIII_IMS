@@ -581,7 +581,7 @@ function get_po() {
     $start = ($page - 1) * $limit;
 
     // Prepare base query
-    $query = "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, 
+    $query = "SELECT DISTINCT p.po_id, p.po_number, p.remarks, p.status, p.inspection_status, 
                       p.procurement_mode, s.supplier, 
                       SUBSTRING(p.date_received, 1, 10) AS date_r, 
                       p.delivery_term, p.date_conformed, 
@@ -592,11 +592,13 @@ function get_po() {
               WHERE 1=1 ";
 
     // Search filter
+    $search_param = '';
     if (!empty($_POST["search"])) {
         $qs = mysqli_real_escape_string($conn, $_POST["search"]);
         $query .= " AND (p.end_user LIKE ? OR p.po_number LIKE ? OR p.status LIKE ? 
                          OR p.procurement_mode LIKE ? OR s.supplier LIKE ? 
                          OR p.item_name LIKE ?)";
+        $search_param = '%' . $qs . '%';
     }
 
     // Order and limit
@@ -605,9 +607,8 @@ function get_po() {
     // Prepare statement
     if ($stmt = mysqli_prepare($conn, $query)) {
         // Bind parameters
-        $search_param = '%' . $qs . '%';
         if (!empty($_POST["search"])) {
-            mysqli_stmt_bind_param($stmt, 'ssssssi', $search_param, $search_param, $search_param, 
+            mysqli_stmt_bind_param($stmt, 'ssssssii', $search_param, $search_param, $search_param, 
                 $search_param, $search_param, $search_param, $start, $limit);
         } else {
             mysqli_stmt_bind_param($stmt, 'ii', $start, $limit);
@@ -675,7 +676,6 @@ function get_po() {
         echo "Error preparing statement: " . mysqli_error($conn);
     }
 }
-
 
 function edit_po_various(){
 	global $conn;
