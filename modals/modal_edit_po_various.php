@@ -55,7 +55,6 @@
                                             <option value="45 days">45 days</option>
                                             <option value="60 days">60 days</option>
                                             <option value="90 days">90 days</option>
-                                            <option value="120 days">120 days</option>
                                             <option value="Progress Billing">Progress Billing</option>
                                         </select>
                                     </div>
@@ -141,8 +140,9 @@
                                             <th>Item Name</th>
                                             <th>Description</th>
                                             <th>Unit Cost</th>
-                                            <th>IN</th>
-                                            <th>Quantity</th>
+                                            <th>Original Quantity</th>
+                                            <th>Remaining</th>
+                                            <th>Quantity Received</th>
                                             <th>Total Amount</th>
                                             <th></th>
                                         </tr>
@@ -250,7 +250,7 @@
                                 <div class="form-group row">
                                     <label class="col-lg-2 col-form-label">Description:</label>
                                     <div class="col-lg-10">
-                                        <textarea id="e_description" class="tdesc form-control" style="width:100%;height:90px;"></textarea>
+                                        <textarea id="e_description" class="tdesc" style="width:100%;height:90px;"></textarea>
                                     </div>
                                 </div>
                             </div>

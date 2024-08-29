@@ -289,43 +289,61 @@ function edit_description(){
 	echo get_po_items($po);
 }
 
-function update_quantity(){
-	global $conn;
 
-	$po_id = mysqli_real_escape_string($conn, $_POST["po_id"]);
-	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-	$quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
-	$item_name = ""; $rstocks = "";
-	if($quantity != null){
-		$query_get_stocks = mysqli_query($conn, "SELECT item_name, quantity FROM tbl_po WHERE po_id = '$po_id'");
-		$row = mysqli_fetch_assoc($query_get_stocks);
-		$rstocks = explode(" ", $row["quantity"]);
-		$item_name = $row["item_name"];
-		$newrstocks = $quantity." ".$rstocks[1];
-		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks', main_stocks = '$quantity' WHERE po_id = '$po_id'");
-		
-		$emp_id = $_SESSION["emp_id"];
-		$description = $_SESSION["username"]." modified the quantity of ".$item_name." from ".$rstocks[0]." ".$rstocks[1]." to ".$quantity." ".$rstocks[1]." - PO#".$po_number;
-		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
-	}
-	$sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
-	$tbody = "";
-	$tot_amt = 0.00;
-	while($row = mysqli_fetch_assoc($sql)){
-		$tbody.="<tr>
-				<td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
-				<td>".$row["item_name"]."</td>
-				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
-				<td>".number_format((float)$row["unit_cost"], 3)."</td>
-				<td>".$row["main_stocks"]."</td>
-				<td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
+
+function update_quantity(){
+    global $conn;
+
+    $po_id = mysqli_real_escape_string($conn, $_POST["po_id"]);
+    $po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+    $quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
+    $remaining_quantity = "";
+    $quantity_received = "";
+
+    $item_name = ""; 
+    $rstocks = "";
+
+    if($quantity != null){
+        $query_get_stocks = mysqli_query($conn, "SELECT item_name, main_stocks, quantity FROM tbl_po WHERE po_id = '$po_id'");
+        $row = mysqli_fetch_assoc($query_get_stocks);
+        $rstocks = explode(" ", $row["quantity"]);
+        $item_name = $row["item_name"];
+        $main_stocks = $row["main_stocks"];
+        $quantity_received = $quantity; 
+        $new_quantity = $main_stocks - $quantity_received;
+		$remaining_quantity = $new_quantity - $quantity;
+        $newrstocks = $quantity_received." ".$rstocks[1];
+
+
+        mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks', main_stocks = '$main_stocks' WHERE po_id = '$po_id'");
+
+        $emp_id = $_SESSION["emp_id"];
+        $description = $_SESSION["username"]." modified the quantity of ".$item_name." from ".$rstocks[0]." ".$rstocks[1]." to ".$quantity_received." ".$rstocks[1]." - PO#".$po_number;
+        mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+    }
+
+    $sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
+    $tbody = "";
+    $tot_amt = 0.00;
+
+    while($row = mysqli_fetch_assoc($sql)){
+        $tbody.="<tr>
+                <td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
+                <td>".$row["item_name"]."</td>
+                <td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
+                <td>".number_format((float)$row["unit_cost"], 3)."</td>
+                <td>".$main_stocks."</td>
+                <td>".$remaining_quantity."</td>
+                <td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 3)."</td>
-				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
-			</tr>";
-			$tot_amt+=((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]);
-	}
-	echo json_encode(array("tbody"=>$tbody, "tot_amt"=>$tot_amt));
+                <td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
+            </tr>";
+            $tot_amt+=((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]);
+    }
+    echo json_encode(array("tbody"=>$tbody, "tot_amt"=>$tot_amt));
 }
+
+
 
 function add_serials(){
 	global $conn;
@@ -699,6 +717,10 @@ function edit_po_various(){
 	$tot_amt = 0.00;
 
 	while($row = mysqli_fetch_assoc($sql)){
+		$main_stocks = (float)$row["main_stocks"];
+        $quantity = (float)explode(" ", $row["quantity"])[0]; // Assuming quantity is a number followed by a unit
+        $remaining_quantity = $main_stocks - $quantity;
+
 		$date_received = $row["dr"];
 		$delivery_term = $row["delivery_term"];
 		$payment_term = $row["payment_term"];
@@ -718,7 +740,8 @@ function edit_po_various(){
 					<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn,$row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
 					<td>".number_format((float)$row["unit_cost"], 3)."</td>
 					<td>".$row["main_stocks"]."</td>
-					<td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
+					<td>".$remaining_quantity."</td>
+					<td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU")) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 					<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 3)."</td>
 					<td><center>".($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU" ? (($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>") : "")."</center></td>
 				</tr>";
