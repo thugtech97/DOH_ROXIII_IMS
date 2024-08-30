@@ -72,8 +72,7 @@
       </tr>
       <tr>
         <td colspan="4" style="width: 50.4px; height: 30.75px; text-align: center; font-size: 14px; font-style: italic; font-weight: bold; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;">Requisition</td>
-        <td colspan="2" style="width: 37.2px; height: 30.75px; text-align: center; font-size: 12px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;border-right-width: 2px;border-right-color: rgb(0, 0, 0);border-right-style: solid;">Stock Available?</td>
-        <td style="width: 37.8px; height: 30.75px; text-align: center; font-size: 12px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
+        <td colspan="3" style="width: 37.2px; height: 30.75px; text-align: center; font-size: 12px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;border-right-width: 2px;border-right-color: rgb(0, 0, 0);border-right-style: solid;">Stock Available</td>
         <td style="width: 45.6px; height: 30.75px; text-align: center; font-size: 14px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
         <td style="width: 52.2px; height: 30.75px; text-align: center; font-size: 14px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
         <td style="width: 78.6px; height: 30.75px; text-align: center; font-size: 14px; font-style: italic; font-weight: bold; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 2px; border-bottom-style: solid;"></td>
@@ -84,7 +83,7 @@
         <td style="width: 50.4px; height: 19.5px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 1px; border-left-width: 2px; border-right-style: solid; border-left-style: solid;">Stock No.</td>
         <td style="width: 35.4px; height: 19.5px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;">Unit</td>
         <td style="width: 153.6px; height: 19.5px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-right-width: 1px; border-right-style: solid;">Description</td>
-        <td style="width: 54.6px; height: 19.5px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Quantity</td>
+        <td style="width: 54.6px; height: 19.5px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Requested QTY</td>
         <td style="width: 37.2px; height: 19.5px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Yes</td>
         <td style="width: 34.2px; height: 19.5px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">No</td>
         <td style="width: 37.8px; height: 19.5px; text-align: center; font-size: 10px; border-right-color: rgb(0, 0, 0); border-right-width: 2px; border-right-style: solid;">Quantity</td>
