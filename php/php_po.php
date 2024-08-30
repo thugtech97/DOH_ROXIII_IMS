@@ -581,7 +581,7 @@ function get_po() {
     $start = ($page - 1) * $limit;
 
     // Prepare base query
-    $query = "SELECT DISTINCT p.po_id, p.po_number, p.remarks, p.status, p.inspection_status, 
+    $query = "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, 
                       p.procurement_mode, s.supplier, 
                       SUBSTRING(p.date_received, 1, 10) AS date_r, 
                       p.delivery_term, p.date_conformed, 

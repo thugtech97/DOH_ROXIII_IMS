@@ -21,7 +21,7 @@
                 </div>
                 <hr>
                 <div class="ibox">
-                    <div class="ibox-content" style="height: 750px; overflow: auto; color: black;">
+                    <div class="ibox-content" style="height: 100vh; overflow: auto; color: black;">
                         <center>
                             <?php
                                 require "reports/report_nod.php";
@@ -60,7 +60,7 @@
                 </div>
                 <hr>
                 <div class="ibox">
-                    <div class="ibox-content" style="height: 750px; overflow: auto; color: black;">
+                    <div class="ibox-content" style="height: 100vh; overflow: auto; color: black;">
                         <center>
                             <?php
                                 require "reports/report_dv.php";
@@ -89,7 +89,7 @@
                 </div>
                 <div class="ibox">
                     <br>
-                    <div class="ibox-content" style="height: 750px; overflow: auto; color: black;">
+                    <div class="ibox-content" style="height: 100vh; overflow: auto; color: black;">
                         <center>
                             <?php
                                 require "reports/report_pes.php";

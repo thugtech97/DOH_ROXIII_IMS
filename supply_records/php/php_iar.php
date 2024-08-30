@@ -398,12 +398,14 @@ function get_po(){
 							<td><center><input type=\"checkbox\" checked></center></td>
 						</tr>";
 			}
+			$iar_number = get_latest_iar($supplier);
 			echo json_encode(array("supplier"=>$supplier, 
 				"date_delivered"=>$date_delivered, 
 				"date_conformed"=>$date_conformed, 
 				"tbody"=>$tbody, 
 				"end_user"=>$end_user,
 				"po_type"=>$po_type,
+				"iar_number"=>$iar_number,
 				"success"=>true));
 		}else{
 			echo json_encode(array("success"=>false));
@@ -516,6 +518,21 @@ function insert_various(){
 	}else{
 		echo "1";
 	}
+}
+
+function get_latest_iar($supplier){
+	global $conn; $latest_iar = "";
+	
+	$yy_mm = date('Y-m');
+	$sql = mysqli_query($conn, "SELECT DISTINCT iar_number FROM tbl_iar WHERE iar_number LIKE '%$yy_mm%' ORDER BY iar_id DESC LIMIT 1");
+	if(mysqli_num_rows($sql) != 0){
+		$row = mysqli_fetch_assoc($sql);
+		$latest_iar = str_pad(((int)substr($row["iar_number"], -4)) + 1, 4, '0', STR_PAD_LEFT); 
+	}else{
+		$latest_iar = "0001";
+	}
+
+	return $yy_mm."-".($supplier == "Central Office" ? "CO" : "PO").$latest_iar;
 }
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);

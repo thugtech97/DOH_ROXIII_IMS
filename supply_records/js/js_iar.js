@@ -61,6 +61,7 @@ function ready_all(){
                     swal("Inspection done!","Items were already inspected","success");
                 }
                 $("#var_sn").val(data["supplier"]);
+                $("#var_iar").val(data["iar_number"]);
                 $("#var_dated").val(data["date_delivered"]);
                 $("#var_datec").val(data["date_conformed"]);
                 $("table#var_items tbody").html("").append(data["tbody"]);

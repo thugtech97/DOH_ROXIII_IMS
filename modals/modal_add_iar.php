@@ -64,7 +64,7 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-4 col-form-label">IAR Number:</label>
-                                                    <input id="var_iar" type="text" class="col-lg-8 form-control">
+                                                    <input id="var_iar" type="text" class="col-lg-8 form-control" disabled>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-4 col-form-label">Date Delivered:</label>
