@@ -31,14 +31,15 @@
             <li class="<?php echo $uri == 'po.php' ? 'active' : ''; ?>">
                 <a href="<?php echo $base_url; ?>/po.php"><i class="fa fa-list-alt"></i> <span class="nav-label">Purchase Orders</span></a>
             </li>
-            <li class="<?php echo $uri == 'iar.php' || $uri == 'ics.php' || $uri == 'par.php' || $uri == 'ris.php' || $uri == 'ptr.php' ? 'active' : ''; ?>">
+            <li class="<?php echo $uri == 'iar.php' || $uri == 'ics.php' || $uri == 'par.php' || $uri == 'ris.php' || $uri == 'ptr.php' || $uri == 'rfi.php' ? 'active' : ''; ?>">
                 <a href=""><i class="fa fa-clipboard"></i> <span class="nav-label"><?php echo $_SESSION["link1"]; ?></span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li class="<?php echo $uri == 'iar.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/iar.php"><i class="fa fa-clipboard"></i> IAR</a></li>
-                    <li class="<?php echo $uri == 'ics.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/ics.php"><i class="fa fa-clipboard"></i> ICS</a></li>
-                    <li class="<?php echo $uri == 'par.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/par.php"><i class="fa fa-clipboard"></i> PAR</a></li>
-                    <li class="<?php echo $uri == 'ris.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/ris.php"><i class="fa fa-clipboard"></i> RIS</a></li>
-                    <li class="<?php echo $uri == 'ptr.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/ptr.php"><i class="fa fa-clipboard"></i> PTR</a></li>
+                    <li class="<?php echo $uri == 'rfi.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/rfi.php"><i class="fa fa-clipboard"></i> Request for Inspection (RFI)</a></li>
+                    <li class="<?php echo $uri == 'iar.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/iar.php"><i class="fa fa-clipboard"></i> Inspection and Acceptance Report (IAR)</a></li>
+                    <li class="<?php echo $uri == 'ics.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/ics.php"><i class="fa fa-clipboard"></i> Inventory Custodian Slip (ICS)</a></li>
+                    <li class="<?php echo $uri == 'par.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/par.php"><i class="fa fa-clipboard"></i> Property Acknowledgement Receipt (PAR)</a></li>
+                    <li class="<?php echo $uri == 'ris.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/ris.php"><i class="fa fa-clipboard"></i> Requisition and Issue Slip (RIS)</a></li>
+                    <li class="<?php echo $uri == 'ptr.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/ptr.php"><i class="fa fa-clipboard"></i> Property Transfer Report (PTR)</a></li>
                 </ul>
             </li>
             <li class="<?php echo $uri == 'area.php' || $uri == 'rcc.php' || $uri == 'category.php' || $uri == 'item.php' || $uri == 'unit.php' || $uri == 'supplier.php' ? 'active' : ''; ?>">
@@ -54,6 +55,9 @@
             </li>
             <li class="<?php echo $uri == 'stockcard.php' ? 'active' : ''; ?>">
                 <a href="<?php echo $base_url; ?>/stockcard.php"><i class="fa fa-bars"></i> <span class="nav-label">Stock Card</span></a>
+            </li>
+            <li class="<?php echo $uri == 'inspectors.php' ? 'active' : ''; ?>">
+                <a href="<?php echo $base_url; ?>/inspectors.php"><i class="fa fa-user-secret"></i> <span class="nav-label">Inspectorate Groups</span></a>
             </li>
             <li class="<?php echo $uri == 'sai.php' ? 'active' : ''; ?>">
                 <a href="<?php echo $base_url; ?>/sai.php"><i class="fa fa-search"></i> <span class="nav-label">For SAI</span></a>

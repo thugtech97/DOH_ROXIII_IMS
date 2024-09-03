@@ -121,16 +121,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-lg-4 col-form-label">Inspector's Name:</label>
+                                                    <label class="col-lg-4 col-form-label">Inspectorate Team:</label>
                                                     <div class="col-lg-8">
                                                         <select id="var_inspector" class="select2_demo_1 form-control">
-                                                            <option disabled selected></option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member, Member">Ma. Dorothy C. Hornido, RN|Nhyrma Fe C. Tabugoc|Claire A. Cañizares</option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Gladys D. Buladaco, RN|Fernando L. Mina|Daryl A. Estrella|Claire A. Cañizares</option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member, Member">Dorcas Ga-Dinhayan|Rossie Mae O. Tagudin|Claire A. Cañizares|Ana Liza Ruñes</option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member, Member">Joy Dyana V. Cervantes, RN | Nadine Joyce C. Torres, RMT | Engr. Leore Ann M. Bagulor | Claire A. Cañizares</option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Neil H. Nituda | Fernando L. Mina jr. | Daryl A. Estrella | Kevin Brian G. Manlunas | Vincent Lennon V. Catalan</option>
-                                                            <option value="Chairperson, Vice Chairperson, Member, Member, Member">Ma. Antonette A. Fernandez | Liezel S. Lopez | Telesa Shena Dagani-Casaña | Lovelie Joy O. Montañez</option>
+                                                            
                                                         </select>
                                                     </div>
                                                 </div>

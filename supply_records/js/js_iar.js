@@ -93,12 +93,22 @@ function ready_all(){
     $("#var_inspector").ready(function(){
         $.ajax({
             type: "POST",
+            url: "php/php_iar.php",
+            data: {call_func: "get_inspectorate"},
+            success: function(data){
+                $("#var_inspector").html(data);
+                $("#evar_inspector").html(data);
+            }
+        });
+    });
+
+    $("#spvs").ready(function(){
+        $.ajax({
+            type: "POST",
             url: "php/php_ics.php",
             data: {call_func: "get_employee"},
             success: function(data){
-                //$("#var_inspector").html("").append(data);
                 $("#spvs").html("<option disabled selected></option>").append(data);
-                //$("#evar_inspector").html("<option disabled selected></option>").append(data);
             }
         });
     });
@@ -162,9 +172,15 @@ function modify(iar_number){
                     $(this).prop("selected", true).change();
                 }
             });
+
+            $('#evar_inspector option').each(function() {
+                if($(this).text() == data["inspector"]) {
+                    $(this).prop("selected", true).change();
+                }
+            });
+
             $("#evar_rcc").val(data["res_cc"]);
             $("#evar_ci").val(data["charge_invoice"]);
-            $('#evar_inspector').val(data["inspector"]);
             $("#evar_inspected").val(data["date_inspected"]);
             $("#evar_dr").val(data["date_received"]);
             $("table#evar_items tbody").html(data["table"]);
@@ -199,7 +215,8 @@ function update(){
             req_office: $("#evar_rod option:selected").text(),
             res_cc: $("#evar_rcc").val(),
             charge_invoice: $("#evar_ci").val(),
-            inspector: $("#evar_inspector").val(),
+            inspector: $("#evar_inspector option:selected").text(),
+            inspector_designation: $("#evar_inspector").val(),
             date_inspected: $("#evar_inspected").val(),
             date_received: $("#evar_dr").val(),
             spvs: $("#espvs").val(),

@@ -12,47 +12,9 @@ if(!isset($_SESSION["username"])){
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-
-    <!-- Toastr style -->
-    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="css/demand_letter.css">
-
-    <!-- Gritter -->
-    <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-
-    <link rel="shortcut icon" type="image/x-icon" href="../archives/img/<?php echo $_SESSION["company_logo"]; ?>">
-
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="sweetalert-master/dist/sweetalert.css">
-
-    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
-    <script src="js/jquery-3.1.1.min.js"></script>
-    
-    <link href="css/plugins/select2/select2.min.css" rel="stylesheet">
-    <link href="css/plugins/select2/select2-bootstrap4.min.css" rel="stylesheet">
-    <script src="js/plugins/select2/select2.full.min.js"></script>
-<!--
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.1/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/3.5.1/select2.min.js"></script>
-
-    <link href="js/select2.min.css" rel="stylesheet" />
-    <script src="js/select2.min.js"></script>
-!-->
-    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-    
-    <script src="js/plugins/iCheck/icheck.min.js"></script>
-    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
-
+    <?php
+        require "assets/styles_assets.php";
+    ?>
     <title>INVENTORY MS | Purchase Orders</title>
 
 </head>
@@ -175,95 +137,16 @@ if(!isset($_SESSION["username"])){
                 </div>
             </div>
         </div>
-        <div class="small-chat-box fadeInRight animated">
-            <div class="heading" draggable="true">
-                <small class="chat-date float-right">
-                    02.19.2015
-                </small>
-                Small chat
-            </div>
-            <div class="content">
-            </div>
-            <div class="form-chat">
-                <div class="input-group input-group-sm">
-                    <input type="text" class="form-control">
-                    <span class="input-group-btn"> <button
-                        class="btn btn-primary" type="button">Send
-                </button> </span></div>
-            </div>
-
-        </div>
-        <div id="small-chat">
-
-            <?php //<span class="badge badge-warning float-right"></span> ?>
-            <a class="open-small-chat" href="">
-                <i class="fa fa-comments"></i>
-            </a>
-        </div>
-        <div id="right-sidebar" class="animated">
-            <div class="sidebar-container">
-
-                <ul class="nav nav-tabs navs-3">
-                    <li>
-                        <a class="nav-link active" data-toggle="tab" href="#tab-1"> Notes </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" data-toggle="tab" href="#tab-2"> Projects </a>
-                    </li>
-                    <li>
-                        <a class="nav-link" data-toggle="tab" href="#tab-3"> <i class="fa fa-gear"></i> </a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-
-                </div>
-            </div>
-        </div>
+        <?php
+            require "assets/small_chat.php";
+        ?>
     </div>
 
 <!--end of wrapper !-->
-    
-    <!-- Mainly scripts -->
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-    <!-- Flot -->
-    <script src="js/plugins/flot/jquery.flot.js"></script>
-    <script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-    <script src="js/plugins/flot/jquery.flot.spline.js"></script>
-    <script src="js/plugins/flot/jquery.flot.resize.js"></script>
-    <script src="js/plugins/flot/jquery.flot.pie.js"></script>
-
-    <!-- Peity -->
-    <script src="js/plugins/peity/jquery.peity.min.js"></script>
-    <script src="js/demo/peity-demo.js"></script>
-
-    <!-- Custom and plugin javascript -->
-    <script src="js/inspinia.js"></script>
-    <script src="js/plugins/pace/pace.min.js"></script>
-
-    <!-- jQuery UI -->
-    <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
-
-    <!-- GITTER -->
-    <script src="js/plugins/gritter/jquery.gritter.min.js"></script>
-
-    <!-- Sparkline -->
-    <script src="js/plugins/sparkline/jquery.sparkline.min.js"></script>
-
-    <!-- Sparkline demo data  -->
-    <script src="js/demo/sparkline-demo.js"></script>
-
-    <!-- Toastr -->
-    <script src="js/plugins/toastr/toastr.min.js"></script>
-
-    <script src="sweetalert-master/dist/sweetalert.min.js"></script>
-
-    <script src="js/plugins/dataTables/datatables.min.js"></script>
-    <script src="js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
+    <?php
+        require "assets/scripts_assets.php";
+    ?>
 
     <script src="js/js_po.js"></script>
     <script src="js/js_ntc.js"></script>

@@ -1,5 +1,4 @@
 <div class="small-chat-box fadeInRight animated">
-
     <div class="heading" draggable="true">
         <small class="chat-date float-right">
             02.19.2015
@@ -22,7 +21,6 @@
     <?php //<span class="badge badge-warning float-right"></span> ?>
     <a class="open-small-chat" href="">
         <i class="fa fa-comments"></i>
-
     </a>
 </div>
 <div id="right-sidebar" class="animated">
