@@ -4,6 +4,46 @@ require "../../php/php_conn.php";
 require "../../php/php_general_functions.php";
 session_start();
 
+function get_inspectorate() {
+    global $conn;
+
+    $query = "SELECT g.id AS group_id, g.name AS group_name, m.name AS inspector_name, m.designation 
+        FROM tbl_inspectorate_members m
+        JOIN tbl_inspectorate_group g ON m.group_id = g.id
+        ORDER BY g.id";
+    $result = mysqli_query($conn, $query);
+
+    $grouped_inspectors = [];
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $group_id = $row['group_id'];
+        $group_name = $row['group_name'];
+        $inspector_name = $row['inspector_name'];
+        $designation = $row['designation'];
+
+        if (!isset($grouped_inspectors[$group_id])) {
+            $grouped_inspectors[$group_id] = [
+                'group_name' => $group_name,
+                'names' => [],
+                'designations' => []
+            ];
+        }
+
+        $grouped_inspectors[$group_id]['names'][] = $inspector_name;
+        $grouped_inspectors[$group_id]['designations'][] = $designation;
+    }
+
+    $options = [];
+    foreach ($grouped_inspectors as $group_id => $inspectors) {
+        $names_text = implode(' | ', $inspectors['names']);
+        $designations_value = implode(', ', $inspectors['designations']);
+        
+        $options[] = "<option value=\"$designations_value\">$names_text</option>";
+    }
+    echo implode('', $options);
+}
+
+
 function delete_control(){
 	global $conn;
 
@@ -90,6 +130,7 @@ function update(){
 	$res_cc = mysqli_real_escape_string($conn, $_POST["res_cc"]);
 	$charge_invoice = mysqli_real_escape_string($conn, $_POST["charge_invoice"]);
 	$inspector = mysqli_real_escape_string($conn, $_POST["inspector"]);
+	$inspector_designation = mysqli_real_escape_string($conn, $_POST["inspector_designation"]);
 	$date_inspected = mysqli_real_escape_string($conn, $_POST["date_inspected"]);
 	$date_received = mysqli_real_escape_string($conn, $_POST["date_received"]);
 	$spvs = mysqli_real_escape_string($conn, $_POST["spvs"]);
@@ -104,7 +145,7 @@ function update(){
 		$bool = $items[$i][5];
 		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE po_id = '$id'");
 	}
-	mysqli_query($conn,"UPDATE tbl_iar SET entity_name = '$entity_name', fund_cluster = '$fund_cluster', req_office = '$req_office', res_cc = '$res_cc', charge_invoice = '$charge_invoice', inspector = '$inspector', date_inspected = '$date_inspected', date_received = '$date_received', spvs = '$spvs', spvs_designation = '$spvs_designation' WHERE iar_number LIKE '$iar_number'");
+	mysqli_query($conn,"UPDATE tbl_iar SET entity_name = '$entity_name', fund_cluster = '$fund_cluster', req_office = '$req_office', res_cc = '$res_cc', charge_invoice = '$charge_invoice', inspector = '$inspector', inspector_designation = '$inspector_designation', date_inspected = '$date_inspected', date_received = '$date_received', spvs = '$spvs', spvs_designation = '$spvs_designation' WHERE iar_number LIKE '$iar_number'");
 
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." edited the details of IAR No. ".$iar_number;
@@ -398,12 +439,14 @@ function get_po(){
 							<td><center><input type=\"checkbox\" checked></center></td>
 						</tr>";
 			}
+			$iar_number = get_latest_iar($supplier);
 			echo json_encode(array("supplier"=>$supplier, 
 				"date_delivered"=>$date_delivered, 
 				"date_conformed"=>$date_conformed, 
 				"tbody"=>$tbody, 
 				"end_user"=>$end_user,
 				"po_type"=>$po_type,
+				"iar_number"=>$iar_number,
 				"success"=>true));
 		}else{
 			echo json_encode(array("success"=>false));
@@ -518,6 +561,21 @@ function insert_various(){
 	}
 }
 
+function get_latest_iar($supplier){
+	global $conn; $latest_iar = "";
+	
+	$yy_mm = date('Y-m');
+	$sql = mysqli_query($conn, "SELECT DISTINCT iar_number FROM tbl_iar WHERE iar_number LIKE '%$yy_mm%' ORDER BY iar_id DESC LIMIT 1");
+	if(mysqli_num_rows($sql) != 0){
+		$row = mysqli_fetch_assoc($sql);
+		$latest_iar = str_pad(((int)substr($row["iar_number"], -4)) + 1, 4, '0', STR_PAD_LEFT); 
+	}else{
+		$latest_iar = "0001";
+	}
+
+	return $yy_mm."-".($supplier == "Central Office" ? "CO" : "PO").$latest_iar;
+}
+
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
 switch($call_func){
 	case "insert_various":
@@ -552,6 +610,9 @@ switch($call_func){
 		break;
 	case "delete_control":
 		delete_control();
+		break;
+	case "get_inspectorate":
+		get_inspectorate();
 		break;
 }
 

@@ -55,7 +55,7 @@
                 </div>
                 <hr>
                 <div class="ibox">
-                    <div class="ibox-content" style="height: 400px; overflow: auto; color: black;">
+                    <div class="ibox-content" style="height: 100vh; overflow: auto; color: black;">
                         <input type="text" id="lookup" placeholder="Search...">
                         <center>
                             <div id="ppe_head">

@@ -10,7 +10,7 @@
                 <input type="text" id="ao_rpci" class="form-control" placeholder="As of .......">
                 <hr>
                 <div class="ibox">
-                    <div class="ibox-content" style="height: 450px; overflow: auto; color: black;">
+                    <div class="ibox-content" style="height: 100vh; overflow: auto; color: black;">
                         <center>
                             <?php
                                 require "reports/report_rpci.php";
@@ -84,7 +84,7 @@
                 </div>
                 <hr>
                 <div class="ibox">
-                    <div class="ibox-content" style="height: 450px; overflow: auto; color: black;">
+                    <div class="ibox-content" style="height: 100vh; overflow: auto; color: black;">
                         <center>
                             <?php
                                 require "reports/report_idr.php";
