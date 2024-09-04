@@ -51,7 +51,7 @@ if(!isset($_SESSION["username"])){
                             <h2>Request for Inspection</h2>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-default dim" data-toggle="modal" data-target="#add_group">
+                                    <button type="button" class="btn btn-default dim" data-toggle="modal" data-target="#add_rfi">
                                         <i class="fa fa-plus"></i> Add RFI
                                     </button>
                                 </li>
@@ -86,12 +86,19 @@ if(!isset($_SESSION["username"])){
             </div>
             <?php
                 require "../assets/small_chat.php";
+                require "../modals/modal_add_rfi.php";
             ?>
         </div>
     </div>
     <?php
         require "../assets/scripts_assets.php";
     ?>
+
+    <!-- RFI script -->
+    <script src="js/js_rfi.js"></script>
+    <script type="text/javascript">
+        set_url("php/php_rfi.php");
+    </script>
 
 </body>
 </html>

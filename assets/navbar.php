@@ -1,5 +1,5 @@
 <?php
-    $base_url = "http://" . $_SERVER['HTTP_HOST'] . "/DOH_ROXIII_IMS";
+    $base_url = $_SERVER['HTTP_HOST'] . "/DOH_ROXIII_IMS";
     $uri = end(explode("/", $_SERVER['REQUEST_URI']));
 ?>
 <nav class="navbar-default navbar-static-side" role="navigation">
@@ -7,7 +7,7 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <center><img alt="image" class="rounded-circle" src="<?php echo "http://" . $_SERVER['HTTP_HOST'] ?>/archives/img/<?php echo $_SESSION["company_logo"]; ?>" height="50" width="50"/>
+                    <center><img alt="image" class="rounded-circle" src="<?php echo $_SERVER['HTTP_HOST'] ?>/archives/img/<?php echo $_SESSION["company_logo"]; ?>" height="50" width="50"/>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="block m-t-xs font-bold"><?php echo $_SESSION["username"]; ?></span>
                             <span class="text-muted text-xs block"><?php echo $_SESSION["role"]; ?><b class="caret"></b></span>

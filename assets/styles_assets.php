@@ -1,5 +1,5 @@
 <?php
-    $base_url = "http://" . $_SERVER['HTTP_HOST'] . "/DOH_ROXIII_IMS";
+    $base_url = $_SERVER['HTTP_HOST'] . "/DOH_ROXIII_IMS";
 ?> 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
