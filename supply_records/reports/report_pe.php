@@ -13,7 +13,7 @@
       <tr>
         <td rowspan="4" style="text-align: center; vertical-align: center; border-left-width: 2px; border-left-style: solid;border-top-width: 2px; border-top-style: solid;" colspan="2"><img src="../../archives/img/<?php echo $_SESSION["company_logo"]; ?>" width="75" height="75"></td>
         <td colspan="3" style="width: 161.4px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-top-color: rgb(0, 0, 0); border-top-width: 2px; border-top-style: solid;">Republic of the Philippines</td>
-        <td rowspan="4" colspan="2" style="text-align: center; vertical-align: center; border-top-width: 2px; border-top-style: solid;border-right-width: 2px; border-right-style: solid;"><!-- <img src="../imgsys/f1plus.png" width="70" height="70"> --></td>
+        <td rowspan="4" colspan="2" style="text-align: center; vertical-align: center; border-top-width: 2px; border-top-style: solid;border-right-width: 2px; border-right-style: solid;"><img src="../imgsys/f1plus.png" width="70" height="70"></td>
       </tr>
       <tr>
         <td colspan="3" style="width: 161.4px; height: 14.5px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: bottom; border-left-color: rgb(0, 0, 0);">DOH - REGIONAL OFFICE XIII</td>

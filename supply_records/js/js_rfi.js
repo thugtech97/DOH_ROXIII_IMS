@@ -125,8 +125,27 @@ $('#insert_rfi').on('submit', function(event) {
     });
 });
 
-function print_rfi(id){
-    alert("Printing: "+id);
+function print_rfi(id) {
+    var divContents = $("#report_rfi").html(); 
+    var a = window.open('', '_blank', 'height=1500, width=800'); 
+    a.document.write('<html><head><link rel="stylesheet" type="text/css" href="../css/demand_letter.css"></head><body><center>');
+    a.document.write('<table style="width: 100%;"><tr><td>');
+
+    a.document.write(divContents);
+    a.document.write('<hr style="page-break-before:always; border:none; margin:0;">');
+
+    $("#recipient_name").html("JANAH TAPANGAN");
+    $("#recipient_designation").html("State Auditor IV");
+    
+    divContents = $("#report_rfi").html();
+    a.document.write(divContents);
+
+    a.document.write('</td></tr></table>');
+    a.document.write('</center></body></html>'); 
+    a.document.close(); 
+    setTimeout(function() { 
+        a.print(); 
+    }, 1000);
 }
 
 function delete_rfi(id){

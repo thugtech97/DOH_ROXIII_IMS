@@ -76,6 +76,7 @@ if(!isset($_SESSION["username"])){
                             </div>
                         </div>
                     </div>
+                    <?php require "reports/report_rfi.php"; ?>
                 </div>
             </div>
 
