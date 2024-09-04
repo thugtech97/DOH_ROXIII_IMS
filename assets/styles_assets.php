@@ -1,5 +1,5 @@
 <?php
-    $base_url = $_SERVER['HTTP_HOST'] . "/DOH_ROXIII_IMS";
+    $base_url = "https://" . $_SERVER['HTTP_HOST'] . "/DOH_ROXIII_IMS";
 ?> 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
     <!-- Gritter -->
     <link href="<?php echo $base_url; ?>/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 
-    <link rel="shortcut icon" type="image/x-icon" href="<?php echo "http://" . $_SERVER['HTTP_HOST'] ?>/archives/img/<?php echo $_SESSION["company_logo"]; ?>">
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo "https://" . $_SERVER['HTTP_HOST'] ?>/archives/img/<?php echo $_SESSION["company_logo"]; ?>">
 
     <link href="<?php echo $base_url; ?>/css/animate.css" rel="stylesheet">
     <link href="<?php echo $base_url; ?>/css/style.css" rel="stylesheet">
