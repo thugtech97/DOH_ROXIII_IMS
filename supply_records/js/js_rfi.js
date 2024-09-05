@@ -81,8 +81,7 @@ $("#reference_no").change(function(){
         data: {call_func: "get_items_po", po_numbers: $("#reference_no").val()},
         url: _url,
         success: function(data){
-            var decodedJson = data.replace(/&quot;/g, '"');
-            var items = JSON.parse(decodedJson);
+            var items = JSON.parse(data.replace(/&quot;/g, '"'));
             $("#item_table_body").empty();
             items.forEach(function(item) {
                 var row = `<tr>
@@ -126,26 +125,71 @@ $('#insert_rfi').on('submit', function(event) {
 });
 
 function print_rfi(id) {
-    var divContents = $("#report_rfi").html(); 
-    var a = window.open('', '_blank', 'height=1500, width=800'); 
-    a.document.write('<html><head><link rel="stylesheet" type="text/css" href="../css/demand_letter.css"></head><body><center>');
-    a.document.write('<table style="width: 100%;"><tr><td>');
+    $.ajax({
+        url: _url,
+        type: 'POST',
+        data: {call_func: "print_rfi", id: id},
+        success: function(response) {
+            var data = JSON.parse(response.replace(/&quot;/g, '"'));
+            let inspector = data.rfi.inspector.split("|");
+            $.ajax({
+                url: 'https://api.genderize.io',
+                type: 'GET',
+                data: { name: inspector[0] },
+                success: function(res) {
+                    $("#print_control_no").html(data.rfi.control_number);
+                    $("#print_created_at").html(data.rfi.created_at);
+                    $("#recipient_name").html(inspector[0].toUpperCase());
+                    $("#recipient_designation").html(inspector[1]);
+                    $("#recipient_gender").html(res.gender == "male" ? "Sir" : "Ma'am");
+                    $("#other_designation").html("Inspection Committee");
 
-    a.document.write(divContents);
-    a.document.write('<hr style="page-break-before:always; border:none; margin:0;">');
+                    let items = data.rfi_details
+                    $("#print_items").empty();
+                    items.forEach(function(item, index) {
+                        var row = `<tr>
+                            <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
+                            <td style="width: 5%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">${index + 1}</td>
+                            <td style="width: 30%; height: 20px; font-size: 11px; vertical-align: middle; border: 1px solid black;"><b>${item.item_name}</b> - ${item.description}</td>
+                            <td style="width: 10%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">${item.main_stocks}</td>
+                            <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">${item.rsd_no}</td>
+                            <td style="width: 15%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">${item.approved_date}</td>
+                            <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">${item.location}</td>
+                            <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
+                        </tr>`
+                        $("#print_items").append(row);
+                    });
 
-    $("#recipient_name").html("JANAH TAPANGAN");
-    $("#recipient_designation").html("State Auditor IV");
-    
-    divContents = $("#report_rfi").html();
-    a.document.write(divContents);
+                    var divContents = $("#report_rfi").html(); 
+                    var a = window.open('', '_blank', 'height=1500, width=800'); 
+                    a.document.write('<html><head><link rel="stylesheet" type="text/css" href="../css/demand_letter.css"></head><body><center>');
+                    a.document.write('<table style="width: 100%;"><tr><td>');
+                    a.document.write(divContents);
+                    
+                    // page breaker
+                    a.document.write('<hr style="page-break-before:always; border:none; margin:0;">');
 
-    a.document.write('</td></tr></table>');
-    a.document.write('</center></body></html>'); 
-    a.document.close(); 
-    setTimeout(function() { 
-        a.print(); 
-    }, 1000);
+                    // for coa
+                    $("#recipient_name").html("JANAH P. TAPANGAN");
+                    $("#recipient_designation").html("State Auditor IV");
+                    $("#recipient_gender").html("Ma'am");
+                    $("#other_designation").html("Audit Team Leader");
+                    
+                    divContents = $("#report_rfi").html();
+                    a.document.write(divContents);
+                    a.document.write('</td></tr></table>');
+                    a.document.write('</center></body></html>'); 
+                    a.document.close(); 
+                    setTimeout(function() { 
+                        a.print(); 
+                    }, 1000);
+                }
+            });
+        },
+        error: function(xhr, status, error) {
+            swal("Error printing rfi!", error, "error");
+        }
+    });
 }
 
 function delete_rfi(id){

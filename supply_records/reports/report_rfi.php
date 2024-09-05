@@ -59,8 +59,8 @@
       </tr>
       <tr>
         <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td colspan="3" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;"><span style="font-weight: bold;">RFI Control Number:</span> <span>RFI/CHD13-CR-2024-08-0076</span></td>
-        <td colspan="3" style="height: 20px; text-align: right; font-size: 13px; font-weight: bold; vertical-align: middle;">Date: <span>08/28/2024</span></td>
+        <td colspan="3" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;"><span style="font-weight: bold;">RFI Control Number:</span> <span id="print_control_no">RFI/CHD13-CR-2024-08-0076</span></td>
+        <td colspan="3" style="height: 20px; text-align: right; font-size: 13px; font-weight: bold; vertical-align: middle;">Date: <span id="print_created_at">08/28/2024</span></td>
         <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
       </tr>
       <tr>
@@ -73,7 +73,7 @@
         <td colspan="7" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;">
           <span style="font-weight: bold;" id="recipient_name">GLADYS D. BULADACO, RN</span><br>
           <span id="recipient_designation">Chairperson</span><br>
-          <span>Inspection Committee</span>
+          <span id="other_designation">Inspection Committee</span>
         </td>
       </tr>
       <tr>
@@ -84,7 +84,7 @@
       <tr>
         <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
         <td colspan="7" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;">
-          Dear <span style="font-weight: bold;">Ma'am</span>,
+          Dear <span style="font-weight: bold;" id="recipient_gender">Ma'am</span>,
         </td>
       </tr>
       <tr>
@@ -122,76 +122,11 @@
         <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: middle; border: 1px solid black;">Location of Delivery/Inspection</td>
         <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
       </tr>
-      <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td style="width: 5%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">1</td>
-        <td style="width: 30%; height: 20px; font-size: 11px; vertical-align: middle; border: 1px solid black;">Rechargeable AAA Battery</td>
-        <td style="width: 10%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">4 Pcs</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;"></td>
-        <td style="width: 15%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">25-Aug-24</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">DOH Doongan Warehouse</td>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-      </tr>
-      <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td style="width: 5%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">2</td>
-        <td style="width: 30%; height: 20px; font-size: 11px; vertical-align: middle; border: 1px solid black;">Rechargeable AAA Battery</td>
-        <td style="width: 10%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">4 Pcs</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;"></td>
-        <td style="width: 15%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">25-Aug-24</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">DOH Doongan Warehouse</td>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-      </tr>
-      <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td style="width: 5%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">3</td>
-        <td style="width: 30%; height: 20px; font-size: 11px; vertical-align: middle; border: 1px solid black;">Rechargeable AAA Battery</td>
-        <td style="width: 10%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">4 Pcs</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;"></td>
-        <td style="width: 15%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">25-Aug-24</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">DOH Doongan Warehouse</td>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-      </tr>
-      <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td style="width: 5%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">3</td>
-        <td style="width: 30%; height: 20px; font-size: 11px; vertical-align: middle; border: 1px solid black;">Rechargeable AAA Battery</td>
-        <td style="width: 10%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">4 Pcs</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;"></td>
-        <td style="width: 15%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">25-Aug-24</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">DOH Doongan Warehouse</td>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-      </tr>
-      <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td style="width: 5%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">3</td>
-        <td style="width: 30%; height: 20px; font-size: 11px; vertical-align: middle; border: 1px solid black;">Rechargeable AAA Battery</td>
-        <td style="width: 10%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">4 Pcs</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;"></td>
-        <td style="width: 15%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">25-Aug-24</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">DOH Doongan Warehouse</td>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-      </tr>
-      <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td style="width: 5%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">3</td>
-        <td style="width: 30%; height: 20px; font-size: 11px; vertical-align: middle; border: 1px solid black;">Rechargeable AAA Battery</td>
-        <td style="width: 10%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">4 Pcs</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;"></td>
-        <td style="width: 15%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">25-Aug-24</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">DOH Doongan Warehouse</td>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-      </tr>
-      <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td style="width: 5%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">3</td>
-        <td style="width: 30%; height: 20px; font-size: 11px; vertical-align: middle; border: 1px solid black;">Rechargeable AAA Battery</td>
-        <td style="width: 10%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">4 Pcs</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;"></td>
-        <td style="width: 15%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">25-Aug-24</td>
-        <td style="width: 20%; height: 20px; text-align: center; font-size: 11px; vertical-align: middle; border: 1px solid black;">DOH Doongan Warehouse</td>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-      </tr>
+    </tbody>
+    <tbody id="print_items">
+      
+    </tbody>
+    <tbody>
       <tr>
         <td colspan="3" style="height: 20px; text-align: center; vertical-align: middle;"></td>
         <td colspan="2" style="height: 20px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: middle;"></td>

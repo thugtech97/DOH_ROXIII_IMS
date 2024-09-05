@@ -5,6 +5,39 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function print_rfi() {
+    global $conn;
+
+    $rfi_id = mysqli_real_escape_string($conn, $_POST["id"]);
+
+    $rfi_query = "SELECT * FROM tbl_rfi WHERE id = '$rfi_id'";
+    $rfi_result = mysqli_query($conn, $rfi_query);
+    $rfi_data = mysqli_fetch_assoc($rfi_result);
+
+    $rfi_details_query = "
+        SELECT rd.*, po.item_name, po.description, po.main_stocks, po.quantity 
+        FROM tbl_rfi_details rd 
+        JOIN tbl_po po ON rd.po_id = po.po_id 
+        WHERE rd.rfi_id = '$rfi_id'
+    ";
+    $rfi_details_result = mysqli_query($conn, $rfi_details_query);
+
+    $rfi_details = [];
+    while ($row = mysqli_fetch_assoc($rfi_details_result)) {
+        $quan_unit = explode(" ", $row["quantity"]);
+        $rfi_details[] = array(
+            "item_name" => $row["item_name"],
+            "description" => $row["description"],
+            "main_stocks" => $row["main_stocks"]." ".$quan_unit[1],
+            "rsd_no" => $row["rsd_no"],
+            "approved_date" => $row["approved_date"],
+            "location" => isset($_SESSION['warehouse_name']) ? $_SESSION['warehouse_name'] : ''
+        );
+    }
+
+    echo htmlspecialchars(json_encode(array('rfi' => $rfi_data, 'rfi_details' => $rfi_details)), ENT_QUOTES, 'UTF-8');
+}
+
 function get_latest_rfi(){
 	global $conn;
 
@@ -178,6 +211,8 @@ if ($call_func === "get_rfi") {
     get_items_po();
 }elseif ($call_func === "get_latest_rfi"){
     get_latest_rfi();
+}elseif ($call_func === "print_rfi"){
+    print_rfi();
 }
 
 ?>
