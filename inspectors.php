@@ -94,7 +94,7 @@ if(!isset($_SESSION["username"])){
     <?php
         require "assets/scripts_assets.php";
     ?>
-    <!-- SAI scripts  -->
+    <!-- INSPECTOR scripts  -->
     <script src="js/js_inspector.js"></script>
     <script type="text/javascript">
         set_url("php/php_inspectors.php");

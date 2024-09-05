@@ -1,5 +1,5 @@
 <?php
-    $base_url = "http://" . $_SERVER['HTTP_HOST'] . "/DOH_ROXIII_IMS";
+    $base_url = "https://" . $_SERVER['HTTP_HOST'] . "/DOH_ROXIII_IMS";
 ?>
     <!-- Mainly scripts -->
     <script src="<?php echo $base_url; ?>/js/jquery-3.1.1.min.js"></script>
