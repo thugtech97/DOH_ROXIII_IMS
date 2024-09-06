@@ -50,7 +50,7 @@
                         <div class="form-group row">
                             <label class="col-lg-2 col-form-label">Purpose:</label>
                             <div class="col-lg-10">
-                                <input id="text" class="form-control" onkeyup="$('#dv_purpose').html($(this).val());">
+                                <input id="text" class="form-control" onkeyup="$('#dv_purpose').html($(this).val()); localStorage.setItem('dvpurpose', this.value);">
                             </div>
                         </div>
                     </div>

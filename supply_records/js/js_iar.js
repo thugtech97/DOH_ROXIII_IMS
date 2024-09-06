@@ -5,7 +5,11 @@ var po_type = "";
 var partial_specify = null;
 
 $(document).ready(function(){
-    
+    if (localStorage.getItem('dvpurpose') !== null) {
+        let dv = localStorage.getItem('dvpurpose')
+        $("#text").val(dv);
+        $('#dv_purpose').html(dv);
+    }
 });
 
 Date.prototype.toDateInputValue = (function() {
