@@ -360,8 +360,19 @@ function compute_shortage(q, uc, value, qi, vi){
 	$("#"+vi).html(shortage_value.toFixed(2));
 }
 
+$('#lookup').typeahead({
+	source: ["TYPE-ICS", "TYPE-PAR", "TYPE-PTR"],
+	afterSelect: function(item){
+		lookupkeyword(item);
+	}
+});
+
 $("#lookup").keyup(function () {
-    var value = this.value.toLowerCase().trim();
+    lookupkeyword(this.value);
+});
+
+function lookupkeyword(keyword){
+	var value = keyword.toLowerCase().trim();
     $("table#tbl_ppe tbody tr").each(function (index) {
         $(this).find("td").each(function () {
             var id = $(this).text().toLowerCase().trim();
@@ -370,7 +381,7 @@ $("#lookup").keyup(function () {
             return not_found;
         });
     });
-});
+}
 
 $("#wi_lookup").keyup(function() {
 	var value = this.value;
@@ -452,7 +463,7 @@ $("#sc_refn").change(function(){
 	$.ajax({
 		type: "POST",
 		url: "php/php_sc.php",
-		data: {call_func: "get_sc_ref", refn: $("#sc_refn option:selected").text()},
+		data: {call_func: "get_sc_ref", refn: $("#sc_refn option:selected").text(), item_name: item_name, item_desc: item_desc},
 		success: function(data){
 			$("#sc_drugs").html(data);
 		}

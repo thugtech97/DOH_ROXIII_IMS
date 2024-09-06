@@ -278,7 +278,7 @@ function get_ppe_details(){
     $query = "
     SELECT 
         date_supply_received AS date_r, reference_no AS ref_no, item, category, ics_no AS par_ptr_reference, quantity AS qty, unit, 
-        cost AS unit_cost, (quantity * cost) AS total_cost, received_by, remarks, 'ics' AS type, property_no
+        cost AS unit_cost, (quantity * cost) AS total_cost, received_by, remarks, 'ics' AS type, property_no, 'TYPE-ICS' AS type_rep
     FROM tbl_ics
     WHERE date_supply_received LIKE '%$year_month%' 
       AND issued = 1
@@ -287,7 +287,7 @@ function get_ppe_details(){
 
     SELECT 
         date_supply_received AS date_r, reference_no AS ref_no, item, category, par_no AS par_ptr_reference, quantity AS qty, unit,
-		cost AS unit_cost, (quantity * cost) AS total_cost,received_by, remarks, 'par' AS type, property_no
+		cost AS unit_cost, (quantity * cost) AS total_cost,received_by, remarks, 'par' AS type, property_no, 'TYPE-PAR' AS type_rep
     FROM tbl_par
     WHERE date_supply_received LIKE '%$year_month%' 
       AND issued = 1
@@ -296,7 +296,7 @@ function get_ppe_details(){
 
     SELECT 
         date_supply_received AS date_r, reference_no AS ref_no, item, category, ptr_no AS par_ptr_reference, quantity AS qty, unit, 
-        cost AS unit_cost, (quantity * cost) AS total_cost, tbl_ptr.to AS received_by, remarks, 'ptr' AS type, property_no
+        cost AS unit_cost, (quantity * cost) AS total_cost, tbl_ptr.to AS received_by, remarks, 'ptr' AS type, property_no, 'TYPE-PTR' AS type_rep
     FROM tbl_ptr
     WHERE date_supply_received LIKE '%$year_month%' 
       AND issued = 1
@@ -314,7 +314,7 @@ function get_ppe_details(){
     while ($row = mysqli_fetch_assoc($result)) {
         $tbody .= "<tr style='font-size: 12px;'>
             <td style='padding-left: 10px; padding-right: 10px;'>{$row['date_r']}</td>
-			<td style='padding-left: 10px; padding-right: 10px; display: none;'>{$row['property_no']}</td>
+			<td style='padding-left: 10px; padding-right: 10px; display: none;'>{$row['property_no']} - {$row['type_rep']}</td>
             <td style='padding-left: 10px; padding-right: 10px;'>{$row['ref_no']}</td>
             <td style='padding-left: 10px; padding-right: 10px;'>{$row['item']}</td>
             <td style='padding-left: 10px; padding-right: 10px;'>{$row['par_ptr_reference']}</td>
@@ -325,15 +325,9 @@ function get_ppe_details(){
             <td style='padding-left: 10px; padding-right: 10px;'>".
                 (((int)$row['unit_cost'] < 15000) ? get_account_code("PTR", $category, 0) : get_account_code("PTR", $category, 1))
             ."</td>
-            <td style='padding-left: 10px; padding-right: 10px;'>".
-                (($row['type'] == 'ptr') ? number_format((float)$row['total_cost'], 2) : "")
-            ."</td>
-            <td style='padding-left: 10px; padding-right: 10px;'>".
-                (($row['type'] == 'par') ? number_format((float)$row['total_cost'], 2) : "")
-            ."</td>
-            <td style='padding-left: 10px; padding-right: 10px;'>".
-                (($row['type'] == 'ics') ? number_format((float)$row['total_cost'], 2) : "")
-            ."</td>
+            <td style='padding-left: 10px; padding-right: 10px;'>".(($row['type'] == 'ptr') ? number_format((float)$row['total_cost'], 2) : "")."</td>
+            <td style='padding-left: 10px; padding-right: 10px;'>".(($row['type'] == 'par') ? number_format((float)$row['total_cost'], 2) : "")."</td>
+            <td style='padding-left: 10px; padding-right: 10px;'>".(($row['type'] == 'ics') ? number_format((float)$row['total_cost'], 2) : "")."</td>
             <td style='padding-left: 10px; padding-right: 10px;'>{$row['received_by']}</td>
             <td style='padding-left: 10px; padding-right: 10px;'>{$row['remarks']}</td>
         </tr>";
@@ -378,173 +372,201 @@ function get_item(){
 	echo json_encode(array("list_items"=>$list_items, "num_items"=>$num_items));
 }
 
-function print_stock_card(){
-	global $conn; $rows = 0;
-	$sc_drugs = "";
-	$qty_balance = 0;
-	$item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
-	$item_desc = mysqli_real_escape_string($conn, $_POST["item_desc"]);
-	$spec = mysqli_real_escape_string($conn, $_POST["spec"]);
+function print_stock_card() {
+    global $conn;
+    $sc_drugs = "";
+    $qty_balance = 0;
+    $item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
+    $item_desc = mysqli_real_escape_string($conn, $_POST["item_desc"]);
+    $spec = mysqli_real_escape_string($conn, $_POST["spec"]);
+    
+    $is_issued = ($spec == "") ? "" : " AND issued = '" . $spec . "'";
 
-	$is_issued = ($spec == "") ? "" : " AND issued = '".$spec."'";
+    $sql = mysqli_query($conn, "
+        SELECT 'IN' AS status, p.date_received AS date, p.main_stocks AS quantity, p.po_number AS reference_no, s.supplier AS office, '' AS remarks 
+        FROM tbl_po AS p
+        JOIN ref_supplier AS s ON p.supplier_id = s.supplier_id
+        WHERE p.item_name LIKE '$item_name' AND p.description LIKE '$item_desc'
+        
+        UNION ALL
+        
+        SELECT 'OUT' AS status, ics.date_released AS date, ics.quantity, CONCAT('ICS#', ics.ics_no) AS reference_no, ics.received_by AS office, ics.issued AS remarks
+        FROM tbl_ics AS ics
+        WHERE ics.item LIKE '$item_name' AND ics.description LIKE '$item_desc' $is_issued
+        
+        UNION ALL
+        
+        SELECT 'OUT' AS status, par.date_released AS date, par.quantity, CONCAT('PAR#', par.par_no) AS reference_no, par.received_by AS office, par.issued AS remarks
+        FROM tbl_par AS par
+        WHERE par.item LIKE '$item_name' AND par.description LIKE '$item_desc' $is_issued
+        
+        UNION ALL
+        
+        SELECT 'OUT' AS status, ris.date AS date, ris.quantity, CONCAT('RIS#', ris.ris_no) AS reference_no, ris.requested_by AS office, ris.issued AS remarks
+        FROM tbl_ris AS ris
+        WHERE ris.item LIKE '$item_name' AND ris.description LIKE '$item_desc' $is_issued
+        
+        UNION ALL
+        
+        SELECT 'OUT' AS status, ptr.date_released AS date, ptr.quantity, CONCAT('PTR#', ptr.ptr_no) AS reference_no, ptr.to AS office, ptr.issued AS remarks
+        FROM tbl_ptr AS ptr
+        WHERE ptr.item = '$item_name' AND ptr.description LIKE '$item_desc' $is_issued
 
-	mysqli_query($conn, "TRUNCATE tbl_stockcard");
-	$rows+=round((float)strlen($item_desc) / 47.00);
+		ORDER BY date ASC
+    ");
 
-	$sql = mysqli_query($conn, "SELECT s.supplier, p.date_received, p.date_delivered, p.po_number, p.main_stocks FROM tbl_po AS p, ref_supplier AS s WHERE p.item_name LIKE '$item_name' AND p.description LIKE '$item_desc' AND p.supplier_id = s.supplier_id");
-	while($row = mysqli_fetch_assoc($sql)){
-		$date_received = ($row["date_delivered"] != "0000-00-00") ? $row["date_delivered"] : $row["date_received"];
-		$reference_no = $row["po_number"];
-		$main_stocks = $row["main_stocks"];
-		$supplier = mysqli_real_escape_string($conn, $row["supplier"]);
-		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,po_ref,office,remarks,status) VALUES('$date_received','$main_stocks','$reference_no','$reference_no','$supplier','','IN')");
-	}
-	$sql = mysqli_query($conn, "SELECT issued,date_released,ics_no,reference_no,quantity,received_by,remarks FROM tbl_ics WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
-	while($row = mysqli_fetch_assoc($sql)){
-		$date_released = $row["date_released"];
-		$reference_no = 'ICS#'.$row["ics_no"];
-		$ref_no = mysqli_real_escape_string($conn, $row["reference_no"]);
-		$quantity = $row["quantity"];
-		$area = mysqli_real_escape_string($conn, $row["received_by"]);
-		$remarks = $row["issued"];
-		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,po_ref,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$ref_no','$area','$remarks','OUT')");
-	}
+    while ($row = mysqli_fetch_assoc($sql)) {
+        $date_r = substr($row["date"], 0, 10);
+        $quantity = $row["quantity"];
+        $reference_no = $row["reference_no"];
+        $office = $row["office"];
+        $remarks = $row["remarks"];
 
-	$sql = mysqli_query($conn, "SELECT issued,date_released,par_no,reference_no,quantity,received_by,remarks FROM tbl_par WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
-	while($row = mysqli_fetch_assoc($sql)){
-		$date_released = $row["date_released"];
-		$reference_no = 'PAR#'.$row["par_no"];
-		$ref_no = mysqli_real_escape_string($conn, $row["reference_no"]);
-		$quantity = $row["quantity"];
-		$area = mysqli_real_escape_string($conn, $row["received_by"]);
-		$remarks = $row["issued"];
-		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,po_ref,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$ref_no','$area','$remarks','OUT')");
-	}
-	
-	$sql = mysqli_query($conn, "SELECT issued,tbl_ris.date,ris_no,reference_no,quantity,requested_by,remarks FROM tbl_ris WHERE item LIKE '$item_name' AND description LIKE '$item_desc'".$is_issued."");
-	while($row = mysqli_fetch_assoc($sql)){
-		$date_released = $row["date"];
-		$reference_no = 'RIS#'.$row["ris_no"];
-		$ref_no = mysqli_real_escape_string($conn, $row["reference_no"]);
-		$quantity = $row["quantity"];
-		$area = mysqli_real_escape_string($conn, $row["requested_by"]);
-		$remarks = $row["issued"];
-		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,po_ref,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$ref_no','$area','$remarks','OUT')");
-	}
-	
-	$sql = mysqli_query($conn, "SELECT issued,date_released,ptr_no,reference_no,quantity,tbl_ptr.to,remarks FROM tbl_ptr WHERE item = '$item_name' AND description LIKE '$item_desc'".$is_issued."");
-	while($row = mysqli_fetch_assoc($sql)){
-		$date_released = $row["date_released"];
-		$reference_no = 'PTR#'.$row["ptr_no"];
-		$ref_no = mysqli_real_escape_string($conn, $row["reference_no"]);
-		$quantity = $row["quantity"];
-		$area = mysqli_real_escape_string($conn, $row["to"]);
-		$remarks = $row["issued"];
-		mysqli_query($conn, "INSERT INTO tbl_stockcard(tbl_stockcard.date,quantity,reference_no,po_ref,office,remarks,status) VALUES('$date_released','$quantity','$reference_no','$ref_no','$area','$remarks','OUT')");
-	}
+        // Check for remarks
+        $remarks_display = ($remarks === "1") ? "✔️" : "❌";
 
-	$read_sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_stockcard.date, 1, 10) AS date_r,quantity,reference_no,office,remarks,status FROM tbl_stockcard ORDER BY tbl_stockcard.date ASC");
-	while($row = mysqli_fetch_assoc($read_sql)){
-		$remarks = ($row["remarks"] == "1") ? "✔️" : "❌";
-		if($row["status"] == "IN"){
-			$qty_balance+=(int)$row["quantity"];
-			$sc_drugs.="<tr>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["date_r"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["reference_no"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["quantity"]."</td>
-		      <td style=\"font-size: 10px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["office"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$qty_balance."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		    </tr>";
-		}
-		if($row["status"] == "OUT"){
-			$qty_balance-=(int)$row["quantity"];
-			$sc_drugs.="<tr>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["date_r"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["reference_no"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["quantity"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["office"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$qty_balance."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$remarks."</td>
-		    </tr>";
-		}
-		$rows++;
-	}
-	for($i = 0; $i < (45 - $rows); $i++){
-		$sc_drugs.="<tr>
-		      <td style=\"font-size:12px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"><span style=\"visibility: hidden;\">LALA</span></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		    </tr>";
+        if ($row["status"] == "IN") {
+            $qty_balance += (int)$quantity;
+            $sc_drugs .= "<tr>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$date_r</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$reference_no</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$quantity</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$office</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$qty_balance</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+            </tr>";
+        } else {
+            $qty_balance -= (int)$quantity;
+            $sc_drugs .= "<tr>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$date_r</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$reference_no</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$quantity</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$office</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$qty_balance</td>
+                <td style='font-size: 12px; text-align: center; border: 1px solid black;'>$remarks_display</td>
+            </tr>";
+        }
+    }
+
+    // Fill in empty rows if needed
+    for ($i = 0; $i < (45 - mysqli_num_rows($sql)); $i++) {
+        $sc_drugs .= "<tr>
+            <td style='font-size: 12px; text-align: center; border: 1px solid black;'><span style='visibility: hidden;'>LALA</span></td>
+            <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+            <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+            <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+            <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+            <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+            <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+            <td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+        </tr>";
+    }
+
+    $option_ref = "<option></option>";
+	$sql_ref = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE item_name LIKE '$item_name' AND description LIKE '$item_desc'");
+	while ($row = mysqli_fetch_assoc($sql_ref)) {
+		$option_ref .= "<option>" . $row["po_number"] . "</option>";
 	}
 
-	$option_ref = "<option></option>";
-	$sql_ref = mysqli_query($conn, "SELECT DISTINCT po_ref FROM tbl_stockcard WHERE status LIKE 'IN'");
-	while($row = mysqli_fetch_assoc($sql_ref)){
-		$option_ref.="<option>".$row["po_ref"]."</option>";
-	}
-	echo json_encode(array("sc_drugs"=>$sc_drugs, "option_ref"=>$option_ref));
+	echo json_encode(array("sc_drugs" => $sc_drugs, "option_ref" => $option_ref));
+
 }
 
 function get_sc_ref(){
 	global $conn;
 	$refn = mysqli_real_escape_string($conn, $_POST["refn"]);
+	$item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
+	$item_desc = mysqli_real_escape_string($conn, $_POST["item_desc"]);
+	$sc_drugs = "";
+    $qty_balance = 0;
 	if($refn != ""){
-		$read_sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_stockcard.date, 1, 10) AS date_r,quantity,reference_no,office,remarks,status FROM tbl_stockcard WHERE po_ref LIKE '$refn' ORDER BY tbl_stockcard.date ASC");
-	}else{
-		$read_sql = mysqli_query($conn, "SELECT SUBSTRING(tbl_stockcard.date, 1, 10) AS date_r,quantity,reference_no,office,remarks,status FROM tbl_stockcard ORDER BY tbl_stockcard.date ASC");
-	}
+		$sql = mysqli_query($conn, "
+			SELECT 'IN' AS status, p.date_received AS date, p.main_stocks AS quantity, p.po_number AS reference_no, s.supplier AS office, '' AS remarks
+			FROM tbl_po AS p
+			JOIN ref_supplier AS s ON p.supplier_id = s.supplier_id
+			WHERE p.item_name LIKE '$item_name' AND p.description LIKE '$item_desc' AND p.po_number LIKE '$refn'
+			
+			UNION ALL
+			
+			SELECT 'OUT' AS status, ics.date_released AS date, ics.quantity, CONCAT('ICS#', ics.ics_no) AS reference_no, ics.received_by AS office, ics.issued AS remarks
+			FROM tbl_ics AS ics
+			WHERE ics.item LIKE '$item_name' AND ics.description LIKE '$item_desc' AND reference_no LIKE '$refn'
+			
+			UNION ALL
+			
+			SELECT 'OUT' AS status, par.date_released AS date, par.quantity, CONCAT('PAR#', par.par_no) AS reference_no, par.received_by AS office, par.issued AS remarks
+			FROM tbl_par AS par
+			WHERE par.item LIKE '$item_name' AND par.description LIKE '$item_desc' AND reference_no LIKE '$refn'
+			
+			UNION ALL
+			
+			SELECT 'OUT' AS status, ris.date AS date, ris.quantity, CONCAT('RIS#', ris.ris_no) AS reference_no, ris.requested_by AS office, ris.issued AS remarks
+			FROM tbl_ris AS ris
+			WHERE ris.item LIKE '$item_name' AND ris.description LIKE '$item_desc' AND reference_no LIKE '$refn'
+			
+			UNION ALL
+			
+			SELECT 'OUT' AS status, ptr.date_released AS date, ptr.quantity, CONCAT('PTR#', ptr.ptr_no) AS reference_no, ptr.to AS office, ptr.issued AS remarks
+			FROM tbl_ptr AS ptr
+			WHERE ptr.item = '$item_name' AND ptr.description LIKE '$item_desc' AND reference_no LIKE '$refn'
 
-	while($row = mysqli_fetch_assoc($read_sql)){
-		$remarks = ($row["remarks"] == "1") ? "✔️" : "❌";
-		if($row["status"] == "IN"){
-			$qty_balance+=(int)$row["quantity"];
-			$sc_drugs.="<tr>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["date_r"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["reference_no"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["quantity"]."</td>
-		      <td style=\"font-size: 10px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["office"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$qty_balance."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		    </tr>";
+			ORDER BY date ASC
+		");
+
+		while ($row = mysqli_fetch_assoc($sql)) {
+			$date_r = substr($row["date"], 0, 10);
+			$quantity = $row["quantity"];
+			$reference_no = $row["reference_no"];
+			$office = $row["office"];
+			$remarks = $row["remarks"];
+	
+			// Check for remarks
+			$remarks_display = ($remarks === "1") ? "✔️" : "❌";
+	
+			if ($row["status"] == "IN") {
+				$qty_balance += (int)$quantity;
+				$sc_drugs .= "<tr>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$date_r</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$reference_no</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$quantity</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$office</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$qty_balance</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+				</tr>";
+			} else {
+				$qty_balance -= (int)$quantity;
+				$sc_drugs .= "<tr>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$date_r</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$reference_no</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$quantity</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$office</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$qty_balance</td>
+					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$remarks_display</td>
+				</tr>";
+			}
 		}
-		if($row["status"] == "OUT"){
-			$qty_balance-=(int)$row["quantity"];
-			$sc_drugs.="<tr>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["date_r"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["reference_no"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["quantity"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$row["office"]."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$qty_balance."</td>
-		      <td style=\"font-size: 12px; text-align: center; height: 9px; vertical-align: center; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\">".$remarks."</td>
-		    </tr>";
+	
+		// Fill in empty rows if needed
+		for ($i = 0; $i < (45 - mysqli_num_rows($sql)); $i++) {
+			$sc_drugs .= "<tr>
+				<td style='font-size: 12px; text-align: center; border: 1px solid black;'><span style='visibility: hidden;'>LALA</span></td>
+				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
+			</tr>";
 		}
-		$rows++;
-	}
-	for($i = 0; $i < (45 - $rows); $i++){
-		$sc_drugs.="<tr>
-		      <td style=\"font-size:12px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"><span style=\"visibility: hidden;\">LALA</span></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		      <td style=\"font-size:8px; text-align: center; height: 12px; vertical-align: bottom; border-bottom-color: black; border-bottom-width: 1px; border-bottom-style: solid;border-left-color: black; border-left-width: 1px; border-left-style: solid; border-right-color: black; border-right-width: 1px; border-right-style: solid;\"></td>
-		    </tr>";
 	}
 
 	echo $sc_drugs;
