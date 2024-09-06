@@ -209,4 +209,46 @@ function check_pn_exist(){
 	echo implode(",", $existing);
 }
 
+function trace_origins() {
+	global $conn;
+
+	$property_no = mysqli_real_escape_string($conn, $_POST["property_no"]);
+	$origins = [];
+
+	$sql_ics = mysqli_query($conn, "SELECT * FROM tbl_ics WHERE property_no LIKE '%".$property_no."%'");
+	if (mysqli_num_rows($sql_ics)) {
+		while ($row = mysqli_fetch_assoc($sql_ics)) {
+			$origins[] = array(
+				"type"			=> "ICS",
+				"date_released"	=> $row["date_released"],
+				"item" 			=> $row["item"],
+				"description"	=> $row["description"],
+				"serial_no"		=> $row["serial_no"],
+				"received_by"	=> $row["received_by"],
+			);
+		}
+	}
+
+	$sql_par = mysqli_query($conn, "SELECT * FROM tbl_par WHERE property_no LIKE '%".$property_no."%'");
+	if (mysqli_num_rows($sql_par)) {
+		while ($row = mysqli_fetch_assoc($sql_par)) {
+			$origins[] = array(
+				"type"			=> "PAR",
+				"date_released"	=> $row["date_released"],
+				"item" 			=> $row["item"],
+				"description"	=> $row["description"],
+				"serial_no"		=> $row["serial_no"],
+				"received_by" 	=> $row["received_by"],
+			);
+		}
+	}
+
+	usort($origins, function ($a, $b) {
+		return strtotime($a['date_released']) - strtotime($b['date_released']);
+	});
+
+	echo json_encode($origins);
+}
+
+
 ?>

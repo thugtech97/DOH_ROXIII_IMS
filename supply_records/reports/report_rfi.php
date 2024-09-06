@@ -133,8 +133,8 @@
         <td colspan="3" style="height: 20px; text-align: center; vertical-align: middle;"></td>
       </tr>
       <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td colspan="7" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;">
+        <td colspan="2" style="height: 20px; text-align: center; vertical-align: middle;"></td>
+        <td colspan="6" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;">
           Copy of PO's are attached herewith for your reference. Please coordinate directly with Gretchen J.Magaluna, Store Manager, for the above-mentioned inspection/delivery at Doongan Warehouse.
         </td>
       </tr>
@@ -144,8 +144,8 @@
         <td colspan="3" style="height: 20px; text-align: center; vertical-align: middle;"></td>
       </tr>
       <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td colspan="7" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;">
+        <td colspan="2" style="height: 20px; text-align: center; vertical-align: middle;"></td>
+        <td colspan="6" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;">
           <span>Thank you.</span><br>
           <span>Very truly yours,</span><br>
         </td>
@@ -156,8 +156,8 @@
         <td colspan="3" style="height: 20px; text-align: center; vertical-align: middle;"></td>
       </tr>
       <tr>
-        <td style="height: 20px; text-align: center; vertical-align: middle;"></td>
-        <td colspan="7" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;">
+        <td colspan="2" style="height: 20px; text-align: center; vertical-align: middle;"></td>
+        <td colspan="6" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;">
           <span style="font-weight: bold;">ELEANOR D. LAKAG, MSBA</span><br>
           <span>Administrative Officer V</span><br>
           <span>MMU Head</span>

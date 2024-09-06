@@ -180,7 +180,7 @@ function get_rfi(){
                         <td style=\"border: thin solid black;\">{$row['created_at']}</td>
                         <td style=\"border: thin solid black;\">
                             <center>
-                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" title=\"Edit\" onclick=\"print_rfi(this.id);\">
+                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" title=\"Print\" onclick=\"print_rfi(this.id);\">
                                     <i class=\"fa fa-print\"></i>
                                 </button>
                                 <button id=\"{$row['id']}\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" title=\"Delete\" onclick=\"delete_rfi(this.id);\">

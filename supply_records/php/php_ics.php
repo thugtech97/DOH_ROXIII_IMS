@@ -33,7 +33,7 @@ function create_trans(){
 		mysqli_query($conn, "INSERT INTO tbl_ics(ics_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
 		
 		$quantity_new = (int)$row["quantity"] - $quantity_trans;
-		mysqli_query($conn, "UPDATE ".$table." SET property_no = '$un_prop_no', serial_no = '$un_serial_no', quantity = '$quantity_new' WHERE ".$table_id." = '$id'");
+		mysqli_query($conn, "UPDATE ".$table." SET quantity = '$quantity_new' WHERE ".$table_id." = '$id'");
 
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created an ICS transfer (".$trans_ics.") to ".$received_by." with a remarks - ".$remarks;
@@ -224,7 +224,10 @@ function modify(){
 					<td>".number_format((float)$row["cost"], 3)."</td>
 					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
 					<td><input onblur=\"update_remarks('".$row[$field_id]."', this.value, '".$table."', '".$field_id."');\" type=\"text\" value=\"".$row["remarks"]."\"></td>
-					<td><button class=\"btn btn-xs btn-info\" onclick=\"get_item_trans('".$row[$field_id]."', '".$table."', '".$field_id."', '".$field."');\"><i class=\"fa fa-exchange\"></i></button></td>
+					<td>
+						<button class=\"btn btn-xs btn-info\" onclick=\"get_item_trans('".$row[$field_id]."', '".$table."', '".$field_id."', '".$field."');\"><i class=\"fa fa-exchange\"></i></button>
+						<button class=\"btn btn-xs btn-success\" onclick=\"get_history('".$row['property_no']."');\"><i class=\"fa fa-history\"></i></button>
+					</td>
 					</tr>";
 					$tot_amt+=(float)$row["cost"] * (float)$row["quantity"];
 	}
@@ -669,6 +672,9 @@ switch($call_func){
 		break;
 	case "get_ics_par_no":
 		get_ics_par_no();
+		break;
+	case "trace_origins":
+		trace_origins();
 		break;
 }
 

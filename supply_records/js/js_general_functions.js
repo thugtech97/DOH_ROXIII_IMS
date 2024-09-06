@@ -477,3 +477,29 @@ function validatePropertyNo(input) {
         return false;
     }
 }
+
+function get_history(property_no){
+    $("#history_property_no").html(property_no);
+    $.ajax({
+        type: 'POST',
+        data: {call_func: "trace_origins", property_no: property_no},
+        url: 'php/php_ics.php',
+        success: function(data){
+            var history = JSON.parse(data);
+            console.log(history);
+            $("#history_body").empty();
+            history.forEach(function(data){
+                var row = `<tr>
+                            <td>${data.type}</td>
+                            <td>${data.date_released}</td>
+                            <td>${data.item}</td>
+                            <td>${data.description}</td>
+                            <td>${data.serial_no}</td>
+                            <td>${data.received_by}</td>
+                        </tr>`;
+                $("#history_body").append(row);
+            });
+            $("#property_history").modal();
+        }
+    })
+}
