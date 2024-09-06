@@ -56,7 +56,14 @@
                 <hr>
                 <div class="ibox">
                     <div class="ibox-content" style="height: 100vh; overflow: auto; color: black;">
-                        <input type="text" id="lookup" placeholder="Search...">
+                        <div class="d-flex align-items-center">
+                            <input type="text" class="form-control col-4" id="lookup" placeholder="Search..." style="margin-right: 10px;">
+                            <span class="label label-danger" style="font-size: 12px; border-radius: 10px;">
+                                <p class="mb-0">*** You can also enter property no. here to filter PPE results ***</p>
+                            </span>
+                        </div>
+
+                        <br>
                         <center>
                             <div id="ppe_head">
                                 <table>
@@ -78,6 +85,7 @@
                                 <thead>
                                     <tr style="background-color: #F0F0F0; font-size: 12px;">
                                         <th style="padding: 5px;">Date</th>
+                                        <th style="padding: 5px; display: none;">Property</th>
                                         <th style="padding: 5px;">PROGRAM/EU</th>
                                         <th style="padding: 5px;">Particular</th>
                                         <th style="padding: 5px;">PAR/PTR/ICS Reference</th>
