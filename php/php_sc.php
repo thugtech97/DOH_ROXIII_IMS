@@ -281,7 +281,7 @@ function get_ppe_details(){
         cost AS unit_cost, (quantity * cost) AS total_cost, received_by, remarks, 'ics' AS type, property_no, 'TYPE-ICS' AS type_rep
     FROM tbl_ics
     WHERE date_supply_received LIKE '%$year_month%' 
-      AND issued = 1
+      AND issued = 1 AND quantity <> 0
 
     UNION ALL
 
@@ -290,7 +290,7 @@ function get_ppe_details(){
 		cost AS unit_cost, (quantity * cost) AS total_cost,received_by, remarks, 'par' AS type, property_no, 'TYPE-PAR' AS type_rep
     FROM tbl_par
     WHERE date_supply_received LIKE '%$year_month%' 
-      AND issued = 1
+      AND issued = 1 AND quantity <> 0
 
     UNION ALL
 
@@ -299,7 +299,7 @@ function get_ppe_details(){
         cost AS unit_cost, (quantity * cost) AS total_cost, tbl_ptr.to AS received_by, remarks, 'ptr' AS type, property_no, 'TYPE-PTR' AS type_rep
     FROM tbl_ptr
     WHERE date_supply_received LIKE '%$year_month%' 
-      AND issued = 1
+      AND issued = 1 AND quantity <> 0
 
     ORDER BY date_r ASC
 ";
@@ -392,25 +392,25 @@ function print_stock_card() {
         
         SELECT 'OUT' AS status, ics.date_released AS date, ics.quantity, CONCAT('ICS#', ics.ics_no) AS reference_no, ics.received_by AS office, ics.issued AS remarks
         FROM tbl_ics AS ics
-        WHERE ics.item LIKE '$item_name' AND ics.description LIKE '$item_desc' $is_issued
+        WHERE ics.quantity <> 0 AND ics.item LIKE '$item_name' AND ics.description LIKE '$item_desc' $is_issued
         
         UNION ALL
         
         SELECT 'OUT' AS status, par.date_released AS date, par.quantity, CONCAT('PAR#', par.par_no) AS reference_no, par.received_by AS office, par.issued AS remarks
         FROM tbl_par AS par
-        WHERE par.item LIKE '$item_name' AND par.description LIKE '$item_desc' $is_issued
+        WHERE par.quantity <> 0 AND  par.item LIKE '$item_name' AND par.description LIKE '$item_desc' $is_issued
         
         UNION ALL
         
         SELECT 'OUT' AS status, ris.date AS date, ris.quantity, CONCAT('RIS#', ris.ris_no) AS reference_no, ris.requested_by AS office, ris.issued AS remarks
         FROM tbl_ris AS ris
-        WHERE ris.item LIKE '$item_name' AND ris.description LIKE '$item_desc' $is_issued
+        WHERE ris.quantity <> 0 AND  ris.item LIKE '$item_name' AND ris.description LIKE '$item_desc' $is_issued
         
         UNION ALL
         
         SELECT 'OUT' AS status, ptr.date_released AS date, ptr.quantity, CONCAT('PTR#', ptr.ptr_no) AS reference_no, ptr.to AS office, ptr.issued AS remarks
         FROM tbl_ptr AS ptr
-        WHERE ptr.item = '$item_name' AND ptr.description LIKE '$item_desc' $is_issued
+        WHERE ptr.quantity <> 0 AND  ptr.item = '$item_name' AND ptr.description LIKE '$item_desc' $is_issued
 
 		ORDER BY date ASC
     ");
