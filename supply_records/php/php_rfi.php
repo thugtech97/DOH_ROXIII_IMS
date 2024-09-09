@@ -175,8 +175,12 @@ function get_rfi(){
             $tbody .= "<tr>
                         <td style=\"border: thin solid black;\">{$row['id']}</td>
                         <td style=\"border: thin solid black;\">{$row['control_number']}</td>
-                        <td style=\"border: thin solid black;\">{$row['inspector']}</td>
-                        <td style=\"font-size: 10px; border: thin solid black;\">{$row['po_number']}</td>
+                         <td style=\"border: thin solid black;\">" . 
+                            str_replace('|', ', ', $row['inspector']) . 
+                        "</td>
+                         <td style=\"font-size: 10px; border: thin solid black;\">" . 
+                            str_replace('|', ', ', $row['po_number']) . 
+                        "</td>
                         <td style=\"border: thin solid black;\">{$row['created_at']}</td>
                         <td style=\"border: thin solid black;\">
                             <center>
@@ -193,7 +197,7 @@ function get_rfi(){
         $tbody = "<tr><td colspan=\"6\" style=\"text-align: center;\">No data found.</td></tr>";
     }
 
-    $pagination = create_table_pagination($page, $limit, $total_data, ["RFI ID", "Control Number", "Inspector", "Reference/PO Numbers", "Date Created", ""]);
+    $pagination = create_table_pagination($page, $limit, $total_data, ["RFI ID", "Control Number", "Recipient", "Reference/PO Numbers", "Date Created", ""]);
     echo $pagination[0] . $tbody . $pagination[1];
 }
 

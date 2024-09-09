@@ -6,6 +6,7 @@ var prop_no = []; var serial_no = [];
 var un_prop_no = []; var un_serial_no = [];
 
 var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
+var special_category = ["Drugs and Medicines", "Medical Supplies", "Various Supplies", "Office Supplies"];
 
 function exportTableToExcel(tableID, filename = ''){
     var downloadLink;

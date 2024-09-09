@@ -435,6 +435,7 @@ function get_po(){
 
 function get_records(){
 	global $conn;
+	global $special_category;
 
 	$limit = '10';
 	$page = 1;
@@ -461,8 +462,8 @@ function get_records(){
 			$rb = str_replace(' ', '', $row["requested_by"]);
 			$ris_no = $row["ris_no"];
 			$category = mysqli_fetch_assoc(mysqli_query($conn, "SELECT category FROM tbl_ris WHERE ris_no = '$ris_no'"))["category"];
-			$call_print = ($category != "Drugs and Medicines" && $category != "Medical Supplies") ? "print_ris(this.value);" : "print_ris_dm(this.value);";
-			$call_excel = ($category != "Drugs and Medicines" && $category != "Medical Supplies") ? "download_xls(this.value);" : "download_xls_dm(this.value);";
+			$call_print = (!in_array($category, $special_category)) ? "print_ris(this.value);" : "print_ris_dm(this.value);";
+			$call_excel = (!in_array($category, $special_category)) ? "download_xls(this.value);" : "download_xls_dm(this.value);";
 
 			$in = array();
 			$get_items = mysqli_query($conn, "SELECT item FROM tbl_ris WHERE ris_no LIKE '$ris_no'");

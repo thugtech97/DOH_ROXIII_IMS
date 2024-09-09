@@ -94,6 +94,7 @@
                                                     <th>Date Delivered/Travel</th>
                                                     <th>Item</th>
                                                     <th>Description</th>
+                                                    <th>Lot#</th>
                                                     <th>Expiry Date</th>
                                                     <th>Manufacturer</th>
                                                     <th>Quantity</th>

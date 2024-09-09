@@ -22,45 +22,9 @@ if(!isset($_SESSION["username"])){
     <div id="wrapper">
         <?php include("assets/navbar.php"); ?>
         <div id="page-wrapper" class="gray-bg dashbard-1" style="color: black;">
-        <div class="row border-bottom">
-        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-            <ul class="nav navbar-top-links navbar-left">
-                <li style="padding: 20px;">Stock Card
-            </li>
-            </ul>
-        </div>
-            <ul class="nav navbar-top-links navbar-right">
-                <li>
-                    <button class="btn btn-xs btn-default dim" onclick="$('#print_idr').modal();"><i class="fa fa-print"></i> Incoming Delivery Report</button>
-                </li>&nbsp;&nbsp;
-                <li>
-                    <button class="btn btn-xs btn-default dim" onclick="$('#print_ppe').modal();"><i class="fa fa-print"></i> PPE (ICT/Various Supplies)</button>
-                </li>&nbsp;&nbsp;
-                <li>
-                    <button class="btn btn-xs btn-default dim" onclick="$('#print_rsmi').modal();"><i class="fa fa-print"></i> RSMI (RIS-Consumables)</button>
-                </li>&nbsp;&nbsp;
-                <li>
-                    <button class="btn btn-xs btn-default dim" onclick="generate_wi();"><i class="fa fa-print"></i> Warehouse Inventory</button>
-                </li>&nbsp;&nbsp;
-                <li>
-                    <button class="btn btn-xs btn-default dim" onclick="get_rpci();"><i class="fa fa-print"></i> RPCI (All Categories)</button>
-                </li>&nbsp;&nbsp;
-                <li>
-                    <a href="php/php_logout.php">
-                        <i class="fa fa-sign-out"></i> Log out
-                    </a>
-                </li>
-                <li>
-                    <a class="right-sidebar-toggle">
-                        <i class="fa fa-tasks"></i>
-                    </a>
-                </li>
-            </ul>
-
-        </nav>
-        </div>
+            <div class="row border-bottom">
+                <?php require "assets/topmenu.php"; ?> 
+            </div>
         <br>
         <div class="row wrapper border-bottom white-bg page-heading">
             <div class="col-lg-12">

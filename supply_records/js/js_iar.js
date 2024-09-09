@@ -188,6 +188,7 @@ function modify(iar_number){
             $("#evar_inspected").val(data["date_inspected"]);
             $("#evar_dr").val(data["date_received"]);
             $("table#evar_items tbody").html(data["table"]);
+            $("#e_iar_type").val(data["iar_type"]);
         }
     });
 }
@@ -201,10 +202,11 @@ function update(){
         var id = $tds.eq(0).text();
         var item = $tds.eq(2).text();
         var description = $tds.eq(3).text();
-        var exp_date = $tds.eq(4).find('input').val();
-        var manufactured_by = $tds.eq(5).find('input').val();
-        var bool = ($tds.eq(8).find('input').is(":checked") ? 1 : 0);
-        items.push([id,item,description,exp_date,manufactured_by,bool]);
+        var lot_no = $tds.eq(4).find('input').val();
+        var exp_date = $tds.eq(5).find('input').val();
+        var manufactured_by = $tds.eq(6).find('input').val();
+        var bool = ($tds.eq(9).find('input').is(":checked") ? 1 : 0);
+        items.push([id,item,description,exp_date,manufactured_by,bool,lot_no]);
         rows++;
     });
     $.ajax({
@@ -225,7 +227,8 @@ function update(){
             date_received: $("#evar_dr").val(),
             spvs: $("#espvs").val(),
             spvs_designation: $("#espvs_designation").val(),
-            items: items
+            items: items,
+            iar_type: $("#e_iar_type").val(),
         },
         success: function(data){
             swal("Updated!", "IAR details successfully updated.", "success");
@@ -279,10 +282,11 @@ function add_item(tbl_name){
         var id = $tds.eq(0).text();
         var item = $tds.eq(2).text();
         var description = $tds.eq(3).text();
-        var exp_date = $tds.eq(4).find('input').val();
-        var manufactured_by = $tds.eq(5).find('input').val();
-        var bool = ($tds.eq(8).find('input').is(":checked") ? 1 : 0);
-        items.push([id,item,description,exp_date,manufactured_by,bool]);
+        var lot_no = $tds.eq(4).find('input').val();
+        var exp_date = $tds.eq(5).find('input').val();
+        var manufactured_by = $tds.eq(6).find('input').val();
+        var bool = ($tds.eq(9).find('input').is(":checked") ? 1 : 0);
+        items.push([id,item,description,exp_date,manufactured_by,bool,lot_no]);
         rows++;
     });
     return rows;

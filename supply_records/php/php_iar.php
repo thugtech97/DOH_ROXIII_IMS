@@ -121,6 +121,7 @@ function get_nod_dv(){
 
 function update(){
 	global $conn;
+	global $special_category;
 
 	$entity_name = mysqli_real_escape_string($conn, $_POST["entity_name"]);
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
@@ -136,6 +137,7 @@ function update(){
 	$spvs = mysqli_real_escape_string($conn, $_POST["spvs"]);
 	$spvs_designation = mysqli_real_escape_string($conn, $_POST["spvs_designation"]);
 	$items = $_POST["items"];
+	$iar_type = mysqli_real_escape_string($conn, $_POST["iar_type"]);
 	for($i = 0; $i < count($items); $i++){
 		$id = $items[$i][0];
 		$item_name = mysqli_real_escape_string($conn,$items[$i][1]);
@@ -143,7 +145,12 @@ function update(){
 		$exp_date = $items[$i][3];
 		$manufactured_by = mysqli_real_escape_string($conn,$items[$i][4]);
 		$bool = $items[$i][5];
+		$lot_no = $items[$i][6];
 		mysqli_query($conn,"UPDATE tbl_po SET inspection_status = '$bool', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE po_id = '$id'");
+		if(in_array($iar_type, $special_category) && $lot_no != ""){
+			mysqli_query($conn, "UPDATE tbl_po SET sn_ln = '$lot_no' WHERE po_id = '$id'");
+			mysqli_query($conn, "UPDATE tbl_serial SET serial_no = '$lot_no' WHERE inventory_id = '$id'");
+		}
 	}
 	mysqli_query($conn,"UPDATE tbl_iar SET entity_name = '$entity_name', fund_cluster = '$fund_cluster', req_office = '$req_office', res_cc = '$res_cc', charge_invoice = '$charge_invoice', inspector = '$inspector', inspector_designation = '$inspector_designation', date_inspected = '$date_inspected', date_received = '$date_received', spvs = '$spvs', spvs_designation = '$spvs_designation' WHERE iar_number LIKE '$iar_number'");
 
@@ -154,21 +161,25 @@ function update(){
 
 function get_iar_details(){
 	global $conn;
+	global $special_category;
 
 	$iar_number = mysqli_real_escape_string($conn, $_POST["iar_number"]);
 	$entity_name="";$fund_cluster="";$po_number="";$req_office="";$res_cc="";$charge_invoice="";$date_inspected="";$inspector="";$date_received="";$end_user="";$supplier="";$spvs = ""; $spvs_designation = "";
+	$iar_type = "";
 	$table = "";
-	$sql = mysqli_query($conn, "SELECT p.po_id, i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, i.spvs, i.spvs_designation, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, p.main_stocks, p.exp_date, s.supplier, p.activity_title FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
+	$sql = mysqli_query($conn, "SELECT p.po_id, i.iar_type, p.sn_ln, i.entity_name, i.fund_cluster, i.po_number, i.req_office, i.res_cc, i.charge_invoice, i.date_inspected, i.inspector, i.date_received, i.spvs, i.spvs_designation, p.end_user, p.date_conformed, p.date_delivered, p.item_name, p.description, p.quantity, p.unit_cost, p.inspection_status, p.main_stocks, p.exp_date, s.supplier, p.activity_title FROM tbl_iar AS i, tbl_po AS p, ref_supplier AS s WHERE i.iar_number LIKE '$iar_number' AND i.iar_number = p.iar_no AND s.supplier_id = p.supplier_id");
 	while($row = mysqli_fetch_assoc($sql)){
 		$entity_name = $row["entity_name"];$fund_cluster = $row["fund_cluster"];$po_number = $row["po_number"];$req_office = $row["req_office"];$res_cc = $row["res_cc"];
 		$charge_invoice = $row["charge_invoice"];$date_inspected = $row["date_inspected"];$inspector = $row["inspector"];$date_received = $row["date_received"];
-		$end_user = $row["end_user"];$supplier = $row["supplier"];$spvs = $row["spvs"];$spvs_designation = $row["spvs_designation"];
+		$end_user = $row["end_user"];$supplier = $row["supplier"];$spvs = $row["spvs"];$spvs_designation = $row["spvs_designation"]; $iar_type = $row["iar_type"];
 		$unit = (explode(" ", $row["quantity"]))[1];
+		$sn_ln = implode(",", explode("|", rtrim($row["sn_ln"], "|")));
 		$table.="<tr>
 					<td>".$row["po_id"]."</td>
 					<td>".$row["date_delivered"]."</td>
 					<td>".$row["item_name"]."</td>
 					<td>".$row["description"]."</td>
+					<td><input type=\"text\" value=\"".$sn_ln."\" ".(!in_array($row["iar_type"], $special_category) || $sn_ln == "" ? 'disabled' : '' )."></td>
 					<td><input type=\"text\" value=\"".$row["exp_date"]."\" onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\"></td>
 					<td><input type=\"text\" value=\"".$row["activity_title"]."\"></td>
 					<td>".$row["main_stocks"]." ".$unit."</td>
@@ -190,7 +201,8 @@ function get_iar_details(){
 		"supplier"=>$supplier,
 		"spvs"=>$spvs,
 		"spvs_designation"=>$spvs_designation,
-		"table"=>$table
+		"table"=>$table,
+		"iar_type"=>$iar_type,
 	));
 }
 
@@ -231,11 +243,11 @@ function print_iar_dm(){
 	          <td colspan=\"2\" style=\"width: 57.6px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: center; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid; border-right-color: rgb(0, 0, 0); border-right-width:2px;border-right-style:solid;\">".number_format((float)$total_quan, 0)."</td>
 	        </tr>";
 	        
-	        $sql3 = mysqli_query($conn, "SELECT p.main_stocks, p.quantity, s.serial_no, p.exp_date FROM tbl_po AS p, tbl_serial AS s WHERE p.item_name LIKE '$item_name' AND iar_no LIKE '$iar_number' AND s.inventory_id = '$po_id' AND p.po_id = '$po_id'");
+	        $sql3 = mysqli_query($conn, "SELECT main_stocks, quantity, sn_ln, exp_date FROM tbl_po WHERE item_name LIKE '$item_name' AND iar_no LIKE '$iar_number' AND po_id = '$po_id'");
 	        while($rows = mysqli_fetch_assoc($sql3)){
 	        	$tbody.="<tr>
 		          <td style=\"width: 73.2px; height: 15px; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
-		          <td style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">Lot#: ".$rows["serial_no"]."</td>
+		          <td style=\"width: 148.8px; height: 15px; text-align: left; font-size: 10px; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">Lot#: ".implode(",", explode("|", rtrim($rows["sn_ln"], "|")))."</td>
 		          <td style=\"width: 144px; height: 15px; text-align: left; font-size: 10px; vertical-align: bottom; border-bottom-color: rgb(0, 0, 0); border-bottom-width: 1px; border-bottom-style: solid;\">Exp. Date: ".$rows["exp_date"]."</td>
 		          <td style=\"width: 72.6px; height: 15px; text-align: right; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\">".$rows["main_stocks"]." ".$quan_unit[1]."&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		          <td style=\"width: 63px; height: 15px; text-align: center; font-size: 10px; font-weight: bold; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-right-style: solid; border-bottom-style: solid;\"></td>
@@ -393,6 +405,7 @@ function get_rcc(){
 }
 
 function get_po(){
+	global $special_category;
 	global $conn;
 
 	$action = mysqli_real_escape_string($conn, $_POST["action"]);
@@ -411,7 +424,7 @@ function get_po(){
 
 	if($action == "get_details"){
 		$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-		$sql = mysqli_query($conn, "SELECT p.po_id, s.supplier, p.date_delivered, p.date_conformed, p.end_user, i.item, p.description, p.exp_date, p.unit_cost, p.quantity, p.po_type, p.activity_title FROM ref_supplier AS s, tbl_po AS p, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id AND p.inspection_status = '0'");
+		$sql = mysqli_query($conn, "SELECT p.po_id,  p.sn_ln, s.supplier, p.date_delivered, p.date_conformed, p.end_user, i.item, p.description, p.exp_date, p.unit_cost, p.quantity, p.po_type, p.activity_title FROM ref_supplier AS s, tbl_po AS p, ref_item AS i WHERE p.po_number LIKE '$po_number' AND s.supplier_id = p.supplier_id AND i.item_id = p.item_id AND p.inspection_status = '0'");
 		$supplier = "";
 		$date_delivered = "";
 		$date_conformed = "";
@@ -427,11 +440,13 @@ function get_po(){
 				$end_user = $row["end_user"];
 				$quantity = explode(" ", $row["quantity"]);
 				$po_type = $row["po_type"];
+				$sn_ln = implode(",", explode("|", rtrim($row["sn_ln"], "|")));
 				$tbody.="<tr>
 							<td>".$row["po_id"]."</td>
 							<td>".$date_delivered."</td>
 							<td>".$row["item"]."</td>
 							<td>".$row["description"]."</td>
+							<td><input type=\"text\" value=\"".$sn_ln."\" ".(!in_array($po_type, $special_category) || $sn_ln == "" ? 'disabled' : '' )."></td>
 							<td><input type=\"text\" value=\"".$row["exp_date"]."\" onfocus=\"(this.type='date')\" onblur=\"(this.type='text')\"></td>
 							<td><input type=\"text\" value=\"".$row["activity_title"]."\"></td>
 							<td>".$row["quantity"]."</td>
@@ -456,6 +471,7 @@ function get_po(){
 
 function get_records(){
 	global $conn;
+	global $special_category;
 
 	$limit = '10';
 	$page = 1;
@@ -481,25 +497,53 @@ function get_records(){
 	if($total_data != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$pn = $row["po_number"];
-			if($row["iar_type"] != "Drugs and Medicines" && $row["iar_type"] != "Medical Supplies"){
-				$tbody .= "<tr>
-				<td>".$row["iar_id"]."</td>
-				<td>".$row["po_number"]."</td>
-				<td>".$row["iar_number"]."</td>
-				<td>".$row["req_office"]."</td>
-				<td>".$row["res_cc"]."</td>
-				<td><center><button class=\"btn btn-xs btn-primary dim\" value=\"".$row["iar_number"]."\" onclick=\"view_iss(this.value,'tbl_iar','view_iar','IAR','iar_number','".substr($pn,0,4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"".$row["iar_number"]."\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success ladda-button dim\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"".$row["iar_number"]."\" onclick=\"print_iar(this.value);\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button id=\"".$row["iar_number"]."\" class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning dim\" value=\"".$row["iar_number"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button>&nbsp;|&nbsp;<button class=\"btn btn-xs btn-default dim\" title=\"Notice of Delivery\" onclick=\"print_nod('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-truck\"></i></button>&nbsp;<button class=\"btn btn-xs btn-default dim\" title=\"Disbursement Voucher\" onclick=\"print_dv('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-credit-card\"></i></button>&nbsp;<button class=\"btn btn-xs btn-default dim\" title=\"Performance Evaluation\" onclick=\"print_pe('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-tasks\"></i></button></center></td>
-				</tr>";
-			}else{
-				$tbody .= "<tr>
-				<td>".$row["iar_id"]."</td>
-				<td>".$row["po_number"]."</td>
-				<td>".$row["iar_number"]."</td>
-				<td>".$row["req_office"]."</td>
-				<td>".$row["res_cc"]."</td>
-				<td><center><button class=\"btn btn-xs btn-primary dim\" value=\"".$row["iar_number"]."\" onclick=\"view_iss(this.value,'tbl_iar','view_iar','IAR','iar_number','".substr($pn,0,4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"".$row["iar_number"]."\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success dim ladda-button\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"".$row["iar_number"]."\" onclick=\"print_iar_dm(this.value);\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button id=\"".$row["iar_number"]."\" class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning dim\" value=\"".$row["iar_number"]."\" onclick=\"download_xls_dm(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button>&nbsp;|&nbsp;<button class=\"btn btn-xs btn-default dim\" title=\"Notice of Delivery\" onclick=\"print_nod('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-truck\"></i></button>&nbsp;<button class=\"btn btn-xs btn-default dim\" title=\"Disbursement Voucher\" onclick=\"print_dv('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-credit-card\"></i></button>&nbsp;<button class=\"btn btn-xs btn-default dim\" title=\"Performance Evaluation\" onclick=\"print_pe('".$row["iar_number"]."','".$row["po_number"]."');\"><i class=\"fa fa-tasks\"></i></button></center></td>
-				</tr>";
-			}
+			$printAction = !in_array($row["iar_type"], $special_category) ? "print_iar" : "print_iar_dm";
+			$xlsAction = !in_array($row["iar_type"], $special_category) ? "download_xls" : "download_xls_dm";
+
+			$tbody .= "<tr>
+						<td>{$row["iar_id"]}</td>
+						<td>{$row["po_number"]}</td>
+						<td>{$row["iar_number"]}</td>
+						<td>{$row["req_office"]}</td>
+						<td>{$row["res_cc"]}</td>
+						<td>
+							<center>
+								<button class=\"btn btn-xs btn-primary dim\" value=\"{$row["iar_number"]}\" onclick=\"view_iss(this.value, 'tbl_iar', 'view_iar', 'IAR', 'iar_number', '".substr($pn, 0, 4)."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\">
+									<i class=\"fa fa-picture-o\"></i>
+								</button>
+								&nbsp;".
+								(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "
+								<button class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" value=\"{$row["iar_number"]}\" onclick=\"modify(this.value);\">
+									<i class=\"fa fa-pencil-square-o\"></i>
+								</button>
+								&nbsp;" : "")."
+								<button class=\"btn btn-xs btn-success dim ladda-button\" data-style=\"slide-down\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\" value=\"{$row["iar_number"]}\" onclick=\"{$printAction}(this.value);\">
+									<i class=\"fa fa-print\"></i>
+								</button>
+								&nbsp;".
+								(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "
+								<button id=\"{$row["iar_number"]}\" class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id);\">
+									<i class=\"fa fa-trash\"></i>
+								</button>
+								&nbsp;" : "")."
+								<button class=\"btn btn-xs btn-warning dim\" value=\"{$row["iar_number"]}\" onclick=\"{$xlsAction}(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\">
+									<i class=\"fa fa-file-excel-o\"></i>
+								</button>
+								&nbsp;|&nbsp;
+								<button class=\"btn btn-xs btn-default dim\" title=\"Notice of Delivery\" onclick=\"print_nod('{$row["iar_number"]}', '{$row["po_number"]}');\">
+									<i class=\"fa fa-truck\"></i>
+								</button>
+								&nbsp;
+								<button class=\"btn btn-xs btn-default dim\" title=\"Disbursement Voucher\" onclick=\"print_dv('{$row["iar_number"]}', '{$row["po_number"]}');\">
+									<i class=\"fa fa-credit-card\"></i>
+								</button>
+								&nbsp;
+								<button class=\"btn btn-xs btn-default dim\" title=\"Performance Evaluation\" onclick=\"print_pe('{$row["iar_number"]}', '{$row["po_number"]}');\">
+									<i class=\"fa fa-tasks\"></i>
+								</button>
+							</center>
+						</td>
+					</tr>";
 		}
 	}else{
 		$tbody = "<tr><td colspan=\"6\" style=\"text-align: center;\">No data found.</td></tr>";
@@ -516,6 +560,7 @@ function insert_ntc(){
 function insert_various(){
 	global $conn;
 	global $connhr;
+	global $special_category;
 
 	$entity_name = mysqli_real_escape_string($conn, $_POST["entity_name"]);
 	$fund_cluster = mysqli_real_escape_string($conn, $_POST["fund_cluster"]);
@@ -549,8 +594,13 @@ function insert_various(){
 			$exp_date = $items[$i][3];
 			$manufactured_by = $items[$i][4];
 			$bool = $items[$i][5];
+			$lot_no = $items[$i][6];
 			$iarno = ($bool == 0) ? "" : $iar_number;
 			mysqli_query($conn, "UPDATE tbl_po SET inspection_status = '$bool', iar_no = '$iarno', exp_date = '$exp_date', activity_title = '$manufactured_by' WHERE po_id = '$id'");
+			if(in_array($iar_type, $special_category) && $lot_no != ""){
+				mysqli_query($conn, "UPDATE tbl_po SET sn_ln = '$lot_no' WHERE po_id = '$id'");
+				mysqli_query($conn, "UPDATE tbl_serial SET serial_no = '$lot_no' WHERE inventory_id = '$id'");
+			}
 		}
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created an IAR No. ".$iar_number." - PO#".$po_number;

@@ -1,5 +1,7 @@
 <?php
 
+$special_category = ["Drugs and Medicines", "Medical Supplies", "Various Supplies", "Office Supplies"];
+
 function _m_d_yyyy_($date){
 	$in_word = "";
 	if($date != "0000-00-00"){
