@@ -35,7 +35,7 @@ function add_item(){
 	$edate_conformed = mysqli_real_escape_string($conn, $_POST["edate_conformed"]);
 	$edate_delivered = mysqli_real_escape_string($conn, $_POST["edate_delivered"]);
 	$estatus = mysqli_real_escape_string($conn, $_POST["estatus"]);
-	$einspection_status = mysqli_real_escape_string($conn, $_POST["einspection_status"]);
+	//$einspection_status = mysqli_real_escape_string($conn, $_POST["einspection_status"]);
 	$e_item_id = mysqli_real_escape_string($conn, $_POST["e_item_id"]);
 	$e_item_name = mysqli_real_escape_string($conn, $_POST["e_item_name"]);
 	$e_description = mysqli_real_escape_string($conn, $_POST["e_description"]);
@@ -45,11 +45,11 @@ function add_item(){
 	$e_quantity = mysqli_real_escape_string($conn, $_POST["e_quantity"]);
 	$e_unit = mysqli_real_escape_string($conn, $_POST["e_unit"]);
 
-	$e_iarno = mysqli_fetch_assoc(mysqli_query($conn, "SELECT DISTINCT iar_no FROM tbl_po WHERE po_number LIKE '$epo_number'"))["iar_no"];
+	//$e_iarno = mysqli_fetch_assoc(mysqli_query($conn, "SELECT DISTINCT iar_no FROM tbl_po WHERE po_number LIKE '$epo_number'"))["iar_no"];
 
 	$qu = $e_quantity." ".$e_unit;
 
-	mysqli_query($conn, "INSERT INTO tbl_po(po_number,date_received,procurement_mode,delivery_term,payment_term,pr_no, supplier_id,inspection_status,iar_no,item_id,item_name,description,category,exp_date,unit_cost,main_stocks,quantity,end_user,date_conformed,date_delivered,status, po_type) VALUES('$epo_number','$edate_received','$eprocurement_mode','$edelivery_term','$epayment_term','$epr_no','$esupplier','$einspection_status','$e_iarno','$e_item_id','$e_item_name','$e_description','$e_category','$e_exp_date','$e_unit_cost','$e_quantity','$qu','$epo_enduser','$edate_conformed','$edate_delivered','$estatus','$e_category')");
+	mysqli_query($conn, "INSERT INTO tbl_po(po_number,date_received,procurement_mode,delivery_term,payment_term,pr_no, supplier_id,item_id,item_name,description,category,exp_date,unit_cost,main_stocks,quantity,end_user,date_conformed,date_delivered,status, po_type) VALUES('$epo_number','$edate_received','$eprocurement_mode','$edelivery_term','$epayment_term','$epr_no','$esupplier','$e_item_id','$e_item_name','$e_description','$e_category','$e_exp_date','$e_unit_cost','$e_quantity','$qu','$epo_enduser','$edate_conformed','$edate_delivered','$estatus','$e_category')");
 
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." added an item (".$e_item_name.") to PO No.".$epo_number;
@@ -387,7 +387,7 @@ function update_po(){
 	if($esupplier == "0"){
 		echo "1";
 	}else{
-		mysqli_query($conn, "UPDATE tbl_po SET date_received='$edate_received', pr_no='$epr_no', procurement_mode='$eprocurement_mode', delivery_term='$edelivery_term', payment_term='$epayment_term', date_conformed='$edate_conformed', date_delivered='$edate_delivered', status='$estatus', inspection_status='$einspection_status', supplier_id='$esupplier', end_user='$epo_enduser' WHERE po_number LIKE '$epo_number'");
+		mysqli_query($conn, "UPDATE tbl_po SET date_received='$edate_received', pr_no='$epr_no', procurement_mode='$eprocurement_mode', delivery_term='$edelivery_term', payment_term='$epayment_term', date_conformed='$edate_conformed', date_delivered='$edate_delivered', status='$estatus', /*inspection_status='$einspection_status',*/ supplier_id='$esupplier', end_user='$epo_enduser' WHERE po_number LIKE '$epo_number'");
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." edited the details of PO#".$epo_number;
 		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
@@ -579,9 +579,7 @@ function get_po() {
     $limit = 10;
     $page = isset($_POST["page"]) && $_POST["page"] > 1 ? $_POST["page"] : 1;
     $start = ($page - 1) * $limit;
-
-    // Prepare base query
-    $query = "SELECT DISTINCT p.po_number, p.remarks, p.status, p.inspection_status, 
+    $query = "SELECT DISTINCT p.po_number, p.remarks, p.status,
                       p.procurement_mode, s.supplier, 
                       SUBSTRING(p.date_received, 1, 10) AS date_r, 
                       p.delivery_term, p.date_conformed, 
@@ -591,7 +589,6 @@ function get_po() {
               JOIN ref_supplier AS s ON p.supplier_id = s.supplier_id 
               WHERE 1=1 ";
 
-    // Search filter
     $search_param = '';
     if (!empty($_POST["search"])) {
         $qs = mysqli_real_escape_string($conn, $_POST["search"]);
@@ -601,12 +598,9 @@ function get_po() {
         $search_param = '%' . $qs . '%';
     }
 
-    // Order and limit
     $query .= " ORDER BY p.po_id DESC LIMIT ?, ?";
 
-    // Prepare statement
     if ($stmt = mysqli_prepare($conn, $query)) {
-        // Bind parameters
         if (!empty($_POST["search"])) {
             mysqli_stmt_bind_param($stmt, 'ssssssii', $search_param, $search_param, $search_param, 
                 $search_param, $search_param, $search_param, $start, $limit);
@@ -614,7 +608,6 @@ function get_po() {
             mysqli_stmt_bind_param($stmt, 'ii', $start, $limit);
         }
 
-        // Execute statement
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
@@ -625,17 +618,18 @@ function get_po() {
             while ($row = mysqli_fetch_assoc($result)) {
                 $eu = str_replace(' ', '', $row["end_user"]);
                 $pon = $row["po_number"];
-
-                // Fetch item names related to this PO
-                $items_query = "SELECT item_name FROM tbl_po WHERE po_number = ?";
+                $items_query = "SELECT item_name, inspection_status FROM tbl_po WHERE po_number = ?";
                 $items_stmt = mysqli_prepare($conn, $items_query);
                 mysqli_stmt_bind_param($items_stmt, 's', $pon);
                 mysqli_stmt_execute($items_stmt);
                 $items_result = mysqli_stmt_get_result($items_stmt);
 
+				$num_item_rows = mysqli_num_rows($items_result);
+				$total_inspected = 0;
                 $items = [];
                 while ($item_row = mysqli_fetch_assoc($items_result)) {
                     $items[] = trim($item_row["item_name"]);
+					$total_inspected += (int)$item_row["inspection_status"];
                 }
 
                 $tbody .= "<tr>
@@ -648,9 +642,7 @@ function get_po() {
                     <td>{$row['supplier']}</td>
                     <td>{$row['end_user']}</td>
                     <td>{$row['status']}</td>
-                    <td><center>" . (($row['inspection_status'] == '0') ? 
-                        "<button class=\"btn btn-xs btn-danger dim\" style=\"border-radius: 10px;\" disabled>✖</button>" : 
-                        "<button class=\"btn btn-xs dim\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled>✓</button>") . "</center></td>
+					<td style=\"font-size: 10px;\">" . ($num_item_rows == $total_inspected ? '✔️ Fully Inspected (All items have an IAR)' : ($total_inspected == 0 ? '❌ Not Inspected (No items have an IAR)' : '⌛ Partially Inspected (Some items have an IAR)')) . "</td>
                     <td><center>
                         <button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-warning dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '$eu')\"><i class=\"fa fa-picture-o\"></i></button>
                         <button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>
@@ -665,12 +657,10 @@ function get_po() {
             $tbody = "<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
         }
 
-        // Create pagination
-        $in_out = create_table_pagination($page, $limit, $total_data, ["Date Received","PO Number","Items","Procurement Mode","Date Conformed","Date Delivered", "Supplier","End User","Status","Inspected",""]);
+        $in_out = create_table_pagination($page, $limit, $total_data, ["Date Received","PO Number","Items","Procurement Mode","Date Conformed","Date Delivered", "Supplier","End User","Status","Inspection",""]);
         $whole_dom = $in_out[0] . $tbody . $in_out[1];
         echo $whole_dom;
 
-        // Close statement
         mysqli_stmt_close($stmt);
     } else {
         echo "Error preparing statement: " . mysqli_error($conn);
