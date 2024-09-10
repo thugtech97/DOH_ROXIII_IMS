@@ -117,11 +117,12 @@ function create_table_pagination($page, $limit, $total_data, $columns){
 
 	$input = '<label>Total Records - '.$total_data.'</label>
 	          <table class="table table-bordered">
-	            <tr>';
+			  	<thead>
+	            	<tr style=\'text-align: center;\'>';
 	foreach($columns as $c){
-		$input.='<th style=\'border: 2px solid black;\'>'.$c.'</th>';
+		$input.='<th>'.$c.'</th>';
 	}	            
-	$input.='</tr>';
+	$input.='</tr></thead>';
 	$output ='</table>
 	          <br/>
 	          <div align="center">

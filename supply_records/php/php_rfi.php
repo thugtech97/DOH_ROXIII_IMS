@@ -173,16 +173,16 @@ function get_rfi(){
     if($total_data > 0){
         while($row = mysqli_fetch_assoc($sql)){
             $tbody .= "<tr>
-                        <td style=\"border: thin solid black;\">{$row['id']}</td>
-                        <td style=\"border: thin solid black;\">{$row['control_number']}</td>
-                         <td style=\"border: thin solid black;\">" . 
+                        <td>{$row['id']}</td>
+                        <td>{$row['control_number']}</td>
+                         <td>" . 
                             str_replace('|', ', ', $row['inspector']) . 
                         "</td>
-                         <td style=\"font-size: 10px; border: thin solid black;\">" . 
+                         <td style=\"font-size: 10px;\">" . 
                             str_replace('|', ', ', $row['po_number']) . 
                         "</td>
-                        <td style=\"border: thin solid black;\">{$row['created_at']}</td>
-                        <td style=\"border: thin solid black;\">
+                        <td>{$row['created_at']}</td>
+                        <td>
                             <center>
                                 <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" title=\"Print\" onclick=\"print_rfi(this.id);\">
                                     <i class=\"fa fa-print\"></i>

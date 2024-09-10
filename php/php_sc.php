@@ -422,7 +422,6 @@ function print_stock_card() {
         $office = $row["office"];
         $remarks = $row["remarks"];
 
-        // Check for remarks
         $remarks_display = ($remarks === "1") ? "✔️" : "❌";
 
         if ($row["status"] == "IN") {
@@ -452,7 +451,6 @@ function print_stock_card() {
         }
     }
 
-    // Fill in empty rows if needed
     for ($i = 0; $i < (45 - mysqli_num_rows($sql)); $i++) {
         $sc_drugs .= "<tr>
             <td style='font-size: 12px; text-align: center; border: 1px solid black;'><span style='visibility: hidden;'>LALA</span></td>
@@ -524,7 +522,6 @@ function get_sc_ref(){
 			$office = $row["office"];
 			$remarks = $row["remarks"];
 	
-			// Check for remarks
 			$remarks_display = ($remarks === "1") ? "✔️" : "❌";
 	
 			if ($row["status"] == "IN") {
@@ -554,7 +551,6 @@ function get_sc_ref(){
 			}
 		}
 	
-		// Fill in empty rows if needed
 		for ($i = 0; $i < (45 - mysqli_num_rows($sql)); $i++) {
 			$sc_drugs .= "<tr>
 				<td style='font-size: 12px; text-align: center; border: 1px solid black;'><span style='visibility: hidden;'>LALA</span></td>

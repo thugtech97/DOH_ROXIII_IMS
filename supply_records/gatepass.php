@@ -31,7 +31,7 @@ if(!isset($_SESSION["username"])){
                             <h2>Gatepass Creation</h2>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-default dim" data-toggle="modal" data-target="#add_rfi">
+                                    <button type="button" class="btn btn-default dim" data-toggle="modal" data-target="#add_gatepass">
                                         <i class="fa fa-plus"></i> Create Gatepass
                                     </button>
                                 </li>
@@ -49,7 +49,12 @@ if(!isset($_SESSION["username"])){
                         </div>
                         <div class="panel-body">
                             <div class="pull-right">
-                                Search: <input type="text" name="search_box" id="search_box"/>
+                                <div class="input-group m-b">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        </div>
+                                        <input id="search_box" name="seach_box" type="text" class="form-control" placeholder="Search...">
+                                    </div>
                             </div>
                             <div class="table-responsive" id="dynamic_content">
 
@@ -67,7 +72,7 @@ if(!isset($_SESSION["username"])){
             </div>
             <?php
                 require "../assets/small_chat.php";
-                
+                require "../modals/modal_add_gatepass.php";
             ?>
         </div>
     </div>
@@ -76,9 +81,9 @@ if(!isset($_SESSION["username"])){
     ?>
 
     <!-- RFI script -->
-   
+     <script src="js/gatepass.js"></script>
     <script type="text/javascript">
-        
+        set_url("php/gatepass.php");
     </script>
 
 </body>

@@ -8,7 +8,7 @@ function get_groups(){
 
     if(!$conn) {
         echo "<table class=\"table table-bordered\">
-                <tr><th style=\"border: 2px solid black;\" colspan=\"5\">Not connected to the server.</th></tr>
+                <tr><th colspan=\"5\">Not connected to the server.</th></tr>
               </table>";
         return;
     }
@@ -46,11 +46,11 @@ function get_groups(){
             $data_members_json = htmlspecialchars(json_encode($data_members), ENT_QUOTES, 'UTF-8');
             
             $tbody .= "<tr>
-                        <td style=\"border: thin solid black;\">{$row['id']}</td>
-                        <td style=\"border: thin solid black;\">{$row['name']}</td>
-                        <td style=\"font-size: 10px; border: thin solid black;\">$members_list</td>
-                        <td style=\"border: thin solid black;\">{$row['created_at']}</td>
-                        <td style=\"border: thin solid black;\">
+                        <td>{$row['id']}</td>
+                        <td>{$row['name']}</td>
+                        <td style=\"font-size: 10px;\">$members_list</td>
+                        <td>{$row['created_at']}</td>
+                        <td>
                             <center><button id=\"{$row['id']}\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" title=\"View\" onclick=\"edit_group(this.id, '".$row['name']."', $data_members_json);\">
                                 <i class=\"fa fa-edit\"></i></button></center></td>
                     </tr>";
