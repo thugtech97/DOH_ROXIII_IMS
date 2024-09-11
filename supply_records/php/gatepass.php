@@ -254,7 +254,7 @@ function get_gatepass(){
 
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
-if ($call_func === "get_gatepass") {
+if ($call_func === "get_records") {
     get_gatepass();
 }elseif($call_func === "get_latest_gatepass"){
     get_latest_gatepass();

@@ -79,7 +79,7 @@ if(!isset($_SESSION["username"])){
     <?php
         require "../assets/scripts_assets.php";
     ?>
-    
+    <script src="js/js_general_functions.js"></script>
     <script src="js/gatepass.js"></script>
     <script type="text/javascript">
         set_url("php/gatepass.php");
