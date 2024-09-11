@@ -61,7 +61,7 @@ if(!isset($_SESSION["username"])){
                             </div>
                         </div>
                     </div>
-                    
+                    <?php require "reports/report_gatepass.php"; ?>
                 </div>
             </div>
 
@@ -79,9 +79,8 @@ if(!isset($_SESSION["username"])){
     <?php
         require "../assets/scripts_assets.php";
     ?>
-
-    <!-- RFI script -->
-     <script src="js/gatepass.js"></script>
+    
+    <script src="js/gatepass.js"></script>
     <script type="text/javascript">
         set_url("php/gatepass.php");
     </script>

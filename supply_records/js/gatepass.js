@@ -120,7 +120,7 @@ function insert_issuance(){
                         ${
                             selectedType == "RIS" 
                             ? item.lot_no.split("|").filter(part => part.trim() !== "").map(part => part.trim()).join(",") 
-                            : item.serial_no.split("|").filter(part => part.trim() !== "").map(part => part.trim()).join(",")
+                            : item.serial_no
                         }
                     </td>
                     <td>${item.quantity}</td>
@@ -160,7 +160,68 @@ $('#insert_gatepass').on('submit', function(event) {
 });
 
 function print_gatepass(gid){
-    alert("printing "+gid)
+    $.ajax({
+        url: _url,
+        type: 'POST',
+        data: {call_func: "print_gatepass", id: gid},
+        success: function(response) {
+            let data = JSON.parse(response);
+            if(data.error){
+                swal("Error!", data.error, "error");
+                return;
+            }
+
+            console.log(data);
+            let gatepass = data.gatepass;
+            let gatepass_items = data.items;
+            let checked_by = gatepass.checked_by.split("|");
+            let approved_by = gatepass.approved_by.split("|");
+            $("#print_control").html(gatepass.control_number);
+            $("#print_date").html(gatepass.created_at);
+            $("#print_authorized").html(gatepass.authorized_personnel);
+            $("#print_plate").html(gatepass.plate_number);
+            $("#print_driver").html(gatepass.driver);
+            $("#print_vehicle").html(gatepass.vehicle_type)
+            $("#print_checked").html(checked_by[0].toUpperCase());
+            $("#print_approved").html(approved_by[0].toUpperCase());
+            $("#print_checked_pos").html(checked_by[1]);
+            $("#print_approved_pos").html(approved_by[1]);
+
+            $("#item_gatepass").empty()
+            gatepass_items.forEach(function(item, index) {
+                var row = `<tr>
+                        <td style="height: 20px; text-align: center; font-size: 10px; vertical-align: middle; border: 1px solid black;">${item.issuance_type}#${item.issuance_number}</td>
+                        <td style="height: 20px; text-align: center; font-size: 10px; vertical-align: middle; border: 1px solid black;">${item.reference_no}</td>
+                        <td style="height: 20px; text-align: center; font-size: 10px; vertical-align: middle; border: 1px solid black;"><b>${item.item}</b>-${item.description}</td>
+                        <td style="height: 20px; text-align: center; font-size: 10px; vertical-align: middle; border: 1px solid black;">
+                            ${
+                                item.issuance_type == "RIS" 
+                                ? item.lot_no.split("|").filter(part => part.trim() !== "").map(part => part.trim()).join(",") 
+                                : item.serial_no
+                            }
+                        </td>
+                        <td style="height: 20px; text-align: center; font-size: 10px; vertical-align: middle; border: 1px solid black;">${ item.quantity }</td>
+                        <td style="height: 20px; text-align: center; font-size: 10px; vertical-align: middle; border: 1px solid black;">${ item.unit }</td>
+                        <td style="height: 20px; text-align: center; font-size: 10px; vertical-align: middle; border: 1px solid black;">${ item.issuance_program }</td>
+                        <td style="height: 20px; text-align: center; font-size: 10px; vertical-align: middle; border: 1px solid black;">${ item.issuance_purpose }</td>
+                    </tr>`
+                $("#item_gatepass").append(row);
+            });
+
+            var divContents = $("#report_gatepass").html();
+            var a = window.open('', '_blank', 'height=1500, width=800'); 
+            a.document.write('<html><head><link rel="stylesheet" type="text/css" href="../css/demand_letter.css"></head><body><center>');
+            a.document.write('<table style="width: 100%;"><tr><td>');
+            a.document.write(divContents);
+            a.document.write('</td></tr></table>');
+            a.document.write('</center></body></html>'); 
+            a.document.close(); 
+            setTimeout(function() { a.print(); }, 1000);
+        },
+        error: function(xhr, status, error) {
+            swal("Error printing rfi!", error, "error");
+        }
+    });
 }
 
 function delete_gatepass(gid){

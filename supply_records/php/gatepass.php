@@ -7,7 +7,53 @@ session_start();
 
 function print_gatepass() {
     global $conn;
+
+    $table_field = ["ICS" => ["tbl_ics", "ics_id"], "PAR" => ["tbl_par", "par_id"], "PTR" => ["tbl_ptr", "ptr_id"], "RIS" => ["tbl_ris", "ris_id"]];
+
+    $id = mysqli_real_escape_string($conn, $_POST["id"]);
+    $sql = mysqli_query($conn, "SELECT * FROM tbl_gatepass WHERE id = '$id'");
+    
+    if(mysqli_num_rows($sql) != 0) {
+        $data = mysqli_fetch_assoc($sql);
+        
+        $gatepass_id = $data['id'];
+        $sql_details = mysqli_query($conn, "SELECT * FROM tbl_gatepass_details WHERE gatepass_id = '$gatepass_id'");
+
+        $items = [];
+        if(mysqli_num_rows($sql_details) > 0) {
+            while($row = mysqli_fetch_assoc($sql_details)) {
+                $issuance_id = $row['issuance_id'];
+                $issuance_type = $row['issuance_type'];
+
+                if (array_key_exists($issuance_type, $table_field)) {
+                    $table = $table_field[$issuance_type][0];
+                    $field = $table_field[$issuance_type][1];
+
+                    $sql_items = mysqli_query($conn, "SELECT * FROM $table WHERE $field = '$issuance_id'");
+                    if ($sql_items && mysqli_num_rows($sql_items) > 0) {
+                        $issuance_data = mysqli_fetch_assoc($sql_items);
+                        $merged_data = array_merge($row, $issuance_data);
+                        $items[] = $merged_data;
+                    } else {
+                        $items[] = ["error" => "No matching issuance found for ID $issuance_id in $table."];
+                    }
+                } else {
+                    $items[] = ["error" => "Invalid issuance type: $issuance_type"];
+                }
+            }
+        }
+        $response = [
+            'gatepass' => $data,
+            'items' => $items
+        ];
+        echo json_encode($response);
+
+    } else {
+        echo json_encode(["error" => "No data found."]);
+    }
 }
+
+
 
 function get_items_issuances(){
     global $conn;
@@ -220,6 +266,8 @@ if ($call_func === "get_gatepass") {
     insert_gatepass();
 }elseif($call_func === "get_employee"){
     get_employee();
+}elseif($call_func === "print_gatepass"){
+    print_gatepass();
 }
 
 ?>

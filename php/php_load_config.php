@@ -17,7 +17,7 @@ function get_designation($action,$value){
 	return $return_value;
 }
 
-$sql = mysqli_query($conn, "SELECT company_title, supporting_title, entity_name, company_head, company_logo, property_custodian, division_chief, ppe_prepared_by, ppe_noted_by, wi_prepared_by, wi_reviewed_by, wi_noted_by, wi_approved_by, rpci_prepared_by, rpci_certified_correct, rpci_noted_by, rpci_approved_by, rpci_coa, rpci_coa_designation, warehouse_name FROM config WHERE id='1'");
+$sql = mysqli_query($conn, "SELECT * FROM config WHERE id='1'");
 	$row = mysqli_fetch_assoc($sql);
 	$_SESSION["company_title"] = $row["company_title"];
 	$_SESSION["supporting_title"] = $row["supporting_title"];
@@ -52,6 +52,7 @@ $sql = mysqli_query($conn, "SELECT company_title, supporting_title, entity_name,
 	$_SESSION["rpci_coa"] = $row["rpci_coa"];
 	$_SESSION["rpci_coa_designation"] = $row["rpci_coa_designation"];
 	$_SESSION["warehouse_name"] = $row["warehouse_name"];
+	$_SESSION["warehouse_location"] = $row["warehouse_location"];
 
 	echo json_encode(array("company_logo"=>$_SESSION["company_logo"],"company_title"=>$_SESSION["company_title"]));
 ?>
