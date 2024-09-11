@@ -17,7 +17,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-2 col-form-label">Control Number:</label>
                                         <div class="col-lg-6">
-                                            <input id="control_number" type="text" class="form-control" name="control_number" required>
+                                            <input id="control_number" data-ppb="<?php echo $_SESSION["ppe_prepared_by"]; ?>" type="text" class="form-control" name="control_number" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -120,7 +120,9 @@
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label">Checked by:</label>
                                         <div class="col-lg-8">
-                                            <input id="checked_by" type="text" class="form-control" name="checked_by" required>
+                                            <select id="checked_by" type="text" class="form-control select2_demo_1" name="checked_by" required>
+                                            
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +130,9 @@
                                     <div class="form-group row">
                                         <label class="col-lg-4 col-form-label">Approved by:</label>
                                         <div class="col-lg-8">
-                                            <input id="approved_by" type="text" class="form-control" name="approved_by" required>
+                                            <select id="approved_by" type="text" class="form-control select2_demo_1" name="approved_by" required>
+                                            
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

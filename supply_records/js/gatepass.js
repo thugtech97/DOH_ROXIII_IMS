@@ -81,6 +81,23 @@ $('input[name="issuance_type"]').change(function() {
     })
 });
 
+$("#checked_by").ready(function(){
+    $.ajax({
+        type: "POST",
+        url: _url,
+        data: {call_func: "get_employee"},
+        success: function(data){
+            $("#checked_by").html("<option disabled selected></option>").append(data);
+            $("#approved_by").html("<option disabled selected></option>").append(data);
+            $('#approved_by option').each(function() {
+                if($(this).text() == $("#control_number").data("ppb")){
+                    $(this).prop("selected", true).change();
+                }
+            });
+        }
+    });
+});
+
 function insert_issuance(){
     let issuances = $("#issuance_no").val();
     $.ajax({
@@ -95,7 +112,8 @@ function insert_issuance(){
             }
             items.forEach(function(item) {
                 var row = `<tr>
-                    <td>${selectedType}#${item[field]}</td>
+                    <td class='d-none'><input type='text' name='issuance_id[]' value='${item[id]}'></td>
+                    <td><input type='text' class='form-control' name='issuance_no[]' value='${selectedType}#${item[field]}' readonly></td>
                     <td>${item.reference_no}</td>
                     <td><b>${item.item}</b> - ${item.description}</td>
                     <td>
@@ -107,8 +125,8 @@ function insert_issuance(){
                     </td>
                     <td>${item.quantity}</td>
                     <td>${item.unit}</td>
-                    <td></td>
-                    <td>${ selectedType == "ICS" || selectedType == "PAR" ? item.remarks : selectedType == "RIS" ? item.purpose : item.reason }</td>
+                    <td><input type='text' class='form-control' name='program[]' value='${selectedType == "RIS" ? item.office : selectedType == "PTR" ? item.to : item.received_by}'></td>
+                    <td><input type='text' class='form-control' name='purpose[]' value='${selectedType == "RIS" ? item.purpose : selectedType == "PTR" ? item.reason : item.remarks}'></td>
                     <td><button type='button' class='btn btn-danger btn-sm' onclick='removeRow(this)'><i class='fa fa-trash'></i> </button></td>
                 </tr>`;
                 $("#item_table_body").append(row);
@@ -116,4 +134,35 @@ function insert_issuance(){
             $("#issuance_no").val(null).trigger('change')
         }
     });
+}
+
+$('#insert_gatepass').on('submit', function(event) {
+    event.preventDefault();
+
+    let formData = $(this).serialize();
+    formData += `&${encodeURIComponent('call_func')}=${encodeURIComponent('insert_gatepass')}`;
+
+    console.log("Serialized Form Data:", formData);
+    
+    $.ajax({
+        url: _url,
+        type: 'POST',
+        data: formData,
+        success: function(response) {
+            swal("Inserted!", "Saved successfully to the database.", "success");
+            setTimeout(function () {location.reload();}, 1500);
+            
+        },
+        error: function(xhr, status, error) {
+            swal("Error saving rfi!", error, "error");
+        }
+    });
+});
+
+function print_gatepass(gid){
+    alert("printing "+gid)
+}
+
+function delete_gatepass(gid){
+    alert("deleting "+gid)
 }

@@ -55,6 +55,28 @@ function get_issuance_no(){
 
 }
 
+function get_employee() {
+    global $connhr;
+    $sql = mysqli_query($connhr, "
+        SELECT e.*, d.designation 
+        FROM tbl_employee e 
+        LEFT JOIN ref_designation d ON e.designation_fid = d.designation_id 
+        WHERE e.status LIKE 'Active' 
+        ORDER BY e.fname ASC
+    ");
+    if (mysqli_num_rows($sql) != 0) {
+        while ($row = mysqli_fetch_assoc($sql)) {
+            // Construct the full name
+            $full_name = (($row["prefix"] != null) ? $row["prefix"] . " " : "") .
+                         $row["fname"] . " " .
+                         (($row["mname"] != null) ? $row["mname"][0] . ". " : "") .
+                         $row["lname"] .
+                         (($row["suffix"] != null) ? ", " . $row["suffix"] : "");
+            echo "<option value=\"" . $full_name . "|" . $row["designation"] . "\">" . $full_name . "</option>";
+        }
+    }
+}
+
 function get_latest_gatepass(){
 	global $conn;
 
@@ -78,7 +100,52 @@ function update_gatepass(){
 
 function insert_gatepass() {
     global $conn;
+
+    // Escape and sanitize non-array POST data
+    $control_number = mysqli_real_escape_string($conn, $_POST['control_number']);
+    $authorized_personnel = mysqli_real_escape_string($conn, $_POST['authorized_personnel']);
+    $driver = mysqli_real_escape_string($conn, $_POST['driver']);
+    $plate_number = mysqli_real_escape_string($conn, $_POST['plate_number']);
+    $vehicle_type = mysqli_real_escape_string($conn, $_POST['vehicle_type']);
+    $checked_by = mysqli_real_escape_string($conn, $_POST['checked_by']);
+    $approved_by = mysqli_real_escape_string($conn, $_POST['approved_by']);
+
+    $issuance_id = $_POST['issuance_id'];
+    $issuance_no = $_POST['issuance_no'];
+    $program = $_POST['program'];
+    $purpose = $_POST['purpose'];
+
+    $sql = "INSERT INTO tbl_gatepass (control_number, authorized_personnel, driver, plate_number, vehicle_type, checked_by, approved_by) 
+            VALUES ('$control_number', '$authorized_personnel', '$driver', '$plate_number', '$vehicle_type', '$checked_by', '$approved_by')";
+
+    if (mysqli_query($conn, $sql)) {
+        $gatepass_id = mysqli_insert_id($conn);
+
+        for ($i = 0; $i < count($issuance_id); $i++) {
+            $issuance_data = explode("#", $issuance_no[$i]);
+            $issuance_type = $issuance_data[0];
+            $issuance_number = $issuance_data[1];
+
+            $details_sql = "INSERT INTO tbl_gatepass_details 
+                            (gatepass_id, issuance_id, issuance_type, issuance_number, issuance_program, issuance_purpose) 
+                            VALUES ('$gatepass_id', 
+                                    '".mysqli_real_escape_string($conn, $issuance_id[$i])."', 
+                                    '".mysqli_real_escape_string($conn, $issuance_type)."', 
+                                    '".mysqli_real_escape_string($conn, $issuance_number)."', 
+                                    '".mysqli_real_escape_string($conn, $program[$i])."', 
+                                    '".mysqli_real_escape_string($conn, $purpose[$i])."')";
+
+            if (!mysqli_query($conn, $details_sql)) {
+                echo json_encode(["error" => mysqli_error($conn)]);
+            }
+        }
+
+        echo json_encode(["success" => "Data inserted successfully."]);
+    } else {
+        echo json_encode(["error" => mysqli_error($conn)]);
+    }
 }
+
 
 function get_gatepass(){
     global $conn;
@@ -121,10 +188,10 @@ function get_gatepass(){
                         <td>{$row['created_at']}</td>
                         <td>
                             <center>
-                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" title=\"Print\" onclick=\"print_rfi(this.id);\">
+                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" title=\"Print\" onclick=\"print_gatepass(this.id);\">
                                     <i class=\"fa fa-print\"></i>
                                 </button>
-                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" title=\"Delete\" onclick=\"delete_rfi(this.id);\">
+                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" title=\"Delete\" onclick=\"delete_gatepass(this.id);\">
                                     <i class=\"fa fa-trash\"></i>
                                 </button>
                             </center>
@@ -149,6 +216,10 @@ if ($call_func === "get_gatepass") {
     get_issuance_no();
 }elseif($call_func === "get_items_issuances"){
     get_items_issuances();
+}elseif($call_func === "insert_gatepass"){
+    insert_gatepass();
+}elseif($call_func === "get_employee"){
+    get_employee();
 }
 
 ?>
