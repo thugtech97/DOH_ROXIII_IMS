@@ -34,7 +34,7 @@
                                                 
                                                 </select>
                                                 <span class="input-group-append">
-                                                    <button onclick="insert_issuance()" type="button" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+                                                    <button onclick="insert_issuance()" type="button" class="btn btn-primary dim"><i class="fa fa-plus"></i></button>
                                                 </span>
                                             </div>
                                         </div>

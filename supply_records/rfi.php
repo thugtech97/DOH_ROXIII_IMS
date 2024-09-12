@@ -81,6 +81,7 @@ if(!isset($_SESSION["username"])){
     ?>
 
     <!-- RFI script -->
+    <script src="js/js_general_functions.js"></script>
     <script src="js/js_rfi.js"></script>
     <script type="text/javascript">
         set_url("php/php_rfi.php");

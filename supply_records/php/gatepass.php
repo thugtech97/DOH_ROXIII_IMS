@@ -112,7 +112,6 @@ function get_employee() {
     ");
     if (mysqli_num_rows($sql) != 0) {
         while ($row = mysqli_fetch_assoc($sql)) {
-            // Construct the full name
             $full_name = (($row["prefix"] != null) ? $row["prefix"] . " " : "") .
                          $row["fname"] . " " .
                          (($row["mname"] != null) ? $row["mname"][0] . ". " : "") .
@@ -121,6 +120,44 @@ function get_employee() {
             echo "<option value=\"" . $full_name . "|" . $row["designation"] . "\">" . $full_name . "</option>";
         }
     }
+}
+
+function get_sources(){
+    global $conn;
+
+    $sql = mysqli_query($conn, "SELECT DISTINCT authorized_personnel FROM tbl_gatepass");
+    $authorized_personnel = [];
+    if(mysqli_num_rows($sql) != 0){
+        while($row = mysqli_fetch_assoc($sql)){
+            $authorized_personnel[] = $row["authorized_personnel"];
+        }
+    }
+
+    $sql = mysqli_query($conn, "SELECT DISTINCT plate_number FROM tbl_gatepass");
+    $plate_number = [];
+    if(mysqli_num_rows($sql) != 0){
+        while($row = mysqli_fetch_assoc($sql)){
+            $plate_number[] = $row["plate_number"];
+        }
+    }
+
+    $sql = mysqli_query($conn, "SELECT DISTINCT driver FROM tbl_gatepass");
+    $driver = [];
+    if(mysqli_num_rows($sql) != 0){
+        while($row = mysqli_fetch_assoc($sql)){
+            $driver[] = $row["driver"];
+        }
+    }
+
+    $sql = mysqli_query($conn, "SELECT DISTINCT vehicle_type FROM tbl_gatepass");
+    $vehicle_type = [];
+    if(mysqli_num_rows($sql) != 0){
+        while($row = mysqli_fetch_assoc($sql)){
+            $vehicle_type[] = $row["vehicle_type"];
+        }
+    }
+
+    echo json_encode(["authorized_personnel" => $authorized_personnel, "driver" => $driver, "vehicle_type" => $vehicle_type, "plate_number" => $plate_number]);
 }
 
 function get_latest_gatepass(){
@@ -138,6 +175,10 @@ function get_latest_gatepass(){
 
 function delete_gatepass(){
     global $conn;
+
+    $id = mysqli_real_escape_string($conn, $_POST["id"]);
+    mysqli_query($conn, "DELETE FROM tbl_gatepass WHERE id = '$id'");
+    mysqli_query($conn, "DELETE FROM tbl_gatepass_details WHERE gatepass_id = '$id'");
 }
 
 function update_gatepass(){
@@ -234,10 +275,10 @@ function get_gatepass(){
                         <td>{$row['created_at']}</td>
                         <td>
                             <center>
-                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" title=\"Print\" onclick=\"print_gatepass(this.id);\">
+                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" title=\"Print\" onclick=\"print_gatepass(this.id);\">
                                     <i class=\"fa fa-print\"></i>
                                 </button>
-                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" title=\"Delete\" onclick=\"delete_gatepass(this.id);\">
+                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" title=\"Delete\" onclick=\"delete_gatepass(this.id);\">
                                     <i class=\"fa fa-trash\"></i>
                                 </button>
                             </center>
@@ -248,7 +289,7 @@ function get_gatepass(){
         $tbody = "<tr><td colspan=\"10\" style=\"text-align: center;\">No data found.</td></tr>";
     }
 
-    $pagination = create_table_pagination($page, $limit, $total_data, ["ID", "Control#", "Authorized Personnel", "Plate#", "Driver", "Vehicle Type", "Checked by", "Approved by", "Created at", ""]);
+    $pagination = create_table_pagination($page, $limit, $total_data, ["ID", "Control#", "Authorized Personnel", "Plate#", "Driver", "Vehicle Type", "Checked by", "Approved by", "Date Created", ""]);
     echo $pagination[0] . $tbody . $pagination[1];
 }
 
@@ -268,6 +309,10 @@ if ($call_func === "get_records") {
     get_employee();
 }elseif($call_func === "print_gatepass"){
     print_gatepass();
+}elseif($call_func === "delete_gatepass"){
+    delete_gatepass();
+}elseif($call_func === "get_sources"){
+    get_sources();
 }
 
 ?>

@@ -31,16 +31,7 @@ if(!isset($_SESSION["username"])){
                 <br>
                 <div class="row">
                     <div class="col-lg-5">
-                        <!---
-                        <div class="form-group row">
-                            <label class="col-lg-4 col-form-label"><b>Select a category:</b></label>
-                            <div class="col-lg-8">
-                                <select id="category" class="select2_demo_1 form-control">
-                                    <option value="" disabled selected></option>
-                                </select>
-                            </div>
-                        </div>
-                        !-->
+                        
                     </div>
                     <div class="col-lg-7">
                         <button type="button" class="btn btn-default pull-right dim" data-toggle="modal" data-target="#gen_ics_par">
@@ -56,7 +47,14 @@ if(!isset($_SESSION["username"])){
                 <div class="ibox" style="border-style: solid; border-color: black; border-width: 1px;">
                     <div class="ibox-title">
                         <h5>Items&nbsp;&nbsp;<span id="num_items" class="label label-success" style="border-radius: 10px;">0</span></h5>
-                        <input type="text" id="searchkw" class="pull-right" placeholder="Search...">
+                        <div class="pull-right">
+                            <div class="input-group m-b">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                </div>
+                                <input id="searchkw" name="seach_box" type="text" class="form-control" placeholder="Search...">
+                            </div>
+                        </div>
                     </div>
                     <div class="ibox-content" style="height: 100vh;overflow:auto;">
                         <div class="dd" id="nestable">

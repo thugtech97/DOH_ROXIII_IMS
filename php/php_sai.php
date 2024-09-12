@@ -22,7 +22,7 @@ function get_pr(){
 		$query = "SELECT pr_code, division, office, pr_no, prepared_user_name, pr_purpose FROM tbl_pr ";
 		if($_POST["search"] != ""){
 			$qs = mysqli_real_escape_string($conn_epabs, $_POST["search"]);
-			$query.="AND (pr_code LIKE '%$qs%' OR division LIKE '%$qs%' OR office LIKE '%$qs%' OR pr_no LIKE '%$qs%' OR prepared_user_name LIKE '%$qs%' OR pr_purpose LIKE '%$qs%') ";
+			$query.="WHERE pr_code LIKE '%$qs%' OR division LIKE '%$qs%' OR office LIKE '%$qs%' OR pr_no LIKE '%$qs%' OR prepared_user_name LIKE '%$qs%' OR pr_purpose LIKE '%$qs%' ";
 		}
 		//$query.="ORDER BY created_at ASC ";
 
@@ -40,14 +40,14 @@ function get_pr(){
 				}
 				if(!empty($in)){
 					$tbody.="<tr>
-							<td style=\"border: thin solid black;\">".$row["pr_code"]."</td>
-							<td style=\"font-size: 10px; border: thin solid black;\">".implode(", ", $in)."</td>
-							<td style=\"border: thin solid black;\">".$row["division"]."</td>
-							<td style=\"border: thin solid black;\">".$row["office"]."</td>
-							<td style=\"border: thin solid black;\">".$row["pr_no"]."</td>
-							<td style=\"border: thin solid black;\">".$row["prepared_user_name"]."</td>
-							<td style=\"border: thin solid black;\">".$row["pr_purpose"]."</td>
-							<td style=\"border: thin solid black;\"><center><button id=\"".$row["pr_code"]."\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"get_pr_items(this.id);\"><i class=\"fa fa-eye\"></i></button></center></td>
+							<td>".$row["pr_code"]."</td>
+							<td style=\"font-size: 10px;\">".implode(", ", $in)."</td>
+							<td>".$row["division"]."</td>
+							<td>".$row["office"]."</td>
+							<td>".$row["pr_no"]."</td>
+							<td>".$row["prepared_user_name"]."</td>
+							<td>".$row["pr_purpose"]."</td>
+							<td><center><button id=\"".$row["pr_code"]."\" class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"get_pr_items(this.id);\"><i class=\"fa fa-eye\"></i></button></center></td>
 						</tr>";
 				}
 			}
@@ -59,7 +59,7 @@ function get_pr(){
 		$whole_dom = $in_out[0]."".$tbody."".$in_out[1];
 	}else{
 		$whole_dom = "<table class=\"table table-bordered\">
-						<tr><th style=\"border: 2px solid black;\" colspan=\"8\">Not connected to E-Procurement Database</th></tr>
+						<tr><th colspan=\"8\">Not connected to E-Procurement Database</th></tr>
 						</table>";
 	}
 

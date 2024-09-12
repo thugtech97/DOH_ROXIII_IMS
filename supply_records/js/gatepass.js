@@ -27,11 +27,22 @@ function ready_all(){
             }
         });
     });
-    
-    $('#authorized_personnel').typeahead({ source: ["NAME 1", "NAME 2", "NAME 3"] });
-    $('#driver').typeahead({ source: ["NAME 1", "NAME 2", "NAME 3"] });
-    $('#plate_number').typeahead({ source: ["NAME 1", "NAME 2", "NAME 3"] });
-    $('#vehicle_type').typeahead({ source: ["NAME 1", "NAME 2", "NAME 3"] });
+    $("#authorized_personnel").ready(function(){
+        $.ajax({
+            type: "POST",
+            url: _url,
+            data: {call_func: "get_sources"},
+            success: function(data){
+                let sources = JSON.parse(data);
+                console.log(sources)
+
+                $('#authorized_personnel').typeahead({ source: sources.authorized_personnel });
+                $('#driver').typeahead({ source: sources.driver });
+                $('#plate_number').typeahead({ source: sources.plate_number });
+                $('#vehicle_type').typeahead({ source: sources.vehicle_type });
+            }
+        })
+    });
 }
 
 $('input[name="issuance_type"]').change(function() {
@@ -98,7 +109,7 @@ function insert_issuance(){
                     <td>${item.unit}</td>
                     <td><input type='text' class='form-control' name='program[]' value='${selectedType == "RIS" ? item.office : selectedType == "PTR" ? item.to : item.received_by}'></td>
                     <td><input type='text' class='form-control' name='purpose[]' value='${selectedType == "RIS" ? item.purpose : selectedType == "PTR" ? item.reason : item.remarks}'></td>
-                    <td><button type='button' class='btn btn-danger btn-sm' onclick='removeRow(this)'><i class='fa fa-trash'></i> </button></td>
+                    <td><button type='button' class='btn btn-danger btn-sm dim' onclick='removeRow(this)'><i class='fa fa-trash'></i> </button></td>
                 </tr>`;
                 $("#item_table_body").append(row);
             });
@@ -109,6 +120,13 @@ function insert_issuance(){
 
 $('#insert_gatepass').on('submit', function(event) {
     event.preventDefault();
+
+    const issuanceRows = $('#item_table_body').find('tr').length;
+
+    if (issuanceRows === 0) {
+        swal("Error!", "Please add at least one issuance before saving.", "error");
+        return; 
+    }
 
     let formData = $(this).serialize();
     formData += `&${encodeURIComponent('call_func')}=${encodeURIComponent('insert_gatepass')}`;
@@ -190,11 +208,29 @@ function print_gatepass(gid){
             setTimeout(function() { a.print(); }, 1000);
         },
         error: function(xhr, status, error) {
-            swal("Error printing rfi!", error, "error");
+            swal("Error printing gatepass!", error, "error");
         }
     });
 }
 
 function delete_gatepass(gid){
-    alert("deleting "+gid)
+    swal({
+        title: "Are you sure?",
+        text: "This gatepass record will be deleted as soon as you clicked 'Yes'",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: false
+    }, function () {
+        $.ajax({
+            type: "POST",
+            data: {call_func: "delete_gatepass", id: gid},
+            url: _url,
+            success: function(data){
+                swal("Deleted!", "Gatepass record successfully deleted.", "success");
+                setTimeout(function () { location.reload(); }, 1500);
+            }
+        });
+    });
 }

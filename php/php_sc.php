@@ -378,39 +378,43 @@ function print_stock_card() {
     $qty_balance = 0;
     $item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
     $item_desc = mysqli_real_escape_string($conn, $_POST["item_desc"]);
+	$refn = mysqli_real_escape_string($conn, $_POST["refn"]);
     $spec = mysqli_real_escape_string($conn, $_POST["spec"]);
     
-    $is_issued = ($spec == "") ? "" : " AND issued = '" . $spec . "'";
+    $is_issued 	= ($spec == "") ? "" : " AND issued = '" . $spec . "'";
+	$is_po		= ($refn == "") ? "" : " AND p.po_number LIKE '$refn'";
+	$is_ref		= ($refn == "") ? "" : " AND reference_no LIKE '$refn'";
+
 
     $sql = mysqli_query($conn, "
         SELECT 'IN' AS status, p.date_received AS date, p.main_stocks AS quantity, p.po_number AS reference_no, s.supplier AS office, '' AS remarks 
         FROM tbl_po AS p
         JOIN ref_supplier AS s ON p.supplier_id = s.supplier_id
-        WHERE p.item_name LIKE '$item_name' AND p.description LIKE '$item_desc'
+        WHERE p.item_name LIKE '$item_name' AND p.description LIKE '$item_desc' $is_po
         
         UNION ALL
         
         SELECT 'OUT' AS status, ics.date_released AS date, ics.quantity, CONCAT('ICS#', ics.ics_no) AS reference_no, ics.received_by AS office, ics.issued AS remarks
         FROM tbl_ics AS ics
-        WHERE ics.quantity <> 0 AND ics.item LIKE '$item_name' AND ics.description LIKE '$item_desc' $is_issued
+        WHERE ics.quantity <> 0 AND ics.item LIKE '$item_name' AND ics.description LIKE '$item_desc' $is_issued $is_ref
         
         UNION ALL
         
         SELECT 'OUT' AS status, par.date_released AS date, par.quantity, CONCAT('PAR#', par.par_no) AS reference_no, par.received_by AS office, par.issued AS remarks
         FROM tbl_par AS par
-        WHERE par.quantity <> 0 AND  par.item LIKE '$item_name' AND par.description LIKE '$item_desc' $is_issued
+        WHERE par.quantity <> 0 AND  par.item LIKE '$item_name' AND par.description LIKE '$item_desc' $is_issued $is_ref
         
         UNION ALL
         
         SELECT 'OUT' AS status, ris.date AS date, ris.quantity, CONCAT('RIS#', ris.ris_no) AS reference_no, ris.requested_by AS office, ris.issued AS remarks
         FROM tbl_ris AS ris
-        WHERE ris.quantity <> 0 AND  ris.item LIKE '$item_name' AND ris.description LIKE '$item_desc' $is_issued
+        WHERE ris.quantity <> 0 AND  ris.item LIKE '$item_name' AND ris.description LIKE '$item_desc' $is_issued $is_ref
         
         UNION ALL
         
         SELECT 'OUT' AS status, ptr.date_released AS date, ptr.quantity, CONCAT('PTR#', ptr.ptr_no) AS reference_no, ptr.to AS office, ptr.issued AS remarks
         FROM tbl_ptr AS ptr
-        WHERE ptr.quantity <> 0 AND  ptr.item = '$item_name' AND ptr.description LIKE '$item_desc' $is_issued
+        WHERE ptr.quantity <> 0 AND  ptr.item = '$item_name' AND ptr.description LIKE '$item_desc' $is_issued $is_ref
 
 		ORDER BY date ASC
     ");
@@ -472,100 +476,6 @@ function print_stock_card() {
 
 	echo json_encode(array("sc_drugs" => $sc_drugs, "option_ref" => $option_ref));
 
-}
-
-function get_sc_ref(){
-	global $conn;
-	$refn = mysqli_real_escape_string($conn, $_POST["refn"]);
-	$item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
-	$item_desc = mysqli_real_escape_string($conn, $_POST["item_desc"]);
-	$sc_drugs = "";
-    $qty_balance = 0;
-	if($refn != ""){
-		$sql = mysqli_query($conn, "
-			SELECT 'IN' AS status, p.date_received AS date, p.main_stocks AS quantity, p.po_number AS reference_no, s.supplier AS office, '' AS remarks
-			FROM tbl_po AS p
-			JOIN ref_supplier AS s ON p.supplier_id = s.supplier_id
-			WHERE p.item_name LIKE '$item_name' AND p.description LIKE '$item_desc' AND p.po_number LIKE '$refn'
-			
-			UNION ALL
-			
-			SELECT 'OUT' AS status, ics.date_released AS date, ics.quantity, CONCAT('ICS#', ics.ics_no) AS reference_no, ics.received_by AS office, ics.issued AS remarks
-			FROM tbl_ics AS ics
-			WHERE ics.item LIKE '$item_name' AND ics.description LIKE '$item_desc' AND reference_no LIKE '$refn'
-			
-			UNION ALL
-			
-			SELECT 'OUT' AS status, par.date_released AS date, par.quantity, CONCAT('PAR#', par.par_no) AS reference_no, par.received_by AS office, par.issued AS remarks
-			FROM tbl_par AS par
-			WHERE par.item LIKE '$item_name' AND par.description LIKE '$item_desc' AND reference_no LIKE '$refn'
-			
-			UNION ALL
-			
-			SELECT 'OUT' AS status, ris.date AS date, ris.quantity, CONCAT('RIS#', ris.ris_no) AS reference_no, ris.requested_by AS office, ris.issued AS remarks
-			FROM tbl_ris AS ris
-			WHERE ris.item LIKE '$item_name' AND ris.description LIKE '$item_desc' AND reference_no LIKE '$refn'
-			
-			UNION ALL
-			
-			SELECT 'OUT' AS status, ptr.date_released AS date, ptr.quantity, CONCAT('PTR#', ptr.ptr_no) AS reference_no, ptr.to AS office, ptr.issued AS remarks
-			FROM tbl_ptr AS ptr
-			WHERE ptr.item = '$item_name' AND ptr.description LIKE '$item_desc' AND reference_no LIKE '$refn'
-
-			ORDER BY date ASC
-		");
-
-		while ($row = mysqli_fetch_assoc($sql)) {
-			$date_r = substr($row["date"], 0, 10);
-			$quantity = $row["quantity"];
-			$reference_no = $row["reference_no"];
-			$office = $row["office"];
-			$remarks = $row["remarks"];
-	
-			$remarks_display = ($remarks === "1") ? "✔️" : "❌";
-	
-			if ($row["status"] == "IN") {
-				$qty_balance += (int)$quantity;
-				$sc_drugs .= "<tr>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$date_r</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$reference_no</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$quantity</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$office</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$qty_balance</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-				</tr>";
-			} else {
-				$qty_balance -= (int)$quantity;
-				$sc_drugs .= "<tr>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$date_r</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$reference_no</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$quantity</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$office</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$qty_balance</td>
-					<td style='font-size: 12px; text-align: center; border: 1px solid black;'>$remarks_display</td>
-				</tr>";
-			}
-		}
-	
-		for ($i = 0; $i < (45 - mysqli_num_rows($sql)); $i++) {
-			$sc_drugs .= "<tr>
-				<td style='font-size: 12px; text-align: center; border: 1px solid black;'><span style='visibility: hidden;'>LALA</span></td>
-				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-				<td style='font-size: 12px; text-align: center; border: 1px solid black;'></td>
-			</tr>";
-		}
-	}
-
-	echo $sc_drugs;
 }
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);

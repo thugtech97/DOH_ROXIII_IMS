@@ -303,6 +303,18 @@ $("#nestable").on('click','li .dd-handle',function (){
     });
 });
 
+$("#sc_refn").change(function(){
+	$.ajax({
+		type: "POST",
+		url: "php/php_sc.php",
+		data: {call_func: "print_stock_card", refn: $("#sc_refn option:selected").text(), item_name: item_name, item_desc: item_desc},
+		dataType: "JSON",
+		success: function(data){
+			$("#sc_drugs").html(data["sc_drugs"]);
+		}
+	});
+});
+
 function load_sc_spec(spc){
 	if(item_name != "" && item_desc != ""){
 		$("#loader").show();
@@ -311,7 +323,7 @@ function load_sc_spec(spc){
 		$("#sc_drugs").html("");
 	    $.ajax({
 	    	type: "POST",
-	    	data: {call_func: "print_stock_card", item_name: item_name, item_desc: item_desc, spec: spc},
+	    	data: {call_func: "print_stock_card", refn: $("#sc_refn option:selected").text(), item_name: item_name, item_desc: item_desc, spec: spc},
 	    	url: "php/php_sc.php",
 	    	dataType: "JSON",
 	    	success: function(data){
@@ -455,17 +467,6 @@ $("#ics-par-cat").ready(function(){
 		data: {call_func: "get_category"},
 		success: function(data){
 			$("#ics-par-cat").html(data);
-		}
-	});
-});
-
-$("#sc_refn").change(function(){
-	$.ajax({
-		type: "POST",
-		url: "php/php_sc.php",
-		data: {call_func: "get_sc_ref", refn: $("#sc_refn option:selected").text(), item_name: item_name, item_desc: item_desc},
-		success: function(data){
-			$("#sc_drugs").html(data);
 		}
 	});
 });

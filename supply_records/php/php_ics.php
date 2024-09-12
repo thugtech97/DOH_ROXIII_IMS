@@ -7,7 +7,7 @@ session_start();
 
 function create_trans(){
 	global $conn; global $connhr;
-
+	date_default_timezone_set("Asia/Shanghai");
 	$id = mysqli_real_escape_string($conn, $_POST["id"]);
 	$trans_ics = mysqli_real_escape_string($conn, $_POST["trans_ics"]);
 	$received_by = mysqli_real_escape_string($conn, $_POST["trans_name"]);
@@ -16,7 +16,7 @@ function create_trans(){
 	$serial_no = implode(",",(array) $_POST["serial_no"]);
 	$un_prop_no = implode(",",(array) $_POST["un_prop_no"]);
 	$un_serial_no = implode(",",(array) $_POST["un_serial_no"]);
-	$date_released = mysqli_real_escape_string($conn, $_POST["date_released"]);
+	$date_released = mysqli_real_escape_string($conn, $_POST["date_released"])." ".date("H:i:s");
 
 	$type 		= mysqli_real_escape_string($conn, $_POST["type"]);
 	$table 		= mysqli_real_escape_string($conn, $_POST["table"]);
