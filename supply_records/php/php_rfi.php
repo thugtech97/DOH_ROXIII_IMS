@@ -114,6 +114,10 @@ function delete_rfi(){
     $id = mysqli_real_escape_string($conn, $_POST["id"]);
     mysqli_query($conn, "DELETE FROM tbl_rfi WHERE id = '$id'");
     mysqli_query($conn, "DELETE FROM tbl_rfi_details WHERE rfi_id = '$id'");
+
+    $emp_id = $_SESSION["emp_id"];
+    $description = $_SESSION["username"]." deleted an RFI ID - ".$id;
+    mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
 function update_rfi(){
@@ -145,6 +149,9 @@ function insert_rfi() {
         $sql_details = "INSERT INTO tbl_rfi_details (rfi_id, po_id, rsd_no, approved_date) VALUES ('$rfi_id', '$po_id', '$rsd_no', '$approved_date')";
         mysqli_query($conn, $sql_details);
     }
+    $emp_id = $_SESSION["emp_id"];
+    $description = $_SESSION["username"]." created an RFI No. ".$control_number;
+    mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
 function get_rfi(){

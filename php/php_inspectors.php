@@ -3,6 +3,8 @@
 require "php_conn.php";
 require "php_general_functions.php";
 
+session_start();
+
 function get_groups(){
     global $conn;
 
@@ -83,6 +85,9 @@ function insert_group($group_name, $inspector_names, $designations){
             $inspector_query = "INSERT INTO tbl_inspectorate_members (group_id, name, designation) VALUES ('$group_id', '$inspector_name', '$designation')";
             mysqli_query($conn, $inspector_query);
         }
+        $emp_id = $_SESSION["emp_id"];
+        $description = $_SESSION["username"]." created an Inspectorate Group - ".$group_name.", Group ID - ".$group_id;
+        mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 
         echo "INSERTED";
     } else {
@@ -125,6 +130,10 @@ function save_group() {
     $delete_query = "DELETE FROM tbl_inspectorate_members WHERE group_id = '$group_id' AND id NOT IN (" . implode(",", array_map('intval', $submitted_inspector_ids)) . ")";
     mysqli_query($conn, $delete_query);
 
+    $emp_id = $_SESSION["emp_id"];
+    $description = $_SESSION["username"]." edited the details of Inspectorate Group - ".$group_name.", Group ID - ".$group_id;
+    mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+
     echo "Group saved successfully!";
 }
 
@@ -134,6 +143,10 @@ function delete_group(){
     $id = mysqli_real_escape_string($conn, $_POST["id"]);
     mysqli_query($conn, "DELETE FROM tbl_inspectorate_group WHERE id = '$id'");
     mysqli_query($conn, "DELETE FROM tbl_inspectorate_members WHERE group_id = '$id'");
+
+    $emp_id = $_SESSION["emp_id"];
+    $description = $_SESSION["username"]." deleted an Inspectorate Group ID - ".$id;
+    mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
 

@@ -179,6 +179,10 @@ function delete_gatepass(){
     $id = mysqli_real_escape_string($conn, $_POST["id"]);
     mysqli_query($conn, "DELETE FROM tbl_gatepass WHERE id = '$id'");
     mysqli_query($conn, "DELETE FROM tbl_gatepass_details WHERE gatepass_id = '$id'");
+
+    $emp_id = $_SESSION["emp_id"];
+    $description = $_SESSION["username"]." deleted a Gatepass ID - ".$id;
+    mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
 }
 
 function update_gatepass(){
@@ -226,7 +230,9 @@ function insert_gatepass() {
                 echo json_encode(["error" => mysqli_error($conn)]);
             }
         }
-
+        $emp_id = $_SESSION["emp_id"];
+        $description = $_SESSION["username"]." created a Gatepass No - ".$control_number;
+        mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
         echo json_encode(["success" => "Data inserted successfully."]);
     } else {
         echo json_encode(["error" => mysqli_error($conn)]);
