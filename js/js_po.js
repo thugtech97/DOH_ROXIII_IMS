@@ -470,10 +470,11 @@ function save_snln(){
 					po_id: $("#po_id").html(),
 					sn_ln: snlns
 				},
+				dataType: "JSON",
 				url: "php/php_po.php",
 				success: function(data){
 					$("#modal_snln .close").click();
-					$("table#eitem_various tbody").html(data);
+					$("table#eitem_various tbody").html(data["tbody"]);
 					table.html("");
 				}
 			});
@@ -490,9 +491,10 @@ function save_snln(){
 				sn_ln: snlns
 			},
 			url: "php/php_po.php",
+			dataType: "JSON",
 			success: function(data){
 				$("#modal_snln .close").click();
-				$("table#eitem_various tbody").html(data);
+				$("table#eitem_various tbody").html(data["tbody"]);
 				table.html("");
 			}
 		});
@@ -530,8 +532,9 @@ function edit_description(po, item, desc, price){
 			price: price,
 			newdesc: d
 		},
+		dataType: "JSON",
 		success: function(data){
-			$("table#eitem_various tbody").html(data);
+			$("table#eitem_various tbody").html(data["tbody"]);
 		}
 	});
 }
@@ -614,65 +617,49 @@ function add_item(){
 }
 
 
-function validate_with_snln(){
-	if(!special_category.includes($("#category").val())){
-		if(get_snln_rows()[0] == parseInt($("#quantity").val())){
-			$("table#item_various tbody").append("<tr>"+
-											"<td>"+($("#item_name").val().split("┼"))[0]+"</td>"+
-											"<td>"+$("#item_name option:selected").text()+"</td>"+
-											"<td>"+$("#description").val()+"</td>"+
-											"<td>"+$("#category").val()+"</td>"+
-											"<td>"+snln+"</td>"+
-											"<td>"+$("#exp_date").val()+"</td>"+
-											"<td>"+$("#unit_cost").val()+"</td>"+
-											"<td>"+$("#quantity").val()+" "+$( "#unit option:selected" ).text()+"</td>"+
-											"<td>"+$("#total_amount").val()+"</td>"+
-											"<td><center><button class=\"btn btn-danger btn-xs\"><i class=\"fa fa-trash\"></i></button></center></td>"+
-											"</tr>");
-			setLocalStorage();
-			$("#item_name").val(null).change();
-			$("#description").val("");
-			$("#category").val("");
-			$("#sn_ln").val("");
-			$("#exp_date").val("");
-			$("#unit_cost").val("");
-			$("#quantity").val("");
-			$("#unit").val(null).change();
-			$("#total_amount").val("");
-			$('#exp_date').prop('disabled',true);
-			$("table#serial_numbers tbody").html("");
-			get_total_row_amount();
-		}else{
-			swal("Quantity not matched!","Number of serial numbers should correspond to the inputted quantity","warning");
+function validate_with_snln() {
+	const itemRow = "<tr>" +
+		"<td>" + ($("#item_name").val().split("┼"))[0] + "</td>" +
+		"<td>" + $("#item_name option:selected").text() + "</td>" +
+		"<td>" + $("#description").val() + "</td>" +
+		"<td>" + $("#category").val() + "</td>" +
+		"<td>" + snln + "</td>" +
+		"<td>" + $("#exp_date").val() + "</td>" +
+		"<td>" + $("#unit_cost").val() + "</td>" +
+		"<td>" + $("#quantity").val() + " " + $("#unit option:selected").text() + "</td>" +
+		"<td>" + $("#total_amount").val() + "</td>" +
+		"<td><center><button class='btn btn-danger btn-xs'><i class='fa fa-trash'></i></button></center></td>" +
+		"</tr>";
+
+	if (!special_category.includes($("#category").val())) {
+		if (get_snln_rows()[0] == parseInt($("#quantity").val())) {
+			$("table#item_various tbody").append(itemRow);
+			resetForm();
+		} else {
+			swal("Quantity not matched!", "Number of serial numbers should correspond to the inputted quantity", "warning");
 		}
-	}else{
-		$("table#item_various tbody").append("<tr>"+
-										"<td>"+($("#item_name").val().split("┼"))[0]+"</td>"+
-										"<td>"+$("#item_name option:selected").text()+"</td>"+
-										"<td>"+$("#description").val()+"</td>"+
-										"<td>"+$("#category").val()+"</td>"+
-										"<td>"+snln+"</td>"+
-										"<td>"+$("#exp_date").val()+"</td>"+
-										"<td>"+$("#unit_cost").val()+"</td>"+
-										"<td>"+$("#quantity").val()+" "+$( "#unit option:selected" ).text()+"</td>"+
-										"<td>"+$("#total_amount").val()+"</td>"+
-										"<td><center><button class=\"btn btn-danger btn-xs\"><i class=\"fa fa-trash\"></i></button></center></td>"+
-										"</tr>");
-		setLocalStorage();
-		$("#item_name").val(null).change();
-		$("#description").val("");
-		$("#category").val("");
-		$("#sn_ln").val("");
-		$("#exp_date").val("");
-		$("#unit_cost").val("");
-		$("#quantity").val("");
-		$("#unit").val(null).change();
-		$("#total_amount").val("");
-		$('#exp_date').prop('disabled',true);
-		$("table#serial_numbers tbody").html("");
-		get_total_row_amount();
+	} else {
+		$("table#item_various tbody").append(itemRow);
+		resetForm();
 	}
 }
+
+function resetForm() {
+	$("#item_name").val(null).change();
+	$("#description").val("");
+	$("#category").val("");
+	$("#sn_ln").val("");
+	$("#exp_date").val("");
+	$("#unit_cost").val("");
+	$("#quantity").val("");
+	$("#unit").val(null).change();
+	$("#total_amount").val("");
+	$('#exp_date').prop('disabled', true);
+	$("table#serial_numbers tbody").html("");
+	get_total_row_amount();
+	setLocalStorage();
+}
+
 function fill_pax(){
 	if(pax_selected != ""){
 		if(pax_selected == "1"){
@@ -1232,13 +1219,13 @@ function get_records(page, url, query = ""){
         url: url,
         success: function(data){
             $('#dynamic_content').html(data);
-            ready_all();
         }
     });
 }
 
 function set_url(url){
     _url = url;
+	ready_all();
     get_records(1, _url);
 }
 
