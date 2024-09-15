@@ -1,6 +1,8 @@
 <?php
     $base_url = "https://" . $_SERVER['HTTP_HOST'] . "/DOH_ROXIII_IMS";
     $uri = end(explode("/", $_SERVER['REQUEST_URI']));
+    $supply = ["gatepass.php", "iar.php", "ics.php", "par.php", "ptr.php", "rfi.php", "ris.php"];
+    $ref = ["area.php", "category.php", "item.php", "rcc.php", "supplier.php", "unit.php"];
 ?>
 <nav class="navbar-default navbar-static-side" role="navigation">
     <div class="sidebar-collapse">
@@ -31,7 +33,7 @@
             <li class="<?php echo $uri == 'po.php' ? 'active' : ''; ?>">
                 <a href="<?php echo $base_url; ?>/po.php"><i class="fa fa-list-alt"></i> <span class="nav-label">Purchase Orders</span></a>
             </li>
-            <li class="<?php echo $uri == 'iar.php' || $uri == 'ics.php' || $uri == 'par.php' || $uri == 'ris.php' || $uri == 'ptr.php' || $uri == 'rfi.php' ? 'active' : ''; ?>">
+            <li class="<?php echo in_array($uri, $supply) ? 'active' : ''; ?>">
                 <a href=""><i class="fa fa-clipboard"></i> <span class="nav-label"><?php echo $_SESSION["link1"]; ?></span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li class="<?php echo $uri == 'rfi.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/rfi.php"><i class="fa fa-clipboard"></i> Request for Inspection (RFI)</a></li>
@@ -40,9 +42,10 @@
                     <li class="<?php echo $uri == 'par.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/par.php"><i class="fa fa-clipboard"></i> Property Acknowledgement Receipt (PAR)</a></li>
                     <li class="<?php echo $uri == 'ris.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/ris.php"><i class="fa fa-clipboard"></i> Requisition and Issue Slip (RIS)</a></li>
                     <li class="<?php echo $uri == 'ptr.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/ptr.php"><i class="fa fa-clipboard"></i> Property Transfer Report (PTR)</a></li>
+                    <li class="<?php echo $uri == 'gatepass.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/supply_records/gatepass.php"><i class="fa fa-clipboard"></i> Gatepass</a></li>
                 </ul>
             </li>
-            <li class="<?php echo $uri == 'area.php' || $uri == 'rcc.php' || $uri == 'category.php' || $uri == 'item.php' || $uri == 'unit.php' || $uri == 'supplier.php' ? 'active' : ''; ?>">
+            <li class="<?php echo in_array($uri, $ref) ? 'active' : ''; ?>">
                 <a href=""><i class="fa fa-table"></i> <span class="nav-label"><?php echo $_SESSION["link2"]; ?></span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li class="<?php echo $uri == 'area.php' ? 'active' : ''; ?>"><a href="<?php echo $base_url; ?>/reference_tables/area.php"><i class="fa fa-area-chart"></i> Area</a></li>
@@ -63,7 +66,7 @@
                 <a href="<?php echo $base_url; ?>/sai.php"><i class="fa fa-search"></i> <span class="nav-label">For SAI</span></a>
             </li>
             <li class="<?php echo $uri == 'archives.php' ? 'active' : ''; ?>">
-                <a href="<?php echo $base_url; ?>/archives.php"><i class="fa fa-archive"></i> <span class="nav-label">Archive</span></a>
+                <a href="<?php echo $base_url; ?>/archives.php"><i class="fa fa-archive"></i> <span class="nav-label">File Manager</span></a>
             </li>
             <li>
                 <a href="https://drive.google.com/file/d/1H6DzrxhfjMdY0wh9NiCpfuq5_hdbgc5H/view?usp=sharing" target="_blank"><i class="fa fa-book"></i> <span class="nav-label">User Manual</span></a>

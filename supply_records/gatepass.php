@@ -28,11 +28,11 @@ if(!isset($_SESSION["username"])){
                 <div class="col-lg-12 animated bounceInDown">
                     <div class="row wrapper border-bottom white-bg page-heading">
                         <div class="col-lg-10">
-                            <h2>Request for Inspection</h2>
+                            <h2>Gatepass Creation</h2>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">
-                                    <button type="button" class="btn btn-default dim" data-toggle="modal" data-target="#add_rfi">
-                                        <i class="fa fa-plus"></i> Add RFI
+                                    <button type="button" class="btn btn-default dim" data-toggle="modal" data-target="#add_gatepass">
+                                        <i class="fa fa-plus"></i> Create Gatepass
                                     </button>
                                 </li>
                             </ol>
@@ -45,7 +45,7 @@ if(!isset($_SESSION["username"])){
                 <div class="col-lg-12 animated bounceInDown">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h3><i class="fa fa-clipboard"></i> Request for Inspection</h3>
+                            <h3><i class="fa fa-clipboard"></i> Gatepass Records</h3>
                         </div>
                         <div class="panel-body">
                             <div class="pull-right">
@@ -61,7 +61,7 @@ if(!isset($_SESSION["username"])){
                             </div>
                         </div>
                     </div>
-                    <?php require "reports/report_rfi.php"; ?>
+                    <?php require "reports/report_gatepass.php"; ?>
                 </div>
             </div>
 
@@ -72,19 +72,17 @@ if(!isset($_SESSION["username"])){
             </div>
             <?php
                 require "../assets/small_chat.php";
-                require "../modals/modal_add_rfi.php";
+                require "../modals/modal_add_gatepass.php";
             ?>
         </div>
     </div>
     <?php
         require "../assets/scripts_assets.php";
     ?>
-
-    <!-- RFI script -->
     <script src="js/js_general_functions.js"></script>
-    <script src="js/js_rfi.js"></script>
+    <script src="js/gatepass.js"></script>
     <script type="text/javascript">
-        set_url("php/php_rfi.php");
+        set_url("php/gatepass.php");
     </script>
 
 </body>

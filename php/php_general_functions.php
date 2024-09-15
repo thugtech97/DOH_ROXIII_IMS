@@ -1,5 +1,7 @@
 <?php
 
+$special_category = ["Drugs and Medicines", "Medical Supplies", "Various Supplies", "Office Supplies"];
+
 function _m_d_yyyy_($date){
 	$in_word = "";
 	if($date != "0000-00-00"){
@@ -115,11 +117,12 @@ function create_table_pagination($page, $limit, $total_data, $columns){
 
 	$input = '<label>Total Records - '.$total_data.'</label>
 	          <table class="table table-bordered">
-	            <tr>';
+			  	<thead>
+	            	<tr style=\'text-align: center;\'>';
 	foreach($columns as $c){
-		$input.='<th style=\'border: 2px solid black;\'>'.$c.'</th>';
+		$input.='<th>'.$c.'</th>';
 	}	            
-	$input.='</tr>';
+	$input.='</tr></thead>';
 	$output ='</table>
 	          <br/>
 	          <div align="center">
@@ -208,5 +211,47 @@ function check_pn_exist(){
 
 	echo implode(",", $existing);
 }
+
+function trace_origins() {
+	global $conn;
+
+	$property_no = mysqli_real_escape_string($conn, $_POST["property_no"]);
+	$origins = [];
+
+	$sql_ics = mysqli_query($conn, "SELECT * FROM tbl_ics WHERE property_no LIKE '%".$property_no."%'");
+	if (mysqli_num_rows($sql_ics)) {
+		while ($row = mysqli_fetch_assoc($sql_ics)) {
+			$origins[] = array(
+				"type"			=> "ICS",
+				"date_released"	=> $row["date_released"],
+				"item" 			=> $row["item"],
+				"description"	=> $row["description"],
+				"serial_no"		=> $row["serial_no"],
+				"received_by"	=> $row["received_by"],
+			);
+		}
+	}
+
+	$sql_par = mysqli_query($conn, "SELECT * FROM tbl_par WHERE property_no LIKE '%".$property_no."%'");
+	if (mysqli_num_rows($sql_par)) {
+		while ($row = mysqli_fetch_assoc($sql_par)) {
+			$origins[] = array(
+				"type"			=> "PAR",
+				"date_released"	=> $row["date_released"],
+				"item" 			=> $row["item"],
+				"description"	=> $row["description"],
+				"serial_no"		=> $row["serial_no"],
+				"received_by" 	=> $row["received_by"],
+			);
+		}
+	}
+
+	usort($origins, function ($a, $b) {
+		return strtotime($a['date_released']) - strtotime($b['date_released']);
+	});
+
+	echo json_encode($origins);
+}
+
 
 ?>

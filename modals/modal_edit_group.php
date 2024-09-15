@@ -39,7 +39,7 @@
                                         </tbody>
                                     </table>
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-success" onclick="eaddInspectorRow()"><i class="fa fa-plus"></i> Add More</button>
+                                        <button type="button" class="btn btn-success dim" onclick="eaddInspectorRow()"><i class="fa fa-plus"></i> Add More</button>
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                         <option value="Member">Member</option>
                     </select>
                 </td>
-                <td><button type="button" class="btn btn-danger btn-xs" onclick="eremoveInspectorRow(this)"><i class="fa fa-trash"></i></button></td>
+                <td><button type="button" class="btn btn-danger btn-xs dim" onclick="eremoveInspectorRow(this)"><i class="fa fa-trash"></i></button></td>
             `;
             tableBody.appendChild(newRow);
         }else{

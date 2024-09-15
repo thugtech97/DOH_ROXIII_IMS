@@ -7,7 +7,6 @@ if(!isset($_SESSION["username"])){
 }
 
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -15,36 +14,14 @@ if(!isset($_SESSION["username"])){
 <?php
         require "assets/styles_assets.php";
     ?>
-
     <title>INVENTORY MS | For SAI</title>
-
 </head>
 <body>
     <div id="wrapper">
         <?php include("assets/navbar.php"); ?>
-
         <div id="page-wrapper" class="gray-bg dashbard-1" style="color: black;">
         <div class="row border-bottom">
-        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-            <ul class="nav navbar-top-links navbar-left">
-                <li style="padding: 20px;">For SAI</li>
-            </ul>
-        </div>
-            <ul class="nav navbar-top-links navbar-right">
-                <li>
-                    <a href="php/php_logout.php">
-                        <i class="fa fa-sign-out"></i> Log out
-                    </a>
-                </li>
-                <li>
-                    <a class="right-sidebar-toggle">
-                        <i class="fa fa-tasks"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+            <?php require "assets/topmenu.php"; ?> 
         </div>
 
 <?php
@@ -89,7 +66,12 @@ if(isset($_SESSION["username"])) {
                     </div>
                     <div class="panel-body">
                         <div class="pull-right">
-                            Search: <input type="text" name="search_box" id="search_box"/>
+                            <div class="input-group m-b">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        </div>
+                                        <input id="search_box" name="seach_box" type="text" class="form-control" placeholder="Search...">
+                                    </div>
                         </div>
                         <div class="table-responsive" id="dynamic_content">
 
@@ -99,17 +81,11 @@ if(isset($_SESSION["username"])) {
             </div>
         </div>
 
-<?php
-
-}
-
-?>
-
+<?php } ?>
         <?php
             require "reports/report_sai.php";
             require "modals/modal_sai_items.php";
         ?>
-
         <div class="footer">
             <div>
                 <strong>Copyright</strong> <?php echo $_SESSION["company_title"]; ?> &copy; <?php echo date("Y"); ?>
@@ -119,12 +95,9 @@ if(isset($_SESSION["username"])) {
             require "assets/small_chat.php";
         ?>
     </div>
-
-    
     <?php
         require "assets/scripts_assets.php";
     ?>
-
     <!-- SAI scripts  -->
     <script src="js/js_sai.js"></script>
     <script type="text/javascript">

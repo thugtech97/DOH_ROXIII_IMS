@@ -48,7 +48,7 @@ function edit_group(id, group_name, data_members) {
                         <option value="Member" ${member.designation === 'Member' ? 'selected' : ''}>Member</option>
                     </select>
                 </td>
-                <td style="width: 10%;"><button type="button" class="btn btn-danger btn-xs" onclick="eremoveInspectorRow(this)"><i class="fa fa-trash"></i></button></td>
+                <td style="width: 10%;"><button type="button" class="btn btn-danger btn-xs dim" onclick="eremoveInspectorRow(this)"><i class="fa fa-trash"></i></button></td>
             </tr>`;
         $("#einspectors_table_body").append(newRow);
     });
@@ -118,3 +118,25 @@ $('#save_group').on('submit', function(event) {
         }
     });
 });
+
+function delete_group(id){
+    swal({
+        title: "Are you sure?",
+        text: "This inspectorate group will be deleted as soon as you clicked 'Yes'",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: false
+    }, function () {
+        $.ajax({
+            type: "POST",
+            data: {call_func: "delete_group", id: id},
+            url: _url,
+            success: function(data){
+                swal("Deleted!", "Inspectorate group successfully deleted.", "success");
+                setTimeout(function () { location.reload(); }, 1500);
+            }
+        });
+    });
+}

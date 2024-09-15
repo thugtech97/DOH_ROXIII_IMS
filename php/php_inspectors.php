@@ -8,7 +8,7 @@ function get_groups(){
 
     if(!$conn) {
         echo "<table class=\"table table-bordered\">
-                <tr><th style=\"border: 2px solid black;\" colspan=\"5\">Not connected to the server.</th></tr>
+                <tr><th colspan=\"5\">Not connected to the server.</th></tr>
               </table>";
         return;
     }
@@ -46,13 +46,20 @@ function get_groups(){
             $data_members_json = htmlspecialchars(json_encode($data_members), ENT_QUOTES, 'UTF-8');
             
             $tbody .= "<tr>
-                        <td style=\"border: thin solid black;\">{$row['id']}</td>
-                        <td style=\"border: thin solid black;\">{$row['name']}</td>
-                        <td style=\"font-size: 10px; border: thin solid black;\">$members_list</td>
-                        <td style=\"border: thin solid black;\">{$row['created_at']}</td>
-                        <td style=\"border: thin solid black;\">
-                            <center><button id=\"{$row['id']}\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" title=\"View\" onclick=\"edit_group(this.id, '".$row['name']."', $data_members_json);\">
-                                <i class=\"fa fa-edit\"></i></button></center></td>
+                        <td>{$row['id']}</td>
+                        <td>{$row['name']}</td>
+                        <td style=\"font-size: 10px;\">$members_list</td>
+                        <td>{$row['created_at']}</td>
+                        <td>
+                            <center>
+                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" title=\"View\" onclick=\"edit_group(this.id, '".$row['name']."', $data_members_json);\">
+                                    <i class=\"fa fa-edit\"></i>
+                                </button>
+                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" title=\"View\" onclick=\"delete_group(this.id);\">
+                                    <i class=\"fa fa-trash\"></i>
+                                </button>
+                            </center>
+                        </td>
                     </tr>";
         }
     } else {
@@ -121,7 +128,13 @@ function save_group() {
     echo "Group saved successfully!";
 }
 
+function delete_group(){
+    global $conn;
 
+    $id = mysqli_real_escape_string($conn, $_POST["id"]);
+    mysqli_query($conn, "DELETE FROM tbl_inspectorate_group WHERE id = '$id'");
+    mysqli_query($conn, "DELETE FROM tbl_inspectorate_members WHERE group_id = '$id'");
+}
 
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
@@ -136,6 +149,8 @@ if ($call_func === "get_groups") {
 
 } elseif ($call_func === "save_group") {
     save_group();
+} elseif ($call_func === "delete_group") {
+    delete_group();
 }
 
 ?>

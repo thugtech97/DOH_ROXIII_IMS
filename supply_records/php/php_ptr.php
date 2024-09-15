@@ -25,6 +25,7 @@ function delete_existing(){
 function new_add_item(){
 
 	global $conn;
+	global $special_category;
 
 	$table = "";
 	$num_iss = mysqli_real_escape_string($conn, $_POST["num_iss"]);
@@ -49,7 +50,7 @@ function new_add_item(){
 	$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 	$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
 	mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$item_id'");
-	if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
+	if(!in_array($category, $special_category)){
 		$serials = explode(",", $serial_no);
 		for($j = 0; $j < count($serials); $j++){
 			$sn = $serials[$j];
@@ -411,6 +412,7 @@ function get_ptr_details(){
 
 function get_records(){
 	global $conn;
+	global $special_category;
 
 	$limit = '10';
 	$page = 1;
@@ -436,8 +438,8 @@ function get_records(){
 		while($row = mysqli_fetch_assoc($sql)){
 			$ptr_no = $row["ptr_no"];
 			$category = mysqli_fetch_assoc(mysqli_query($conn, "SELECT category FROM tbl_ptr WHERE ptr_no = '$ptr_no'"))["category"];
-			$func_call = ($category == "Drugs and Medicines" || $category == "Medical Supplies") ? "print_ptr(this.value);" : "print_ptr_gen(this.value)";
-			$dl_xls = ($category == "Drugs and Medicines" || $category == "Medical Supplies") ? "download_xls(this.value);" : "download_xls_gen(this.value)";
+			$func_call = in_array($category, $special_category) ? "print_ptr(this.value);" : "print_ptr_gen(this.value)";
+			$dl_xls = in_array($category, $special_category) ? "download_xls(this.value);" : "download_xls_gen(this.value)";
 			$to = str_replace(' ', '', $row["to"]);
 
 			$in = array();			
@@ -474,6 +476,7 @@ function get_records(){
 function insert_ptr(){
 	global $conn;
 	global $connhr;
+	global $special_category;
 	date_default_timezone_set("Asia/Shanghai");
 	$time_now = date("H:i:s");
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
@@ -527,7 +530,7 @@ function insert_ptr(){
 			$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 			$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
 			mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_number = '$ref_no' AND po_id = '$item_id'");
-			if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
+			if(!in_array($category, $special_category)){
 				$serials = explode(",", $serial_no);
 				for($j = 0; $j < count($serials); $j++){
 					$sn = $serials[$j];
@@ -535,7 +538,7 @@ function insert_ptr(){
 				}
 			}
 			if($property_no != ""){
-				if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
+				if(!in_array($category, $special_category)){
 					$pns = explode(",", $property_no);
 					$pn = end($pns);
 					$currentDate = date('Y-m');

@@ -71,7 +71,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" value="Save Group">
+                    <input type="submit" class="btn btn-primary" value="Save RFI">
                 </div>
             </form>
         </div>

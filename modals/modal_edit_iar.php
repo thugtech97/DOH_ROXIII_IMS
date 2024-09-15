@@ -19,6 +19,12 @@
                                         <input id="evar_en" type="text" class="form-control" disabled="">
                                     </div>
                                 </div>
+                                <div class="form-group row d-none">
+                                    <label class="col-lg-4 col-form-label">Type:</label>
+                                    <div class="col-lg-8">
+                                        <input id="e_iar_type" type="text" class="form-control" disabled>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label">Purchase Order:</label>
                                     <div class="col-lg-8">
@@ -127,6 +133,7 @@
                                     <th>Date Delivered/Travel</th>
                                     <th>Item</th>
                                     <th>Description</th>
+                                    <th>Lot#</th>
                                     <th>Expiry Date</th>
                                     <th>Manufacturer</th>
                                     <th>Quantity</th>

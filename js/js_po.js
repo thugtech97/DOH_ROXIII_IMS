@@ -9,6 +9,8 @@ var proc_mode = null;
 
 var $po_regex=/^([0-9]{4}-[0-9]{2}-[0-9]{4})|^([0-9]{4}-[0-9]{2}-[0-9]{3})$/;
 
+var special_category = ["Drugs and Medicines", "Medical Supplies", "Various Supplies", "Office Supplies"];
+
 var files;
 
 var _url, active_page;
@@ -458,7 +460,7 @@ function save_snln(){
 		snlns+=$tds.eq(0).text()+"|";
 		rows++;
 	});
-	if(ctgr != "Drugs and Medicines" && ctgr != "Medical Supplies" && ctgr != "Various Supplies"){
+	if(!special_category.includes(ctgr)){
 		if(rows == quant){
 			$.ajax({
 				type: "POST",
@@ -613,7 +615,7 @@ function add_item(){
 
 
 function validate_with_snln(){
-	if($("#category").val() != "Drugs and Medicines" && $("#category").val() != "Medical Supplies" && $("#category").val() != "Various Supplies"){
+	if(!special_category.includes($("#category").val())){
 		if(get_snln_rows()[0] == parseInt($("#quantity").val())){
 			$("table#item_various tbody").append("<tr>"+
 											"<td>"+($("#item_name").val().split("┼"))[0]+"</td>"+
@@ -891,7 +893,7 @@ function ready_all(){
 	$("#item_name").on("change", function(e){
 		$("#category").val($("#item_name option:selected").data("cat"));
 		account_code = $("#item_name option:selected").data("ac");
-		if($("#category").val()=="Drugs and Medicines" || $("#category").val()=="Medical Supplies" || $("#category").val()=="Various Supplies"){
+		if(special_category.includes($("#category").val())){
 			$('#exp_date').prop('disabled',false);	
 		}else{
 			$('#exp_date').prop('disabled',true);
@@ -900,7 +902,7 @@ function ready_all(){
 
 	$("#e_item_name").on("change", function(e){
 		$("#e_category").val($("#e_item_name option:selected").data("cat"));
-		if($("#e_category").val()=="Drugs and Medicines" || $("#e_category").val()=="Medical Supplies" || $("#e_category").val()=="Various Supplies"){
+		if(special_category.includes($("#category").val())){
 			$('#e_exp_date').prop('disabled',false);	
 		}else{
 			$('#e_exp_date').prop('disabled',true);

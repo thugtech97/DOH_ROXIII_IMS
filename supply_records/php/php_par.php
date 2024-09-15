@@ -7,7 +7,7 @@ session_start();
 
 function create_trans(){
 	global $conn; global $connhr;
-
+	date_default_timezone_set("Asia/Shanghai");
 	$id = mysqli_real_escape_string($conn, $_POST["id"]);
 	$trans_ics = mysqli_real_escape_string($conn, $_POST["trans_ics"]);
 	$received_by = mysqli_real_escape_string($conn, $_POST["trans_name"]);
@@ -16,7 +16,7 @@ function create_trans(){
 	$serial_no = implode(",",(array) $_POST["serial_no"]);
 	$un_prop_no = implode(",",(array) $_POST["un_prop_no"]);
 	$un_serial_no = implode(",",(array) $_POST["un_serial_no"]);
-	$date_released = mysqli_real_escape_string($conn, $_POST["date_released"]);
+	$date_released = mysqli_real_escape_string($conn, $_POST["date_released"])." ".date("H:i:s");
 
 	$type 		= mysqli_real_escape_string($conn, $_POST["type"]);
 	$table 		= mysqli_real_escape_string($conn, $_POST["table"]);
@@ -33,7 +33,7 @@ function create_trans(){
 		mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
 		
 		$quantity_new = (int)$row["quantity"] - $quantity_trans;
-		mysqli_query($conn, "UPDATE ".$table." SET property_no = '$un_prop_no', serial_no = '$un_serial_no', quantity = '$quantity_new' WHERE ".$table_id." = '$id'");
+		mysqli_query($conn, "UPDATE ".$table." SET quantity = '$quantity_new' WHERE ".$table_id." = '$id'");
 
 		$emp_id = $_SESSION["emp_id"];
 		$description = $_SESSION["username"]." created a PAR transfer (".$trans_ics.") to ".$received_by." with a remarks - ".$remarks;

@@ -40,3 +40,5 @@
 
     <!-- c3 Charts -->
     <link href="<?php echo $base_url; ?>/css/plugins/c3/c3.min.css" rel="stylesheet">
+
+    <link href="<?php echo $base_url; ?>/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox1.css" rel="stylesheet">

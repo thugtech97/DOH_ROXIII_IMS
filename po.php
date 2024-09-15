@@ -23,41 +23,7 @@ if(!isset($_SESSION["username"])){
         <?php include("assets/navbar.php"); ?>
         <div id="page-wrapper" class="gray-bg dashbard-1" style="color: black;">
             <div class="row border-bottom">
-            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                <ul class="nav navbar-top-links navbar-left">
-                    <li style="padding: 20px;">Purchase Orders</li>
-                </ul>
-            </div>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                            <i class="fa fa-users"></i><span class="label label-danger" id="count_supp"><i class="fa fa-refresh fa-spin"></i> </span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-alerts" id="nestable" style="height: 460px; overflow: auto;">
-                            <li>
-                                <a class="dropdown-item">
-                                    <div>
-                                        <span class="text-muted medium"><center>No NOTC to generate.</center></span>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="php/php_logout.php">
-                            <i class="fa fa-sign-out"></i> Log out
-                        </a>
-                    </li>
-                    <li>
-                        <a class="right-sidebar-toggle">
-                            <i class="fa fa-tasks"></i>
-                        </a>
-                    </li>
-                </ul>
-
-            </nav>
+                <?php require "assets/topmenu.php"; ?> 
             </div>
             <br>
             <div class="row">
@@ -106,7 +72,12 @@ if(!isset($_SESSION["username"])){
                         </div>
                         <div class="panel-body">
                             <div class="pull-right">
-                                Search: <input type="text" name="search_box" id="search_box"/>
+                                <div class="input-group m-b">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        </div>
+                                        <input id="search_box" name="seach_box" type="text" class="form-control" placeholder="Search...">
+                                    </div>
                             </div>
                             <div class="table-responsive" id="dynamic_content">
 

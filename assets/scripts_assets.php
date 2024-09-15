@@ -58,3 +58,5 @@
 
     <!-- CanvasJS -->
     <script src="<?php echo $base_url; ?>/canvasjs/canvasjs.min.js"></script>
+
+    <script src="<?php echo $base_url; ?>/js/plugins/typehead/bootstrap3-typeahead.min.js"></script>

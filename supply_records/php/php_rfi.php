@@ -110,6 +110,10 @@ function get_chairperson() {
 
 function delete_rfi(){
     global $conn;
+
+    $id = mysqli_real_escape_string($conn, $_POST["id"]);
+    mysqli_query($conn, "DELETE FROM tbl_rfi WHERE id = '$id'");
+    mysqli_query($conn, "DELETE FROM tbl_rfi_details WHERE rfi_id = '$id'");
 }
 
 function update_rfi(){
@@ -173,17 +177,21 @@ function get_rfi(){
     if($total_data > 0){
         while($row = mysqli_fetch_assoc($sql)){
             $tbody .= "<tr>
-                        <td style=\"border: thin solid black;\">{$row['id']}</td>
-                        <td style=\"border: thin solid black;\">{$row['control_number']}</td>
-                        <td style=\"border: thin solid black;\">{$row['inspector']}</td>
-                        <td style=\"font-size: 10px; border: thin solid black;\">{$row['po_number']}</td>
-                        <td style=\"border: thin solid black;\">{$row['created_at']}</td>
-                        <td style=\"border: thin solid black;\">
+                        <td>{$row['id']}</td>
+                        <td>{$row['control_number']}</td>
+                         <td>" . 
+                            str_replace('|', ', ', $row['inspector']) . 
+                        "</td>
+                         <td style=\"font-size: 10px;\">" . 
+                            str_replace('|', ', ', $row['po_number']) . 
+                        "</td>
+                        <td>{$row['created_at']}</td>
+                        <td>
                             <center>
-                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info\" data-toggle=\"tooltip\" title=\"Edit\" onclick=\"print_rfi(this.id);\">
+                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" title=\"Print\" onclick=\"print_rfi(this.id);\">
                                     <i class=\"fa fa-print\"></i>
                                 </button>
-                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-danger\" data-toggle=\"tooltip\" title=\"Delete\" onclick=\"delete_rfi(this.id);\">
+                                <button id=\"{$row['id']}\" class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" title=\"Delete\" onclick=\"delete_rfi(this.id);\">
                                     <i class=\"fa fa-trash\"></i>
                                 </button>
                             </center></td>
@@ -193,13 +201,13 @@ function get_rfi(){
         $tbody = "<tr><td colspan=\"6\" style=\"text-align: center;\">No data found.</td></tr>";
     }
 
-    $pagination = create_table_pagination($page, $limit, $total_data, ["RFI ID", "Control Number", "Inspector", "Reference/PO Numbers", "Date Created", ""]);
+    $pagination = create_table_pagination($page, $limit, $total_data, ["RFI ID", "Control Number", "Recipient", "Reference/PO Numbers", "Date Created", ""]);
     echo $pagination[0] . $tbody . $pagination[1];
 }
 
 
 $call_func = mysqli_real_escape_string($conn, $_POST["call_func"]);
-if ($call_func === "get_rfi") {
+if ($call_func === "get_records") {
     get_rfi();
 }elseif ($call_func === "insert_rfi"){
     insert_rfi();
@@ -213,6 +221,8 @@ if ($call_func === "get_rfi") {
     get_latest_rfi();
 }elseif ($call_func === "print_rfi"){
     print_rfi();
+}elseif ($call_func === "delete_rfi"){
+    delete_rfi();
 }
 
 ?>

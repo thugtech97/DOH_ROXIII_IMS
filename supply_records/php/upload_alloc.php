@@ -1,6 +1,7 @@
 <?php
 
 require "../../php/php_conn.php";
+require "../../php/php_general_functions.php";
 require "SimpleXLSX.php";
 
 session_start();
@@ -66,6 +67,7 @@ if(isset($_GET['files'])) {
 
 function insert_ptr(){
 	global $conn;
+	global $special_category;
 
 	$yy_mm = mysqli_real_escape_string($conn, $_POST["yy_mm"]);
 	$ptr_no = $yy_mm."-".get_latest_ptr($yy_mm);
@@ -111,7 +113,7 @@ function insert_ptr(){
 					mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,po_id) VALUES('$ptr_no','$alloc_entity','','$from','$to','Allocation','$reference_no','$item','$description','".$quan_unit[1]."','$supplier','$lot_serial','$exp_date','$category','$property_no','$qtys[$i]','$cost','$total','','','$transfer_reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','','$address','$alloc_number','$storage_temp','$transport_temp','$iids[$i]')");
 					$newrstocks = ((int)$quan_unit[0] - (int)$qtys[$i])." ".$quan_unit[1];
 					mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '".$iids[$i]."'");
-					if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
+					if(!in_array($category, $special_category)){
 						$serials = explode(",", $lot_serial);
 						for($j = 0; $j < count($serials); $j++){
 							$sn = $serials[$j];
@@ -119,7 +121,7 @@ function insert_ptr(){
 						}
 					}
 					if($property_no != ""){
-						if($category != "Drugs and Medicines" && $category != "Medical Supplies"){
+						if(!in_array($category, $special_category)){
 							$pns = explode(",", $property_no);
 							$pn = end($pns);
 							mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
