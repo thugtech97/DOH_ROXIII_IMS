@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div class="col-lg-8">
-                        <button type="button" class="btn btn-success btn-lg" onclick="generate_rep('report_nod');"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-success btn-lg" onclick="generate_rep('report_nod', 'NOD');"><i class="fa fa-print"></i> Print</button>
                     </div>
                 </div>
                 <hr>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        <button type="button" class="btn btn-success btn-lg" onclick="generate_rep('report_dv');"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-success btn-lg" onclick="generate_rep('report_dv', 'DV');"><i class="fa fa-print"></i> Print</button>
                     </div>
                 </div>
                 <hr>
@@ -85,7 +85,7 @@
             </div>
             <div class="modal-body">
                 <div class="pull-right">
-                    <button type="button" class="btn btn-success btn-lg" onclick="generate_rep('report_pe');"><i class="fa fa-print"></i> Print</button>
+                    <button type="button" class="btn btn-success btn-lg" onclick="generate_rep('report_pe', 'PES');"><i class="fa fa-print"></i> Print</button>
                 </div>
                 <div class="ibox">
                     <br>
@@ -107,17 +107,41 @@
 
 <script type="text/javascript">
 
-    function generate_rep(rep_name){
-        var divContents = $('#'+rep_name).html(); 
-        var a = window.open("", "_blank", "");
-        a.open();
-        a.document.write('<html>'); 
-        a.document.write('<body><center>');
-        a.document.write('<table><tr>');
-        a.document.write('<td>'+divContents+'</td>'); 
-        a.document.write('</tr></table>');
-        a.document.write('</center></body></html>');
-        setTimeout(function(){ a.print(); }, 1000);
-    }
+function generate_rep(rep_name, type) {
+    var divContents = $('#' + rep_name).html(); 
+    var a = window.open("", "_blank", "");
+    
+    a.document.write(`
+        <html>
+            <head>
+                <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+                <style>
+                    @media print {
+                        thead {display: table-header-group;} 
+                        tfoot {display: table-footer-group;}
+                        button {display: none;}
+                        body {
+                            margin: 0;
+                            font-family: 'Lora', serif;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <center>
+                    <table>
+                        <tr>
+                            <td>` + divContents + `</td>
+                        </tr>
+                    </table>
+                </center>
+            </body>
+        </html>
+    `);
+    a.document.close();
+    a.onload = function() {
+        a.print();
+    };
+}
 
 </script>
