@@ -21,60 +21,6 @@ function get_notc_details(){
 	
 }
 
-function add_item(){
-	global $conn;
-
-	$edate_received = mysqli_real_escape_string($conn, $_POST["edate_received"]);
-	$epo_number = mysqli_real_escape_string($conn, $_POST["epo_number"]);
-	$epr_no = mysqli_real_escape_string($conn, $_POST["epr_no"]);
-	$eprocurement_mode = mysqli_real_escape_string($conn, $_POST["eprocurement_mode"]);
-	$edelivery_term = mysqli_real_escape_string($conn, $_POST["edelivery_term"]);
-	$epayment_term = mysqli_real_escape_string($conn, $_POST["epayment_term"]);
-	$esupplier = mysqli_real_escape_string($conn, $_POST["esupplier"]);
-	$epo_enduser = mysqli_real_escape_string($conn, $_POST["epo_enduser"]);
-	$edate_conformed = mysqli_real_escape_string($conn, $_POST["edate_conformed"]);
-	$edate_delivered = mysqli_real_escape_string($conn, $_POST["edate_delivered"]);
-	$estatus = mysqli_real_escape_string($conn, $_POST["estatus"]);
-	//$einspection_status = mysqli_real_escape_string($conn, $_POST["einspection_status"]);
-	$e_item_id = mysqli_real_escape_string($conn, $_POST["e_item_id"]);
-	$e_item_name = mysqli_real_escape_string($conn, $_POST["e_item_name"]);
-	$e_description = mysqli_real_escape_string($conn, $_POST["e_description"]);
-	$e_category = mysqli_real_escape_string($conn, $_POST["e_category"]);
-	$e_unit_cost = mysqli_real_escape_string($conn, $_POST["e_unit_cost"]);
-	$e_exp_date = mysqli_real_escape_string($conn, $_POST["e_exp_date"]);
-	$e_quantity = mysqli_real_escape_string($conn, $_POST["e_quantity"]);
-	$e_unit = mysqli_real_escape_string($conn, $_POST["e_unit"]);
-
-	//$e_iarno = mysqli_fetch_assoc(mysqli_query($conn, "SELECT DISTINCT iar_no FROM tbl_po WHERE po_number LIKE '$epo_number'"))["iar_no"];
-
-	$qu = $e_quantity." ".$e_unit;
-
-	mysqli_query($conn, "INSERT INTO tbl_po(po_number,date_received,procurement_mode,delivery_term,payment_term,pr_no, supplier_id,item_id,item_name,description,category,exp_date,unit_cost,main_stocks,quantity,end_user,date_conformed,date_delivered,status, po_type) VALUES('$epo_number','$edate_received','$eprocurement_mode','$edelivery_term','$epayment_term','$epr_no','$esupplier','$e_item_id','$e_item_name','$e_description','$e_category','$e_exp_date','$e_unit_cost','$e_quantity','$qu','$epo_enduser','$edate_conformed','$edate_delivered','$estatus','$e_category')");
-
-	$emp_id = $_SESSION["emp_id"];
-	$description = $_SESSION["username"]." added an item (".$e_item_name.") to PO No.".$epo_number;
-	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
-	
-	$sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$epo_number'");
-	$tbody = "";
-	$tot_amt = 0.00;
-	while($row = mysqli_fetch_assoc($sql)){
-		$tbody.="<tr>
-				<td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
-				<td>".$row["item_name"]."</td>
-				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$epo_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
-				<td>".number_format((float)$row["unit_cost"], 3)."</td>
-				<td>".$row["main_stocks"]."</td>
-				<td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$epo_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
-				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 3)."</td>
-				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
-			</tr>";
-			$tot_amt+=((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]);
-	}
-	echo json_encode(array("tbody"=>$tbody, "tot_amt"=>$tot_amt));
-
-}
-
 function get_billing_history(){
 	global $conn;
 	$index = 0;
@@ -249,8 +195,9 @@ function get_po_items($po_number){
 
 	$sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
 	$tbody = "";
+	$tot_amt = 0.00;
 	while($row = mysqli_fetch_assoc($sql)){
-			$tbody.="<tr>
+		$tbody.="<tr>
 				<td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
 				<td>".$row["item_name"]."</td>
 				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
@@ -260,9 +207,46 @@ function get_po_items($po_number){
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 3)."</td>
 				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
 			</tr>";
+			$tot_amt+=((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]);
 	}
+	return json_encode(array("tbody"=>$tbody, "tot_amt"=>$tot_amt));
+}
 
-	return $tbody;
+function add_item(){
+	global $conn;
+
+	$edate_received = mysqli_real_escape_string($conn, $_POST["edate_received"]);
+	$epo_number = mysqli_real_escape_string($conn, $_POST["epo_number"]);
+	$epr_no = mysqli_real_escape_string($conn, $_POST["epr_no"]);
+	$eprocurement_mode = mysqli_real_escape_string($conn, $_POST["eprocurement_mode"]);
+	$edelivery_term = mysqli_real_escape_string($conn, $_POST["edelivery_term"]);
+	$epayment_term = mysqli_real_escape_string($conn, $_POST["epayment_term"]);
+	$esupplier = mysqli_real_escape_string($conn, $_POST["esupplier"]);
+	$epo_enduser = mysqli_real_escape_string($conn, $_POST["epo_enduser"]);
+	$edate_conformed = mysqli_real_escape_string($conn, $_POST["edate_conformed"]);
+	$edate_delivered = mysqli_real_escape_string($conn, $_POST["edate_delivered"]);
+	$estatus = mysqli_real_escape_string($conn, $_POST["estatus"]);
+	//$einspection_status = mysqli_real_escape_string($conn, $_POST["einspection_status"]);
+	$e_item_id = mysqli_real_escape_string($conn, $_POST["e_item_id"]);
+	$e_item_name = mysqli_real_escape_string($conn, $_POST["e_item_name"]);
+	$e_description = mysqli_real_escape_string($conn, $_POST["e_description"]);
+	$e_category = mysqli_real_escape_string($conn, $_POST["e_category"]);
+	$e_unit_cost = mysqli_real_escape_string($conn, $_POST["e_unit_cost"]);
+	$e_exp_date = mysqli_real_escape_string($conn, $_POST["e_exp_date"]);
+	$e_quantity = mysqli_real_escape_string($conn, $_POST["e_quantity"]);
+	$e_unit = mysqli_real_escape_string($conn, $_POST["e_unit"]);
+
+	//$e_iarno = mysqli_fetch_assoc(mysqli_query($conn, "SELECT DISTINCT iar_no FROM tbl_po WHERE po_number LIKE '$epo_number'"))["iar_no"];
+
+	$qu = $e_quantity." ".$e_unit;
+
+	mysqli_query($conn, "INSERT INTO tbl_po(po_number,date_received,procurement_mode,delivery_term,payment_term,pr_no, supplier_id,item_id,item_name,description,category,exp_date,unit_cost,main_stocks,quantity,end_user,date_conformed,date_delivered,status, po_type) VALUES('$epo_number','$edate_received','$eprocurement_mode','$edelivery_term','$epayment_term','$epr_no','$esupplier','$e_item_id','$e_item_name','$e_description','$e_category','$e_exp_date','$e_unit_cost','$e_quantity','$qu','$epo_enduser','$edate_conformed','$edate_delivered','$estatus','$e_category')");
+
+	$emp_id = $_SESSION["emp_id"];
+	$description = $_SESSION["username"]." added an item (".$e_item_name.") to PO No.".$epo_number;
+	mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+	
+	echo get_po_items($epo_number);
 }
 
 function edit_description(){
@@ -294,53 +278,39 @@ function edit_description(){
 function update_quantity(){
     global $conn;
 
-    $po_id = mysqli_real_escape_string($conn, $_POST["po_id"]);
-    $po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
-    $quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
-    $remaining_quantity = "";
-    $quantity_received = "";
-
-    $item_name = ""; 
-    $rstocks = "";
-
-    if($quantity != null){
-        $query_get_stocks = mysqli_query($conn, "SELECT item_name, main_stocks, quantity FROM tbl_po WHERE po_id = '$po_id'");
-        $row = mysqli_fetch_assoc($query_get_stocks);
-        $rstocks = explode(" ", $row["quantity"]);
-        $item_name = $row["item_name"];
-        $main_stocks = $row["main_stocks"];
-        $quantity_received = $quantity; 
-        $new_quantity = $main_stocks - $quantity_received;
-		$remaining_quantity = $new_quantity - $quantity;
-        $newrstocks = $quantity_received." ".$rstocks[1];
-
-
-        mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks', main_stocks = '$main_stocks' WHERE po_id = '$po_id'");
-
-        $emp_id = $_SESSION["emp_id"];
-        $description = $_SESSION["username"]." modified the quantity of ".$item_name." from ".$rstocks[0]." ".$rstocks[1]." to ".$quantity_received." ".$rstocks[1]." - PO#".$po_number;
-        mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
-    }
-
-    $sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
-    $tbody = "";
-    $tot_amt = 0.00;
-
-    while($row = mysqli_fetch_assoc($sql)){
-        $tbody.="<tr>
-                <td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
-                <td>".$row["item_name"]."</td>
-                <td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
-                <td>".number_format((float)$row["unit_cost"], 3)."</td>
-                <td>".$main_stocks."</td>
-                <td>".$remaining_quantity."</td>
-                <td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
+	$po_id = mysqli_real_escape_string($conn, $_POST["po_id"]);
+	$po_number = mysqli_real_escape_string($conn, $_POST["po_number"]);
+	$quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
+	$item_name = ""; $rstocks = "";
+	if($quantity != null){
+		$query_get_stocks = mysqli_query($conn, "SELECT item_name, quantity FROM tbl_po WHERE po_id = '$po_id'");
+		$row = mysqli_fetch_assoc($query_get_stocks);
+		$rstocks = explode(" ", $row["quantity"]);
+		$item_name = $row["item_name"];
+		$newrstocks = $quantity." ".$rstocks[1];
+		mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks', main_stocks = '$quantity' WHERE po_id = '$po_id'");
+		
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." modified the quantity of ".$item_name." from ".$rstocks[0]." ".$rstocks[1]." to ".$quantity." ".$rstocks[1]." - PO#".$po_number;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+	}
+	$sql = mysqli_query($conn, "SELECT po_id, item_name, description, main_stocks, unit_cost, quantity, category, sn_ln FROM tbl_po WHERE po_number LIKE '$po_number'");
+	$tbody = "";
+	$tot_amt = 0.00;
+	while($row = mysqli_fetch_assoc($sql)){
+		$tbody.="<tr>
+				<td><button class=\"btn btn-xs btn-default\" onclick=\"swal('".$row["po_id"]."');\">GetID</button></td>
+				<td>".$row["item_name"]."</td>
+				<td ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"edit_description('".$po_number."', '".mysqli_real_escape_string($conn, $row["item_name"])."', '".mysqli_real_escape_string($conn, $row["description"])."', '".$row["unit_cost"]."')\"" : "")."><a><u>".$row["description"]."</u></a></td>
+				<td>".number_format((float)$row["unit_cost"], 3)."</td>
+				<td>".$row["main_stocks"]."</td>
+				<td ".((($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") && $row["main_stocks"] == explode(" ", $row["quantity"])[0]) ? "onclick=\"add_quantity('".$row["po_id"]."', '".$po_number."')\"" : "")."><a><u>".$row["quantity"]."</u></a></td>
 				<td>".number_format(((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]), 3)."</td>
-                <td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
-            </tr>";
-            $tot_amt+=((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]);
-    }
-    echo json_encode(array("tbody"=>$tbody, "tot_amt"=>$tot_amt));
+				<td><center>".(($row["sn_ln"] == null) ? "<button value=\"".$row["po_id"]."\" id=\"".(int)(explode(" ", $row["quantity"])[0])."\" onclick=\"add_sl(this.value, this.id, '".$row["category"]."');\" class=\"btn btn-info btn-xs\"><i class=\"fa fa-plus\"></i> Add SN/LN</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" disabled><i class=\"fa fa-check\"></i></button>")."</center></td>
+			</tr>";
+			$tot_amt+=((float)$row["unit_cost"]) * (float)(explode(" ", $row["quantity"])[0]);
+	}
+	echo json_encode(array("tbody"=>$tbody, "tot_amt"=>$tot_amt));
 }
 
 

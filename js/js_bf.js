@@ -136,62 +136,46 @@ function badd_item(){
 	}
 }
 
-function bvalidate_with_snln(){
-	if(!special_category.includes($("#bcategory").val())){
-		if(bget_snln_rows()[0] == parseInt($("#bquantity").val())){
-			$("table#bitem_various tbody").append("<tr>"+
-											"<td>"+($("#bitem_name").val().split("┼"))[0]+"</td>"+
-											"<td>"+$("#bitem_name option:selected").text()+"</td>"+
-											"<td>"+$("#bdescription").val()+"</td>"+
-											"<td>"+$("#bcategory").val()+"</td>"+
-											"<td>"+snln+"</td>"+
-											"<td>"+$("#bexp_date").val()+"</td>"+
-											"<td>"+$("#bunit_cost").val()+"</td>"+
-											"<td>"+$("#bquantity").val()+" "+$( "#bunit option:selected" ).text()+"</td>"+
-											"<td>"+$("#btotal_amount").val()+"</td>"+
-											"<td><center><button class=\"btn btn-danger btn-xs\"><i class=\"fa fa-trash\"></i></button></center></td>"+
-											"</tr>");
-			$("#bitem_name").val(null).change();
-			$("#bdescription").val("");
-			$("#bcategory").val("");
-			$("#bsn_ln").val("");
-			$("#bexp_date").val("");
-			$("#bunit_cost").val("");
-			$("#bquantity").val("");
-			$("#bunit").val(null).change();
-			$("#btotal_amount").val("");
-			$('#bexp_date').prop('disabled',true);
-			$("table#bserial_numbers tbody").html("");
-			bget_total_row_amount();
-		}else{
-			swal("Quantity not matched!","Number of serial numbers should correspond to the inputted quantity","warning");
+function bvalidate_with_snln() {
+	const bitemRow = "<tr>" +
+		"<td>" + ($("#bitem_name").val().split("┼"))[0] + "</td>" +
+		"<td>" + $("#bitem_name option:selected").text() + "</td>" +
+		"<td>" + $("#bdescription").val() + "</td>" +
+		"<td>" + $("#bcategory").val() + "</td>" +
+		"<td>" + snln + "</td>" +
+		"<td>" + $("#bexp_date").val() + "</td>" +
+		"<td>" + $("#bunit_cost").val() + "</td>" +
+		"<td>" + $("#bquantity").val() + " " + $("#bunit option:selected").text() + "</td>" +
+		"<td>" + $("#btotal_amount").val() + "</td>" +
+		"<td><center><button class='btn btn-danger btn-xs'><i class='fa fa-trash'></i></button></center></td>" +
+		"</tr>";
+
+	if (!special_category.includes($("#bcategory").val())) {
+		if (bget_snln_rows()[0] == parseInt($("#bquantity").val())) {
+			$("table#bitem_various tbody").append(bitemRow);
+			bresetForm();
+		} else {
+			swal("Quantity not matched!", "Number of serial numbers should correspond to the inputted quantity", "warning");
 		}
-	}else{
-		$("table#bitem_various tbody").append("<tr>"+
-										"<td>"+($("#bitem_name").val().split("┼"))[0]+"</td>"+
-										"<td>"+$("#bitem_name option:selected").text()+"</td>"+
-										"<td>"+$("#bdescription").val()+"</td>"+
-										"<td>"+$("#bcategory").val()+"</td>"+
-										"<td>"+snln+"</td>"+
-										"<td>"+$("#bexp_date").val()+"</td>"+
-										"<td>"+$("#bunit_cost").val()+"</td>"+
-										"<td>"+$("#bquantity").val()+" "+$( "#bunit option:selected" ).text()+"</td>"+
-										"<td>"+$("#btotal_amount").val()+"</td>"+
-										"<td><center><button class=\"btn btn-danger btn-xs\"><i class=\"fa fa-trash\"></i></button></center></td>"+
-										"</tr>");
-		$("#bitem_name").val(null).change();
-		$("#bdescription").val("");
-		$("#bcategory").val("");
-		$("#bsn_ln").val("");
-		$("#bexp_date").val("");
-		$("#bunit_cost").val("");
-		$("#bquantity").val("");
-		$("#bunit").val(null).change();
-		$("#btotal_amount").val("");
-		$('#bexp_date').prop('disabled',true);
-		$("table#bserial_numbers tbody").html("");
-		bget_total_row_amount();
+	} else {
+		$("table#bitem_various tbody").append(bitemRow);
+		bresetForm();
 	}
+}
+
+function bresetForm() {
+	$("#bitem_name").val(null).change();
+	$("#bdescription").val("");
+	$("#bcategory").val("");
+	$("#bsn_ln").val("");
+	$("#bexp_date").val("");
+	$("#bunit_cost").val("");
+	$("#bquantity").val("");
+	$("#bunit").val(null).change();
+	$("#btotal_amount").val("");
+	$('#bexp_date').prop('disabled', true);
+	$("table#bserial_numbers tbody").html("");
+	bget_total_row_amount();
 }
 
 $('#bitem_various').on('click', 'tbody tr button', function(event) {

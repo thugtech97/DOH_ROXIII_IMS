@@ -132,7 +132,15 @@ function print_rfi(id) {
 
                     var divContents = $("#report_rfi").html(); 
                     var a = window.open('', '_blank', 'height=1500, width=800'); 
-                    a.document.write('<html><head><link rel="stylesheet" type="text/css" href="../css/demand_letter.css"></head><body><center>');
+                    a.document.write(`
+                        <html>
+                        <head>
+                            <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+                            <link rel="stylesheet" type="text/css" href="../css/demand_letter.css">
+                        </head>
+                        <body>
+                            <center>
+                    `);
                     a.document.write('<table style="width: 100%;"><tr><td>');
                     a.document.write(divContents);
                     
