@@ -481,6 +481,7 @@ function get_records(){
 		while($row = mysqli_fetch_assoc($sql)){
 			$icsn = $row["ics_no"];
 			$rb = str_replace(' ', '', $row["received_by"]);
+			$rb = rtrim($rb, '.');
 			$in = array();
 			$get_items = mysqli_query($conn, "SELECT item FROM tbl_ics WHERE ics_no LIKE '$icsn'");
 			while($ri = mysqli_fetch_assoc($get_items)){

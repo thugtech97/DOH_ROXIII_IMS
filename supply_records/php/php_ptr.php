@@ -441,6 +441,7 @@ function get_records(){
 			$func_call = in_array($category, $special_category) ? "print_ptr(this.value);" : "print_ptr_gen(this.value)";
 			$dl_xls = in_array($category, $special_category) ? "download_xls(this.value);" : "download_xls_gen(this.value)";
 			$to = str_replace(' ', '', $row["to"]);
+			$to = rtrim($to, '.');
 
 			$in = array();			
 			$get_items = mysqli_query($conn, "SELECT item FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");

@@ -191,6 +191,7 @@ function get_records(){
 		while($row = mysqli_fetch_assoc($sql)){
 			$parn = $row["par_no"];
 			$rb = str_replace(' ', '', $row["received_by"]);
+			$rb = rtrim($rb, '.');
 			$in = array();
 			$get_items = mysqli_query($conn, "SELECT item FROM tbl_par WHERE par_no LIKE '$parn'");
 			while($ri = mysqli_fetch_assoc($get_items)){
