@@ -460,16 +460,22 @@ function get_item(){
 	}
 }
 
-function get_end_user(){
-	global $connhr;
-	$sql = mysqli_query($connhr, "SELECT emp_id, fname, mname, lname, prefix, suffix FROM tbl_employee WHERE status LIKE 'Active' ORDER BY fname ASC");
-	if(mysqli_num_rows($sql) != 0){
-		while($row = mysqli_fetch_assoc($sql)){
-			$name = (($row["prefix"] != null) ? $row["prefix"]." " : "")."".$row["fname"]." ".$row["mname"][0].". ".$row["lname"]."".(($row["suffix"] != null) ? ", ".$row["suffix"] : "");
-			echo "<option data-fn=\"".$name."\" value=\"".$row["emp_id"]."\">".$name."</option>";
-		}
-	}
+function get_end_user() {
+    global $connhr;
+    $sql = mysqli_query($connhr, "SELECT emp_id, fname, mname, lname, prefix, suffix FROM tbl_employee WHERE status = 'Active' ORDER BY fname ASC");
+    if (mysqli_num_rows($sql) != 0) {
+        $options = '';
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $prefix = !empty($row["prefix"]) ? $row["prefix"] . " " : "";
+            $mname_initial = !empty($row["mname"]) ? $row["mname"][0] . ". " : "";
+            $suffix = !empty($row["suffix"]) ? ", " . $row["suffix"] : "";
+            $name = "{$prefix}{$row['fname']} {$mname_initial}{$row['lname']}{$suffix}";
+            $options .= "<option data-fn=\"{$name}\" value=\"{$row['emp_id']}\">{$name}</option>";
+        }
+        echo $options;
+    }
 }
+
 
 function get_supplier(){
 	global $conn;

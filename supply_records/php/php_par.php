@@ -29,7 +29,8 @@ function create_trans(){
 	$sql = mysqli_query($conn, "SELECT * FROM ".$table." WHERE ".$table_id." = '$id'");
 	if($row = mysqli_fetch_assoc($sql)){
 		$quantity_trans = count(explode(",", $prop_no));
-		$remarks = "This cancels previous ".$type." issued to ".$row["received_by"]." (".$row[$table_no].")";
+		$received = ($type === "PTR") ? $row["to"] : $row["received_by"];
+		$remarks = "This cancels previous " . $type . " issued to " . $received . " (" . $row[$table_no] . ")";
 		mysqli_query($conn, "INSERT INTO tbl_par(par_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
 		
 		$quantity_new = (int)$row["quantity"] - $quantity_trans;

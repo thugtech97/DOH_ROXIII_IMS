@@ -15,6 +15,7 @@
                                     <option value="" disabled selected></option>
                                     <option value="ICS">Inventory Custodian Slip (ICS)</option>
                                     <option value="PAR">Property Acknowledgement Receipt (PAR)</option>
+                                    <option value="PTR">Property Transfer Report (PTR)</option>
                                 </select>
                             </div>
                         </div>
@@ -44,7 +45,7 @@
                         <div class="row">
                             <div class="col-lg-5">
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label">ICS/PAR No.:</label>
+                                    <label class="col-lg-4 col-form-label">ICS/PAR/PTR No.:</label>
                                     <div class="col-lg-8">
                                         <input id="trans_ics" type="text" class="form-control">
                                     </div>
@@ -54,9 +55,13 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label">Transfer To:</label>
                                     <div class="col-lg-9">
+                                        <!--  
                                         <select id="trans_name" class="select2_demo_1 form-control">
                                             <option value="" disabled selected></option>
                                         </select>
+                                        !-->
+                                        <input id="trans_name" type="text" class="form-control" name="trans_name">
+                                        <input type="hidden" id="employee_id">
                                     </div>
                                 </div>
                             </div>

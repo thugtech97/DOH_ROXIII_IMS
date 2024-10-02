@@ -111,8 +111,9 @@ function ready_all(){
             type: "POST",
             url: "php/php_ics.php",
             data: {call_func: "get_employee"},
+            dataType: "JSON",
             success: function(data){
-                $("#spvs").html("<option disabled selected></option>").append(data);
+                $("#spvs").html("<option disabled selected></option>").append(data["options"]);
             }
         });
     });

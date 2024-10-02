@@ -196,25 +196,33 @@ function update_remarks(id, value, table, field_id){
     });
 }
 
-function get_item_trans(id, table, field_id, field){
-    var po_value = (new Date().toDateInputValue()).split("-");
-    $.ajax({
-        type: "POST",
-        url: "php/php_ics.php",
-        dataType: "JSON",
-        data: {call_func: "get_item_trans", id: id, table: table, field_id: field_id, field: field, yy_mm: po_value[0]+"-"+po_value[1]},
-        success: function(data){
-            $("#modal_transfer_item").modal();
-            $("#trans_item_id").html(id);
-            //$("#trans_ics").val(po_value[0]+"-"+po_value[1]+"-"+data["latest_icspar"]);
-            $("table#trans_items tbody").html(data["tbody"]);
+function get_item_trans(id, table, field_id, field, quantity, propno){
+    if(quantity > 0){
+        if(propno != ""){
+            var po_value = (new Date().toDateInputValue()).split("-");
+            $.ajax({
+                type: "POST",
+                url: "php/php_ics.php",
+                dataType: "JSON",
+                data: {call_func: "get_item_trans", id: id, table: table, field_id: field_id, field: field, yy_mm: po_value[0]+"-"+po_value[1]},
+                success: function(data){
+                    $("#modal_transfer_item").modal();
+                    $("#trans_item_id").html(id);
+                    //$("#trans_ics").val(po_value[0]+"-"+po_value[1]+"-"+data["latest_icspar"]);
+                    $("table#trans_items tbody").html(data["tbody"]);
+                }
+            });
+        }else{
+            swal("Unable to transfer!", "Item with no property number cannot be transferred.", "error");
         }
-    });
+    }else{
+        swal("Unable to transfer!", "Cannot transfer because the quantity is zero.", "error");
+    }
 }
 
 $("#trans_type").change(function(){
     var po_value = (new Date().toDateInputValue()).split("-");
-    var arr_data = $("#trans_type").val() == "ICS" ? ["ics_id","ics_no","tbl_ics"] : ["par_id","par_no","tbl_par"];
+    var arr_data = $(this).val() == "ICS" ? ["ics_id","ics_no","tbl_ics"] : ( $(this).val() == "PAR" ? ["par_id","par_no","tbl_par"] : ["ptr_id","ptr_no","tbl_ptr"]);
     $.ajax({
         type: "POST",
         url: "php/php_ics.php",
@@ -252,10 +260,10 @@ function get_checked_items(){
 }
 
 function trans_now(){
-    var temp_url = $("#trans_type").val() == "ICS" ? "php/php_ics.php" : "php/php_par.php";
-    var arr_data = _url == "php/php_ics.php" ? ["ICS", "tbl_ics", "ics_id", "ics_no"] : ["PAR", "tbl_par", "par_id", "par_no"];
+    var temp_url = $("#trans_type").val() == "ICS" ? "php/php_ics.php" : ($("#trans_type").val() == "PAR" ? "php/php_par.php" : "php/php_ptr.php");
+    var arr_data = _url == "php/php_ics.php" ? ["ICS", "tbl_ics", "ics_id", "ics_no"] : (_url == "php/php_par.php" ? ["PAR", "tbl_par", "par_id", "par_no"] : ["PTR", "tbl_ptr", "ptr_id", "ptr_no"]);
     if($("#trans_ics").val().match($po_regex)){
-        if($("#trans_name").val() != null){
+        if($("#trans_name").val() != ""){
             if(get_checked_items() != 0){
                 $.ajax({
                     type: "POST",
@@ -263,8 +271,8 @@ function trans_now(){
                     data: {call_func: "create_trans",
                             id: $("#trans_item_id").html(),
                             trans_ics: $("#trans_ics").val(),
-                            trans_name: $("#trans_name option:selected").text(),
-                            trans_id: $("#trans_name").val(),
+                            trans_name: $("#trans_name").val(),
+                            trans_id: $("#employee_id").val(),
                             prop_no: prop_no,
                             serial_no: serial_no,
                             un_prop_no: un_prop_no,
@@ -282,12 +290,13 @@ function trans_now(){
                         $("#trans_type").val(null).change();
                         $("#modal_transfer_item .close").click();
                         $("#edit_ics_par .close").click();
+                        $("#edit_ptr .close").click();
                         var query = $('#search_box').val();
                         get_records(active_page, _url, query);
                     }
                 });
             }else{
-                swal("No checked items!", "Kindly check at least one item for ICS/PAR transfer.", "warning");
+                swal("No checked items!", "Kindly check at least one item for ICS/PAR/PTR transfer.", "warning");
             }
         }else{
             swal("Please fill in!", "Transfer To (New End-User).", "warning");
@@ -436,28 +445,39 @@ function save_new_item(){
     }
 }
 function delete_existing(po_id, iss_id, iss_no, quan){
-    $.ajax({
-        type: "POST",
-        url: _url,
-        data: {
-            call_func: "delete_existing",
-            po_id: po_id,
-            iss_id: iss_id,
-            iss_no: iss_no,
-            quan: quan
-        },
-        success: function(data){
-            if(_url == "php/php_ris.php"){
-                $("table#eris_items tbody").html(data);
+    swal({
+        title: "Are you sure?",
+        text: "This item will be deleted as soon as you clicked 'Yes'",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: false
+    }, function () {
+        $.ajax({
+            type: "POST",
+            url: _url,
+            data: {
+                call_func: "delete_existing",
+                po_id: po_id,
+                iss_id: iss_id,
+                iss_no: iss_no,
+                quan: quan
+            },
+            success: function(data){
+                swal("Deleted!", "Item deleted successfully.", "success");
+                if(_url == "php/php_ris.php"){
+                    $("table#eris_items tbody").html(data);
+                }
+    
+                if(_url == "php/php_ptr.php"){
+                    $("table#eptr_items tbody").html(data);
+                }
+    
+                var query = $('#search_box').val();
+                get_records(active_page, _url, query);
             }
-
-            if(_url == "php/php_ptr.php"){
-                $("table#eptr_items tbody").html(data);
-            }
-
-            var query = $('#search_box').val();
-            get_records(active_page, _url, query);
-        }
+        });
     });
 }
 

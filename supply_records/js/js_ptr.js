@@ -42,7 +42,7 @@ function total_amount(){
         }
         var result = propertyNumbers.join(',');
         //console.log(result);
-        if($("#category").val() != "Drugs and Medicines" && $("#category").val() != "Medical Supplies"){
+        if(!special_category.includes($("#category").val())){
             if ($('#property_no')[0].selectize) {
                 $('#property_no')[0].selectize.destroy();
                 $('#property_no').val("")
@@ -209,7 +209,7 @@ function add_item(){
 }
 
 function validate_with_snln(){
-    if($("#category").val() != "Drugs and Medicines" && $("#category").val() != "Medical Supplies"){
+    if(!special_category.includes($("#category").val())){
         if(parseInt($("#quantity").val()) == $('#serial_no').select2("val").length){
             check_pn_exist($("#property_no").val());
         }else{
@@ -303,34 +303,46 @@ function ready_all(){
         });
     });
 
-    $("#received_from").ready(function(){
-        $.ajax({
-            type: "POST",
-            url: "php/php_ics.php",
-            data: {call_func: "get_employee"},
-            success: function(data){
-                $("#received_from").html("<option disabled selected></option>").append(data);
-                $('#received_from option').each(function() {
-                    if($(this).text() == $("#ptr_no").data("pc")){
-                        $(this).prop("selected", true).change();
-                    }
-                });
-            }
-        });
-    });
-
     $("#approved_by").ready(function(){
         $.ajax({
             type: "POST",
             url: "php/php_ics.php",
             data: {call_func: "get_employee"},
+            dataType: "JSON",
             success: function(data){
-                $("#approved_by").html("<option disabled selected></option>").append(data);
+                $("#approved_by").html("<option disabled selected></option>").append(data["options"]);
                 $('#approved_by option').each(function() {
                     if($(this).text() == $("#ptr_no").data("ch")){
                         $(this).prop("selected", true).change();
                     }
                 });
+
+                $("#received_from").html("<option disabled selected></option>").append(data["options"]);
+                $('#received_from option').each(function() {
+                    if($(this).text() == $("#ptr_no").data("pc")){
+                        $(this).prop("selected", true).change();
+                    }
+                });
+
+                $('#trans_name').typeahead({
+					source: function(query, process) {
+						var employeeNames = [];
+						var employeeMap = {};
+						$.each(data["employees"], function(i, employee) {
+							employeeNames.push(employee.name);
+							employeeMap[employee.name] = employee.id;
+						});
+						process(employeeNames);
+						$('#trans_name').change(function() {
+							var selectedName = $('#trans_name').typeahead("getActive");
+							if (selectedName && employeeMap[selectedName]) {
+								var selectedId = employeeMap[selectedName];
+								console.log("Selected Employee ID: ", selectedId);
+								$('#employee_id').val(selectedId);
+							}
+						});
+					}
+				});
             }
         });
     });
@@ -852,9 +864,9 @@ function insertAlloc(){
             },
             success: function(data){
                 if(counter == 0){
-                    $("table#uploaded_alloc tbody").html("<tr><td>"+data["ptr_no"]+"</td><td>"+data["recipient"]+"</td><td><center><button class=\"btn btn-xs btn-info\" onclick=\""+((data["category"]=="Drugs and Medicines" || data["category"]=="Medical Supplies") ? "print_ptr('"+data["ptr_no"]+"','1')" : "print_ptr_gen('"+data["ptr_no"]+"')")+"\"><i class=\"fa fa-print\"></i></button></center></td></tr>");
+                    $("table#uploaded_alloc tbody").html("<tr><td>"+data["ptr_no"]+"</td><td>"+data["recipient"]+"</td><td><center><button class=\"btn btn-xs btn-info\" onclick=\""+((special_category.includes(data["category"]))  ? "print_ptr('"+data["ptr_no"]+"','1')" : "print_ptr_gen('"+data["ptr_no"]+"')")+"\"><i class=\"fa fa-print\"></i></button></center></td></tr>");
                 }else{
-                    $("table#uploaded_alloc tbody").append("<tr><td>"+data["ptr_no"]+"</td><td>"+data["recipient"]+"</td><td><center><button class=\"btn btn-xs btn-info\" onclick=\""+((data["category"]=="Drugs and Medicines" || data["category"]=="Medical Supplies") ? "print_ptr('"+data["ptr_no"]+"','1')" : "print_ptr_gen('"+data["ptr_no"]+"')")+"\"><i class=\"fa fa-print\"></i></button></center></td></tr>");
+                    $("table#uploaded_alloc tbody").append("<tr><td>"+data["ptr_no"]+"</td><td>"+data["recipient"]+"</td><td><center><button class=\"btn btn-xs btn-info\" onclick=\""+((special_category.includes(data["category"])) ? "print_ptr('"+data["ptr_no"]+"','1')" : "print_ptr_gen('"+data["ptr_no"]+"')")+"\"><i class=\"fa fa-print\"></i></button></center></td></tr>");
                 }
                 counter++;
                 get_records(1, _url);

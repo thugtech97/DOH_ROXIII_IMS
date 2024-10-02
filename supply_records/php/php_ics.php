@@ -29,7 +29,8 @@ function create_trans(){
 	$sql = mysqli_query($conn, "SELECT * FROM ".$table." WHERE ".$table_id." = '$id'");
 	if($row = mysqli_fetch_assoc($sql)){
 		$quantity_trans = count(explode(",", $prop_no));
-		$remarks = "This cancels previous ".$type." issued to ".$row["received_by"]." (".$row[$table_no].")";
+		$received = ($type === "PTR") ? $row["to"] : $row["received_by"];
+		$remarks = "This cancels previous " . $type . " issued to " . $received . " (" . $row[$table_no] . ")";
 		mysqli_query($conn, "INSERT INTO tbl_ics(ics_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
 		
 		$quantity_new = (int)$row["quantity"] - $quantity_trans;
@@ -225,8 +226,8 @@ function modify(){
 					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
 					<td><input onblur=\"update_remarks('".$row[$field_id]."', this.value, '".$table."', '".$field_id."');\" type=\"text\" value=\"".$row["remarks"]."\"></td>
 					<td>
-						<button class=\"btn btn-xs btn-info\" onclick=\"get_item_trans('".$row[$field_id]."', '".$table."', '".$field_id."', '".$field."');\"><i class=\"fa fa-exchange\"></i></button>
-						<button class=\"btn btn-xs btn-success\" onclick=\"get_history('".$row['property_no']."');\"><i class=\"fa fa-history\"></i></button>
+						<button class=\"btn btn-xs btn-info dim\" onclick=\"get_item_trans('".$row[$field_id]."', '".$table."', '".$field_id."', '".$field."', '".$row["quantity"]."', '".$row["property_no"]."');\"><i class=\"fa fa-exchange\"></i></button>
+						<button class=\"btn btn-xs btn-success dim\" onclick=\"get_history('".$row['property_no']."');\"><i class=\"fa fa-history\"></i></button>
 					</td>
 					</tr>";
 					$tot_amt+=(float)$row["cost"] * (float)$row["quantity"];
@@ -340,14 +341,33 @@ function get_area(){
 	}
 }
 
-function get_employee(){
-	global $connhr;
-	$sql = mysqli_query($connhr, "SELECT emp_id, fname, mname, lname, prefix, suffix FROM tbl_employee WHERE status LIKE 'Active' ORDER BY fname ASC");
-	if(mysqli_num_rows($sql) != 0){
-		while($row = mysqli_fetch_assoc($sql)){
-			echo "<option value=\"".$row["emp_id"]."\">".(($row["prefix"] != null) ? $row["prefix"]." " : "")."".$row["fname"]." ".$row["mname"][0].". ".$row["lname"]."".(($row["suffix"] != null) ? ", ".$row["suffix"] : "")."</option>";
-		}
-	}
+function get_employee() {
+    global $connhr;
+    $sql = mysqli_query($connhr, "SELECT emp_id, fname, mname, lname, prefix, suffix FROM tbl_employee WHERE status = 'Active' ORDER BY fname ASC");
+
+    if (mysqli_num_rows($sql) != 0) {
+        $options = '';
+        $employees = [];
+
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $prefix = !empty($row["prefix"]) ? $row["prefix"] . " " : "";
+            $mname_initial = !empty($row["mname"]) ? $row["mname"][0] . ". " : "";
+            $suffix = !empty($row["suffix"]) ? ", " . $row["suffix"] : "";
+
+            $full_name = "{$prefix}{$row['fname']} {$mname_initial}{$row['lname']}{$suffix}";
+
+            $options .= "<option value=\"{$row['emp_id']}\">{$full_name}</option>";
+            $employees[] = [
+                'id' => $row['emp_id'],
+                'name' => $full_name
+            ];
+        }
+
+		echo json_encode([
+            'options' => $options,
+            'employees' => $employees
+        ]);
+    }
 }
 
 function get_ics_details(){

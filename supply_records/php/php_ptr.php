@@ -5,6 +5,44 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function create_trans(){
+	global $conn; global $connhr;
+	date_default_timezone_set("Asia/Shanghai");
+	$id = mysqli_real_escape_string($conn, $_POST["id"]);
+	$trans_ics = mysqli_real_escape_string($conn, $_POST["trans_ics"]);
+	$received_by = mysqli_real_escape_string($conn, $_POST["trans_name"]);
+	$trans_id = mysqli_real_escape_string($conn, $_POST["trans_id"]);
+	$prop_no = implode(",",(array) $_POST["prop_no"]);
+	$serial_no = implode(",",(array) $_POST["serial_no"]);
+	$un_prop_no = implode(",",(array) $_POST["un_prop_no"]);
+	$un_serial_no = implode(",",(array) $_POST["un_serial_no"]);
+	$date_released = mysqli_real_escape_string($conn, $_POST["date_released"])." ".date("H:i:s");
+
+	$type 		= mysqli_real_escape_string($conn, $_POST["type"]);
+	$table 		= mysqli_real_escape_string($conn, $_POST["table"]);
+	$table_id 	= mysqli_real_escape_string($conn, $_POST["table_id"]);
+	$table_no 	= mysqli_real_escape_string($conn, $_POST["table_no"]);
+	
+	$sql = mysqli_query($conn, "SELECT * FROM ".$table." WHERE ".$table_id." = '$id'");
+	if($row = mysqli_fetch_assoc($sql)){
+		$quantity_trans = count(explode(",", $prop_no));
+		$received = ($type === "PTR") ? $row["to"] : $row["received_by"];
+		$remarks = "This cancels previous " . $type . " issued to " . $received . " (" . $row[$table_no] . ")";
+		$approved_by = ($type === "PTR") ? $row["approved_by"] : "";
+		$approved_by_designation = ($type === "PTR") ? $row["approved_by_designation"] : "";
+		
+		mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,po_id) 
+		VALUES('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', 'DOH-CARAGA', '$received_by', 'Allocation', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '', '$remarks', '', '$approved_by', '$approved_by_designation', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$date_released', '".$row["area"]."', '', '', '', '', '".$row["po_id"]."')");
+		
+		$quantity_new = (int)$row["quantity"] - $quantity_trans;
+		mysqli_query($conn, "UPDATE ".$table." SET quantity = '$quantity_new' WHERE ".$table_id." = '$id'");
+
+		$emp_id = $_SESSION["emp_id"];
+		$description = $_SESSION["username"]." created a PTR transfer (".$trans_ics.") to ".$received_by." with a remarks - ".$remarks;
+		mysqli_query($conn, "INSERT INTO tbl_logs(emp_id,description) VALUES('$emp_id','$description')");
+	}
+}
+
 function delete_existing(){
 	global $conn;
 
@@ -189,7 +227,10 @@ function modify(){
 					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
 					<td>".$row["conditions"]."</td>
 					<td>".$row["remarks"]."</td>
-					<td><center><button class=\"btn btn-xs btn-danger\" onclick=\"delete_existing('".$row["po_id"]."','".$row["ptr_id"]."','".$ptr_no."','".$row["quantity"]."')\"><i class=\"fa fa-trash\"></i></button></center></td>
+					<td>
+						<button class=\"btn btn-xs btn-info dim\" onclick=\"get_item_trans('".$row["ptr_id"]."', 'tbl_ptr', 'ptr_id', 'ptr_no', '".$row["quantity"]."', '".$row["property_no"]."');\"><i class=\"fa fa-exchange\"></i></button>
+						<center><button class=\"btn btn-xs btn-danger dim\" onclick=\"delete_existing('".$row["po_id"]."','".$row["ptr_id"]."','".$ptr_no."','".$row["quantity"]."')\"><i class=\"fa fa-trash\"></i></button></center>
+					</td>
 				</tr>";
 	}
 
@@ -231,13 +272,13 @@ function print_ptr_gen(){
 	$rows_limit = 35; $rows_occupied = 0;
 	$ptr_body = "";
 	$ptr_no = mysqli_real_escape_string($conn, $_POST["ptr_no"]);
-	$sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, tbl_ptr.from, tbl_ptr.to, serial_no, exp_date, SUBSTRING(date_released, 1, 10) AS date_r, transfer_type, reference_no, supplier, property_no, item, description, quantity, unit, cost, total, conditions, reason, approved_by, approved_by_designation, received_from, received_from_designation, address FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
+	$sql = mysqli_query($conn, "SELECT entity_name, fund_cluster, tbl_ptr.from, tbl_ptr.to, serial_no, exp_date, SUBSTRING(date_released, 1, 10) AS date_r, transfer_type, reference_no, supplier, property_no, item, description, quantity, unit, cost, total, conditions, reason, approved_by, approved_by_designation, received_from, received_from_designation, remarks, address FROM tbl_ptr WHERE ptr_no LIKE '$ptr_no'");
 	if(mysqli_num_rows($sql) != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$entity_name = $row["entity_name"]; $fund_cluster = $row["fund_cluster"]; $from = $row["from"]; $to = $row["to"]; $date = $row["date_r"];
 			$transfer_type = $row["transfer_type"]; $reason = $row["reason"]; $approved_by = $row["approved_by"]; $received_from = $row["received_from"];
 			$approved_by_designation = $row["approved_by_designation"]; $received_from_designation = $row["received_from_designation"]; $address = $row["address"];
-			$supplier = $row["supplier"]; $reference_no = $row["reference_no"];
+			$supplier = $row["supplier"]; $reference_no = $row["reference_no"]; $remarks = $row["remarks"];
 			$total_cost += (float)$row["quantity"] * (float)$row["cost"];
 			$pn = explode(",", $row["property_no"]);
 			$ptr_body .= "<tr>
@@ -283,7 +324,7 @@ function print_ptr_gen(){
 			    	}
 			    }
 		}
-		$the_rest = array("*Nothing Follows*","","","PO No. ".$reference_no, $supplier);
+		$the_rest = array("*Nothing Follows*","","","PO No. ".$reference_no, $supplier, "<b>".$remarks."</b>");
 		for($i = 0; $i < count($the_rest); $i++){
 			$ptr_body .= "<tr>
 					      <td style=\"width: 73.2px; height: 14px; text-align: center; font-size: 10px; vertical-align: bottom; border-right-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-color: rgb(0, 0, 0); border-right-width: 2px; border-bottom-width: 1px; border-left-width: 2px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid;\"></td>
@@ -614,6 +655,9 @@ switch($call_func){
 		break;
 	case "delete_existing":
 		delete_existing();
+		break;
+	case "create_trans":
+		create_trans();
 		break;
 }
 

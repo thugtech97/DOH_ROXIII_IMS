@@ -40,30 +40,21 @@ function ready_all(){
         });
     });
 
-    $("#requested_by").ready(function(){
-        $.ajax({
-            type: "POST",
-            url: "php/php_ics.php",
-            data: {call_func: "get_employee"},
-            success: function(data){
-                $("#requested_by").html("<option disabled selected></option>").append(data);
-            }
-        });
-    });
-
     $("#issued_by").ready(function(){
         $.ajax({
             type: "POST",
             url: "php/php_ics.php",
             data: {call_func: "get_employee"},
+            dataType: "JSON",
             success: function(data){
-                $("#issued_by").html("<option disabled selected></option>").append(data);
+                $("#requested_by").html("<option disabled selected></option>").append(data["options"]);
+                $("#issued_by").html("<option disabled selected></option>").append(data["options"]);
                 $('#issued_by option').each(function() {
                     if($(this).text() == $("#ris_no").data("ppb")){
                         $(this).prop("selected", true).change();
                     }
                 });
-                $("#approved_by").html("<option disabled selected></option>").append(data);
+                $("#approved_by").html("<option disabled selected></option>").append(data["options"]);
                 /*$('#approved_by option').each(function() {
                     if($(this).text() == $("#ris_no").data("pc")){
                         $(this).prop("selected", true).change();
