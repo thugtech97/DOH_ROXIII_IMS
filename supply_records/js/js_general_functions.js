@@ -428,7 +428,7 @@ $("#a_item_name").change(function(){
             $("#a_unit_value").val(formatNumber(data["unit_cost"]));
             $("#a_category").val(data["category"]);
             $("#a_category").attr("data-code", data["code"]);
-            $("#a_serial_no").html("<option disabled selected></option>").append(data["sn_ln"]);
+            $("#a_serial_no").html(data["sn_ln"]);
         }
     });
 });
@@ -444,6 +444,8 @@ function save_new_item(){
             if($("#a_quantity").val() != ""){
                 if(parseInt($("#a_quantity").val()) <= parseInt($("#a_stock").val())){
                     if(parseInt($("#a_quantity").val()) > 0){
+                        console.log($("#a_serial_no").val().join(","));
+                        
                         $.ajax({
                             type: "POST",
                             url: _url,
@@ -457,7 +459,7 @@ function save_new_item(){
                                 stock: $("#a_stock").val(),
                                 quantity: $("#a_quantity").val(),
                                 reference_no: $("#a_reference_no option:selected").text(),
-                                serial_no: $("#a_serial_no option:selected").text(),
+                                serial_no: $("#a_serial_no").val().join(","),
                                 property_no: $("#a_property_no").val(),
                                 remarks: $("a_remarks").val(),
                                 exp_date: a_exp_date,
@@ -492,6 +494,7 @@ function save_new_item(){
                                 get_records(active_page, _url, query);
                             }
                         });
+                        
                     }else{
                         swal("Invalid input!", "Quantity cannot be zero", "warning");
                     }

@@ -475,7 +475,7 @@ function get_records(){
 	  $start = 0;
 	}
 
-	$query = "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, tbl_ptr.from, tbl_ptr.to, reason, remarks, issued, transfer_type FROM tbl_ptr ";
+	$query = "SELECT DISTINCT ptr_no, area, SUBSTRING(date_released, 1, 10) AS date_r, tbl_ptr.from, tbl_ptr.to, reason, issued, transfer_type FROM tbl_ptr ";
 	if($_POST["search"] != ""){
 		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
 		$query.="WHERE ptr_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR tbl_ptr.from LIKE '%$qs%' OR tbl_ptr.to LIKE '%$qs%' OR transfer_type LIKE '%$qs%' OR reason LIKE '%$qs%' OR item LIKE '%$qs%' ";

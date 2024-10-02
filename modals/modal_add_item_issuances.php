@@ -66,7 +66,7 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Serial No.:</label>
                             <div class="col-lg-9">
-                                <select id="a_serial_no" class="form-control select2_demo_1">
+                                <select id="a_serial_no" class="form-control select2_demo_1" multiple="multiple">
                                     
                                 </select>
                             </div>
