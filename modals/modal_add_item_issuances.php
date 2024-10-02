@@ -51,7 +51,7 @@
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Category:</label>
                             <div class="col-lg-9">
-                                <input type="text" id="a_category" class="form-control" disabled>
+                                <input type="text" id="a_category" data-code="" class="form-control" disabled>
                             </div>
                         </div>
                         <div class="form-group row">

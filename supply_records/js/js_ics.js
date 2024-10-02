@@ -43,6 +43,7 @@ function ready_all(){
             success: function(data){
                 $('#ics_no').val(po_value[0]+"-"+po_value[1]+"-"+data["latest_ics"]);
                 $('#lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
+				$('#a_lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
             }
         });
     });

@@ -83,7 +83,7 @@
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <i class="fa fa-list"></i> Item Lists <button class="btn btn-xs btn-primary pull-right" onclick="//show_add_item($('#eptr_no').val());"><i class="fa fa-plus"></i> Add Item</button>
+                        <i class="fa fa-list"></i> Item Lists <button class="btn btn-xs btn-primary pull-right" onclick="show_add_item($('#eics_no').val());"><i class="fa fa-plus"></i> Add Item</button>
                     </div>
                     <div class="panel-body" style="height: 200px; overflow: auto;">
                         <table id="eics_items" class="table table-bordered">

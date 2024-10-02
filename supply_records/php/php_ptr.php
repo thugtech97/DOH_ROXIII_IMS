@@ -78,12 +78,14 @@ function new_add_item(){
     $exp_date = mysqli_real_escape_string($conn, $_POST["exp_date"]);
     $unit = mysqli_real_escape_string($conn, $_POST["unit"]);
     $unit_value = mysqli_real_escape_string($conn, $_POST["unit_value"]);
+	$property_no = mysqli_real_escape_string($conn, $_POST["property_no"]);
+	$remarks = mysqli_real_escape_string($conn, $_POST["remarks"]);
 
     $sql = mysqli_query($conn, "SELECT entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,view_ptr FROM tbl_ptr WHERE ptr_no LIKE '$num_iss'");
 	$supplier = mysqli_real_escape_string($conn, mysqli_fetch_assoc(mysqli_query($conn, "SELECT s.supplier, p.supplier_id FROM tbl_po AS p, ref_supplier AS s WHERE s.supplier_id = p.supplier_id AND p.po_number LIKE '$reference_no'"))["supplier"]);
 	$row = mysqli_fetch_assoc($sql); $entity_name = $row["entity_name"]; $fund_cluster = $row["fund_cluster"]; $from = $row["from"]; $to = $row["to"]; $transfer_type = $row["transfer_type"]; $reason = $row["reason"]; $approved_by = $row["approved_by"]; $approved_by_designation = $row["approved_by_designation"]; $received_from = $row["received_from"]; $received_from_designation = $row["received_from_designation"]; $date_released = $row["date_released"]; $area = $row["area"]; $address = $row["address"]; $alloc_num = $row["alloc_num"]; $storage_temp = $row["storage_temp"]; $transport_temp = $row["transport_temp"]; $view_ptr = $row["view_ptr"];
 
-	mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,po_id) VALUES('$num_iss','$entity_name','$fund_cluster','$from','$to','$transfer_type','$reference_no','$item_name','$description','$unit','$supplier','$serial_no','$exp_date','$category','','$quantity','$unit_value','0.000','','','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address','$alloc_num','$storage_temp','$transport_temp','$item_id')");
+	mysqli_query($conn, "INSERT INTO tbl_ptr(ptr_no,entity_name,fund_cluster,tbl_ptr.from,tbl_ptr.to,transfer_type,reference_no,item,description,unit,supplier,serial_no,exp_date,category,property_no,quantity,cost,total,conditions,remarks,reason,approved_by,approved_by_designation,received_from,received_from_designation,date_released,area,address,alloc_num,storage_temp,transport_temp,po_id) VALUES('$num_iss','$entity_name','$fund_cluster','$from','$to','$transfer_type','$reference_no','$item_name','$description','$unit','$supplier','$serial_no','$exp_date','$category','$property_no','$quantity','$unit_value','0.000','','','$reason','$approved_by','$approved_by_designation','$received_from','$received_from_designation','$date_released','$area','$address','$alloc_num','$storage_temp','$transport_temp','$item_id')");
 	$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$item_id'");
 	$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
 	$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
@@ -93,6 +95,13 @@ function new_add_item(){
 		for($j = 0; $j < count($serials); $j++){
 			$sn = $serials[$j];
 			mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
+		}
+		$pns = explode(",", $property_no);
+		$pn = end($pns);
+		$currentDate = date('Y-m');
+		$pnDate = substr($pn, 0, 7);
+		if ($currentDate === $pnDate) {
+			mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
 		}
 	}
 	reload_item($num_iss);
@@ -117,7 +126,9 @@ function reload_item($num_iss){
 			<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
 			<td>".$row["conditions"]."</td>
 			<td>".$row["remarks"]."</td>
-			<td><center><button class=\"btn btn-xs btn-danger\" onclick=\"delete_existing('".$row["po_id"]."','".$row["ptr_id"]."','".$num_iss."','".$row["quantity"]."')\"><i class=\"fa fa-trash\"></i></button></center></td>
+			<td>
+				<button class=\"btn btn-xs btn-info dim\" onclick=\"get_item_trans('".$row["ptr_id"]."', 'tbl_ptr', 'ptr_id', 'ptr_no', '".$row["quantity"]."', '".$row["property_no"]."');\"><i class=\"fa fa-exchange\"></i></button>
+				<center><button class=\"btn btn-xs btn-danger\" onclick=\"delete_existing('".$row["po_id"]."','".$row["ptr_id"]."','".$num_iss."','".$row["quantity"]."')\"><i class=\"fa fa-trash\"></i></button></center></td>
 		</tr>";
 	}
 

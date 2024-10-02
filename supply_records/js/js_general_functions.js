@@ -319,8 +319,65 @@ function print_all(div, height, width){
     a.print();
 }
 
+initSelectize_a("");
+
+function initSelectize_a(value){
+    $('#a_property_no').val(value);
+    $('#a_property_no').selectize({
+        plugins: ['remove_button'],
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            return {
+                value: input,
+                text: input
+            };
+        },
+        onChange: function(input) {
+            var inputs = input.split(",");
+            var lastInput = inputs.slice(-1)[0];
+            
+            if (!validatePropertyNo(lastInput)) {
+                inputs.pop();
+                
+                var selectize = $('#a_property_no')[0].selectize;
+                selectize.clearOptions();
+                selectize.addOption(inputs.map(item => ({value: item, text: item})));
+                selectize.setValue(inputs);
+
+                //swal("Please input a valid property number.","", "error");
+            }
+        }
+    });
+}
+
 function a_total_amount(){
     $("#a_total_amount").val(formatNumber((parseFloat($("#a_quantity").val() == "" ? 0.00 : $("#a_quantity").val()) * parseFloat(origNumber($("#a_unit_value").val()))).toFixed(2)));
+
+    $('#a_property_no')[0].selectize.destroy();
+    $('#a_property_no').val("")
+    initSelectize_a("");
+    if($("#a_category").val() && !special_category.includes($("#a_category").val())){
+        var quantity = parseInt($("#a_quantity").val());
+        var starting_property_no = $("#a_lbl_pn").html();
+
+        var parts = starting_property_no.split('-');
+        var prefix = parts[0] + '-' + parts[1] + '-';
+        var startNumber = parseInt(parts[2]);
+
+        var propertyNumbers = [];
+        for (var i = 0; i < quantity; i++) {
+            var nextNumber = (startNumber + i).toString().padStart(4, '0');
+            propertyNumbers.push(prefix + nextNumber + '-'+ $("#a_category").attr("data-code"));
+        }
+        var result = propertyNumbers.join(',');
+        //console.log(result);
+        if ($('#a_property_no')[0].selectize) {
+            $('#a_property_no')[0].selectize.destroy();
+            $('#a_property_no').val("")
+            initSelectize_a(result);
+        }
+    }
 }
 
 $("#a_reference_no").ready(function(){
@@ -370,6 +427,7 @@ $("#a_item_name").change(function(){
             $("#a_description").val(data["description"]);
             $("#a_unit_value").val(formatNumber(data["unit_cost"]));
             $("#a_category").val(data["category"]);
+            $("#a_category").attr("data-code", data["code"]);
             $("#a_serial_no").html("<option disabled selected></option>").append(data["sn_ln"]);
         }
     });
@@ -400,6 +458,8 @@ function save_new_item(){
                                 quantity: $("#a_quantity").val(),
                                 reference_no: $("#a_reference_no option:selected").text(),
                                 serial_no: $("#a_serial_no option:selected").text(),
+                                property_no: $("#a_property_no").val(),
+                                remarks: $("a_remarks").val(),
                                 exp_date: a_exp_date,
                                 unit: $("#a_unit").val(),
                                 unit_value: $("#a_unit_value").val()
@@ -422,6 +482,10 @@ function save_new_item(){
 
                                 if(_url == "php/php_ptr.php"){
                                     $("table#eptr_items tbody").html(data);
+                                }
+
+                                if(_url == "php/php_ics.php" || _url == "php/php_par.php"){
+                                    $("table#eics_items tbody").html(data);
                                 }
 
                                 var query = $('#search_box').val();

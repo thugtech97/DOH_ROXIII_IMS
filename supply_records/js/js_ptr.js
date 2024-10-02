@@ -287,6 +287,7 @@ function ready_all(){
                 //alert(data["latest_ptr"]);
                 $('#ptr_no').val(po_value[0]+"-"+po_value[1]+"-"+data["latest_ptr"]);
                 $('#lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
+                $('#a_lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
             }
         });
     });

@@ -39,6 +39,7 @@ function ready_all(){
             success: function(data){
                 $('#par_no').val(po_value[0]+"-"+po_value[1]+"-"+data["latest_par"]);
                 $('#lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
+                $('#a_lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
             }
         });
     });

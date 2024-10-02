@@ -88,6 +88,7 @@ if(!isset($_SESSION["username"])){
                 require "../modals/modal_edit_dr.php";
                 require "../modals/modal_transfer_item.php";
                 require "../modals/modal_property_history.php";
+                require "../modals/modal_add_item_issuances.php";
             ?>
             <div class="footer">
                 <div>
