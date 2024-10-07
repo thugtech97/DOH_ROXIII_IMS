@@ -5,6 +5,83 @@ require "../../php/php_general_functions.php";
 
 session_start();
 
+function new_add_item(){
+
+	global $conn;
+	global $special_category;
+
+	$table = "";
+	$num_iss = mysqli_real_escape_string($conn, $_POST["num_iss"]);
+    $item_name = mysqli_real_escape_string($conn, $_POST["item_name"]);
+    $item_id = mysqli_real_escape_string($conn, $_POST["item_id"]);
+    $description = mysqli_real_escape_string($conn, $_POST["description"]);
+    $category = mysqli_real_escape_string($conn, $_POST["category"]);
+    $stock = mysqli_real_escape_string($conn, $_POST["stock"]);
+    $quantity = mysqli_real_escape_string($conn, $_POST["quantity"]);
+    $reference_no = mysqli_real_escape_string($conn, $_POST["reference_no"]);
+    $serial_no = mysqli_real_escape_string($conn, $_POST["serial_no"]);
+    $unit = mysqli_real_escape_string($conn, $_POST["unit"]);
+    $unit_value = mysqli_real_escape_string($conn, $_POST["unit_value"]);
+	$property_no = mysqli_real_escape_string($conn, $_POST["property_no"]);
+	$remarks = mysqli_real_escape_string($conn, $_POST["remarks"]);
+
+    $sql = mysqli_query($conn, "SELECT * FROM tbl_ics WHERE ics_no LIKE '$num_iss'");
+	$supplier = mysqli_real_escape_string($conn, mysqli_fetch_assoc(mysqli_query($conn, "SELECT s.supplier, p.supplier_id FROM tbl_po AS p, ref_supplier AS s WHERE s.supplier_id = p.supplier_id AND p.po_number LIKE '$reference_no'"))["supplier"]);
+	$row = mysqli_fetch_assoc($sql); $entity_name = $row["entity_name"]; $fund_cluster = $row["fund_cluster"]; $received_from = $row["received_from"]; 
+	$received_from_designation = $row["received_from_designation"]; $date_released = $row["date_released"]; $area = $row["area"]; $view_ics = $row["view_ics"];
+	$received_by = $row["received_by"]; $received_by_designation = $row["received_by_designation"]; $date_supply_received = $row["date_supply_received"]; $issued = $row["issued"];
+
+	mysqli_query($conn, "INSERT INTO tbl_ics(ics_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, date_supply_received, issued, view_ics, area, po_id) 
+	VALUES ('$num_iss', '$entity_name', '$fund_cluster', '$reference_no', '$item_name', '$description', '$unit', '$supplier', '$serial_no', '$category', '$property_no', '$quantity', '$unit_value', '0.00', '$remarks', '$received_from', '$received_from_designation', '$received_by', '$received_by_designation', '$date_released', '$date_supply_received', '$issued', '$view_ics', '$area', '$item_id')");
+	
+	$query_get_stocks = mysqli_query($conn, "SELECT quantity FROM tbl_po WHERE po_id = '$item_id'");
+	$rstocks = explode(" ", mysqli_fetch_assoc($query_get_stocks)["quantity"]);
+	$newrstocks = ((int)$rstocks[0] - (int)$quantity)." ".$rstocks[1];
+	mysqli_query($conn, "UPDATE tbl_po SET quantity = '$newrstocks' WHERE po_id = '$item_id'");
+	if(!in_array($category, $special_category)){
+		$serials = explode(",", $serial_no);
+		for($j = 0; $j < count($serials); $j++){
+			$sn = $serials[$j];
+			mysqli_query($conn, "UPDATE tbl_serial SET is_issued = 'Y' WHERE inventory_id = '$item_id' AND serial_no = '$sn'");
+		}
+		$pns = explode(",", $property_no);
+		$pn = end($pns);
+		$currentDate = date('Y-m');
+		$pnDate = substr($pn, 0, 7);
+		if ($currentDate === $pnDate) {
+			mysqli_query($conn, "UPDATE ref_lastpn SET property_no = '$pn' WHERE id = 1");
+		}
+	}
+
+	reload_item($num_iss);
+}
+
+function reload_item($num_iss){
+	global $conn;
+
+	$table = "";
+	$sql = mysqli_query($conn, "SELECT ics_id, po_id, entity_name, received_from, received_from_designation, SUBSTRING(date_released,1,10) AS date_r, reference_no,  fund_cluster, received_by, received_by_designation, area, item, description, serial_no, category, property_no, quantity, unit, cost, total, remarks FROM tbl_ics WHERE ics_no LIKE '".$num_iss."'");
+	while($row = mysqli_fetch_assoc($sql)){
+		$table.="<tr>
+					<td>".$row["item"]."</td>
+					<td>".$row["description"]."</td>
+					<td>".$row["serial_no"]."</td>
+					<td>".$row["category"]."</td>
+					<td>".$row["property_no"]."</td>
+					<td onclick=\"edit_quantity('".$row["ics_id"]."','".$row["quantity"]."','".$row["reference_no"]."','".mysqli_real_escape_string($conn, $row["item"])."','".mysqli_real_escape_string($conn, $row["description"])."', 'tbl_ics', 'ics_id', '".$row["po_id"]."');\"><a><u>".$row["quantity"]."</u></a></td>
+					<td>".$row["unit"]."</td>
+					<td>".number_format((float)$row["cost"], 3)."</td>
+					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
+					<td><input onblur=\"update_remarks('".$row["ics_id"]."', this.value, 'tbl_ics', 'ics_id');\" type=\"text\" value=\"".$row["remarks"]."\"></td>
+					<td>
+						<button class=\"btn btn-xs btn-info dim\" onclick=\"get_item_trans('".$row["ics_id"]."', 'tbl_ics', 'ics_id', 'ics_no', '".$row["quantity"]."', '".$row["property_no"]."');\"><i class=\"fa fa-exchange\"></i></button>
+						<button class=\"btn btn-xs btn-success dim\" onclick=\"get_history('".$row['property_no']."');\"><i class=\"fa fa-history\"></i></button>
+					</td>
+					</tr>";
+	}
+	echo $table;
+}
+
 function create_trans(){
 	global $conn; global $connhr;
 	date_default_timezone_set("Asia/Shanghai");
@@ -29,7 +106,8 @@ function create_trans(){
 	$sql = mysqli_query($conn, "SELECT * FROM ".$table." WHERE ".$table_id." = '$id'");
 	if($row = mysqli_fetch_assoc($sql)){
 		$quantity_trans = count(explode(",", $prop_no));
-		$remarks = "This cancels previous ".$type." issued to ".$row["received_by"]." (".$row[$table_no].")";
+		$received = ($type === "PTR") ? $row["to"] : $row["received_by"];
+		$remarks = "This cancels previous " . $type . " issued to " . $received . " (" . $row[$table_no] . ")";
 		mysqli_query($conn, "INSERT INTO tbl_ics(ics_no, entity_name, fund_cluster, reference_no, item, description, unit, supplier, serial_no, category, property_no, quantity, cost, total, remarks, received_from, received_from_designation, received_by, received_by_designation, date_released, area, po_id) VALUES ('$trans_ics', '".$row["entity_name"]."', '".$row["fund_cluster"]."', '".$row["reference_no"]."', '".$row["item"]."', '".$row["description"]."', '".$row["unit"]."', '".$row["supplier"]."', '$serial_no', '".$row["category"]."', '$prop_no', '$quantity_trans', '".$row["cost"]."', '0.00', '$remarks', '".$row["received_from"]."', '".$row["received_from_designation"]."', '$received_by', '$received_by_designation', '$date_released', '".$row["area"]."', '".$row["po_id"]."')");
 		
 		$quantity_new = (int)$row["quantity"] - $quantity_trans;
@@ -225,8 +303,8 @@ function modify(){
 					<td>".number_format((float)$row["cost"] * (float)$row["quantity"], 3)."</td>
 					<td><input onblur=\"update_remarks('".$row[$field_id]."', this.value, '".$table."', '".$field_id."');\" type=\"text\" value=\"".$row["remarks"]."\"></td>
 					<td>
-						<button class=\"btn btn-xs btn-info\" onclick=\"get_item_trans('".$row[$field_id]."', '".$table."', '".$field_id."', '".$field."');\"><i class=\"fa fa-exchange\"></i></button>
-						<button class=\"btn btn-xs btn-success\" onclick=\"get_history('".$row['property_no']."');\"><i class=\"fa fa-history\"></i></button>
+						<button class=\"btn btn-xs btn-info dim\" onclick=\"get_item_trans('".$row[$field_id]."', '".$table."', '".$field_id."', '".$field."', '".$row["quantity"]."', '".$row["property_no"]."');\"><i class=\"fa fa-exchange\"></i></button>
+						<button class=\"btn btn-xs btn-success dim\" onclick=\"get_history('".$row['property_no']."');\"><i class=\"fa fa-history\"></i></button>
 					</td>
 					</tr>";
 					$tot_amt+=(float)$row["cost"] * (float)$row["quantity"];
@@ -340,14 +418,33 @@ function get_area(){
 	}
 }
 
-function get_employee(){
-	global $connhr;
-	$sql = mysqli_query($connhr, "SELECT emp_id, fname, mname, lname, prefix, suffix FROM tbl_employee WHERE status LIKE 'Active' ORDER BY fname ASC");
-	if(mysqli_num_rows($sql) != 0){
-		while($row = mysqli_fetch_assoc($sql)){
-			echo "<option value=\"".$row["emp_id"]."\">".(($row["prefix"] != null) ? $row["prefix"]." " : "")."".$row["fname"]." ".$row["mname"][0].". ".$row["lname"]."".(($row["suffix"] != null) ? ", ".$row["suffix"] : "")."</option>";
-		}
-	}
+function get_employee() {
+    global $connhr;
+    $sql = mysqli_query($connhr, "SELECT emp_id, fname, mname, lname, prefix, suffix FROM tbl_employee WHERE status = 'Active' ORDER BY fname ASC");
+
+    if (mysqli_num_rows($sql) != 0) {
+        $options = '';
+        $employees = [];
+
+        while ($row = mysqli_fetch_assoc($sql)) {
+            $prefix = !empty($row["prefix"]) ? $row["prefix"] . " " : "";
+            $mname_initial = !empty($row["mname"]) ? $row["mname"][0] . ". " : "";
+            $suffix = !empty($row["suffix"]) ? ", " . $row["suffix"] : "";
+
+            $full_name = "{$prefix}{$row['fname']} {$mname_initial}{$row['lname']}{$suffix}";
+
+            $options .= "<option value=\"{$row['emp_id']}\">{$full_name}</option>";
+            $employees[] = [
+                'id' => $row['emp_id'],
+                'name' => $full_name
+            ];
+        }
+
+		echo json_encode([
+            'options' => $options,
+            'employees' => $employees
+        ]);
+    }
 }
 
 function get_ics_details(){
@@ -466,7 +563,7 @@ function get_records(){
 	  $start = 0;
 	}
 
-	$query = "SELECT DISTINCT ics_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, remarks, issued FROM tbl_ics ";
+	$query = "SELECT DISTINCT ics_no, area, SUBSTRING(date_released, 1, 10) AS date_r, received_from, received_by, issued FROM tbl_ics ";
 	if($_POST["search"] != ""){
 		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
 		$query.="WHERE ics_no LIKE '%$qs%' OR reference_no LIKE '%$qs%' OR area LIKE '%$qs%' OR received_from LIKE '%$qs%' OR received_by LIKE '%$qs%' OR item LIKE '%$qs%' ";
@@ -481,6 +578,7 @@ function get_records(){
 		while($row = mysqli_fetch_assoc($sql)){
 			$icsn = $row["ics_no"];
 			$rb = str_replace(' ', '', $row["received_by"]);
+			$rb = rtrim($rb, '.');
 			$in = array();
 			$get_items = mysqli_query($conn, "SELECT item FROM tbl_ics WHERE ics_no LIKE '$icsn'");
 			while($ri = mysqli_fetch_assoc($get_items)){
@@ -491,6 +589,11 @@ function get_records(){
 			while($rf = mysqli_fetch_assoc($get_rf)){
 				array_push($refs, $rf["reference_no"]);
 			}
+			$rems = array();
+			$get_rf = mysqli_query($conn, "SELECT DISTINCT remarks FROM tbl_ics WHERE ics_no LIKE '$icsn'");
+			while($rf = mysqli_fetch_assoc($get_rf)){
+				array_push($rems, $rf["remarks"]);
+			}
 			$tbody.="<tr>
 					<td><center>".(($row["issued"] == '0') ? "<button id=\"\" value=\"".$row["ics_no"]."\" ".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "onclick=\"to_issue(this.value, this.id);\"" : "")." class=\"btn btn-xs btn-danger\" style=\"border-radius: 10px;\">✖</button>" : "<button class=\"btn btn-xs\" style=\"border-radius: 10px; background-color: #00FF00; color: white; font-weight: bold;\" value=\"".$row["ics_no"]."\" onclick=\"modify_dr(this.value, 'ICS No. '+this.value, 'tbl_ics', 'ics_no');\">✓</button>")."</center></td>
 					<td>".$row["area"]."</td>
@@ -500,7 +603,7 @@ function get_records(){
 					<td>".$row["date_r"]."</td>
 					<td>".$row["received_from"]."</td>
 					<td>".$row["received_by"]."</td>
-					<td>".$row["remarks"]."</td>
+					<td style=\"font-size: 12px;\">".implode(", ", $rems)."</td>
 					<td><center><button class=\"btn btn-xs btn-primary dim\" value=\"".$row["ics_no"]."\" onclick=\"view_iss(this.value,'tbl_ics','view_ics','ICS','ics_no','".$rb."');\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Preview\"><i class=\"fa fa-picture-o\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" value=\"".$row["ics_no"]."\" data-placement=\"top\" title=\"Edit\" onclick=\"modify(this.value);\"><i class=\"fa fa-pencil-square-o\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-success dim\" value=\"".$row["ics_no"]."\" onclick=\"print_ics(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Print\"><i class=\"fa fa-print\"></i></button>&nbsp;".(($_SESSION["role"] == "SUPPLY_SU") ? "<button class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" value=\"".$row["ics_no"]."\" onclick=\"delete_control(this.value);\"><i class=\"fa fa-trash\"></i></button>&nbsp;" : "")."<button class=\"btn btn-xs btn-warning dim\" value=\"".$row["ics_no"]."\" onclick=\"download_xls(this.value);\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Save as Excel\"><i class=\"fa fa-file-excel-o\"></i></button></center></td>
 				</tr>";
 		}
@@ -675,6 +778,9 @@ switch($call_func){
 		break;
 	case "trace_origins":
 		trace_origins();
+		break;
+	case "new_add_item":
+		new_add_item();
 		break;
 }
 

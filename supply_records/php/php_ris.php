@@ -460,6 +460,7 @@ function get_records(){
 	if($total_data != 0){
 		while($row = mysqli_fetch_assoc($sql)){
 			$rb = str_replace(' ', '', $row["requested_by"]);
+			$rb = rtrim($rb, '.');
 			$ris_no = $row["ris_no"];
 			$category = mysqli_fetch_assoc(mysqli_query($conn, "SELECT category FROM tbl_ris WHERE ris_no = '$ris_no'"))["category"];
 			$call_print = (!in_array($category, $special_category)) ? "print_ris(this.value);" : "print_ris_dm(this.value);";

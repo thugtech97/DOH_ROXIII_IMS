@@ -93,6 +93,7 @@ if(!isset($_SESSION["username"])){
             require "../modals/modal_view_iss.php";
             require "../modals/modal_edit_dr.php";
             require "modals/modal_ptr_alloc.php";
+            require "../modals/modal_transfer_item.php";
             require "../modals/modal_add_item_issuances.php";
             require "modals/modal_ptr_preview.php";
         ?>

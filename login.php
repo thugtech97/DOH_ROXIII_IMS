@@ -61,14 +61,17 @@ if(isset($_SESSION["username"])){
                 <b>NEW SYSTEM UPDATES (08/22/2024):</b><br>
                 <br>
                 <div class="row">
-                    <div class="col-sm-8">
+                    <div class="col-sm-10">
                         - PTR issuance now allows the selection of multiple serial numbers, along with the entry of property numbers.
                     </div>
-                    <div class="col-sm-8 mt-4">
+                    <div class="col-sm-10 mt-4">
                         - Property numbers are now automatically generated when entering the quantity, applicable to all categories except drugs, medicines, and medical supplies (ICS/PAR/PTR).
                     </div>
-                    <div class="col-sm-8 mt-4">
+                    <div class="col-sm-10 mt-4">
                         - Bugfix on property number sequencing, ensuring that the current sequence remains unaffected  when encoding and backlogging past issuances or transferring items from an old user to a new user (ICS/PAR/PTR).
+                    </div>
+                    <div class="col-sm-10 mt-4">
+                        - Request for Inspection (RFI) and Gatepass Generation feature.
                     </div>
                 </div>
                 <div class="mt-4">
@@ -88,7 +91,6 @@ if(isset($_SESSION["username"])){
             </div>
             <h3 class="font-size-24">Sign In</h3>
             <p class="hidden-xs-down"></p>
-
             <form id="LoginForm" role="form">
                 <div class="form-group form-material floating" data-plugin="formMaterial">
                     <input type="text" class="form-control empty" id="username" name="username" formgroup="LoginForm_Data" placeholder="Username" required="" autofocus="">
@@ -102,8 +104,6 @@ if(isset($_SESSION["username"])){
                 </div>
                 <button type="submit" class="btn btn-primary btn-block mt-10 waves-effect waves-classic">Sign in</button>
             </form> 
-            
-            <p></p>
             <footer class="page-copyright mb-10 text-secondary">
                 
                 <div class="social" style="margin-top:3rem">

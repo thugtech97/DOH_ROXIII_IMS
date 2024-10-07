@@ -42,20 +42,21 @@ function ready_all(){
     		url: "../supply_records/php/php_ics.php",
     		data: {call_func: "get_employee"},
     		type: "POST",
+			dataType: "JSON",
     		success: function(data){
-    			$("#director_head").html("<option disabled selected></option>").append(data);
-    			$("#property_custodian").html("<option disabled selected></option>").append(data);
-    			$("#division_chief").html("<option disabled selected></option>").append(data);
-    			$("#ppe_prepared_by").html("<option disabled selected></option>").append(data);
-    			$("#ppe_noted_by").html("<option disabled selected></option>").append(data);
-    			$("#wi_prepared_by").html("<option disabled selected></option>").append(data);
-    			$("#wi_reviewed_by").html("<option disabled selected></option>").append(data);
-    			$("#wi_noted_by").html("<option disabled selected></option>").append(data);
-    			$("#wi_approved_by").html("<option disabled selected></option>").append(data);
-    			$("#rpci_prepared_by").html("<option disabled selected></option>").append(data);
-    			$("#rpci_certified").html("<option disabled selected></option>").append(data);
-    			$("#rpci_noted_by").html("<option disabled selected></option>").append(data);
-    			$("#rpci_approved_by").html("<option disabled selected></option>").append(data);
+    			$("#director_head").html("<option disabled selected></option>").append(data["options"]);
+    			$("#property_custodian").html("<option disabled selected></option>").append(data["options"]);
+    			$("#division_chief").html("<option disabled selected></option>").append(data["options"]);
+    			$("#ppe_prepared_by").html("<option disabled selected></option>").append(data["options"]);
+    			$("#ppe_noted_by").html("<option disabled selected></option>").append(data["options"]);
+    			$("#wi_prepared_by").html("<option disabled selected></option>").append(data["options"]);
+    			$("#wi_reviewed_by").html("<option disabled selected></option>").append(data["options"]);
+    			$("#wi_noted_by").html("<option disabled selected></option>").append(data["options"]);
+    			$("#wi_approved_by").html("<option disabled selected></option>").append(data["options"]);
+    			$("#rpci_prepared_by").html("<option disabled selected></option>").append(data["options"]);
+    			$("#rpci_certified").html("<option disabled selected></option>").append(data["options"]);
+    			$("#rpci_noted_by").html("<option disabled selected></option>").append(data["options"]);
+    			$("#rpci_approved_by").html("<option disabled selected></option>").append(data["options"]);
     			get_data();
     		}
     	});

@@ -43,6 +43,7 @@ function ready_all(){
             success: function(data){
                 $('#ics_no').val(po_value[0]+"-"+po_value[1]+"-"+data["latest_ics"]);
                 $('#lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
+				$('#a_lbl_pn').html(po_value[0]+"-"+po_value[1]+"-"+data["latest_pn"]);
             }
         });
     });
@@ -61,30 +62,44 @@ function ready_all(){
     	});
     });
 
-    $("#received_from").ready(function(){
-    	$.ajax({
-    		type: "POST",
-    		url: "php/php_ics.php",
-    		data: {call_func: "get_employee"},
-    		success: function(data){
-    			$("#received_from").html("<option disabled selected></option>").append(data);
-    			$('#received_from option').each(function() {
-			    	if($(this).text() == $("#ics_no").data("pc")){
-				        $(this).prop("selected", true).change();
-				    }
-				});
-    		}
-    	});
-    });
 
     $("#received_by").ready(function(){
     	$.ajax({
     		type: "POST",
     		url: "php/php_ics.php",
     		data: {call_func: "get_employee"},
+			dataType: "JSON",
     		success: function(data){
-    			$("#received_by").html("<option disabled selected></option>").append(data);
-    			$("#trans_name").html("<option disabled selected></option>").append(data);
+    			$("#received_by").html("<option disabled selected></option>").append(data["options"]);
+    			//$("#trans_name").html("<option disabled selected></option>").append(data["options"]);
+				//$('#trans_name').typeahead({ source: data["employees"] });
+
+				$('#trans_name').typeahead({
+					source: function(query, process) {
+						var employeeNames = [];
+						var employeeMap = {};
+						$.each(data["employees"], function(i, employee) {
+							employeeNames.push(employee.name);
+							employeeMap[employee.name] = employee.id;
+						});
+						process(employeeNames);
+						$('#trans_name').change(function() {
+							var selectedName = $('#trans_name').typeahead("getActive");
+							if (selectedName && employeeMap[selectedName]) {
+								var selectedId = employeeMap[selectedName];
+								console.log("Selected Employee ID: ", selectedId);
+								$('#employee_id').val(selectedId);
+							}
+						});
+					}
+				});
+
+				$("#received_from").html("<option disabled selected></option>").append(data["options"]);
+    			$('#received_from option').each(function() {
+			    	if($(this).text() == $("#ics_no").data("pc")){
+				        $(this).prop("selected", true).change();
+				    }
+				});
     		}
     	});
     });
