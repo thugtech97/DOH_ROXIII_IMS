@@ -100,8 +100,8 @@ function ready_all(){
             url: "php/php_iar.php",
             data: {call_func: "get_inspectorate"},
             success: function(data){
-                $("#var_inspector").html(data);
-                $("#evar_inspector").html(data);
+                $("#var_inspector").html("<option disabled selected></option>").append(data);
+                $("#evar_inspector").html("<option disabled selected></option>").append(data);
             }
         });
     });
