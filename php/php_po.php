@@ -239,8 +239,9 @@ function add_item(){
 	//$e_iarno = mysqli_fetch_assoc(mysqli_query($conn, "SELECT DISTINCT iar_no FROM tbl_po WHERE po_number LIKE '$epo_number'"))["iar_no"];
 
 	$qu = $e_quantity." ".$e_unit;
+	$inspection_status = $esupplier == 0 ? 1 : 0;
 
-	mysqli_query($conn, "INSERT INTO tbl_po(po_number,date_received,procurement_mode,delivery_term,payment_term,pr_no, supplier_id,item_id,item_name,description,category,exp_date,unit_cost,main_stocks,quantity,end_user,date_conformed,date_delivered,status, po_type) VALUES('$epo_number','$edate_received','$eprocurement_mode','$edelivery_term','$epayment_term','$epr_no','$esupplier','$e_item_id','$e_item_name','$e_description','$e_category','$e_exp_date','$e_unit_cost','$e_quantity','$qu','$epo_enduser','$edate_conformed','$edate_delivered','$estatus','$e_category')");
+	mysqli_query($conn, "INSERT INTO tbl_po(po_number,date_received,procurement_mode,delivery_term,payment_term,pr_no, supplier_id,item_id,item_name,description,category,exp_date,unit_cost,main_stocks,quantity,end_user,date_conformed,date_delivered,status, po_type, inspection_status) VALUES('$epo_number','$edate_received','$eprocurement_mode','$edelivery_term','$epayment_term','$epr_no','$esupplier','$e_item_id','$e_item_name','$e_description','$e_category','$e_exp_date','$e_unit_cost','$e_quantity','$qu','$epo_enduser','$edate_conformed','$edate_delivered','$estatus','$e_category','$inspection_status')");
 
 	$emp_id = $_SESSION["emp_id"];
 	$description = $_SESSION["username"]." added an item (".$e_item_name.") to PO No.".$epo_number;
