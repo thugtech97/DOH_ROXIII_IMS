@@ -549,96 +549,69 @@ function get_delayed_po(){
 
 function get_po() {
     global $conn;
+	$limit = '10';
+	$page = 1;
+	if($_POST["page"] > 1){
+	  $start = (($_POST["page"] - 1) * $limit);
+	  $page = $_POST["page"];
+	}else{
+	  $start = 0;
+	}
+	$query = "SELECT DISTINCT p.po_number, p.remarks, p.status, p.procurement_mode,s.supplier, SUBSTRING(p.date_received, 1, 10) AS date_r, p.delivery_term, p.date_conformed, p.date_delivered, p.activity_date, p.end_user FROM tbl_po AS p, ref_supplier AS s WHERE p.supplier_id = s.supplier_id ";
+	if($_POST["search"] != ""){
+		$qs = mysqli_real_escape_string($conn, $_POST["search"]);
+		$query.="AND (p.end_user LIKE '%$qs%' OR p.po_number LIKE '%$qs%' OR p.status LIKE '%$qs%' OR p.procurement_mode LIKE '%$qs%' OR s.supplier LIKE '%$qs%' OR p.item_name LIKE '%$qs%') ";
+	}
+	$query.="ORDER BY p.po_id DESC ";
+	$sql_orig = mysqli_query($conn, $query);
+	$sql = mysqli_query($conn, $query."LIMIT ".$start.", ".$limit."");
+	$tbody = "";
+	$total_data = mysqli_num_rows($sql_orig);
+	if($total_data != 0){
+		while($row = mysqli_fetch_assoc($sql)){
+			$eu = str_replace(' ', '', $row["end_user"]);
+			$pon = $row["po_number"];
+			$items_query = "SELECT item_name, inspection_status FROM tbl_po WHERE po_number = ?";
+			$items_stmt = mysqli_prepare($conn, $items_query);
+			mysqli_stmt_bind_param($items_stmt, 's', $pon);
+			mysqli_stmt_execute($items_stmt);
+			$items_result = mysqli_stmt_get_result($items_stmt);
 
-    $limit = 10;
-    $page = isset($_POST["page"]) && $_POST["page"] > 1 ? $_POST["page"] : 1;
-    $start = ($page - 1) * $limit;
-    $query = "SELECT DISTINCT p.po_number, p.remarks, p.status,
-                      p.procurement_mode, s.supplier, 
-                      SUBSTRING(p.date_received, 1, 10) AS date_r, 
-                      p.delivery_term, p.date_conformed, 
-                      p.date_delivered, p.activity_date, 
-                      p.end_user 
-              FROM tbl_po AS p
-              JOIN ref_supplier AS s ON p.supplier_id = s.supplier_id 
-              WHERE 1=1 ";
+			$num_item_rows = mysqli_num_rows($items_result);
+			$total_inspected = 0;
+			$items = [];
+			while ($item_row = mysqli_fetch_assoc($items_result)) {
+				$items[] = trim($item_row["item_name"]);
+				$total_inspected += (int)$item_row["inspection_status"];
+			}
 
-    $search_param = '';
-    if (!empty($_POST["search"])) {
-        $qs = mysqli_real_escape_string($conn, $_POST["search"]);
-        $query .= " AND (p.end_user LIKE ? OR p.po_number LIKE ? OR p.status LIKE ? 
-                         OR p.procurement_mode LIKE ? OR s.supplier LIKE ? 
-                         OR p.item_name LIKE ?)";
-        $search_param = '%' . $qs . '%';
-    }
-
-    $query .= " ORDER BY p.po_id DESC LIMIT ?, ?";
-
-    if ($stmt = mysqli_prepare($conn, $query)) {
-        if (!empty($_POST["search"])) {
-            mysqli_stmt_bind_param($stmt, 'ssssssii', $search_param, $search_param, $search_param, 
-                $search_param, $search_param, $search_param, $start, $limit);
-        } else {
-            mysqli_stmt_bind_param($stmt, 'ii', $start, $limit);
-        }
-
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-
-        $tbody = "";
-        $total_data = mysqli_num_rows($result);
-
-        if ($total_data > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $eu = str_replace(' ', '', $row["end_user"]);
-                $pon = $row["po_number"];
-                $items_query = "SELECT item_name, inspection_status FROM tbl_po WHERE po_number = ?";
-                $items_stmt = mysqli_prepare($conn, $items_query);
-                mysqli_stmt_bind_param($items_stmt, 's', $pon);
-                mysqli_stmt_execute($items_stmt);
-                $items_result = mysqli_stmt_get_result($items_stmt);
-
-				$num_item_rows = mysqli_num_rows($items_result);
-				$total_inspected = 0;
-                $items = [];
-                while ($item_row = mysqli_fetch_assoc($items_result)) {
-                    $items[] = trim($item_row["item_name"]);
-					$total_inspected += (int)$item_row["inspection_status"];
-                }
-
-                $tbody .= "<tr>
-                    <td>{$row['date_r']}</td>
-                    <td>{$row['po_number']}</td>
-                    <td style=\"font-size: 10px;\">" . implode(", ", $items) . "</td>
-                    <td>{$row['procurement_mode']}</td>
-                    <td>{$row['date_conformed']}</td>
-                    <td>{$row['date_delivered']}</td>
-                    <td>{$row['supplier']}</td>
-                    <td>{$row['end_user']}</td>
-                    <td>{$row['status']}</td>
-					<td style=\"font-size: 10px;\">" . ($num_item_rows == $total_inspected ? '✔️ Fully Inspected (All items have an IAR)' : ($total_inspected == 0 ? '❌ Not Inspected (No items have an IAR)' : '⌛ Partially Inspected (Some items have an IAR)')) . "</td>
-                    <td><center>
-                        <button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-warning dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '$eu')\"><i class=\"fa fa-picture-o\"></i></button>
-                        <button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>
-                        <button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-success dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Consolidate\" onclick=\"consolidate(this.id)\"><i class=\"fa fa-stack-overflow\"></i></button>
-                        <button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-default dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Billing History\" onclick=\"billing_history(this.id)\"><i class=\"fa fa-history\"></i></button>
-                        " . (($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? 
-                            "<button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "") . "
-                    </center></td>
-                </tr>";
-            }
-        } else {
-            $tbody = "<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
-        }
-
-        $in_out = create_table_pagination($page, $limit, $total_data, ["Date Received","PO Number","Items","Procurement Mode","Date Conformed","Date Delivered", "Supplier","End User","Status","Inspection",""]);
-        $whole_dom = $in_out[0] . $tbody . $in_out[1];
-        echo $whole_dom;
-
-        mysqli_stmt_close($stmt);
-    } else {
-        echo "Error preparing statement: " . mysqli_error($conn);
-    }
+			$tbody .= "<tr>
+				<td>{$row['date_r']}</td>
+				<td>{$row['po_number']}</td>
+				<td style=\"font-size: 10px;\">" . implode(", ", $items) . "</td>
+				<td>{$row['procurement_mode']}</td>
+				<td>{$row['date_conformed']}</td>
+				<td>{$row['date_delivered']}</td>
+				<td>{$row['supplier']}</td>
+				<td>{$row['end_user']}</td>
+				<td>{$row['status']}</td>
+				<td style=\"font-size: 10px;\">" . ($num_item_rows == $total_inspected ? '✔️ Fully Inspected (All items have an IAR)' : ($total_inspected == 0 ? '❌ Not Inspected (No items have an IAR)' : '⌛ Partially Inspected (Some items have an IAR)')) . "</td>
+				<td><center>
+					<button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-warning dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"View\" onclick=\"view_po(this.id, '$eu')\"><i class=\"fa fa-picture-o\"></i></button>
+					<button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-info dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit\" onclick=\"edit_po_various(this.id)\"><i class=\"fa fa-pencil-square-o\"></i></button>
+					<button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-success dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Consolidate\" onclick=\"consolidate(this.id)\"><i class=\"fa fa-stack-overflow\"></i></button>
+					<button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-default dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Billing History\" onclick=\"billing_history(this.id)\"><i class=\"fa fa-history\"></i></button>
+					" . (($_SESSION["role"] == "SUPPLY" || $_SESSION["role"] == "SUPPLY_SU") ? 
+						"<button id=\"{$row['po_number']}\" class=\"btn btn-xs btn-danger dim\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete\" onclick=\"delete_control(this.id)\"><i class=\"fa fa-trash\"></i></button>" : "") . "
+				</center></td>
+			</tr>";
+		}
+	}else{
+		$tbody = "<tr><td colspan=\"11\" style=\"text-align: center;\">No data found.</td></tr>";
+	}
+	$in_out = create_table_pagination($page, $limit, $total_data, ["Date Received","PO Number","Items","Procurement Mode","Date Conformed","Date Delivered", "Supplier","End User","Status","Inspection",""]);
+	$whole_dom = $in_out[0] . $tbody . $in_out[1];
+	echo $whole_dom;
 }
 
 function edit_po_various(){
