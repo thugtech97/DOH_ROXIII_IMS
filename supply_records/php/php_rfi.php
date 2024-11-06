@@ -83,7 +83,7 @@ function get_items_po() {
 function get_po_for_rfi(){
     global $conn;
 
-	$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE status LIKE 'Delivered' ORDER BY po_id DESC");
+	$sql = mysqli_query($conn, "SELECT DISTINCT po_number FROM tbl_po WHERE status LIKE 'Delivered' ORDER BY po_id DESC LIMIT 500");
     $options = "";
     if(mysqli_num_rows($sql) != 0){
         while($row = mysqli_fetch_assoc($sql)){
