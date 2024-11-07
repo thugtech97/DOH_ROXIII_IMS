@@ -2,6 +2,9 @@
 
 require "../../php/php_conn.php";
 require "../../php/php_general_functions.php";
+
+$special_category = ["Drugs and Medicines", "Medical Supplies", "Various Supplies"];
+
 session_start();
 
 function get_inspectorate() {
