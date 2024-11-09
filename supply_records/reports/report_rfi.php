@@ -135,7 +135,7 @@
       <tr>
         <td colspan="2" style="height: 20px; text-align: center; vertical-align: middle;"></td>
         <td colspan="6" style="height: 20px; text-align: left; font-size: 13px; vertical-align: middle;">
-          Copy of PO's are attached herewith for your reference. Please coordinate directly with <b><?php echo ($_SESSION["warehouse_name"] == "Doongan Warehouse" ? 'Gretchen J. Magaluna' : 'Diana L. Ebay'); ?></b>, Store Manager, for the above-mentioned inspection/delivery at Doongan Warehouse.
+          Copy of PO's are attached herewith for your reference. Please coordinate directly with <b><?php echo ($_SESSION["warehouse_name"] == "Doongan Warehouse" ? 'Gretchen J. Magaluna' : 'Diana L. Ebay'); ?></b>, Store Manager, for the above-mentioned inspection/delivery at <span><?php echo $_SESSION["warehouse_name"]; ?></span>.
         </td>
       </tr>
       <tr>
