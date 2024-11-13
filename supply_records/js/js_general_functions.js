@@ -549,22 +549,29 @@ function delete_existing(po_id, iss_id, iss_no, quan){
 }
 
 function validatePropertyNo(input) {
-    var regex = /^\d{4}-\d{2}-\d{4}-[A-Za-z0-9]+$/;
+    var regex = /^\d{4}(-\d{2})?-\d{4}-[A-Za-z0-9]+$/;
 
     if (regex.test(input)) {
         var parts = input.split('-');
         var year = parseInt(parts[0]);
-        var month = parseInt(parts[1]);
 
-        if (year >= 1900 && year <= 2100 && month >= 1 && month <= 12) {
-            return true;
-        } else {
+        if (year < 1900 || year > 2100) {
             return false;
         }
+
+        if (parts.length === 4) {
+            var month = parseInt(parts[1]);
+            if (month < 1 || month > 12) {
+                return false;
+            }
+        }
+
+        return true;
     } else {
         return false;
     }
 }
+
 
 function get_history(property_no){
     $("#history_property_no").html(property_no);
