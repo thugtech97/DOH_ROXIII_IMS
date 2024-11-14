@@ -23,14 +23,6 @@
   background: yellow;  for demo */
 }
 
-.page {
-  page-break-after: always;
-}
-
-@page {
-  margin: 15mm;
-}
-
 @media print {
    thead {display: table-header-group;} 
    tfoot {display: table-footer-group;}
