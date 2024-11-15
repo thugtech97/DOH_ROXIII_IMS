@@ -246,8 +246,7 @@
     <tbody>
       <tr>
         <td>
-          <div class="page dl_content" style="font-size: 13px;">
-            <br><br>
+          <div class="page dl_content" style="font-size: 13px; margin-top: 50px;">
             <center><h3>REQUEST FOR INSPECTION (RFI)</h3></center>
             <br><p style="text-align: justify;">
               <span style="font-weight: bold;">RFI Control Number:</span>
