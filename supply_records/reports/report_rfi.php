@@ -250,7 +250,7 @@
           <div class="page dl_content" style="font-size: 13px;">
             <br>
             <center><h3>REQUEST FOR INSPECTION (RFI)</h3></center>
-            <p style="text-align: justify;">
+            <br><p style="text-align: justify;">
               <span style="font-weight: bold;">RFI Control Number:</span>
               <span id="print_control_no">RFI/CHD13-CR-2024-08-0076</span>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -260,15 +260,15 @@
               <span style="font-weight: bold;">Date:</span>
               <span id="print_created_at">08/28/2024</span>
             </p>
-            <p style="text-align: justify;">
+            <br><p style="text-align: justify;">
               <span style="font-weight: bold;" id="recipient_name">GLADYS D. BULADACO, RN</span><br>
               <span id="recipient_designation">Chairperson</span><br>
               <span id="other_designation">Inspection Committee</span>
             </p>
-            <p style="text-align: justify;">
+            <br><p style="text-align: justify;">
               Dear <span style="font-weight: bold;" id="recipient_gender">Ma'am</span>,
             </p>
-            <p style="text-align: justify;">
+            <br><p style="text-align: justify;">
               May we request for the inspection of the approved delivery of Item(s) with the following details:
             </p>
             <table style="width: 100%;" cellspacing="0">
@@ -299,9 +299,8 @@
               </tbody>
             </table>
             <p style="text-align: justify;"> Copy of PO's are attached herewith for your reference. Please coordinate directly with <b><?php echo ($_SESSION["warehouse_name"] == "Doongan Warehouse" ? 'Gretchen J. Magaluna' : 'Diana L. Ebay'); ?></b>, Store Manager, for the above-mentioned inspection/delivery at <span><?php echo $_SESSION["warehouse_name"]; ?></span>.</p>
-            <p style="text-align: justify;">Thank you.</p>
-            <p style="text-align: justify;">Very truly yours,</p>
-            <p style="text-align: justify;"><span style="font-weight: bold;">ELEANOR D. LAKAG, MSBA</span><br><span>Administrative Officer V</span><br><span>MMU Head</span></p>
+            <br><p style="text-align: justify;"><span>Thank you.</span><br><span>Very truly yours,</span></p>
+            <br><p style="text-align: justify;"><span style="font-weight: bold;">ELEANOR D. LAKAG, MSBA</span><br><span>Administrative Officer V</span><br><span>MMU Head</span></p>
           </div>
         </td>
       </tr>
