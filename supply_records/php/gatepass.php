@@ -90,7 +90,7 @@ function get_issuance_no(){
     $field = mysqli_real_escape_string($conn, $_POST["field"]);
     $id = mysqli_real_escape_string($conn, $_POST["id"]);
 
-    $sql = mysqli_query($conn, "SELECT DISTINCT ".$field." FROM ".$table." ORDER BY ".$id." DESC");
+    $sql = mysqli_query($conn, "SELECT DISTINCT ".$field." FROM ".$table." ORDER BY ".$id." DESC LIMIT 500");
     $options = "";
     if(mysqli_num_rows($sql) != 0){
         while($row = mysqli_fetch_assoc($sql)){
