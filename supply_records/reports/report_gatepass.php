@@ -12,7 +12,7 @@
         <td style="height: 20px; text-align: center; font-size: 11px; vertical-align: middle;"></td>
       </tr>
       <tr>
-        <td colspan="3" style="height: 20px; text-align: center; vertical-align: middle;"></td>
+        <td colspan="3" style="height: 20px; text-align: left; font-size: 10px; vertical-align: middle;"><?php echo $_SESSION["warehouse_name"]; ?></td>
         <td colspan="2" style="height: 20px; text-align: center; font-size: 11px; font-weight: bold; vertical-align: middle;"></td>
         <td colspan="3" style="height: 20px; text-align: center; vertical-align: middle;"></td>
       </tr>

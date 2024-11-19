@@ -202,8 +202,7 @@
 	    			<td style="width: 15%;"></td>
 	    		</tr>
           <tr>
-	    			<td></td>
-	    			<td></td>
+	    			<td colspan="2" style="font-size: 10px; text-align: left; vertical-align: middle;"><?php echo $_SESSION["warehouse_name"]; ?></td>
 	    			<td style="text-align: center; font-weight: bold; vertical-align: middle; border: 1px solid black;">Annex 4</td>
 	    		</tr>
 	    		<tr>
