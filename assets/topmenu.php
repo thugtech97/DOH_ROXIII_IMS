@@ -7,8 +7,8 @@
     <div class="navbar-header">
         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
         <ul class="nav navbar-top-links navbar-left">
-            <li style="padding: 20px;">
-        </li>
+            <li style="padding: 20px;" id="page-title">
+            </li>
         </ul>
     </div>
     <ul class="nav navbar-top-links navbar-right">
@@ -59,3 +59,7 @@
         </li>
     </ul>
 </nav>
+
+<script>
+    document.getElementById("page-title").textContent = document.title;
+</script>
